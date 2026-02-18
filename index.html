@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axel Dev Group</title>
+    <meta name="description" content="Axel Dev Group connects People, Businesses, and Governments through systems design, policy intelligence, and technology architecture.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-bar">
+            <div class="brand">
+                <span class="brand-mark">ADG</span>
+                <span class="brand-name">Axel Dev Group</span>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#people">People</a></li>
+                    <li><a href="#businesses">Businesses</a></li>
+                    <li><a href="#governments">Governments</a></li>
+                    <li><a href="#operations">Operations</a></li>
+                    <li><a href="#expertise">Expertise</a></li>
+                    <li><a href="#future">Future</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section id="home" class="hero section">
+            <div class="hero-bg"></div>
+            <div class="container hero-grid">
+                <div class="eyebrow reveal">Three Worlds, One System</div>
+                <h1 class="reveal">A Connected World: People • Businesses • Governments</h1>
+                <p class="hero-lead reveal">Axel Dev Group creates systems that empower individuals, strengthen institutions, and accelerate sustainable development.</p>
+                <div class="hero-actions reveal">
+                    <a class="button primary" href="#contact">Start a conversation</a>
+                    <a class="button ghost" href="#worlds">Explore the worlds</a>
+                </div>
+                <div class="worlds-cluster">
+                    <div class="world-node reveal world-people" data-target="people">
+                        <div class="world orb-people"></div>
+                        <p>People</p>
+                    </div>
+                    <div class="world-node reveal world-businesses" data-target="businesses" style="transition-delay: 90ms;">
+                        <div class="world orb-businesses"></div>
+                        <p>Businesses</p>
+                    </div>
+                    <div class="world-node reveal world-governments" data-target="governments" style="transition-delay: 180ms;">
+                        <div class="world orb-governments"></div>
+                        <p>Governments</p>
+                    </div>
+                    <svg class="world-lines" viewBox="0 0 260 260" aria-hidden="true">
+                        <line x1="80" y1="100" x2="130" y2="190" />
+                        <line x1="180" y1="100" x2="130" y2="190" />
+                        <line x1="80" y1="100" x2="180" y2="100" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Worlds Overview -->
+        <section id="worlds" class="section worlds">
+            <div class="container">
+                <div class="section-header reveal">
+                    <p class="eyebrow">The Three Worlds We Serve</p>
+                    <h2>People • Businesses • Governments</h2>
+                    <p class="section-subtitle">Every decision, system, and policy we design bridges these worlds with intention.</p>
+                </div>
+                <div class="worlds-grid">
+                    <article class="world-card reveal" data-world="people">
+                        <div class="world-visual orb-people"></div>
+                        <h3>People</h3>
+                        <p>Communities, households, and individuals experiencing policy outcomes and services.</p>
+                        <p class="world-detail">From safety nets to public services, we design delivery models that keep citizens at the center.</p>
+                        <button class="chip" type="button">Explore impact</button>
+                    </article>
+                    <article class="world-card reveal" data-world="businesses" style="transition-delay: 90ms;">
+                        <div class="world-visual orb-businesses"></div>
+                        <h3>Businesses</h3>
+                        <p>Enterprises and entrepreneurs powering economic growth and innovation.</p>
+                        <p class="world-detail">Data layers, compliance rails, and capital pathways that unlock competitive, resilient firms.</p>
+                        <button class="chip" type="button">See how</button>
+                    </article>
+                    <article class="world-card reveal" data-world="governments" style="transition-delay: 160ms;">
+                        <div class="world-visual orb-governments"></div>
+                        <h3>Governments</h3>
+                        <p>Institutions, ministries, and agencies shaping policy, regulation, and delivery.</p>
+                        <p class="world-detail">Governance architectures, regulatory design, and performance systems that align national missions.</p>
+                        <button class="chip" type="button">View systems</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Individual world anchors -->
+        <section id="people" class="section anchor-world">
+            <div class="container narrow">
+                <div class="section-header reveal">
+                    <p class="eyebrow">People</p>
+                    <h2>Designing for citizens and communities</h2>
+                    <p class="section-subtitle">We ensure policies translate to accessible services, safety nets, and inclusive growth.</p>
+                </div>
+                <div class="vision-grid">
+                    <div class="vision-card reveal">
+                        <span class="accent-dot"></span>
+                        <p>Human-centered policy diagnostics and delivery assessments.</p>
+                    </div>
+                    <div class="vision-card reveal" style="transition-delay: 80ms;">
+                        <span class="accent-dot"></span>
+                        <p>Data ecosystems to monitor health, education, and social protection outcomes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="businesses" class="section anchor-world">
+            <div class="container narrow">
+                <div class="section-header reveal">
+                    <p class="eyebrow">Businesses</p>
+                    <h2>Building resilient private-sector ecosystems</h2>
+                    <p class="section-subtitle">Infrastructure and insight that drive competitiveness, capital, and innovation.</p>
+                </div>
+                <div class="vision-grid">
+                    <div class="vision-card reveal">
+                        <span class="accent-dot"></span>
+                        <p>Market intelligence, investment pipelines, and enterprise enablement.</p>
+                    </div>
+                    <div class="vision-card reveal" style="transition-delay: 80ms;">
+                        <span class="accent-dot"></span>
+                        <p>Trusted data layers for supply chains, compliance, and ESG reporting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="governments" class="section anchor-world">
+            <div class="container narrow">
+                <div class="section-header reveal">
+                    <p class="eyebrow">Governments</p>
+                    <h2>Strengthening institutions and governance</h2>
+                    <p class="section-subtitle">From strategic vision to execution, we enable data-driven, accountable states.</p>
+                </div>
+                <div class="vision-grid">
+                    <div class="vision-card reveal">
+                        <span class="accent-dot"></span>
+                        <p>Governance frameworks, regulatory design, and performance management.</p>
+                    </div>
+                    <div class="vision-card reveal" style="transition-delay: 80ms;">
+                        <span class="accent-dot"></span>
+                        <p>Secure, interoperable architectures across agencies and delivery partners.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Operations -->
+        <section id="operations" class="section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <p class="eyebrow">Operations</p>
+                    <h2>Areas of Operations</h2>
+                    <p class="section-subtitle">Focused on the intersections of policy, technology, and data for real-world impact.</p>
+                </div>
+                <div class="card-grid">
+                    <article class="card reveal">
+                        <div class="card-icon">01</div>
+                        <h3>Policy Strategy & Governance</h3>
+                        <p>Designing actionable policy frameworks, advising leaders, and steering governance outcomes.</p>
+                        <div class="world-tags">
+                            <span class="pill">Governments</span>
+                            <span class="pill ghost">People</span>
+                        </div>
+                    </article>
+                    <article class="card reveal" style="transition-delay: 80ms;">
+                        <div class="card-icon">02</div>
+                        <h3>Economic & Social Analysis</h3>
+                        <p>Insights that translate data into equitable growth and resilient social systems.</p>
+                        <div class="world-tags">
+                            <span class="pill">People</span>
+                            <span class="pill ghost">Businesses</span>
+                        </div>
+                    </article>
+                    <article class="card reveal" style="transition-delay: 140ms;">
+                        <div class="card-icon">03</div>
+                        <h3>Data Infrastructure & Intelligence</h3>
+                        <p>Modern data stacks, pipelines, and intelligence layers that keep institutions informed.</p>
+                        <div class="world-tags">
+                            <span class="pill">Businesses</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                    <article class="card reveal" style="transition-delay: 200ms;">
+                        <div class="card-icon">04</div>
+                        <h3>Technology & System Architecture</h3>
+                        <p>Enterprise platforms, integration blueprints, and digital ecosystems built for scale.</p>
+                        <div class="world-tags">
+                            <span class="pill">Businesses</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                    <article class="card reveal" style="transition-delay: 260ms;">
+                        <div class="card-icon">05</div>
+                        <h3>International Development & Cooperation</h3>
+                        <p>Programs and partnerships that align missions, funding, and measurable outcomes.</p>
+                        <div class="world-tags">
+                            <span class="pill">People</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise -->
+        <section id="expertise" class="section split">
+            <div class="container split-grid">
+                <div class="split-copy reveal">
+                    <p class="eyebrow">Expertise</p>
+                    <h2>What We Do</h2>
+                    <p class="section-subtitle">Institutional-grade analysis and systems design.</p>
+                    <p class="body-large">We partner with governments, multilaterals, and enterprises to build the intelligence and infrastructure that unlock better decisions.</p>
+                </div>
+                <div class="stacked-cards">
+                    <article class="stack-card reveal">
+                        <h3>Policy & Strategic Analysis</h3>
+                        <p>Institutional policy, governance frameworks, and socioeconomic research.</p>
+                        <div class="world-tags">
+                            <span class="pill">Governments</span>
+                            <span class="pill ghost">People</span>
+                        </div>
+                    </article>
+                    <article class="stack-card reveal" style="transition-delay: 90ms;">
+                        <h3>Data & Intelligence Systems</h3>
+                        <p>Dashboards, pipelines, geospatial tools, and data governance.</p>
+                        <div class="world-tags">
+                            <span class="pill">Businesses</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                    <article class="stack-card reveal" style="transition-delay: 150ms;">
+                        <h3>International Development</h3>
+                        <p>Development strategies, sustainability models, and impact design.</p>
+                        <div class="world-tags">
+                            <span class="pill">People</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                    <article class="stack-card reveal" style="transition-delay: 210ms;">
+                        <h3>Technology & Architecture</h3>
+                        <p>Digital ecosystems, enterprise platforms, and infrastructure.</p>
+                        <div class="world-tags">
+                            <span class="pill">Businesses</span>
+                            <span class="pill ghost">Governments</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future -->
+        <section id="future" class="section future">
+            <div class="container">
+                <div class="section-header reveal">
+                    <p class="eyebrow">Future</p>
+                    <h2>Future Solutions</h2>
+                    <p class="section-subtitle">We design systems for tomorrow across all three worlds.</p>
+                </div>
+                <div class="future-rail">
+                    <article class="future-card reveal">
+                        <span class="pill">AI</span>
+                        <h3>AI-Assisted Decision-Making Systems</h3>
+                        <p>Transparent decision support for leaders with accountable, explainable intelligence.</p>
+                    </article>
+                    <article class="future-card reveal" style="transition-delay: 80ms;">
+                        <span class="pill">Resilience</span>
+                        <h3>Sustainability & Resilience Frameworks</h3>
+                        <p>Adaptive systems linking climate, risk, and economic stability.</p>
+                    </article>
+                    <article class="future-card reveal" style="transition-delay: 140ms;">
+                        <span class="pill">Foresight</span>
+                        <h3>Institutional Foresight & Scenario Planning</h3>
+                        <p>Stress-testing futures to build agile, prepared institutions.</p>
+                    </article>
+                    <article class="future-card reveal" style="transition-delay: 200ms;">
+                        <span class="pill">Governance</span>
+                        <h3>Ethical Intelligence & Data Governance</h3>
+                        <p>Trusted, transparent systems with accountable stewardship.</p>
+                    </article>
+                    <article class="future-card reveal" style="transition-delay: 260ms;">
+                        <span class="pill">Systems</span>
+                        <h3>Next-Gen Digital Architectures</h3>
+                        <p>Distributed, secure, interoperable backbones for all three worlds.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section contact">
+            <div class="container narrow">
+                <div class="section-header reveal">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Connect With Us</h2>
+                    <p class="section-subtitle">Tell us about your challenge. We respond within two business days.</p>
+                </div>
+                <form class="contact-form reveal">
+                    <div class="form-grid">
+                        <label>
+                            <span>Name</span>
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </label>
+                        <label>
+                            <span>Email</span>
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                        <label>
+                            <span>Organization</span>
+                            <input type="text" name="organization" placeholder="Where you work">
+                        </label>
+                        <label class="full">
+                            <span>Message</span>
+                            <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
+                        </label>
+                    </div>
+                    <button type="submit" class="button primary">Send message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>© Axel Dev Group</p>
+            <div class="footer-links">
+                <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                <a href="#" aria-label="GitHub">GitHub</a>
+                <a href="mailto:hello@axeldev.group" aria-label="Email">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
