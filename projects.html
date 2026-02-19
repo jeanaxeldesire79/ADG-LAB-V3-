@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n-title>Projects · Axel Dev Lab</title>
+
+  <!-- Tailwind (load shared config first) -->
+  <script src="assets/js/tw-config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/exports/lg_axeldevlab_icon.png" type="image/png" />
+
+  <style>
+    /* ---------- Motion & micro-interactions ---------- */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%,100% { opacity: 0; } }
+    @keyframes pulseSoft { 0% { box-shadow: 0 0 0 0 rgba(234,179,8,.25); } 100% { box-shadow: 0 0 0 16px rgba(234,179,8,0); } }
+    @keyframes underlineSweep { 0% { width: 0; } 100% { width: 100%; } }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+    body { font-family: 'Inter', var(--font-sans, system-ui), sans-serif !important; }
+    h1, h2, h3, h4, h5 { font-family: 'Poppins', 'Inter', sans-serif !important; letter-spacing: -0.01em; }
+
+    .hover-effect:hover { transform: scale(1.02); transition: transform 0.25s ease; }
+    .reveal { opacity: 0; transform: translateY(16px); will-change: transform, opacity; }
+    .reveal.in { opacity: 1; transform: translateY(0); animation: fadeInUp .6s cubic-bezier(.22,1,.36,1) forwards; }
+    .tilt { transform-style: preserve-3d; transition: transform 160ms ease; }
+    .tilt img { transform: translateZ(18px); }
+    .floaty { animation: float 6s ease-in-out infinite; }
+    .typewriter { position: relative; white-space: nowrap; overflow: hidden; }
+    .typewriter::after { content: "▌"; margin-left: 4px; animation: blink 1s step-end infinite; color: #f59e0b; }
+
+    .menu { min-width: 14rem; }
+    .menu a { display: block; padding: .5rem .75rem; border-radius: .5rem; }
+    .menu a:hover { background: #fef3c7; }
+
+    .project-card {
+      position: relative;
+      background: linear-gradient(155deg, rgba(30,58,138,0.92), rgba(17,24,39,0.96));
+      color: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(59,130,246,0.18);
+      box-shadow: 0 18px 42px rgba(15,23,42,0.2);
+      backdrop-filter: blur(14px);
+      transform: perspective(1400px) rotateX(0deg) rotateY(0deg) translateY(0);
+      transform-origin: center top;
+      transition: transform 240ms ease, box-shadow 240ms ease, border-color 220ms ease;
+      will-change: transform, box-shadow;
+    }
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: -18% -24% auto auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle at 30% 30%, rgba(245,158,11,0.35), transparent 65%);
+      transform: translate3d(0,0,0);
+      transition: transform 250ms ease, opacity 250ms ease;
+    }
+    .project-card:hover {
+      transform: perspective(1400px) translateY(-10px) rotateX(1.2deg) rotateY(-1.6deg);
+      box-shadow: 0 26px 68px rgba(15,23,42,0.32);
+      border-color: rgba(245,158,11,0.45);
+    }
+    .project-card:focus-within {
+      transform: perspective(1400px) translateY(-8px) rotateX(1deg) rotateY(-1.4deg);
+      box-shadow: 0 24px 64px rgba(15,23,42,0.3);
+      border-color: rgba(245,158,11,0.45);
+    }
+    .project-card:hover::before,
+    .project-card:focus-within::before { transform: translate3d(4px, -6px, 0); opacity: 0.9; }
+
+    .project-card__visual {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(245,158,11,0.18));
+      border: 1px solid rgba(148,163,184,0.25);
+      min-height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-card__visual a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+    .project-card__visual a:focus-visible {
+      outline: 2px solid #f59e0b;
+      outline-offset: 6px;
+    }
+    .project-card__visual::after {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 18px;
+      background-image: linear-gradient(90deg, rgba(148,163,184,0.25) 1px, transparent 1px), linear-gradient(0deg, rgba(148,163,184,0.18) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.75;
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .project-card:hover .project-card__visual::after {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+    .project-card__visual span {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: rgba(248,250,252,0.85);
+    }
+    .project-card__visual span strong {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 600;
+      color: #f59e0b;
+      letter-spacing: -0.04em;
+      text-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
+    }
+    .project-card__visual span small {
+      font-size: 0.75rem;
+      letter-spacing: 0.38em;
+      color: rgba(226,232,240,0.7);
+    }
+    .project-card__cta a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.18);
+    }
+    .project-card__cta a:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(15,23,42,0.28); }
+    .project-card__cta a.primary {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: #111827;
+    }
+    .project-card__cta a.secondary {
+      background: rgba(255,255,255,0.08);
+      color: #f9fafb;
+      border: 1px solid rgba(248,250,252,0.35);
+    }
+  </style>
+</head>
+
+<body class="bg-bg-light dark:bg-bg-dark text-content-light dark:text-content-dark font-sans opacity-0 transition-opacity duration-700 ease-in-out">
+
+
+<!-- Brand bar (dual-brand lockup) -->
+<div class="bg-black text-white text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-3">
+      <img src="assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+      <div class="flex flex-col">
+        <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+        <span class="text-[10px] uppercase tracking-widest text-brand-300" data-i18n="brand_group">Axel Dev Group LLC</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+      <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+      <span class="hidden sm:inline text-primary">|</span>
+      <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+      <span class="hidden sm:inline text-primary">|</span>
+      <a href="mailto:info@axeldevlab.com" class="text-primary-light/80 hover:text-primary-light transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="siteHeader" class="glass-card bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex justify-between items-center">
+      <!-- Logo lockup -->
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 sm:h-12 md:h-14 w-auto transition-transform group-hover:scale-[1.02]" loading="eager" />
+        <div class="leading-tight">
+          <div class="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-secondary dark:text-secondary-light">Axel Dev Lab</div>
+          <div class="text-[10px] sm:text-[12px] uppercase tracking-widest text-content-mid dark:text-content-mid">Mapping Ideas, Powering Progress</div>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex relative space-x-6 text-sm font-medium items-center" aria-label="Main navigation">
+        <a href="index.html" data-i18n="nav_home" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" aria-current="page" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Projects</a>
+        <div class="relative group" aria-haspopup="true">
+          <a href="data.html" data-i18n="nav_data" class="inline-flex items-center gap-1 text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">
+            Data
+            <svg class="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 011.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <div class="pointer-events-none opacity-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto group-hover:opacity-100 group-focus-within:opacity-100 absolute left-0 mt-3 w-64 rounded-2xl border border-gray-200 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-2xl transition ease-out duration-150">
+            <div class="px-4 py-4 grid gap-2 text-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+              <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Data Portal</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+          <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+            <span>AIX Exchange: Country Benchmarking</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Dashboards</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+              </a>
+              <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Maps</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+              </a>
+              <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Datasets</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+              </a>
+            </div>
+            <div class="border-t border-gray-100 dark:border-gray-800 px-4 py-3 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</div>
+          </div>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="inline-flex items-center gap-1 text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">
+          <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+          <span>Methodology</span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">About</a>
+
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" aria-label="Toggle dark mode">
+          <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Language switcher -->
+        <div class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" id="langToggle" aria-label="Switch language">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+          <span id="langLabel" class="text-xs">EN</span>
+        </div>
+
+        <!-- Auth: Sign-in button (shown when logged out) -->
+        <a id="loginBtn" href="/logins/index.html" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-light active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+          <span>Login</span>
+        </a>
+</nav>
+
+      <!-- Mobile menu button -->
+      <div class="lg:hidden flex items-center space-x-2">
+        <!-- Mobile Dark Mode Toggle -->
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 hover:bg-bg-light dark:hover:bg-bg-dark transition-colors" aria-label="Toggle dark mode">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        
+        <!-- Hamburger menu button -->
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 hover:bg-bg-light dark:hover:bg-bg-dark transition-colors" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="px-2 pt-4 pb-3 space-y-1">
+        <a href="index.html" data-i18n="nav_home" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" aria-current="page" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Projects</a>
+        <a href="data.html" data-i18n="nav_data" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Data</a>
+        <div class="ml-6 space-y-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-bg-light/60 dark:bg-bg-dark/40 px-3 py-3 text-sm text-content-mid dark:text-content-mid">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+          <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Data Portal</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>AIX Exchange: Country Benchmarking</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Dashboards</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+          </a>
+          <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Maps</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+          </a>
+          <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Datasets</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+          </a>
+          <p class="px-3 pt-1 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</p>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+            <span>Methodology</span>
+          </span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">About</a>
+        
+        <!-- Mobile Language switcher -->
+        <div class="px-3 py-2">
+          <div class="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" id="mobile-langToggle" aria-label="Switch language">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+            <span id="mobile-langLabel" class="text-sm">English</span>
+          </div>
+        </div>
+        
+        <!-- Mobile Sign-in button -->
+        <div class="px-3 py-2">
+          <a id="mobile-loginBtn" href="/logins/index.html" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-bg-dark hover:bg-primary-light active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+            <span>Login</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Auth: User chip + dropdown (shown when logged in) -->
+    <div id="userMenu" class="relative hidden">
+      <button id="userChip"
+        class="inline-flex items-center gap-2 px-2 py-1 rounded-md border bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark transition">
+          <span id="userAvatar"
+            class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-semibold">U</span>
+          <span id="userName" class="text-sm text-content-light dark:text-content-dark">User</span>
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/></svg>
+        </button>
+        <div id="userDropdown"
+            class="absolute right-0 mt-2 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-2 hidden menu z-50 min-w-[12rem]">
+          <a href="subpages/data/worldbank-pro.html" class="text-content-light dark:text-content-dark" data-i18n="menu_presets">My presets</a>
+          <a href="subpages/login.html" id="adminLink" class="text-content-light dark:text-content-dark hidden" data-i18n="menu_admin">Admin dashboard</a>
+          <hr class="my-2 border-gray-200 dark:border-gray-600" />
+          <button id="logoutBtn" class="w-full text-left px-3 py-2 rounded-md hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark" data-i18n="btn_logout">Logout</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<main id="main" role="main">
+  <div class="page-header">
+    <div class="max-w-7xl mx-auto px-6">
+      <nav aria-label="Breadcrumb" class="breadcrumb mb-2">
+        <a href="index.html" data-i18n="projects_breadcrumb_home">Home</a> / <span data-i18n="projects_breadcrumb_current">Projects</span>
+      </nav>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-secondary dark:text-secondary-light" data-i18n="projects_header_title">Projects</h1>
+    </div>
+  </div>
+
+<!-- Hero / Intro -->
+<section class="relative px-6 py-16 bg-[#020617] overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-60">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.35),transparent_55%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(167,139,250,0.25),transparent_50%)]"></div>
+  </div>
+  <div class="max-w-5xl mx-auto relative">
+    <div class="aurora-shell px-6 sm:px-10 py-14 text-center shadow-[0_25px_80px_rgba(2,6,23,0.6)]">
+      <p class="eyebrow text-white/70 mb-4" data-i18n="brand_lab_name">Axel Dev Lab</p>
+      <h1 class="hero-title text-4xl sm:text-5xl font-extrabold mb-4" data-i18n="projects_title">Projects</h1>
+      <p class="text-lg text-white/80 max-w-3xl mx-auto"><span id="typing-text" class="typewriter"></span></p>
+      <p class="mt-4 text-sm text-white/70" data-i18n="projects_inquiries" data-i18n-attr="html">Project inquiries: <a href="mailto:contact@axeldevlab.com" class="underline decoration-dashed decoration-white/40 hover:text-white">contact@axeldevlab.com</a></p>
+      <div class="mt-6 flex flex-wrap justify-center gap-2 text-xs uppercase tracking-[0.25em] text-white/60">
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">Axel Stack</span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">Live Atlas</span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">K-Track</span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">ADIM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Projects Section -->
+<section class="py-12 px-4 bg-bg-light dark:bg-bg-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid gap-8 md:grid-cols-2 xl:gap-10">
+      <article class="project-card reveal" data-reveal-delay="0">
+        <div class="grid gap-6 lg:gap-8 lg:grid-cols-[1.35fr_0.9fr] p-8 xl:p-10 items-start">
+          <div class="space-y-5">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-brand-200" data-i18n="projects_axel_tag">Institutional Infrastructure</span>
+              <a href="axel-stack.html" class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-[0.65rem] uppercase tracking-[0.3em] text-slate-200/80 hover:text-brand-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors" data-i18n="projects_axel_label">Axel Stack</a>
+            </div>
+            <div class="space-y-2">
+              <p class="text-sm font-medium uppercase tracking-[0.32em] text-brand-200" data-i18n="projects_axel_kicker">Where Data Meets Decision.</p>
+              <h2 class="text-2xl sm:text-3xl font-semibold text-white">
+                <a href="axel-stack.html" class="text-white hover:text-brand-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded-md" data-i18n="projects_axel_title">Axel Stack &#8212; The Engine Behind Intelligence</a>
+              </h2>
+            </div>
+            <div class="space-y-3 text-slate-100/90">
+              <p class="text-sm leading-relaxed sm:text-base" data-i18n="projects_axel_desc">Axel Stack is the technological heart of Axel Dev Group &#8212; a modular infrastructure that connects data, analytics, and decision intelligence inside a secure environment.</p>
+              <div class="border-l-4 border-primary/60 pl-4">
+                <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-1" data-i18n="projects_axel_overview_heading">Strategic Overview</h3>
+                <p class="text-sm text-slate-100/80 leading-relaxed" data-i18n="projects_axel_overview_desc">Unifies evidence, governance, and delivery systems so every solution the Group deploys is powered by a trusted institutional backbone.</p>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-3" data-i18n="projects_axel_features_heading">Core Features</h3>
+              <ul class="grid gap-2 text-xs sm:text-sm text-slate-100/80">
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_axel_feature1">Integrated data and visualization backbone for secure insights.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_axel_feature2">Cloud and on-premise system designed for sovereign scalability.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_axel_feature3">Governance layer linking analytics, compliance, and decision delivery.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/15 text-[0.65rem] uppercase tracking-[0.28em] text-brand-100" data-i18n="projects_axel_impact_label">Public Impact</span>
+                <p class="text-xs sm:text-sm text-slate-100/85 leading-relaxed" data-i18n="projects_axel_impact_desc">Enables governments, institutions, and partners to harness data responsibly and translate evidence into action.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] uppercase tracking-[0.28em] text-slate-100/80" data-i18n="projects_axel_pillars_label">Pillars</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_axel_pillar1">Axel Stack</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_axel_pillar2">Institution of Records</span>
+              </div>
+            </div>
+            <div class="project-card__cta flex flex-wrap gap-3 pt-1">
+              <a class="primary" href="axel-stack.html" data-i18n="projects_cta_learn">Learn More</a>
+              <a class="secondary" href="mailto:contact@axeldevlab.com?subject=Axel%20Stack%20Demo%20Request" data-i18n="projects_cta_demo">Request Demo</a>
+              <a class="secondary" href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20Axel%20Stack" data-i18n="projects_cta_partner">Partner With Us</a>
+            </div>
+          </div>
+          <div class="project-card__visual">
+            <div class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-primary/15 via-transparent to-sky-400/20"></div>
+            <a href="axel-stack.html" aria-label="View Axel Stack project" class="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-900 rounded-xl">
+              <span>
+                <small data-i18n="projects_axel_visual_top">Data</small>
+                <strong data-i18n="projects_axel_visual_mid">Stack</strong>
+                <small data-i18n="projects_axel_visual_bottom">AI · Governance · Insights</small>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-reveal-delay="120">
+        <div class="grid gap-6 lg:gap-8 lg:grid-cols-[1.35fr_0.9fr] p-8 xl:p-10 items-start">
+          <div class="space-y-5">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-brand-200" data-i18n="projects_ktrack_tag">Accountability &amp; Performance</span>
+              <a href="k-track.html" class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-[0.65rem] uppercase tracking-[0.3em] text-slate-200/80 hover:text-brand-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors" data-i18n="projects_ktrack_label">K-Track</a>
+            </div>
+            <div class="space-y-2">
+              <p class="text-sm font-medium uppercase tracking-[0.32em] text-brand-200" data-i18n="projects_ktrack_kicker">From Recommendations to Results.</p>
+              <h2 class="text-2xl sm:text-3xl font-semibold text-white">
+                <a href="k-track.html" class="text-white hover:text-brand-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded-md" data-i18n="projects_ktrack_title">K-Track &#8212; Accountability Reimagined</a>
+              </h2>
+            </div>
+            <div class="space-y-3 text-slate-100/90">
+              <p class="text-sm leading-relaxed sm:text-base" data-i18n="projects_ktrack_desc">K-Track ensures every insight leads to execution by tracking policy progress, monitoring institutional actions, and verifying implementation outcomes.</p>
+              <div class="border-l-4 border-primary/60 pl-4">
+                <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-1" data-i18n="projects_ktrack_overview_heading">Strategic Overview</h3>
+                <p class="text-sm text-slate-100/80 leading-relaxed" data-i18n="projects_ktrack_overview_desc">Creates a living chain of accountability between advisory work, institutional commitments, and measurable delivery.</p>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-3" data-i18n="projects_ktrack_features_heading">Core Features</h3>
+              <ul class="grid gap-2 text-xs sm:text-sm text-slate-100/80">
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_ktrack_feature1">Progress monitoring dashboards tailored to leaders and stakeholders.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_ktrack_feature2">Implementation tracker linking recommendations to milestones.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_ktrack_feature3">Secure verification layer for data sources and institutional feedback.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/15 text-[0.65rem] uppercase tracking-[0.28em] text-brand-100" data-i18n="projects_ktrack_impact_label">Public Impact</span>
+                <p class="text-xs sm:text-sm text-slate-100/85 leading-relaxed" data-i18n="projects_ktrack_impact_desc">Empowers organizations to prove accountability, transparency, and delivery &#8212; the bedrock of institutional trust.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] uppercase tracking-[0.28em] text-slate-100/80" data-i18n="projects_ktrack_pillars_label">Pillars</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_ktrack_pillar1">Institution of Records</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_ktrack_pillar2">Ethical Intelligence</span>
+              </div>
+            </div>
+            <div class="project-card__cta flex flex-wrap gap-3 pt-1">
+              <a class="primary" href="k-track.html" data-i18n="projects_cta_learn">Learn More</a>
+              <a class="secondary" href="mailto:contact@axeldevlab.com?subject=K-Track%20Demo%20Request" data-i18n="projects_cta_demo">Request Demo</a>
+              <a class="secondary" href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20K-Track" data-i18n="projects_cta_partner">Partner With Us</a>
+            </div>
+          </div>
+          <div class="project-card__visual">
+            <div class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-emerald-400/10 via-transparent to-primary/20"></div>
+            <a href="k-track.html" aria-label="View K-Track project" class="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-900 rounded-xl">
+              <span>
+                <small data-i18n="projects_ktrack_visual_top">Insight</small>
+                <strong data-i18n="projects_ktrack_visual_mid">Impact</strong>
+                <small data-i18n="projects_ktrack_visual_bottom">Progress · Action · Verification</small>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-reveal-delay="240">
+        <div class="grid gap-6 lg:gap-8 lg:grid-cols-[1.35fr_0.9fr] p-8 xl:p-10 items-start">
+          <div class="space-y-5">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-brand-200" data-i18n="projects_live_tag">Geo-Intelligence Platform</span>
+              <a href="live-atlas.html" class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-[0.65rem] uppercase tracking-[0.3em] text-slate-200/80 hover:text-brand-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors" data-i18n="projects_live_label">Live Atlas</a>
+            </div>
+            <div class="space-y-2">
+              <p class="text-sm font-medium uppercase tracking-[0.32em] text-brand-200" data-i18n="projects_live_kicker">Visualizing Progress, Powering Policy.</p>
+              <h2 class="text-2xl sm:text-3xl font-semibold text-white">
+                <a href="live-atlas.html" class="text-white hover:text-brand-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded-md" data-i18n="projects_live_title">Live Atlas &#8212; Mapping Africa&rsquo;s Development Systems</a>
+              </h2>
+            </div>
+            <div class="space-y-3 text-slate-100/90">
+              <p class="text-sm leading-relaxed sm:text-base" data-i18n="projects_live_desc">Live Atlas is a living, interactive map of Africa&rsquo;s development, governance, and infrastructure systems, helping institutions see what is changing in real time.</p>
+              <div class="border-l-4 border-primary/60 pl-4">
+                <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-1" data-i18n="projects_live_overview_heading">Strategic Overview</h3>
+                <p class="text-sm text-slate-100/80 leading-relaxed" data-i18n="projects_live_overview_desc">Transforms complex datasets into geographic intelligence that guides national, regional, and continental collaboration.</p>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-3" data-i18n="projects_live_features_heading">Core Features</h3>
+              <ul class="grid gap-2 text-xs sm:text-sm text-slate-100/80">
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_live_feature1">Continental and national dashboards for priority sectors.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_live_feature2">Real-time mapping of economic, climate, and social indicators.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_live_feature3">Interactive storytelling canvas for analysis and scenario planning.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/15 text-[0.65rem] uppercase tracking-[0.28em] text-brand-100" data-i18n="projects_live_impact_label">Public Impact</span>
+                <p class="text-xs sm:text-sm text-slate-100/85 leading-relaxed" data-i18n="projects_live_impact_desc">Helps governments and partners make responsive choices by seeing continental change patterns instantly.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] uppercase tracking-[0.28em] text-slate-100/80" data-i18n="projects_live_pillars_label">Pillars</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_live_pillar1">Living Infrastructure</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_live_pillar2">Institution of Records</span>
+              </div>
+            </div>
+            <div class="project-card__cta flex flex-wrap gap-3 pt-1">
+              <a class="primary" href="live-atlas.html" data-i18n="projects_cta_learn">Learn More</a>
+              <a class="secondary" href="mailto:contact@axeldevlab.com?subject=Live%20Atlas%20Demo%20Request" data-i18n="projects_cta_demo">Request Demo</a>
+              <a class="secondary" href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20Live%20Atlas" data-i18n="projects_cta_partner">Partner With Us</a>
+            </div>
+          </div>
+          <div class="project-card__visual">
+            <div class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-sky-400/15 via-transparent to-primary/15"></div>
+            <a href="live-atlas.html" aria-label="View Live Atlas project" class="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-900 rounded-xl">
+              <span>
+                <small data-i18n="projects_live_visual_top">Continental</small>
+                <strong data-i18n="projects_live_visual_mid">Atlas</strong>
+                <small data-i18n="projects_live_visual_bottom">Data Pulses · Story Maps</small>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-reveal-delay="360">
+        <div class="grid gap-6 lg:gap-8 lg:grid-cols-[1.35fr_0.9fr] p-8 xl:p-10 items-start">
+          <div class="space-y-5">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-brand-200" data-i18n="projects_adim_tag">Proof of Concept</span>
+              <a href="adim.html" class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-[0.65rem] uppercase tracking-[0.3em] text-slate-200/80 hover:text-brand-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors" data-i18n="projects_adim_label">ADIM</a>
+            </div>
+            <div class="space-y-2">
+              <p class="text-sm font-medium uppercase tracking-[0.32em] text-brand-200" data-i18n="projects_adim_kicker">Building Africa&rsquo;s Data Backbone.</p>
+              <h2 class="text-2xl sm:text-3xl font-semibold text-white">
+                <a href="adim.html" class="text-white hover:text-brand-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded-md" data-i18n="projects_adim_title">ADIM &#8212; African Data Infrastructure Mapping (PoC)</a>
+              </h2>
+            </div>
+            <div class="space-y-3 text-slate-100/90">
+              <p class="text-sm leading-relaxed sm:text-base" data-i18n="projects_adim_desc">ADIM demonstrates Axel Dev Group&rsquo;s vision for a connected, data-sovereign Africa, integrating economic, demographic, and environmental data into a continental prototype.</p>
+              <div class="border-l-4 border-primary/60 pl-4">
+                <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-1" data-i18n="projects_adim_overview_heading">Strategic Overview</h3>
+                <p class="text-sm text-slate-100/80 leading-relaxed" data-i18n="projects_adim_overview_desc">Showcases a blueprint for African-built infrastructure where national datasets and global systems interoperate without losing sovereignty.</p>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs uppercase tracking-[0.4em] text-brand-300 mb-3" data-i18n="projects_adim_features_heading">Core Features</h3>
+              <ul class="grid gap-2 text-xs sm:text-sm text-slate-100/80">
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_adim_feature1">Multi-sectoral harmonization pilot connecting national statistical offices.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_adim_feature2">Fusion of national and global datasets for resilient planning.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+                  <span data-i18n="projects_adim_feature3">Open visualization prototype designed for institutions and the public.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/15 text-[0.65rem] uppercase tracking-[0.28em] text-brand-100" data-i18n="projects_adim_impact_label">Public Impact</span>
+                <p class="text-xs sm:text-sm text-slate-100/85 leading-relaxed" data-i18n="projects_adim_impact_desc">Demonstrates Africa&rsquo;s ability to own, govern, and visualize its data systems &#8212; a cornerstone of digital independence.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[0.65rem] uppercase tracking-[0.28em] text-slate-100/80" data-i18n="projects_adim_pillars_label">Pillars</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_adim_pillar1">Axel Stack</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-white/90" data-i18n="projects_adim_pillar2">Live Atlas</span>
+              </div>
+            </div>
+            <div class="project-card__cta flex flex-wrap gap-3 pt-1">
+              <a class="primary" href="adim.html" data-i18n="projects_cta_learn">Learn More</a>
+              <a class="secondary" href="mailto:contact@axeldevlab.com?subject=ADIM%20Demo%20Request" data-i18n="projects_cta_demo">Request Demo</a>
+              <a class="secondary" href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20ADIM" data-i18n="projects_cta_partner">Partner With Us</a>
+            </div>
+          </div>
+          <div class="project-card__visual">
+            <div class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-amber-400/20 via-transparent to-primary/25"></div>
+            <a href="adim.html" aria-label="View ADIM project" class="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-900 rounded-xl">
+              <span>
+                <small data-i18n="projects_adim_visual_top">Prototype</small>
+                <strong data-i18n="projects_adim_visual_mid">ADIM</strong>
+                <small data-i18n="projects_adim_visual_bottom">Regions · Data Nodes · Sovereignty</small>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Footer (consistent sitewide) -->
+    <!-- Subscription Card -->
+  <section class="py-16 px-6 bg-white dark:bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <div class="adl-subscribe">
+        <div class="adl-left">
+          <img class="adl-logo" src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab Logo">
+          <h2 class="adl-title">Stay Informed</h2>
+          <p class="adl-desc">Receive research insights, data releases, and policy analysis from the <strong>Axel Dev Lab</strong>.</p>
+          <a href="https://mail.axeldevlab.com/archive/adi-january-insights" class="adl-archive-link" target="_blank">View latest issue →</a>
+        </div>
+        <div class="adl-right">
+          <form method="POST" action="https://mail.axeldevlab.com/subscription/form" target="_blank">
+            <input type="hidden" name="l" value="a93e5e96-1cf7-4bff-b7b9-a38768823332">
+            <div class="adl-field">
+              <input type="email" name="email" class="adl-input" placeholder=" " required aria-label="Email address">
+              <label class="adl-label">Email address</label>
+            </div>
+            <label class="adl-checkbox">
+              <input type="checkbox" name="privacy" required>
+              <span>I agree to receive curated emails from Axel Dev Lab. You can unsubscribe at any time.</span>
+            </label>
+            <button type="submit" class="adl-btn">Subscribe now</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-10">
+        <iframe src="https://help.axeldevlab.com/open.php" style="width: 100%; min-height: 900px; border: none;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+<!-- Call to Action -->
+  <section class="py-20 px-6 bg-brand-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-5xl mx-auto">
+      <div class="cta-panel text-center">
+        <p class="eyebrow text-white/70 mb-3" data-i18n="cta_label">Axel Dev Lab 2.0</p>
+        <h2 data-i18n="cta_heading">Ready to Transform Data Into Impact?</h2>
+        <p class="text-base sm:text-lg mb-8" data-i18n="cta_intro">
+          Partner with us to develop evidence-based solutions for your most complex development challenges.
+        </p>
+        <div class="cta-panel__actions">
+          <a href="collaborate.html" class="modern-btn modern-btn--primary">
+            <span data-i18n="cta_primary">Start a Collaboration</span>
+          </a>
+          <a href="publications.html" class="modern-btn modern-btn--outline">
+            <span data-i18n="cta_secondary">Explore Our Research</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contacts -->
+  <section class="py-16 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-i18n="direct_contacts_title">Direct Contacts</h2>
+        <p class="text-gray-300 max-w-3xl mx-auto" data-i18n="direct_contacts_intro">Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab &amp; Axel Dev Consulting.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6 text-sm">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_general_heading">General &amp; Partnerships</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_general_info">General info:</span> <a href="mailto:info@axeldevlab.com" class="underline hover:text-brand-300">info@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_partnerships">Partnerships:</span> <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-300">contact@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_executive">Executive office:</span> <a href="mailto:jeanaxelt@axeldevlab.com" class="underline hover:text-brand-300">jeanaxelt@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_client_heading">Client &amp; Operations</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_support">Client support:</span> <a href="mailto:support@axeldevlab.com" class="underline hover:text-brand-300">support@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_data">Data services:</span> <a href="mailto:it@axeldevlab.com" class="underline hover:text-brand-300">it@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_billing">Billing:</span> <a href="mailto:finance@axeldevlab.com" class="underline hover:text-brand-300">finance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_research_heading">Research &amp; Media</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_media">Press &amp; media:</span> <a href="mailto:studio@axeldevlab.com" class="underline hover:text-brand-300">studio@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_research">Research sparks:</span> <a href="mailto:research@axeldevlab.com" class="underline hover:text-brand-300">research@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_briefings">Briefings:</span> <a href="mailto:briefings@axeldevlab.com" class="underline hover:text-brand-300">briefings@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_people_heading">People &amp; Governance</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_people_team">People team:</span> <a href="mailto:people@axeldevlab.com" class="underline hover:text-brand-300">people@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_board">Board liaison:</span> <a href="mailto:board@axeldevlab.com" class="underline hover:text-brand-300">board@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_governance">Governance:</span> <a href="mailto:governance@axeldevlab.com" class="underline hover:text-brand-300">governance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-v2" role="contentinfo">
+    <div class="footer-v2__grid">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-12 w-auto" loading="lazy" />
+          <div>
+            <p class="text-lg font-semibold" data-i18n="brand_lab_name">Axel Dev Lab</p>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/60" data-i18n="brand_group">Axel Dev Group LLC</p>
+          </div>
+        </div>
+        <p class="text-sm opacity-80 mb-4" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <div class="space-y-1 text-sm opacity-80">
+          <p data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p data-i18n="footer_address_line3">United States</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <nav class="grid gap-2 text-sm opacity-90">
+          <a href="index.html" data-i18n="nav_home" class="hover:text-primary-light transition">Home</a>
+          <a href="projects.html" data-i18n="nav_projects" class="hover:text-primary-light transition">Projects</a>
+          <a href="data.html" data-i18n="nav_data" class="hover:text-primary-light transition">Data</a>
+          <a href="methodology.html" data-i18n="nav_methodology" class="hover:text-primary-light transition">Methodology</a>
+          <a href="publications.html" data-i18n="nav_publications" class="hover:text-primary-light transition">Publications</a>
+          <a href="collaborate.html" data-i18n="nav_collaborate" class="hover:text-primary-light transition">Collaborate</a>
+          <a href="media.html" data-i18n="nav_media" class="hover:text-primary-light transition">Media</a>
+          <a href="about.html" data-i18n="nav_about" class="hover:text-primary-light transition">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-primary-light/90 hover:text-primary-light transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <a href="https://help.axeldevlab.com/open.php" class="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-white/90 hover:text-white" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-80"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01"/><path d="M12 12a3 3 0 1 0-3-3"/></svg>
+          <span>Need help? Report an issue</span>
+        </a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+              </svg>
+            </a>
+            <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <!-- External JavaScript Libraries -->
+  <script src="http://localhost:8089/js/keycloak.js"></script>
+
+  <!-- Main JavaScript -->
+  </main>
+  <script src="assets/js/main.js"></script>
+
+<!-- Tailwind Utility Styles (local to this page) -->
+<style>
+  .badge { background-color: #fef3c7; color: #92400e; padding: 0.25rem 0.5rem; font-size: 0.7rem; border-radius: 9999px; font-weight: 500; }
+  .btn { background-color: #facc15; color: white; font-weight: 600; padding: 0.45rem 1rem; font-size: 0.8rem; border-radius: 0.375rem; transition: background-color 0.3s ease; display: inline-block; }
+  .btn:hover { background-color: #eab308; }
+</style>
+
+<!-- ---------- JS: fade-in, auth, i18n, polish ---------- -->
+<script>
+  // Brand meta (shared)
+  const BRAND_CONTEXT = {
+    site: document.documentElement.dataset.site || 'axel-dev-lab',
+    mottoLab: { en: 'Mapping Ideas, Powering Progress.', fr: 'Cartographier les idées, alimenter le progrès.' },
+    mottoConsulting: { en: 'Strategic Solutions, Grounded in Data.', fr: 'Des solutions stratégiques, ancrées dans les données.' }
+  };
+
+  // I18N dictionary (page + global keys)
+  const I18N = {
+    en: {
+      title: 'Projects · Axel Dev Lab',
+      page_title: 'Projects · Axel Dev Lab',
+      motto_lab: BRAND_CONTEXT.mottoLab.en,
+      motto_lab_short: 'Mapping Ideas, Powering Progress',
+      motto_consulting: BRAND_CONTEXT.mottoConsulting.en,
+      nav_home: 'Home',
+      nav_projects: 'Projects',
+      nav_wb: 'AIX Exchange: Country Benchmarking',
+      nav_data: 'Data',
+      nav_publications: 'Publications',
+      nav_collaborate: 'Collaborate',
+      nav_media: 'Media',
+      nav_about: 'About',
+      btn_signin: 'Sign in',
+      btn_logout: 'Logout',
+      menu_presets: 'My presets',
+      menu_admin: 'Admin dashboard',
+      rights: 'All rights reserved.',
+      admin: 'Admin',
+      
+      /* Projects page */
+      projects_breadcrumb_home: 'Home',
+      projects_breadcrumb_current: 'Projects',
+      projects_header_title: 'Projects',
+      projects_inquiries: 'Project inquiries: <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-600">contact@axeldevlab.com</a>',
+      projects_title: 'Projects',
+      projects_cta_learn: 'Learn More',
+      projects_cta_demo: 'Request Demo',
+      projects_cta_partner: 'Partner With Us',
+
+      projects_axel_tag: 'Institutional Infrastructure',
+      projects_axel_label: 'Axel Stack',
+      projects_axel_kicker: 'Where Data Meets Decision.',
+      projects_axel_title: 'Axel Stack — The Engine Behind Intelligence',
+      projects_axel_desc: 'Axel Stack is the technological heart of Axel Dev Group — a modular infrastructure that connects data, analytics, and decision intelligence inside a secure environment.',
+      projects_axel_overview_heading: 'Strategic Overview',
+      projects_axel_overview_desc: 'Unifies evidence, governance, and delivery systems so every solution the Group deploys is powered by a trusted institutional backbone.',
+      projects_axel_features_heading: 'Core Features',
+      projects_axel_feature1: 'Integrated data and visualization backbone for secure insights.',
+      projects_axel_feature2: 'Cloud and on-premise system designed for sovereign scalability.',
+      projects_axel_feature3: 'Governance layer linking analytics, compliance, and decision delivery.',
+      projects_axel_impact_label: 'Public Impact',
+      projects_axel_impact_desc: 'Enables governments, institutions, and partners to harness data responsibly and translate evidence into action.',
+      projects_axel_pillars_label: 'Pillars',
+      projects_axel_pillar1: 'Axel Stack',
+      projects_axel_pillar2: 'Institution of Records',
+      projects_axel_visual_top: 'Data',
+      projects_axel_visual_mid: 'Stack',
+      projects_axel_visual_bottom: 'AI · Governance · Insights',
+
+      projects_ktrack_tag: 'Accountability & Performance',
+      projects_ktrack_label: 'K-Track',
+      projects_ktrack_kicker: 'From Recommendations to Results.',
+      projects_ktrack_title: 'K-Track — Accountability Reimagined',
+      projects_ktrack_desc: 'K-Track ensures every insight leads to execution by tracking policy progress, monitoring institutional actions, and verifying implementation outcomes.',
+      projects_ktrack_overview_heading: 'Strategic Overview',
+      projects_ktrack_overview_desc: 'Creates a living chain of accountability between advisory work, institutional commitments, and measurable delivery.',
+      projects_ktrack_features_heading: 'Core Features',
+      projects_ktrack_feature1: 'Progress monitoring dashboards tailored to leaders and stakeholders.',
+      projects_ktrack_feature2: 'Implementation tracker linking recommendations to milestones.',
+      projects_ktrack_feature3: 'Secure verification layer for data sources and institutional feedback.',
+      projects_ktrack_impact_label: 'Public Impact',
+      projects_ktrack_impact_desc: 'Empowers organizations to prove accountability, transparency, and delivery — the bedrock of institutional trust.',
+      projects_ktrack_pillars_label: 'Pillars',
+      projects_ktrack_pillar1: 'Institution of Records',
+      projects_ktrack_pillar2: 'Ethical Intelligence',
+      projects_ktrack_visual_top: 'Insight',
+      projects_ktrack_visual_mid: 'Impact',
+      projects_ktrack_visual_bottom: 'Progress · Action · Verification',
+
+      projects_live_tag: 'Geo-Intelligence Platform',
+      projects_live_label: 'Live Atlas',
+      projects_live_kicker: 'Visualizing Progress, Powering Policy.',
+      projects_live_title: 'Live Atlas — Mapping Africa’s Development Systems',
+      projects_live_desc: 'Live Atlas is a living, interactive map of Africa’s development, governance, and infrastructure systems, helping institutions see what is changing in real time.',
+      projects_live_overview_heading: 'Strategic Overview',
+      projects_live_overview_desc: 'Transforms complex datasets into geographic intelligence that guides national, regional, and continental collaboration.',
+      projects_live_features_heading: 'Core Features',
+      projects_live_feature1: 'Continental and national dashboards for priority sectors.',
+      projects_live_feature2: 'Real-time mapping of economic, climate, and social indicators.',
+      projects_live_feature3: 'Interactive storytelling canvas for analysis and scenario planning.',
+      projects_live_impact_label: 'Public Impact',
+      projects_live_impact_desc: 'Helps governments and partners make responsive choices by seeing continental change patterns instantly.',
+      projects_live_pillars_label: 'Pillars',
+      projects_live_pillar1: 'Living Infrastructure',
+      projects_live_pillar2: 'Institution of Records',
+      projects_live_visual_top: 'Continental',
+      projects_live_visual_mid: 'Atlas',
+      projects_live_visual_bottom: 'Data Pulses · Story Maps',
+
+      projects_adim_tag: 'Proof of Concept',
+      projects_adim_label: 'ADIM',
+      projects_adim_kicker: 'Building Africa’s Data Backbone.',
+      projects_adim_title: 'ADIM — African Data Infrastructure Mapping (PoC)',
+      projects_adim_desc: 'ADIM demonstrates Axel Dev Group’s vision for a connected, data-sovereign Africa, integrating economic, demographic, and environmental data into a continental prototype.',
+      projects_adim_overview_heading: 'Strategic Overview',
+      projects_adim_overview_desc: 'Showcases a blueprint for African-built infrastructure where national datasets and global systems interoperate without losing sovereignty.',
+      projects_adim_features_heading: 'Core Features',
+      projects_adim_feature1: 'Multi-sectoral harmonization pilot connecting national statistical offices.',
+      projects_adim_feature2: 'Fusion of national and global datasets for resilient planning.',
+      projects_adim_feature3: 'Open visualization prototype designed for institutions and the public.',
+      projects_adim_impact_label: 'Public Impact',
+      projects_adim_impact_desc: 'Demonstrates Africa’s ability to own, govern, and visualize its data systems — a cornerstone of digital independence.',
+      projects_adim_pillars_label: 'Pillars',
+      projects_adim_pillar1: 'Axel Stack',
+      projects_adim_pillar2: 'Live Atlas',
+      projects_adim_visual_top: 'Prototype',
+      projects_adim_visual_mid: 'ADIM',
+      projects_adim_visual_bottom: 'Regions · Data Nodes · Sovereignty',
+      p1_title: 'Interactive Map of Energy Access in Sub‑Saharan Africa',
+      p1_meta: 'Geospatial Visualization • 2024',
+      p1_desc: 'Geospatial data used to visualize electricity access in rural communities, identifying gaps and guiding infrastructure development.',
+      p2_title: "Policy Impact Dashboard: Côte d'Ivoire",
+      p2_meta: 'Data Dashboard • 2023',
+      p2_desc: 'Interactive dashboard measuring the effectiveness of economic policies and development programs using real‑time indicators.',
+      tech_wb: 'World Bank Data',
+      p3_title: 'Global Development Tracker',
+      p3_meta: 'Data Visualization • 2023',
+      p3_desc: 'Aggregates development finance data across multiple countries, highlighting funding trends and regional priorities.',
+      p4_title: 'Urban Growth Predictive Model',
+      p4_meta: 'Machine Learning • 2024',
+      p4_desc: 'Predictive model forecasting urban expansion in West African cities using satellite imagery and census data.',
+      btn_view_project: 'View Project',
+      btn_view_dashboard: 'View Dashboard',
+      btn_view_viz: 'View Visualization',
+      
+      timeline_title: 'Project Timeline',
+      timeline_upcoming_label: 'Upcoming:',
+      timeline_ongoing_label: 'Ongoing:',
+      timeline_completed_label: 'Completed:',
+      timeline_upcoming: 'AI for Regional Early Warning (2025)',
+      timeline_ongoing1: 'Urban Growth Predictive Model (2024)',
+      timeline_ongoing2: 'Energy Access Map (2024)',
+      timeline_completed1: 'Development Tracker (2023)',
+      timeline_completed2: "Policy Dashboard – Côte d'Ivoire (2023)"
+    },
+    fr: {
+      title: 'Projets · Axel Dev Lab',
+      page_title: 'Projets · Axel Dev Lab',
+      motto_lab: BRAND_CONTEXT.mottoLab.fr,
+      motto_lab_short: 'Cartographier les idées, alimenter le progrès',
+      motto_consulting: BRAND_CONTEXT.mottoConsulting.fr,
+      nav_home: 'Accueil',
+      nav_projects: 'Projets',
+      nav_wb: 'AIX Exchange : Benchmark pays',
+      nav_data: 'Données',
+      nav_publications: 'Publications',
+      nav_collaborate: 'Collaborer',
+      nav_media: 'Médias',
+      nav_about: 'À propos',
+      btn_signin: 'Se connecter',
+      btn_logout: 'Se déconnecter',
+      menu_presets: 'Mes préréglages',
+      menu_admin: "Tableau d'administration",
+      rights: 'Tous droits réservés.',
+      admin: 'Admin',
+      
+      /* Page Projets */
+      projects_breadcrumb_home: 'Accueil',
+      projects_breadcrumb_current: 'Projets',
+      projects_header_title: 'Projets',
+      projects_inquiries: 'Demandes de projet : <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-600">contact@axeldevlab.com</a>',
+      projects_title: 'Projets',
+      projects_cta_learn: 'En savoir plus',
+      projects_cta_demo: 'Demander une démo',
+      projects_cta_partner: 'Devenir partenaire',
+
+      projects_axel_tag: 'Infrastructure institutionnelle',
+      projects_axel_label: 'Axel Stack',
+      projects_axel_kicker: 'Là où la donnée rencontre la décision.',
+      projects_axel_title: 'Axel Stack — Le moteur de l\'intelligence décisionnelle',
+      projects_axel_desc: 'Axel Stack est le cœur technologique d\'Axel Dev Group — une infrastructure modulaire qui relie données, analyses et intelligence décisionnelle dans un environnement sécurisé.',
+      projects_axel_overview_heading: 'Vue stratégique',
+      projects_axel_overview_desc: 'Unifie preuves, gouvernance et exécution pour que chaque solution déployée par le Groupe repose sur une base institutionnelle de confiance.',
+      projects_axel_features_heading: 'Fonctionnalités clés',
+      projects_axel_feature1: 'Colonne vertébrale intégrée de données et de visualisations pour des analyses sécurisées.',
+      projects_axel_feature2: 'Architecture hybride cloud/sur site conçue pour une évolutivité souveraine.',
+      projects_axel_feature3: 'Couche de gouvernance reliant analyses, conformité et exécution des décisions.',
+      projects_axel_impact_label: 'Impact public',
+      projects_axel_impact_desc: 'Permet aux gouvernements, institutions et partenaires d\'exploiter les données de manière responsable et de transformer les preuves en action.',
+      projects_axel_pillars_label: 'Piliers',
+      projects_axel_pillar1: 'Axel Stack',
+      projects_axel_pillar2: 'Institution of Records',
+      projects_axel_visual_top: 'Données',
+      projects_axel_visual_mid: 'Stack',
+      projects_axel_visual_bottom: 'IA · Gouvernance · Analyses',
+
+      projects_ktrack_tag: 'Responsabilisation & performance',
+      projects_ktrack_label: 'K-Track',
+      projects_ktrack_kicker: 'Des recommandations aux résultats.',
+      projects_ktrack_title: 'K-Track — La redevabilité réinventée',
+      projects_ktrack_desc: 'K-Track garantit que chaque insight se transforme en action en suivant les progrès des politiques, en surveillant les actions institutionnelles et en vérifiant les résultats.',
+      projects_ktrack_overview_heading: 'Vue stratégique',
+      projects_ktrack_overview_desc: 'Crée une chaîne vivante de redevabilité entre missions de conseil, engagements institutionnels et résultats mesurables.',
+      projects_ktrack_features_heading: 'Fonctionnalités clés',
+      projects_ktrack_feature1: 'Tableaux de bord de suivi adaptés aux dirigeants et parties prenantes.',
+      projects_ktrack_feature2: 'Suivi de mise en œuvre reliant recommandations et jalons.',
+      projects_ktrack_feature3: 'Couche de vérification sécurisée pour les sources de données et les retours institutionnels.',
+      projects_ktrack_impact_label: 'Impact public',
+      projects_ktrack_impact_desc: 'Donne aux organisations les moyens de prouver redevabilité, transparence et exécution — socle de la confiance institutionnelle.',
+      projects_ktrack_pillars_label: 'Piliers',
+      projects_ktrack_pillar1: 'Institution of Records',
+      projects_ktrack_pillar2: 'Intelligence éthique',
+      projects_ktrack_visual_top: 'Analyse',
+      projects_ktrack_visual_mid: 'Impact',
+      projects_ktrack_visual_bottom: 'Progrès · Action · Vérification',
+
+      projects_live_tag: 'Plateforme de géo-intelligence',
+      projects_live_label: 'Live Atlas',
+      projects_live_kicker: 'Visualiser le progrès, alimenter les politiques.',
+      projects_live_title: 'Live Atlas — Cartographier les systèmes de développement africains',
+      projects_live_desc: 'Live Atlas est une carte vivante et interactive des systèmes de développement, de gouvernance et d\'infrastructure en Afrique, pour observer en temps réel les transformations.',
+      projects_live_overview_heading: 'Vue stratégique',
+      projects_live_overview_desc: 'Transforme des jeux de données complexes en intelligence géographique guidant la collaboration nationale, régionale et continentale.',
+      projects_live_features_heading: 'Fonctionnalités clés',
+      projects_live_feature1: 'Tableaux de bord continentaux et nationaux pour les secteurs prioritaires.',
+      projects_live_feature2: 'Cartographie en temps réel des indicateurs économiques, climatiques et sociaux.',
+      projects_live_feature3: 'Toile narrative interactive pour l\'analyse et la planification de scénarios.',
+      projects_live_impact_label: 'Impact public',
+      projects_live_impact_desc: 'Aide les gouvernements et partenaires à prendre des décisions réactives en visualisant instantanément les dynamiques continentales.',
+      projects_live_pillars_label: 'Piliers',
+      projects_live_pillar1: 'Infrastructure vivante',
+      projects_live_pillar2: 'Institution of Records',
+      projects_live_visual_top: 'Continental',
+      projects_live_visual_mid: 'Atlas',
+      projects_live_visual_bottom: 'Pulsations de données · Cartes narratives',
+
+      projects_adim_tag: 'Preuve de concept',
+      projects_adim_label: 'ADIM',
+      projects_adim_kicker: 'Construire l\'épine dorsale des données africaines.',
+      projects_adim_title: 'ADIM — Cartographie de l\'infrastructure de données africaine (PoC)',
+      projects_adim_desc: 'ADIM illustre la vision d\'Axel Dev Group pour une Afrique connectée et souveraine en matière de données, en intégrant données économiques, démographiques et environnementales dans un prototype continental.',
+      projects_adim_overview_heading: 'Vue stratégique',
+      projects_adim_overview_desc: 'Présente un plan directeur pour une infrastructure conçue en Afrique où données nationales et systèmes mondiaux interopèrent sans perdre leur souveraineté.',
+      projects_adim_features_heading: 'Fonctionnalités clés',
+      projects_adim_feature1: 'Pilote d\'harmonisation multisectorielle reliant les offices statistiques nationaux.',
+      projects_adim_feature2: 'Fusion des données nationales et mondiales pour une planification résiliente.',
+      projects_adim_feature3: 'Prototype de visualisation ouverte pensé pour les institutions et le grand public.',
+      projects_adim_impact_label: 'Impact public',
+      projects_adim_impact_desc: 'Démontre la capacité de l\'Afrique à posséder, gouverner et visualiser ses systèmes de données — un pilier de l\'indépendance numérique.',
+      projects_adim_pillars_label: 'Piliers',
+      projects_adim_pillar1: 'Axel Stack',
+      projects_adim_pillar2: 'Live Atlas',
+      projects_adim_visual_top: 'Prototype',
+      projects_adim_visual_mid: 'ADIM',
+      projects_adim_visual_bottom: 'Régions · Nœuds de données · Souveraineté',
+      p1_title: "Carte interactive de l'accès à l'énergie en Afrique subsaharienne",
+      p1_meta: 'Visualisation géospatiale • 2024',
+      p1_desc: "Données géospatiales pour visualiser l'accès à l'électricité dans les zones rurales, identifier les lacunes et guider les infrastructures.",
+      p2_title: "Tableau de bord d'impact des politiques : Côte d’Ivoire",
+      p2_meta: 'Tableau de bord de données • 2023',
+      p2_desc: "Tableau interactif mesurant l'efficacité des politiques économiques et des programmes de développement à partir d'indicateurs en temps réel.",
+      tech_wb: 'Données de la Banque mondiale',
+      p3_title: 'Suivi mondial du développement',
+      p3_meta: 'Visualisation de données • 2023',
+      p3_desc: 'Agrège les financements du développement dans plusieurs pays, et met en évidence les tendances et priorités régionales.',
+      p4_title: "Modèle prédictif de croissance urbaine",
+      p4_meta: 'Apprentissage automatique • 2024',
+      p4_desc: "Modèle prévisionnel de l'expansion urbaine en Afrique de l’Ouest utilisant imagerie satellite et données de recensement.",
+      btn_view_project: 'Voir le projet',
+      btn_view_dashboard: 'Voir le tableau de bord',
+      btn_view_viz: 'Voir la visualisation',
+      
+      timeline_title: 'Chronologie des projets',
+      timeline_upcoming_label: 'À venir :',
+      timeline_ongoing_label: 'En cours :',
+      timeline_completed_label: 'Terminé :',
+      timeline_upcoming: 'IA pour l’alerte précoce régionale (2025)',
+      timeline_ongoing1: 'Modèle prédictif de croissance urbaine (2024)',
+      timeline_ongoing2: "Carte d’accès à l’électricité (2024)",
+      timeline_completed1: 'Suivi du développement (2023)',
+      timeline_completed2: "Tableau de bord – Côte d’Ivoire (2023)"
+    }
+  };
+
+  window.PAGE_TRANSLATIONS = I18N;
+
+  const getLang = () => (localStorage.getItem('lang') || 'en').toLowerCase();
+
+  const typeText = {
+    en: 'Interactive tools, visualizations, and solutions at the intersection of data and development.',
+    fr: 'Outils interactifs, visualisations et solutions à l’interface des données et du développement.'
+  };
+  const typeNode = document.getElementById('typing-text');
+  function typewrite(node, text, speed = 22) {
+    if (!node || !text) return;
+    let i = 0;
+    (function tick(){
+      node.textContent = text.slice(0, i++);
+      if (i <= text.length) setTimeout(tick, speed);
+    })();
+  }
+
+  function renderTypewriter(lang) {
+    const sentence = typeText[lang] || typeText.en;
+    if (typeNode) {
+      typewrite(typeNode, sentence);
+    }
+    if (I18N[lang]?.page_title) {
+      document.title = I18N[lang].page_title;
+    }
+  }
+
+  document.addEventListener('axel:language-change', (event) => {
+    const lang = (event.detail?.lang || getLang()).toLowerCase();
+    renderTypewriter(lang);
+  });
+
+  // Header blur + compact on scroll
+  const header = document.getElementById('siteHeader');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY || 0;
+    header.classList.toggle('shadow-md', y > 6);
+    if (y > lastY) header.style.paddingTop = header.style.paddingBottom = '0.6rem';
+    else header.style.paddingTop = header.style.paddingBottom = '1rem';
+    lastY = y;
+  }, { passive: true });
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target; el.classList.add('in');
+        const delay = Number(el.dataset.revealDelay || 0);
+        el.style.animation = `fadeInUp .6s cubic-bezier(.22,1,.36,1) forwards`;
+        el.style.animationDelay = (delay/1000) + 's';
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Typewriter (localized line under page title)
+  // Pulse on CTA
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', () => { btn.style.animation = 'pulseSoft .6s ease'; setTimeout(() => btn.style.animation = '', 600); });
+  });
+
+  // ------- Keycloak (same as home) -------
+  const KEYCLOAK_URL = 'https://AUTH.DOMAIN';
+  const REALM        = 'axel-dev-lab';
+  const CLIENT_ID    = 'dashboard-frontend';
+
+  const loginBtn     = document.getElementById('loginBtn');
+  const userMenu     = document.getElementById('userMenu');
+  const userChip     = document.getElementById('userChip');
+  const userDropdown = document.getElementById('userDropdown');
+  const userAvatar   = document.getElementById('userAvatar');
+  const userName     = document.getElementById('userName');
+  const adminLink    = document.getElementById('adminLink');
+  const logoutBtn    = document.getElementById('logoutBtn');
+
+  let keycloak;
+  function nameFromToken(t) {
+    try { const p = JSON.parse(atob((t || '').split('.')[1] || '') || '{}');
+      const gn = p.given_name || ''; const fn = p.family_name || ''; const un = p.preferred_username || p.email || 'user';
+      const display = (gn || fn) ? `${gn} ${fn}`.trim() : un; const initials = ((gn[0]||'') + (fn[0]||'') || (un[0]||'U')).toUpperCase();
+      return { display, initials }; } catch { return { display: 'User', initials: 'U' }; }
+  }
+  function updateUIAuthenticated() {
+    loginBtn?.classList.add('hidden'); userMenu?.classList.remove('hidden');
+    const { display, initials } = nameFromToken(keycloak.idToken || keycloak.token);
+    userName.textContent = display; userAvatar.textContent = initials;
+    const isSuper = keycloak.hasRealmRole('superadmin'); const isAdmin = isSuper || keycloak.hasRealmRole('admin');
+    if (isAdmin) adminLink.classList.remove('hidden'); else adminLink.classList.add('hidden');
+  }
+  function updateUILoggedOut() { userMenu?.classList.add('hidden'); loginBtn?.classList.remove('hidden'); }
+  function toggleDropdown(open) { const willOpen = (open !== undefined) ? open : userDropdown.classList.contains('hidden'); userDropdown.classList.toggle('hidden', !willOpen); }
+  userChip?.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+  document.addEventListener('click', () => { if (!userDropdown.classList.contains('hidden')) toggleDropdown(false); });
+  function initAuth() { keycloak = new Keycloak({ url: KEYCLOAK_URL, realm: REALM, clientId: CLIENT_ID });
+    keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256', checkLoginIframe: false })
+      .then(auth => { if (auth) updateUIAuthenticated(); else updateUILoggedOut(); })
+      .catch(() => updateUILoggedOut()); }
+  loginBtn?.addEventListener('click', () => { window.location.href = '/logins/index.html'; });
+  logoutBtn?.addEventListener('click', () => { keycloak.logout({ redirectUri: window.location.origin + window.location.pathname }); });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initAuth();
+    renderTypewriter(getLang());
+  });
+</script>
+
+</body>
+</html>

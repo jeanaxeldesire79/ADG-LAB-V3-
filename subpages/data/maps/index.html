@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maps | AxelDevLab Data</title>
+  <meta name="description" content="Interactive maps and spatial layers for policy and development." />
+  <link rel="icon" href="/assets/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../../assets/css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { 50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#7c2d12',900:'#431407' } },
+          boxShadow: { soft: '0 8px 34px rgba(0,0,0,.06)' }
+        }
+      }
+    };
+  </script>
+  <style>
+    :focus-visible { outline:3px solid #f59e0b; outline-offset:2px }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-white via-slate-50 to-white text-gray-900 min-h-screen dark:bg-gray-900 dark:text-gray-100">
+
+
+  <!-- Header (same as parent) -->
+  <header class="bg-white/90 backdrop-blur border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="/index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-black text-white grid place-items-center shadow-soft">AD</div>
+        <span class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800">AxelDevLab</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="/index.html" class="hover:text-brand-600">Home</a>
+        <a href="/projects.html" class="hover:text-brand-600">Projects</a>
+        <a href="/data.html" aria-current="page">Data</a>
+        <a href="/publications.html" class="hover:text-brand-600">Publications</a>
+        <a href="/collaborate.html" class="hover:text-brand-600">Collaborate</a>
+        <a href="/media.html" class="hover:text-brand-600">Media</a>
+        <a href="/about.html" class="hover:text-brand-600">About</a>
+        <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+      <button id="mobileBtn" class="md:hidden p-2 rounded-lg border border-gray-200" aria-label="Open menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="md:hidden px-6 pb-4 hidden space-y-2 text-sm">
+      <a href="/index.html" class="block py-2">Home</a>
+      <a href="/projects.html" class="block py-2">Projects</a>
+      <a href="/data.html" class="block py-2 text-brand-600 font-semibold">Data</a>
+      <a href="/publications.html" class="block py-2">Publications</a>
+      <a href="/collaborate.html" class="block py-2">Collaborate</a>
+      <a href="/media.html" class="block py-2">Media</a>
+      <a href="/about.html" class="block py-2">About</a>
+    </div>
+  </header>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="max-w-7xl mx-auto px-6 mt-4">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <a href="/index.html">Home</a> / <a href="/data.html">Data</a> / <span>Maps</span>
+    </nav>
+  </div>
+
+  <!-- Hero with DATA badge + section nav -->
+  <section class="relative overflow-hidden bg-white border-b">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.12),transparent_60%)]"></div>
+    <div class="max-w-7xl mx-auto px-6 py-10 relative">
+      <!-- Small DATA badge -->
+      <a href="/data.html" class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-brand-100 text-brand-800 text-xs font-semibold border border-amber-200" title="Back to Data overview">
+        DATA
+      </a>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-3 text-gray-900">Interactive Maps</h1>
+      <p class="text-gray-600 max-w-3xl mt-2">
+        Embed QGIS2Web outputs or custom tiles. Switch layers and pop into full-screen for analysis.
+      </p>
+
+      <!-- Section pills -->
+      <div class="mt-5 text-sm flex flex-wrap gap-2">
+        <a href="/subpages/data/dashboards/" class="pill">Dashboards</a>
+        <a href="/subpages/data/maps/" class="pill is-active" aria-current="page">Maps</a>
+        <a href="/subpages/data/datasets/" class="pill">Datasets</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main id="main" class="max-w-7xl mx-auto px-6 py-10 space-y-8" role="main">
+    <!-- Map container -->
+    <div class="card overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="font-semibold">Regional Layers</div>
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" onclick="openFull()">Full screen</button>
+        </div>
+      </div>
+      <iframe id="mapFrame" src="/assets/exports/qgis2web_2025_08_05-01_39_21_111540/index.html" width="100%" height="720" title="QGIS Map" frameborder="0" allowfullscreen></iframe>
+      <div class="text-xs text-gray-500 p-3 bg-gray-50 border-t">
+        Exported using QGIS2Web for interactive browser viewing.
+      </div>
+    </div>
+
+    <!-- Quick layer switcher -->
+    <div class="card p-4">
+      <div class="text-sm text-gray-700">Available maps</div>
+      <div class="mt-3 flex flex-wrap gap-2 text-sm">
+        <button class="px-3 py-1.5 rounded-xl border hover:bg-gray-50" onclick="setMap('/assets/exports/qgis2web_2025_08_05-01_39_21_111540/index.html')">Baseline</button>

@@ -1,356 +1,2461 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-site="axel-dev-lab">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axel Dev Group</title>
-    <meta name="description" content="Axel Dev Group connects People, Businesses, and Governments through systems design, policy intelligence, and technology architecture.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axel Dev Lab | Data Intelligence & Policy Insights</title>
+  <meta name="description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <link rel="canonical" href="https://axeldevlab.com/">
+  
+  <!-- Preconnect/DNS Prefetch for critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://axeldevlab.com/">
+  <meta property="og:title" content="Axel Dev Lab | Data Intelligence & Policy Insights">
+  <meta property="og:description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <meta property="og:image" content="assets/images/exports/lg_axeldevlab.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Axel Dev Lab | Data Intelligence & Policy Insights">
+  <meta name="twitter:description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <meta name="twitter:image" content="assets/images/exports/lg_axeldevlab.png">
+
+  <!-- Theme color for light/dark -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827">
+  
+  <!-- Apply saved theme early to avoid flash -->
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/exports/lg_axeldevlab_icon.png">
+  
+  <!-- Removed temporary CSS hack that forced white backgrounds -->
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+  <!-- Rest of your head content... -->
+  
+  <!-- Shared Tailwind config must load before CDN -->
+  <script src="assets/js/tw-config.js"></script>
+  <!-- Tailwind CSS (keep non-deferred to avoid FOUC with CDN runtime) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="assets/js/main.js" as="script">
+  <link rel="preload" href="assets/images/exports/lg_axeldevlab.png" as="image">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container nav-bar">
-            <div class="brand">
-                <span class="brand-mark">ADG</span>
-                <span class="brand-name">Axel Dev Group</span>
+
+<body class="bg-bg-light dark:bg-bg-dark text-content-light dark:text-content-dark font-sans transition-colors duration-300 ease-in-out">
+
+
+<!-- Brand bar (dual-brand lockup) -->
+<div class="bg-black text-white text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-3">
+      <img src="assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+      <div class="flex flex-col">
+        <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+        <span class="text-[10px] uppercase tracking-widest text-primary-light" data-i18n="brand_group">Axel Dev Group LLC</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+      <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+      <span class="hidden sm:inline text-primary">|</span>
+      <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+      <span class="hidden sm:inline text-primary">|</span>
+      <a href="mailto:info@axeldevlab.com" class="text-primary-light/80 hover:text-primary-light transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="siteHeader" class="glass-card bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex justify-between items-center">
+      <!-- Logo lockup -->
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 sm:h-12 md:h-14 w-auto transition-transform group-hover:scale-[1.02]" loading="eager" />
+        <div class="leading-tight">
+          <div class="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-secondary dark:text-secondary-light">Axel Dev Lab</div>
+          <div class="text-[10px] sm:text-[12px] uppercase tracking-widest text-content-mid dark:text-content-mid">Mapping Ideas, Powering Progress</div>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex relative space-x-6 text-sm font-medium items-center" aria-label="Main navigation">
+        <a href="index.html" data-i18n="nav_home" aria-current="page" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Projects</a>
+        <div class="relative group" aria-haspopup="true">
+          <a href="data.html" data-i18n="nav_data" class="inline-flex items-center gap-1 text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">
+            Data
+            <svg class="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 011.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <div class="pointer-events-none opacity-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto group-hover:opacity-100 group-focus-within:opacity-100 absolute left-0 mt-3 w-64 rounded-2xl border border-gray-200 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-2xl transition ease-out duration-150">
+            <div class="px-4 py-4 grid gap-2 text-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+              <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Data Portal</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>AIX Exchange: Country Benchmarking</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Dashboards</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+              </a>
+              <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Maps</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+              </a>
+              <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark transition">
+                <span>Datasets</span>
+                <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+              </a>
             </div>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
+            <div class="border-t border-gray-100 dark:border-gray-800 px-4 py-3 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</div>
+          </div>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="inline-flex items-center gap-1 text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">
+          <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+          <span>Methodology</span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light transition hover:underline underline-offset-4">About</a>
+
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" aria-label="Toggle dark mode">
+          <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Language switcher -->
+        <div class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" id="langToggle" aria-label="Switch language">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+          <span id="langLabel" class="text-xs">EN</span>
+        </div>
+
+        <!-- Auth: Sign-in button (shown when logged out) -->
+        <a id="loginBtn" href="/logins/index.html" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-light active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+          <span>Login</span>
+        </a>
+</nav>
+
+      <!-- Mobile menu button -->
+      <div class="lg:hidden flex items-center space-x-2">
+        <!-- Mobile Dark Mode Toggle -->
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 hover:bg-bg-light dark:hover:bg-bg-dark transition-colors" aria-label="Toggle dark mode">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        
+        <!-- Hamburger menu button -->
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 hover:bg-bg-light dark:hover:bg-bg-dark transition-colors" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="px-2 pt-4 pb-3 space-y-1">
+        <a href="index.html" data-i18n="nav_home" aria-current="page" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Projects</a>
+        <a href="data.html" data-i18n="nav_data" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Data</a>
+        <div class="ml-6 space-y-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-bg-light/60 dark:bg-bg-dark/40 px-3 py-3 text-sm text-content-mid dark:text-content-mid">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+          <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Data Portal</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>AIX Exchange: Country Benchmarking</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Dashboards</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+          </a>
+          <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Maps</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+          </a>
+          <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-surface-light dark:hover:bg-surface-dark transition">
+            <span>Datasets</span>
+            <svg class="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+          </a>
+          <p class="px-3 pt-1 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</p>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+            <span>Methodology</span>
+          </span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="block px-3 py-2 rounded-md text-base font-medium text-content-light dark:text-content-dark hover:text-primary dark:hover:text-primary-light hover:bg-bg-light dark:hover:bg-surface-dark transition-colors">About</a>
+        
+        <!-- Mobile Language switcher -->
+        <div class="px-3 py-2">
+          <div class="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-content-light dark:text-content-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark cursor-pointer select-none transition-colors" id="mobile-langToggle" aria-label="Switch language">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+            <span id="mobile-langLabel" class="text-sm">English</span>
+          </div>
+        </div>
+        
+        <!-- Mobile Sign-in button -->
+        <div class="px-3 py-2">
+          <a id="mobile-loginBtn" href="/logins/index.html" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-bg-dark hover:bg-primary-light active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+            <span>Login</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Auth: User chip + dropdown (shown when logged in) -->
+    <div id="userMenu" class="relative hidden">
+      <button id="userChip"
+        class="inline-flex items-center gap-2 px-2 py-1 rounded-md border bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark transition">
+          <span id="userAvatar"
+            class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-semibold">U</span>
+          <span id="userName" class="text-sm text-content-light dark:text-content-dark">User</span>
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/></svg>
+        </button>
+        <div id="userDropdown"
+            class="absolute right-0 mt-2 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-2 hidden menu z-50 min-w-[12rem]">
+          <a href="subpages/data/worldbank-pro.html" class="text-content-light dark:text-content-dark">My presets</a>
+          <a href="subpages/login.html" id="adminLink" class="text-content-light dark:text-content-dark hidden">Admin dashboard</a>
+          <hr class="my-2 border-gray-200 dark:border-gray-600" />
+          <button id="logoutBtn" class="w-full text-left px-3 py-2 rounded-md hover:bg-bg-light dark:hover:bg-bg-dark text-content-light dark:text-content-dark">Logout</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Skip link for accessibility -->
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Main content landmark -->
+<main id="main" role="main">
+
+  <!-- Scroll-snap landing (4 panels) -->
+  <div class="snap-container" id="snap" aria-label="Landing Panels">
+
+<!-- Hero Section with Data Intelligence -->
+  <section id="s1" class="snap-section is-centered relative flex items-center justify-center overflow-hidden diplomatic-gradient institutional-grid data-container">
+    <!-- Background video -->
+    <video id="heroVideo" class="bg-video" autoplay muted playsinline loop poster="assets/images/exports/lg_axeldevlab.png">
+      <source src="assets/media/hero.webm" type="video/webm" />
+      <source src="assets/media/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="video-overlay"></div>
+    <div id="globe-container" class="absolute inset-0 pointer-events-none hero-globe"></div>
+    
+    <!-- Platform Features Overlay -->
+    <div class="absolute inset-0 pointer-events-none">
+      
+      <div class="absolute top-40 right-20 data-indicator subtle-float" style="animation-delay: 1s;">
+        <div class="flex items-center gap-2 text-sm font-semibold text-primary-institutional">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+              <path fill-rule="evenodd" d="M10.5 3a7.5 7.5 0 015.917 12.284l4.147 4.146a.75.75 0 11-1.06 1.061l-4.147-4.146A7.5 7.5 0 1110.5 3zm0 1.5a6 6 0 100 12 6 6 0 000-12z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span data-i18n="hero_overlay_search">Find Data Fast</span>
+        </div>
+      </div>
+      <div class="absolute bottom-40 left-20 data-indicator subtle-float" style="animation-delay: 2s;">
+        <div class="flex items-center gap-2 text-sm font-semibold text-primary-institutional">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+              <path fill-rule="evenodd" d="M3 3.75a.75.75 0 01.75-.75H9a.75.75 0 010 1.5H4.5V21a.75.75 0 01-1.5 0V3.75zm18.53 1.47a.75.75 0 010 1.06l-5 5a.75.75 0 01-1.06 0l-2.97-2.97-4.72 4.72a.75.75 0 11-1.06-1.06l5.25-5.25a.75.75 0 011.06 0l2.97 2.97 4.47-4.47a.75.75 0 011.06 0z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span data-i18n="hero_overlay_trend">Track Changes</span>
+        </div>
+      </div>
+      <div class="absolute bottom-20 right-10 data-indicator subtle-float" style="animation-delay: 3s;">
+        <div class="flex items-center gap-2 text-sm font-semibold text-primary-institutional">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+              <path fill-rule="evenodd" d="M3 3.75A.75.75 0 013.75 3h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 3.75zM12 5.25a.75.75 0 01.75.75v7.19l2.72-2.72a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 111.06-1.06l2.72 2.72V6a.75.75 0 01.75-.75zm-9 13.5A2.25 2.25 0 015.25 16.5h13.5A2.25 2.25 0 0121 18.75v.75a.75.75 0 01-.75.75H3.75a.75.75 0 01-.75-.75v-.75z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span data-i18n="hero_overlay_download">Download Data</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero content -->
+    <div class="hero-foreground relative w-full px-4 sm:px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="backdrop-blur-xl bg-white/8 dark:bg-slate-900/40 border border-white/10 rounded-[36px] px-6 sm:px-10 py-14 sm:py-16 shadow-[0_35px_120px_rgba(0,0,0,0.28)] hero-card-appear relative z-10">
+          <p class="text-xs sm:text-sm uppercase tracking-[0.35em] text-white/70 mb-4" data-i18n="hero_eyebrow">Policy-grade intelligence</p>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-5" data-i18n="hero_title">Data Intelligence for Real‑World Impact</h1>
+          <p class="text-white/90 text-lg sm:text-xl mb-8" data-i18n="hero_subtitle">We turn complex development data into clear insights for policy, investment, and progress.</p>
+          <p id="typeTarget" class="text-white/70 text-xs sm:text-sm tracking-[0.3em] uppercase mb-8"></p>
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#data-hub" class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-sky-300 via-cyan-300 to-indigo-400 text-slate-900 font-semibold shadow-lg hover:shadow-xl transition">
+              <span data-i18n="hero_cta_primary">Explore Data</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="publications.html" class="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/30 text-white font-semibold hover:bg-white/10 transition">
+              <span data-i18n="hero_cta_secondary">Read Research</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-6 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Timeline + Testimonials -->
+  <section class="py-20 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 grid gap-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div>
+        <p class="eyebrow text-white/60 mb-3">Engagement timeline</p>
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">How we move from discovery to deployment</h2>
+        <p class="text-gray-300 mb-8">Each collaboration links strategy, data infrastructure, and product delivery so ministries and partners can act with confidence.</p>
+        <div class="timeline-v2">
+          <div class="timeline-v2__row">
+            <span class="timeline-v2__pin"></span>
+            <div class="timeline-v2__card">
+              <h3 class="text-xl font-semibold mb-2">Discovery &amp; Policy Framing</h3>
+              <p class="text-sm mb-3">Immersion sessions with ministers, donors, and field teams to align KPIs and governance models.</p>
+              <ul class="list-disc ml-5 text-sm text-gray-300 space-y-1">
+                <li>Stakeholder mapping &amp; institutional diagnostics</li>
+                <li>Data access + privacy blueprint</li>
+                <li>Policy questions converted to measurable indicators</li>
+              </ul>
+            </div>
+          </div>
+          <div class="timeline-v2__row">
+            <span class="timeline-v2__pin"></span>
+            <div class="timeline-v2__card">
+              <h3 class="text-xl font-semibold mb-2">Data &amp; Modeling Sprints</h3>
+              <p class="text-sm mb-3">Secure pipelines for World Bank, IMF, ECOWAS, geospatial, and administrative data with rigorous QA.</p>
+              <ul class="list-disc ml-5 text-sm text-gray-300 space-y-1">
+                <li>Scenario studio + elasticity modeling</li>
+                <li>AI-assisted research memos and benchmark decks</li>
+                <li>Metabase/QGIS assets for interactive exploration</li>
+              </ul>
+            </div>
+          </div>
+          <div class="timeline-v2__row">
+            <span class="timeline-v2__pin"></span>
+            <div class="timeline-v2__card">
+              <h3 class="text-xl font-semibold mb-2">Delivery &amp; Adoption</h3>
+              <p class="text-sm mb-3">handover with playbooks, training, and maintenance cadence so teams sustain the platform.</p>
+              <ul class="list-disc ml-5 text-sm text-gray-300 space-y-1">
+                <li>Executive dashboards + publication-grade briefs</li>
+                <li>Capacity building for analysts &amp; comms teams</li>
+                <li>Ongoing monitoring of KPIs + feature roadmap</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow text-white/60 mb-3">Field testimonials</p>
+        <div class="testimonials-marquee">
+          <div class="testimonials-marquee__track">
+            <article>
+              <p class="text-sm text-gray-200">“Axel Dev Lab translated dense indicators into a diplomatic storyline our ministers and investors rallied behind.”</p>
+              <div class="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                <div>
+                  <strong class="text-white block">Awa Traoré</strong>
+                  <span>Advisor, Côte d’Ivoire</span>
+                </div>
+              </div>
+            </article>
+            <article>
+              <p class="text-sm text-gray-200">“The Scenario Studio made it possible to stress-test reforms with live dashboards instead of static decks.”</p>
+              <div class="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                <div>
+                  <strong class="text-white block">Emmanuel Mensah</strong>
+                  <span>Director of Policy Delivery, Ghana</span>
+                </div>
+              </div>
+            </article>
+            <article>
+              <p class="text-sm text-gray-200">“Every engagement delivered the mix of economic rigor and product polish we expect from a world-class lab.”</p>
+              <div class="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                <div>
+                  <strong class="text-white block">Grace Mwangi</strong>
+                  <span>Investment Lead, Pan-African VC</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="pill-nav-v2" aria-label="Section navigation">
+    <button type="button" data-target="#s1" class="is-active">Overview</button>
+    <button type="button" data-target="#s2">Platform</button>
+    <button type="button" data-target="#s3">Data & Projects</button>
+    <button type="button" data-target="#s4">Engage</button>
+  </nav>
+
+  <!-- Section 2: Sticky Feature Reveal -->
+  <section id="s2" class="snap-section bg-bg-light dark:bg-surface-dark">
+    <div class="max-w-7xl mx-auto px-6 sticky-scene relative">
+      <div class="scene-progress" aria-hidden="true"><div class="bar" id="sceneProgress"></div></div>
+      <div class="content">
+        <!-- Sticky Media -->
+        <div class="sticky-media relative">
+          <div class="edge-fade"></div>
+          <div class="spec-badges">
+            <span class="spec-badge" style="top:12%; left:10%">Real‑time</span>
+            <span class="spec-badge" style="bottom:14%; right:12%">Geo‑enabled</span>
+            <span class="spec-badge" style="top:45%; right:8%">APIs</span>
+          </div>
+          <div class="layer is-active" data-state="ingest">
+            <img class="visual" src="assets/images/exports/lg_axeldevlab.png" alt="Data ingestion visualization" />
+          </div>
+          <div class="layer" data-state="analyze">
+            <img class="visual" src="assets/images/exports/lg_axeldevlab.png" alt="Analytics visualization" />
+          </div>
+          <div class="layer" data-state="deliver">
+            <img class="visual" src="assets/images/exports/lg_axeldevlab.png" alt="Decision product visualization" />
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step reveal" data-reveal-delay="40" data-state="ingest" data-bg="#0b1220">
+            <p class="text-xs uppercase tracking-[0.35em] text-gray-500 mb-2">Stage 1</p>
+            <h3 class="font-display font-bold mb-2">Ingest & Harmonize</h3>
+            <p class="text-gray-600 dark:text-gray-300">Pipelines for official stats, surveys, admin records, geospatial layers, and open APIs with rigorous QA.</p>
+          </div>
+          <div class="step reveal" data-reveal-delay="80" data-state="analyze" data-bg="#0a2240">
+            <p class="text-xs uppercase tracking-[0.35em] text-gray-500 mb-2">Stage 2</p>
+            <h3 class="font-display font-bold mb-2">Analyze & Model</h3>
+            <p class="text-gray-600 dark:text-gray-300">From descriptive profiles to causal inference and predictive modeling to quantify levers and tradeoffs.</p>
+          </div>
+          <div class="step reveal" data-reveal-delay="120" data-state="deliver" data-bg="#112b58">
+            <p class="text-xs uppercase tracking-[0.35em] text-gray-500 mb-2">Stage 3</p>
+            <h3 class="font-display font-bold mb-2">Deliver & Decide</h3>
+            <p class="text-gray-600 dark:text-gray-300">Decision products—dashboards, maps, briefs—crafted with clarity to drive policy and investment action.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Data / Projects highlights -->
+  <section id="s3" class="snap-section is-centered relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 opacity-20" data-parallax="0.15">
+      <img src="assets/images/exports/lg_axeldevlab.png" alt="background" class="w-full h-full object-contain object-center" />
+    </div>
+    <div class="max-w-6xl mx-auto px-6 w-full">
+      <div class="grid md:grid-cols-2 gap-6 items-stretch">
+        <a href="data.html" class="enhanced-card p-6 flex flex-col justify-between">
+          <div>
+            <p class="pill mb-3">AIX Data Hub</p>
+            <h3 class="text-2xl font-semibold mb-2">Explore Datasets & Dashboards</h3>
+            <p class="text-gray-600 dark:text-gray-300">Search, visualize, and export curated development indicators.</p>
+          </div>
+          <span class="mt-6 inline-flex items-center gap-2 text-primary">Open Data <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a href="projects.html" class="enhanced-card p-6 flex flex-col justify-between">
+          <div>
+            <p class="pill mb-3">Case Studies</p>
+            <h3 class="text-2xl font-semibold mb-2">See Impactful Projects</h3>
+            <p class="text-gray-600 dark:text-gray-300">Policy support, spatial analysis, and sector diagnostics.</p>
+          </div>
+          <span class="mt-6 inline-flex items-center gap-2 text-primary">View Projects <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: CTA -->
+  <section id="s4" class="snap-section is-centered bg-surface-light dark:bg-surface-dark">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-display font-bold mb-4">Work With Axel Dev Lab</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-8">Let’s translate your questions into rigorous analysis and concrete decisions.</p>
+      <div class="flex items-center justify-center gap-3">
+        <a href="collaborate.html" class="btn-primary">Start a Collaboration</a>
+        <a href="about.html" class="btn-secondary">Meet the Team</a>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- Dot navigation for landing panels -->
+  <nav class="dot-nav" aria-label="Section navigation">
+    <a href="#s1" aria-label="Hero"></a>
+    <a href="#s2" aria-label="What We Do"></a>
+    <a href="#s3" aria-label="Data & Projects"></a>
+    <a href="#s4" aria-label="Contact CTA"></a>
+  </nav>
+
+  <!-- Removed duplicate Platform Features section (consolidated in hero) -->
+
+  <!-- Removed placeholder: West Africa Economic Snapshot and faux metrics -->
+
+  <!-- What's New REMOVED START --><!--
+  <!-- <section class="py-20 bg-gray-50 dark:bg-gray-800 institutional-accent transition-colors"> -->
+    <div class="max-w-6xl mx-auto px-4 text-center hidden">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <span class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+            <path d="M7.5 4.5l-3 3V19.5a1 1 0 001 1h13a1 1 0 001-1V7.5l-3-3h-9z" />
+            <path d="M3 7.5h18" />
+            <path d="M9 11.5h6" />
+            <path d="M9 15.5h4" />
+          </svg>
+        </span>
+        <h2 class="text-4xl font-bold institutional-text institutional-border px-6 py-3 rounded-lg professional-hover" data-i18n="whats_new">Latest Data Releases</h2>
+      </div>
+      <p id="typeTarget" class="typewriter text-gray-600 dark:text-gray-300 mb-6"></p>
+      
+      <!-- Platform Capabilities -->
+      <div class="flex justify-center gap-6 mb-10">
+        <div class="trust-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+          </svg>
+          Different File Types
+        </div>
+        <div class="trust-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+          </svg>
+          Free to Use
+        </div>
+        <div class="trust-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          Connect Your Tools
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 items-start">
+        <div class="md:col-span-3 enhanced-card p-6 hover-effect tilt reveal professional-hover">
+          <img src="assets/images/exports/ecowas.jpg" alt="Latest" class="rounded-xl mb-4 w-full h-72 object-cover">
+          <div class="flex items-center gap-3 text-xl font-bold mb-2 text-content-light dark:text-content-dark">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M12 3l8.25 15h-16.5L12 3z" />
+                <path d="M12 9v4.5" />
+                <path d="M12 17.25h.01" />
+              </svg>
+            </span>
+            <span data-i18n="latest_ecowas">Latest Update: ECOWAS Dataset Released</span>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3" data-i18n="latest_ecowas_desc">A new trade and development dataset is now available for download.</p>
+          <div class="flex gap-4 text-xs text-gray-500 dark:text-gray-400">
+            <span class="flex items-center gap-1">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              Excel & CSV files
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              Connect to tools
+            </span>
+          </div>
+        </div>
+
+        <div class="enhanced-card p-4 hover-effect tilt reveal professional-hover" data-reveal-delay="80">
+          <img src="assets/images/exports/urban.jpg" class="rounded mb-2 w-full h-40 object-cover" alt="Urbanization in Abidjan" />
+          <h3 class="flex items-center gap-2 text-lg font-semibold mb-1 text-content-light dark:text-content-dark">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-fuchsia-500/10 text-fuchsia-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M4 7h3l1-2h8l1 2h3a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z" />
+                <circle cx="12" cy="13" r="3.5" />
+              </svg>
+            </span>
+            <span data-i18n="card_photo">Photo Essay: Urbanization in Abidjan</span>
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="card_photo_desc">A visual story of growth and inequality.</p>
+        </div>
+
+        <div class="enhanced-card p-4 hover-effect tilt reveal professional-hover" data-reveal-delay="140">
+          <img src="assets/images/exports/youth.jpg" class="rounded mb-2 w-full h-40 object-cover" alt="Youth Employment" />
+          <h3 class="flex items-center gap-2 text-lg font-semibold mb-1 text-content-light dark:text-content-dark">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M6 3h9l5 5v13H6a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                <path d="M15 3v5h5" />
+                <path d="M9 13h6" />
+                <path d="M9 17h6" />
+              </svg>
+            </span>
+            <span data-i18n="card_brief">Policy Brief: Youth Employment</span>
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="card_brief_desc">Strategic recommendations for labor reforms.</p>
+        </div>
+
+        <div class="enhanced-card p-4 hover-effect tilt reveal professional-hover" data-reveal-delay="200">
+          <img src="assets/images/exports/energy.jpg" class="rounded mb-2 w-full h-40 object-cover" alt="Electricity Access Map" />
+          <h3 class="flex items-center gap-2 text-lg font-semibold mb-1 text-content-light dark:text-content-dark">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-500/10 text-blue-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M12 3a9 9 0 100 18 9 9 0 000-18z" />
+                <path d="M3.6 9h16.8" />
+                <path d="M3.6 15h16.8" />
+                <path d="M12 3c2.5 2.7 2.5 14.3 0 18" />
+                <path d="M12 3c-2.5 2.7-2.5 14.3 0 18" />
+              </svg>
+            </span>
+            <span data-i18n="card_map">Map Export: Electricity Access</span>
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="card_map_desc">QGIS-powered national access map now live.</p>
+        </div>
+      </div>
+    </div>
+
+  <!-- Research Axes & Themes -->
+  <section class="py-20 bg-bg-light dark:bg-surface-dark transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-secondary dark:text-secondary-light" data-i18n="axes_heading">Research Axes & Themes</h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-2" data-i18n="axes_intro">Core domains guiding our analysis and delivery work.</p>
+      </div>
+      <div class="research-grid-v2">
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_economic_title">Economic Development</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_economic_desc">Growth, trade, jobs, productivity, market integration.</p>
+        </article>
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_social_title">Social Policy</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_social_desc">Education, health, social protection, equity.</p>
+        </article>
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_governance_title">Governance & Institutions</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_governance_desc">Public sector performance, accountability, rule of law.</p>
+        </article>
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_climate_title">Climate & Environment</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_climate_desc">Resilience, adaptation, natural resources, energy.</p>
+        </article>
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_finance_title">Public Finance</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_finance_desc">Revenue, expenditure, debt, fiscal transparency.</p>
+        </article>
+        <article class="glow-card-v2 enhanced-card p-6">
+          <h3 class="text-lg font-semibold text-content-light dark:text-content-dark mb-2" data-i18n="axes_digital_title">Digital & Data Governance</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="axes_digital_desc">Open data, privacy, interoperability, civic tech.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Get Started -->
+  <section class="py-20 bg-surface-light dark:bg-bg-dark transition-colors">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold mb-8 institutional-text p-6" data-i18n="get_started">Explore Our Platform</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+        <!-- Read -->
+        <a href="publications.html" class="block overflow-hidden reveal rounded-2xl glow-card-v2 hover:shadow-md transition group" style="background: none">
+          <div class="h-60 grid place-items-center bg-bg-light dark:bg-surface-dark">
+            <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+                <path d="M4 4h16v13H6.5A2.5 2.5 0 004 19.5z" />
+              </svg>
+            </span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-content-light dark:text-content-dark" data-i18n="cta_read">Read</h3>
+            <p class="text-sm text-gray-700 dark:text-gray-300" data-i18n="cta_read_desc">Explore reports, policy briefs, and commentaries.</p>
+          </div>
+        </a>
+
+        <!-- View Data -->
+        <a href="data.html" class="block overflow-hidden reveal rounded-2xl glow-card-v2 hover:shadow-md transition group" data-reveal-delay="80" style="background: none">
+          <div class="h-60 grid place-items-center bg-bg-light dark:bg-surface-dark">
+            <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">
+                <path d="M3 3v18h18" />
+                <path d="M7 13l3-3 4 4 3-3" />
+              </svg>
+            </span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-content-light dark:text-content-dark" data-i18n="cta_view">View Data</h3>
+            <p class="text-sm text-gray-700 dark:text-gray-300" data-i18n="cta_view_desc">See visualized datasets and explore dashboards.</p>
+          </div>
+        </a>
+
+        <!-- Get Data -->
+        <a href="data.html#download" class="block overflow-hidden reveal rounded-2xl glow-card-v2 hover:shadow-md transition group" data-reveal-delay="140" style="background: none">
+          <div class="h-60 grid place-items-center bg-bg-light dark:bg-surface-dark">
+            <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">
+                <path d="M12 3v12" />
+                <path d="M8 11l4 4 4-4" />
+                <path d="M4 19h16" />
+              </svg>
+            </span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-content-light dark:text-content-dark" data-i18n="cta_get">Get Data</h3>
+            <p class="text-sm text-gray-700 dark:text-gray-300" data-i18n="cta_get_desc">Download raw data files for your own analysis.</p>
+          </div>
+        </a>
+
+        <!-- Collaborate -->
+        <a href="collaborate.html" class="block overflow-hidden reveal rounded-2xl glow-card-v2 hover:shadow-md transition group" data-reveal-delay="200" style="background: none">
+          <div class="h-60 grid place-items-center bg-bg-light dark:bg-surface-dark">
+            <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">
+                <path d="M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
+                <path d="M2 21a8 8 0 0116 0" />
+              </svg>
+            </span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-content-light dark:text-content-dark" data-i18n="cta_collab">Collaborate</h3>
+            <p class="text-sm text-gray-700 dark:text-gray-300" data-i18n="cta_collab_desc">Partner on research, dashboards, and initiatives.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Impact Section (REMOVED - This section is a duplicate of "Research Axes & Themes" and has been removed for clarity) -->
+  <section class="py-20 px-6 bg-white dark:bg-gray-900 transition-colors">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-diplomatic-blue dark:text-blue-300 mb-4" data-i18n="impact_heading">Data-Driven Impact Across Sectors</h2>
+        <p class="text-lg text-diplomatic-slate dark:text-gray-300 max-w-3xl mx-auto" data-i18n="impact_intro">
+          Our work transforms raw data into actionable intelligence for policymakers, development agencies, and communities worldwide.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-brand-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow slide-in-left">
+          <div class="w-14 h-14 rounded-lg bg-brand-100 flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-diplomatic-blue dark:text-blue-300 mb-3" data-i18n="impact_card_econ_title">Economic Development</h3>
+          <p class="text-diplomatic-slate dark:text-gray-300" data-i18n="impact_card_econ_desc">
+            Analyzing market trends, trade patterns, and economic policies to foster sustainable growth in emerging economies.
+          </p>
+        </div>
+        
+        <div class="bg-brand-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in" style="transition-delay: 0.2s">
+          <div class="w-14 h-14 rounded-lg bg-brand-100 flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-diplomatic-blue dark:text-blue-300 mb-3" data-i18n="impact_card_social_title">Social Policy</h3>
+          <p class="text-diplomatic-slate dark:text-gray-300" data-i18n="impact_card_social_desc">
+            Evaluating education, healthcare, and social protection programs to enhance equity and community wellbeing.
+          </p>
+        </div>
+        
+        <div class="bg-brand-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow slide-in-right">
+          <div class="w-14 h-14 rounded-lg bg-brand-100 flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-diplomatic-blue dark:text-blue-300 mb-3" data-i18n="impact_card_env_title">Environmental Sustainability</h3>
+          <p class="text-diplomatic-slate dark:text-gray-300" data-i18n="impact_card_env_desc">
+            Monitoring climate impacts and natural resources to support resilient development and conservation efforts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- West Africa Economic Intelligence Dashboard -->
+  <section id="west-africa-dashboard" class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-diplomatic-blue dark:text-blue-300 mb-4" data-i18n="dashboard_heading">
+          West Africa Economic Intelligence
+        </h2>
+        <p class="text-lg text-diplomatic-slate dark:text-gray-300 max-w-3xl mx-auto" data-i18n="dashboard_intro">
+          Advanced analytics and real-time economic indicators for ECOWAS nations with economist insights.
+        </p>
+      </div>
+
+      <!-- Dashboard Controls -->
+      <div class="glass-card p-6 mb-8 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500/10 text-brand-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M12 3v12" />
+                <path d="M8 11l4 4 4-4" />
+                <path d="M4 19h16" />
+              </svg>
+            </span>
+            <div>
+              <h3 class="font-semibold text-gray-900 dark:text-gray-100" data-i18n="dashboard_card_title">Economic Data Dashboard</h3>
+              <p id="dashboardLastUpdated" class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_last_updated">Data not yet fetched</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button id="fetchData" class="inline-flex items-center gap-2 px-4 py-2 bg-diplomatic-blue hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M23 4v6h-6" />
+                <path d="M1 20v-6h6" />
+                <path d="M3.51 9a9 9 0 0114.85-3.36L23 10" />
+                <path d="M20.49 15a9 9 0 01-14.85 3.36L1 14" />
+              </svg>
+              <span data-i18n="dashboard_refresh">Refresh Data</span>
             </button>
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#people">People</a></li>
-                    <li><a href="#businesses">Businesses</a></li>
-                    <li><a href="#governments">Governments</a></li>
-                    <li><a href="#operations">Operations</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
-                    <li><a href="#future">Future</a></li>
-                    <li><a href="#contact">Contact</a></li>
+
+            <button id="toggleAdvanced" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-700 text-diplomatic-blue dark:text-blue-300 border border-diplomatic-blue dark:border-blue-400 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M3 3v18h18" />
+                <path d="M7 13l3-3 4 4 3-3" />
+              </svg>
+              <span data-i18n="dashboard_advanced">Advanced Analytics</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="dashboardLoading" class="hidden glass-card p-8 text-center bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+        <div class="flex flex-col items-center justify-center">
+          <div class="w-16 h-16 border-4 border-diplomatic-blue border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-gray-700 dark:text-gray-300" data-i18n="dashboard_loading">Fetching latest economic data from World Bank API...</p>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="dashboardError" class="hidden glass-card p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl">
+        <div class="flex items-center gap-3 text-red-700 dark:text-red-400">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+          <p data-i18n="dashboard_error">Data fetch failed. Check your network or try refreshing.</p>
+        </div>
+      </div>
+
+      <!-- Dashboard Content -->
+      <div id="dashboardContent" class="hidden space-y-8">
+        <!-- Regional Overview -->
+        <div class="glass-card p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6" data-i18n="dashboard_overview_title">Regional Economic Overview</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Population Card -->
+            <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-blue-600 dark:text-blue-400">
+                    <path d="M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
+                    <path d="M2 21a8 8 0 0116 0" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_population_label">Total Population</p>
+                  <p id="totalPopulation" class="text-xl font-bold text-gray-900 dark:text-gray-100">--</p>
+                </div>
+              </div>
+              <div id="populationTrend" class="text-xs text-gray-500 dark:text-gray-400" data-i18n="dashboard_population_trend" data-i18n-attr="html">
+                <span class="inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500">
+                    <path d="M12 5v14" />
+                    <path d="M19 12l-7 7-7-7" />
+                  </svg>
+                  Loading...
+                </span>
+              </div>
+            </div>
+            
+            <!-- GDP Growth Card -->
+            <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600 dark:text-green-400">
+                    <path d="M3 3v18h18" />
+                    <path d="M7 13l3-3 4 4 3-3" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_growth_label">Average GDP Growth</p>
+                  <p id="avgGdpGrowth" class="text-xl font-bold text-gray-900 dark:text-gray-100">--%</p>
+                </div>
+              </div>
+              <div id="growthTrend" class="text-xs text-gray-500 dark:text-gray-400" data-i18n="dashboard_growth_trend" data-i18n-attr="html">
+                <span class="inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500">
+                    <path d="M12 5v14" />
+                    <path d="M19 12l-7 7-7-7" />
+                  </svg>
+                  Loading...
+                </span>
+              </div>
+            </div>
+            
+            <!-- GDP Per Capita Card -->
+            <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-purple-600 dark:text-purple-400">
+                    <path d="M12 1v22" />
+                    <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_gdp_label">Avg. GDP Per Capita</p>
+                  <p id="avgGdpPerCapita" class="text-xl font-bold text-gray-900 dark:text-gray-100">$--</p>
+                </div>
+              </div>
+              <div id="gdpPerCapitaTrend" class="text-xs text-gray-500 dark:text-gray-400" data-i18n="dashboard_gdp_trend" data-i18n-attr="html">
+                <span class="inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500">
+                    <path d="M12 5v14" />
+                    <path d="M19 12l-7 7-7-7" />
+                  </svg>
+                  Loading...
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Highlight Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-blue-600 dark:text-blue-400">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_highest_gdp_label">Highest GDP Per Capita</p>
+                  <p id="highestGdpPerCapita" class="text-xl font-bold text-gray-900 dark:text-gray-100">$--</p>
+                  <p id="highestGdpPerCapitaCountry" class="text-sm text-blue-600 dark:text-blue-400">--</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-5 rounded-xl border border-green-100 dark:border-green-800">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-600 dark:text-green-400">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_highest_growth_label">Highest GDP Growth (Annual)</p>
+                  <p id="highestGdpGrowth" class="text-xl font-bold text-green-600 dark:text-green-400">--%</p>
+                  <p id="highestGdpGrowthCountry" class="text-sm text-gray-600 dark:text-gray-400">--</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- GDP Visualization -->
+        <div class="glass-card p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100" data-i18n="dashboard_distribution_title">Regional GDP Per Capita Distribution</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="dashboard_distribution_caption">Current USD • Auto-scrolling data stream</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-4 mt-4 md:mt-0">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded bg-red-500"></div>
+                <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="dashboard_legend_low">&lt; $500</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded bg-blue-500"></div>
+                <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="dashboard_legend_low_mid">$501 - $1,000</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded bg-yellow-500"></div>
+                <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="dashboard_legend_mid">$1,001 - $3,000</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded bg-green-500"></div>
+                <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="dashboard_legend_mid_high">$3,001 - $5,000</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded bg-purple-500"></div>
+                <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="dashboard_legend_high">&gt; $5,000</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4">
+            <div id="gdpChart" class="h-64 overflow-hidden relative">
+              <!-- GDP bars will be inserted here by JavaScript -->
+              <div class="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                <span data-i18n="dashboard_chart_loading">Loading GDP data visualization...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Country Performance -->
+        <div class="glass-card p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6" data-i18n="dashboard_country_analysis_title">Country Performance Analysis</h3>
+          
+          <div id="countryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Country cards will be inserted here by JavaScript -->
+            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+              Loading country data...
+            </div>
+          </div>
+        </div>
+        
+        <!-- Advanced Analytics Section -->
+        <div id="advancedAnalytics" class="hidden space-y-8">
+          <!-- Time Series Analysis -->
+          <div class="glass-card p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Economic Trends & Forecasts</h3>
+            
+            <div class="flex flex-wrap gap-4 mb-6">
+              <select id="timeSeriesCountry" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300">
+                <option value="all">All Countries</option>
+                <!-- Options will be populated by JavaScript -->
+              </select>
+              
+              <select id="timeSeriesIndicator" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300">
+                <option value="gdpPerCapita">GDP Per Capita</option>
+                <option value="gdpGrowth">GDP Growth</option>
+                <option value="population">Population</option>
+              </select>
+              
+              <select id="timeSeriesPeriod" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300">
+                <option value="5">Last 5 Years</option>
+                <option value="10">Last 10 Years</option>
+                <option value="20">Last 20 Years</option>
+              </select>
+            </div>
+            
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center text-gray-500 dark:text-gray-400">
+              <p>Select parameters to view historical trends and forecasts</p>
+            </div>
+          </div>
+          
+          <!-- Regional Analysis -->
+          <div class="glass-card p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Regional Economic Analysis</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Economic Disparity -->
+              <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-blue-600 dark:text-blue-400">
+                    <path d="M12 20V10" />
+                    <path d="M18 20V4" />
+                    <path d="M6 20v-4" />
+                  </svg>
+                  Economic Disparity
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  The Gini coefficient for West Africa is approximately <span id="giniCoefficient" class="font-semibold">--</span>, indicating <span id="inequalityLevel" class="font-semibold">--</span> inequality.
+                </p>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Highest GDP/capita:</span>
+                    <span id="disparityHigh" class="font-medium">--</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Lowest GDP/capita:</span>
+                    <span id="disparityLow" class="font-medium">--</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Ratio (High/Low):</span>
+                    <span id="disparityRatio" class="font-medium">--</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Economic Correlations -->
+              <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600 dark:text-green-400">
+                    <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                    <path d="M7.5 4.21l4.5 2.6 4.5-2.6" />
+                    <path d="M7.5 19.79V14.6L3 12" />
+                    <path d="M21 12l-4.5 2.6v5.19" />
+                    <path d="M3.27 6.96L12 12.01l8.73-5.05" />
+                    <path d="M12 22.08V12" />
+                  </svg>
+                  Economic Correlations
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Key economic relationships in the region:</p>
+                
+                <div class="grid grid-cols-4 gap-2 text-xs">
+                  <div class="font-medium text-center p-2">GDP/Capita</div>
+                  <div class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-center p-2 rounded">1.00</div>
+                  <div id="correlationGdpGrowth" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  <div id="correlationPopulation" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  
+                  <div class="font-medium text-center p-2">GDP Growth</div>
+                  <div id="correlationGrowthGdp" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  <div class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-center p-2 rounded">1.00</div>
+                  <div id="correlationGrowthPopulation" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  
+                  <div class="font-medium text-center p-2">Population</div>
+                  <div id="correlationPopulationGdp" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  <div id="correlationPopulationGrowth" class="bg-gray-100 dark:bg-gray-700 text-center p-2 rounded">--</div>
+                  <div class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-center p-2 rounded">1.00</div>
+                </div>
+              </div>
+              
+              <!-- Policy Recommendations -->
+              <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl">
+                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-yellow-600 dark:text-yellow-400">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                  Policy Recommendations
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Based on current economic indicators:</p>
+                <ul id="policyRecommendations" class="text-sm text-gray-600 dark:text-gray-400 space-y-2">
+                  <li>Loading recommendations...</li>
                 </ul>
-            </nav>
+              </div>
+            </div>
+          </div>
         </div>
-    </header>
+      </div>
+      
+      <!-- Data Source Attribution -->
+      <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        <p>Data Source: World Bank API • Indicators: Population, GDP Growth, GDP Per Capita</p>
+        <p>Analytics powered by West Africa Economic Intelligence Platform • Economist Insights</p>
+      </div>
+    </div>
+  </section>
 
-    <main>
-        <!-- Hero -->
-        <section id="home" class="hero section">
-            <div class="hero-bg"></div>
-            <div class="container hero-grid">
-                <div class="eyebrow reveal">Three Worlds, One System</div>
-                <h1 class="reveal">A Connected World: People • Businesses • Governments</h1>
-                <p class="hero-lead reveal">Axel Dev Group creates systems that empower individuals, strengthen institutions, and accelerate sustainable development.</p>
-                <div class="hero-actions reveal">
-                    <a class="button primary" href="#contact">Start a conversation</a>
-                    <a class="button ghost" href="#worlds">Explore the worlds</a>
+
+
+  <!-- Interactive Data Hub -->
+  <section id="data-hub" class="py-20 px-6 bg-diplomatic-blue text-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-2">Interactive Data Hub</h2>
+        <p class="text-lg opacity-90 max-w-3xl mx-auto">
+          Explore our curated datasets and visualize how policy choices could shape outcomes.
+        </p>
+      </div>
+
+      <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl p-8 md:p-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 studio-grid">
+          <!-- Control Panel -->
+          <div class="lg:col-span-4 space-y-6 studio-panel background-blur text-gray-900">
+            <div class="glass-card p-6 bg-white/90 text-gray-800">
+              <h3 class="font-bold text-lg flex items-center">
+                <span class="mr-2">🎛️</span> Control Panel
+              </h3>
+
+              <div class="mt-4 space-y-6">
+                <!-- HDI Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="hdiSlider" class="font-medium text-sm">Human Development Index (HDI)</label>
+                    <span id="hdiValue" class="text-sm font-bold text-diplomatic-blue">0.55</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="hdiProgress" style="width: 30%;"></div>
+                    <input id="hdiSlider" type="range" min="0.4" max="0.9" step="0.01" value="0.55" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>Low (0.4)</span><span>High (0.9)</span>
+                  </div>
                 </div>
-                <div class="worlds-cluster">
-                    <div class="world-node reveal world-people" data-target="people">
-                        <div class="world orb-people"></div>
-                        <p>People</p>
-                    </div>
-                    <div class="world-node reveal world-businesses" data-target="businesses" style="transition-delay: 90ms;">
-                        <div class="world orb-businesses"></div>
-                        <p>Businesses</p>
-                    </div>
-                    <div class="world-node reveal world-governments" data-target="governments" style="transition-delay: 180ms;">
-                        <div class="world orb-governments"></div>
-                        <p>Governments</p>
-                    </div>
-                    <svg class="world-lines" viewBox="0 0 260 260" aria-hidden="true">
-                        <line x1="80" y1="100" x2="130" y2="190" />
-                        <line x1="180" y1="100" x2="130" y2="190" />
-                        <line x1="80" y1="100" x2="180" y2="100" />
+
+                <!-- Stability Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="stabilitySlider" class="font-medium text-sm">Political Stability</label>
+                    <span id="stabilityValue" class="text-sm font-bold text-diplomatic-blue">5</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="stabilityProgress" style="width: 50%;"></div>
+                    <input id="stabilitySlider" type="range" min="0" max="10" step="1" value="5" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>Unstable (0)</span><span>Stable (10)</span>
+                  </div>
+                </div>
+
+                <!-- Institutional Quality Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="institutionSlider" class="font-medium text-sm">Institutional Quality</label>
+                    <span id="institutionValue" class="text-sm font-bold text-diplomatic-blue">0.0</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="institutionProgress" style="width: 50%;"></div>
+                    <input id="institutionSlider" type="range" min="-2.0" max="2.0" step="0.1" value="0.0" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>Weak (-2.0)</span><span>Strong (2.0)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 flex justify-between">
+                <button id="resetButton" class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors">
+                  ⟲ Reset
+                </button>
+                
+                <div class="flex gap-2">
+                  <button id="exportPNG" class="inline-flex items-center gap-1 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M12 5v12" />
+                      <path d="M8 13l4 4 4-4" />
+                      <path d="M4 19h16" />
                     </svg>
+                    PNG
+                  </button>
+                  <button id="exportPDF" class="inline-flex items-center gap-1 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M5 3h9l5 5v13a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" />
+                      <path d="M14 3v5h5" />
+                    </svg>
+                    PDF
+                  </button>
+                  <button id="saveButton" class="inline-flex items-center gap-2 px-4 py-2 text-sm bg-diplomatic-blue hover:bg-blue-700 text-white rounded-md transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M5 3h11l3 3v13a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                      <path d="M15 3v5H7V3" />
+                      <path d="M7 13h10" />
+                      <path d="M9 16h6" />
+                    </svg>
+                    Save
+                  </button>
                 </div>
+              </div>
             </div>
-        </section>
 
-        <!-- Three Worlds Overview -->
-        <section id="worlds" class="section worlds">
-            <div class="container">
-                <div class="section-header reveal">
-                    <p class="eyebrow">The Three Worlds We Serve</p>
-                    <h2>People • Businesses • Governments</h2>
-                    <p class="section-subtitle">Every decision, system, and policy we design bridges these worlds with intention.</p>
-                </div>
-                <div class="worlds-grid">
-                    <article class="world-card reveal" data-world="people">
-                        <div class="world-visual orb-people"></div>
-                        <h3>People</h3>
-                        <p>Communities, households, and individuals experiencing policy outcomes and services.</p>
-                        <p class="world-detail">From safety nets to public services, we design delivery models that keep citizens at the center.</p>
-                        <button class="chip" type="button">Explore impact</button>
-                    </article>
-                    <article class="world-card reveal" data-world="businesses" style="transition-delay: 90ms;">
-                        <div class="world-visual orb-businesses"></div>
-                        <h3>Businesses</h3>
-                        <p>Enterprises and entrepreneurs powering economic growth and innovation.</p>
-                        <p class="world-detail">Data layers, compliance rails, and capital pathways that unlock competitive, resilient firms.</p>
-                        <button class="chip" type="button">See how</button>
-                    </article>
-                    <article class="world-card reveal" data-world="governments" style="transition-delay: 160ms;">
-                        <div class="world-visual orb-governments"></div>
-                        <h3>Governments</h3>
-                        <p>Institutions, ministries, and agencies shaping policy, regulation, and delivery.</p>
-                        <p class="world-detail">Governance architectures, regulatory design, and performance systems that align national missions.</p>
-                        <button class="chip" type="button">View systems</button>
-                    </article>
-                </div>
+            <div class="glass-card p-4 text-xs text-gray-700 bg-white/90">
+              <h4 class="font-semibold">References:</h4>
+              <p class="mt-1">1. Axel Dev Lab model (A. Riley). 2. Barro, R. J. (2003). 3. Kaufmann, D., et al. (2010).</p>
             </div>
-        </section>
+          </div>
 
-        <!-- Individual world anchors -->
-        <section id="people" class="section anchor-world">
-            <div class="container narrow">
-                <div class="section-header reveal">
-                    <p class="eyebrow">People</p>
-                    <h2>Designing for citizens and communities</h2>
-                    <p class="section-subtitle">We ensure policies translate to accessible services, safety nets, and inclusive growth.</p>
-                </div>
-                <div class="vision-grid">
-                    <div class="vision-card reveal">
-                        <span class="accent-dot"></span>
-                        <p>Human-centered policy diagnostics and delivery assessments.</p>
-                    </div>
-                    <div class="vision-card reveal" style="transition-delay: 80ms;">
-                        <span class="accent-dot"></span>
-                        <p>Data ecosystems to monitor health, education, and social protection outcomes.</p>
-                    </div>
-                </div>
+          <!-- Results Panel -->
+          <div class="lg:col-span-8 space-y-6 studio-panel relative overflow-hidden">
+            <div class="background-paths" aria-hidden="true">
+              <svg viewBox="0 0 600 300" fill="none" preserveAspectRatio="none">
+                <path d="M-50 150C100 80 200 220 350 140C450 90 520 200 620 140" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.35"/>
+                <path d="M-20 220C180 80 340 260 520 150C620 90 690 230 720 170" stroke="currentColor" stroke-width="0.8" stroke-opacity="0.25"/>
+              </svg>
             </div>
-        </section>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="glass-card p-4 bg-white/90 text-gray-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-diplomatic-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M3 8.5L12 4l9 4.5-9 4.5-9-4.5z" />
+                      <path d="M5 10.75v3.5c0 1.6 3 2.8 7 2.8s7-1.2 7-2.8v-3.5" />
+                    </svg>
+                  </div>
+                  <h4 class="font-bold text-sm">HDI</h4>
+                </div>
+                <p id="hdiDescription" class="text-xs mt-2 text-gray-600"></p>
+              </div>
+              <div class="glass-card p-4 bg-white/90 text-gray-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-diplomatic-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M4 12.5c3.5-.5 6-3 7.5-6 2 4 5 5.5 8.5 5.5-1 2-3.5 3.5-5.5 3.5 0 2.5-2 4-4 4 .5-1.5 0-3-1-4-1-1-3-1.5-5.5-3z" />
+                    </svg>
+                  </div>
+                  <h4 class="font-bold text-sm">Stability</h4>
+                </div>
+                <p id="stabilityDescription" class="text-xs mt-2 text-gray-600"></p>
+              </div>
+              <div class="glass-card p-4 bg-white/90 text-gray-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-diplomatic-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                      <path d="M4 11h16" />
+                      <path d="M5 11v8" />
+                      <path d="M19 11v8" />
+                      <path d="M3 19h18" />
+                      <path d="M12 5l7 4H5l7-4z" />
+                    </svg>
+                  </div>
+                  <h4 class="font-bold text-sm" data-i18n="dashboard_metric_institutions">Institutions</h4>
+                </div>
+                <p id="institutionDescription" class="text-xs mt-2 text-gray-600"></p>
+              </div>
+            </div>
 
-        <section id="businesses" class="section anchor-world">
-            <div class="container narrow">
-                <div class="section-header reveal">
-                    <p class="eyebrow">Businesses</p>
-                    <h2>Building resilient private-sector ecosystems</h2>
-                    <p class="section-subtitle">Infrastructure and insight that drive competitiveness, capital, and innovation.</p>
-                </div>
-                <div class="vision-grid">
-                    <div class="vision-card reveal">
-                        <span class="accent-dot"></span>
-                        <p>Market intelligence, investment pipelines, and enterprise enablement.</p>
-                    </div>
-                    <div class="vision-card reveal" style="transition-delay: 80ms;">
-                        <span class="accent-dot"></span>
-                        <p>Trusted data layers for supply chains, compliance, and ESG reporting.</p>
-                    </div>
-                </div>
+            <div class="glass-card p-6 flex flex-col sm:flex-row justify-between items-center gap-4 bg-white/90 text-gray-800">
+              <div class="text-center sm:text-left">
+                <h3 class="font-bold text-lg" data-i18n="dashboard_scenario_title">Scenario Outcome</h3>
+                <p class="text-sm text-gray-600" data-i18n="dashboard_scenario_description">Projected real GDP growth over 10 years.</p>
+              </div>
+              <p id="outcomeValue" class="text-4xl font-extrabold text-green-600">+0.0%</p>
             </div>
-        </section>
 
-        <section id="governments" class="section anchor-world">
-            <div class="container narrow">
-                <div class="section-header reveal">
-                    <p class="eyebrow">Governments</p>
-                    <h2>Strengthening institutions and governance</h2>
-                    <p class="section-subtitle">From strategic vision to execution, we enable data-driven, accountable states.</p>
-                </div>
-                <div class="vision-grid">
-                    <div class="vision-card reveal">
-                        <span class="accent-dot"></span>
-                        <p>Governance frameworks, regulatory design, and performance management.</p>
-                    </div>
-                    <div class="vision-card reveal" style="transition-delay: 80ms;">
-                        <span class="accent-dot"></span>
-                        <p>Secure, interoperable architectures across agencies and delivery partners.</p>
-                    </div>
-                </div>
+            <div class="glass-card p-4 relative bg-white/90 text-gray-800">
+              <canvas id="policyImpactChart" height="300"></canvas>
+              <div class="chart-branding" data-i18n="dashboard_chart_branding">Powered by Axel Dev Lab</div>
             </div>
-        </section>
-
-        <!-- Operations -->
-        <section id="operations" class="section">
-            <div class="container">
-                <div class="section-header reveal">
-                    <p class="eyebrow">Operations</p>
-                    <h2>Areas of Operations</h2>
-                    <p class="section-subtitle">Focused on the intersections of policy, technology, and data for real-world impact.</p>
-                </div>
-                <div class="card-grid">
-                    <article class="card reveal">
-                        <div class="card-icon">01</div>
-                        <h3>Policy Strategy & Governance</h3>
-                        <p>Designing actionable policy frameworks, advising leaders, and steering governance outcomes.</p>
-                        <div class="world-tags">
-                            <span class="pill">Governments</span>
-                            <span class="pill ghost">People</span>
-                        </div>
-                    </article>
-                    <article class="card reveal" style="transition-delay: 80ms;">
-                        <div class="card-icon">02</div>
-                        <h3>Economic & Social Analysis</h3>
-                        <p>Insights that translate data into equitable growth and resilient social systems.</p>
-                        <div class="world-tags">
-                            <span class="pill">People</span>
-                            <span class="pill ghost">Businesses</span>
-                        </div>
-                    </article>
-                    <article class="card reveal" style="transition-delay: 140ms;">
-                        <div class="card-icon">03</div>
-                        <h3>Data Infrastructure & Intelligence</h3>
-                        <p>Modern data stacks, pipelines, and intelligence layers that keep institutions informed.</p>
-                        <div class="world-tags">
-                            <span class="pill">Businesses</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                    <article class="card reveal" style="transition-delay: 200ms;">
-                        <div class="card-icon">04</div>
-                        <h3>Technology & System Architecture</h3>
-                        <p>Enterprise platforms, integration blueprints, and digital ecosystems built for scale.</p>
-                        <div class="world-tags">
-                            <span class="pill">Businesses</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                    <article class="card reveal" style="transition-delay: 260ms;">
-                        <div class="card-icon">05</div>
-                        <h3>International Development & Cooperation</h3>
-                        <p>Programs and partnerships that align missions, funding, and measurable outcomes.</p>
-                        <div class="world-tags">
-                            <span class="pill">People</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Expertise -->
-        <section id="expertise" class="section split">
-            <div class="container split-grid">
-                <div class="split-copy reveal">
-                    <p class="eyebrow">Expertise</p>
-                    <h2>What We Do</h2>
-                    <p class="section-subtitle">Institutional-grade analysis and systems design.</p>
-                    <p class="body-large">We partner with governments, multilaterals, and enterprises to build the intelligence and infrastructure that unlock better decisions.</p>
-                </div>
-                <div class="stacked-cards">
-                    <article class="stack-card reveal">
-                        <h3>Policy & Strategic Analysis</h3>
-                        <p>Institutional policy, governance frameworks, and socioeconomic research.</p>
-                        <div class="world-tags">
-                            <span class="pill">Governments</span>
-                            <span class="pill ghost">People</span>
-                        </div>
-                    </article>
-                    <article class="stack-card reveal" style="transition-delay: 90ms;">
-                        <h3>Data & Intelligence Systems</h3>
-                        <p>Dashboards, pipelines, geospatial tools, and data governance.</p>
-                        <div class="world-tags">
-                            <span class="pill">Businesses</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                    <article class="stack-card reveal" style="transition-delay: 150ms;">
-                        <h3>International Development</h3>
-                        <p>Development strategies, sustainability models, and impact design.</p>
-                        <div class="world-tags">
-                            <span class="pill">People</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                    <article class="stack-card reveal" style="transition-delay: 210ms;">
-                        <h3>Technology & Architecture</h3>
-                        <p>Digital ecosystems, enterprise platforms, and infrastructure.</p>
-                        <div class="world-tags">
-                            <span class="pill">Businesses</span>
-                            <span class="pill ghost">Governments</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Future -->
-        <section id="future" class="section future">
-            <div class="container">
-                <div class="section-header reveal">
-                    <p class="eyebrow">Future</p>
-                    <h2>Future Solutions</h2>
-                    <p class="section-subtitle">We design systems for tomorrow across all three worlds.</p>
-                </div>
-                <div class="future-rail">
-                    <article class="future-card reveal">
-                        <span class="pill">AI</span>
-                        <h3>AI-Assisted Decision-Making Systems</h3>
-                        <p>Transparent decision support for leaders with accountable, explainable intelligence.</p>
-                    </article>
-                    <article class="future-card reveal" style="transition-delay: 80ms;">
-                        <span class="pill">Resilience</span>
-                        <h3>Sustainability & Resilience Frameworks</h3>
-                        <p>Adaptive systems linking climate, risk, and economic stability.</p>
-                    </article>
-                    <article class="future-card reveal" style="transition-delay: 140ms;">
-                        <span class="pill">Foresight</span>
-                        <h3>Institutional Foresight & Scenario Planning</h3>
-                        <p>Stress-testing futures to build agile, prepared institutions.</p>
-                    </article>
-                    <article class="future-card reveal" style="transition-delay: 200ms;">
-                        <span class="pill">Governance</span>
-                        <h3>Ethical Intelligence & Data Governance</h3>
-                        <p>Trusted, transparent systems with accountable stewardship.</p>
-                    </article>
-                    <article class="future-card reveal" style="transition-delay: 260ms;">
-                        <span class="pill">Systems</span>
-                        <h3>Next-Gen Digital Architectures</h3>
-                        <p>Distributed, secure, interoperable backbones for all three worlds.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact" class="section contact">
-            <div class="container narrow">
-                <div class="section-header reveal">
-                    <p class="eyebrow">Contact</p>
-                    <h2>Connect With Us</h2>
-                    <p class="section-subtitle">Tell us about your challenge. We respond within two business days.</p>
-                </div>
-                <form class="contact-form reveal">
-                    <div class="form-grid">
-                        <label>
-                            <span>Name</span>
-                            <input type="text" name="name" placeholder="Your name" required>
-                        </label>
-                        <label>
-                            <span>Email</span>
-                            <input type="email" name="email" placeholder="you@example.com" required>
-                        </label>
-                        <label>
-                            <span>Organization</span>
-                            <input type="text" name="organization" placeholder="Where you work">
-                        </label>
-                        <label class="full">
-                            <span>Message</span>
-                            <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
-                        </label>
-                    </div>
-                    <button type="submit" class="button primary">Send message</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-content">
-            <p>© Axel Dev Group</p>
-            <div class="footer-links">
-                <a href="#" aria-label="LinkedIn">LinkedIn</a>
-                <a href="#" aria-label="GitHub">GitHub</a>
-                <a href="mailto:hello@axeldev.group" aria-label="Email">Email</a>
-            </div>
+          </div>
         </div>
-    </footer>
+      </div>
 
-    <script src="script.js"></script>
+      <!-- Dataset links -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="#" class="group bg-white bg-opacity-5 hover:bg-opacity-10 rounded-2xl p-6 transition-all fade-in">
+          <h4 class="font-semibold mb-3 group-hover:text-brand-300 transition-colors" data-i18n="dataset_trade_title">ECOWAS Trade Data</h4>
+          <p class="text-sm opacity-80 mb-4" data-i18n="dataset_trade_desc">Regional trade patterns and economic indicators</p>
+          <span class="text-brand-300 text-sm font-medium inline-flex items-center">
+            <span data-i18n="dataset_link">Explore dataset</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </a>
+        
+        <a href="#" class="group bg-white bg-opacity-5 hover:bg-opacity-10 rounded-2xl p-6 transition-all fade-in" style="transition-delay: 0.1s">
+          <h4 class="font-semibold mb-3 group-hover:text-brand-300 transition-colors" data-i18n="dataset_education_title">Education Metrics</h4>
+          <p class="text-sm opacity-80 mb-4" data-i18n="dataset_education_desc">Access, quality, and outcomes across developing regions</p>
+          <span class="text-brand-300 text-sm font-medium inline-flex items-center">
+            <span data-i18n="dataset_link">Explore dataset</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </a>
+        
+        <a href="#" class="group bg-white bg-opacity-5 hover:bg-opacity-10 rounded-2xl p-6 transition-all fade-in" style="transition-delay: 0.2s">
+          <h4 class="font-semibold mb-3 group-hover:text-brand-300 transition-colors" data-i18n="dataset_climate_title">Climate Resilience</h4>
+          <p class="text-sm opacity-80 mb-4" data-i18n="dataset_climate_desc">Environmental indicators and adaptation strategies</p>
+          <span class="text-brand-300 text-sm font-medium inline-flex items-center">
+            <span data-i18n="dataset_link">Explore dataset</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Impact Section -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-diplomatic-blue mb-4" data-i18n="global_reach_heading">Global Reach, Local Impact</h2>
+        <p class="text-lg text-diplomatic-slate max-w-3xl mx-auto" data-i18n="global_reach_intro">
+          Our work spans continents, with focused expertise in emerging economies and developing regions.
+        </p>
+      </div>
+      
+      <div class="relative h-96 rounded-3xl overflow-hidden shadow-xl">
+        <div class="absolute inset-0 bg-diplomatic-slate">
+          <!-- World map background with highlighted regions -->
+          <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 400\" fill=\"%23f59e0b\"><path d=\"M400,200a200,200 0 1,0 400,0a200,200 0 1,0 -400,0\"/></svg>')"></div>
+        </div>
+        
+        <!-- Animated data points representing projects -->
+        <div class="data-point" style="top: 38%; left: 45%;"></div>
+        <div class="data-point" style="top: 35%; left: 52%;"></div>
+        <div class="data-point" style="top: 40%; left: 15%;"></div>
+        <div class="data-point" style="top: 55%; left: 25%;"></div>
+        <div class="data-point" style="top: 50%; left: 75%;"></div>
+        <div class="data-point" style="top: 60%; left: 32%;"></div>
+        <div class="data-point" style="top: 30%; left: 35%;"></div>
+        
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center text-white px-6 max-w-2xl">
+            <h3 class="text-2xl md:text-3xl font-semibold mb-4" data-i18n="global_reach_highlight">4 Projects Across 15 Countries</h3>
+            <p class="opacity-90 mb-6" data-i18n="global_reach_caption">Driving evidence-based policy and insights</p>
+            <a href="projects.html" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-diplomatic-blue font-medium hover:bg-gray-100 transition-colors">
+              <span data-i18n="global_reach_cta">Explore Our Projects</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Subscription Card -->
+  <section class="py-16 px-6 bg-white dark:bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <div class="adl-subscribe">
+        <div class="adl-left">
+          <img class="adl-logo" src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab Logo">
+          <h2 class="adl-title">Stay Informed</h2>
+          <p class="adl-desc">Receive research insights, data releases, and policy analysis from the <strong>Axel Dev Lab</strong>.</p>
+          <a href="https://mail.axeldevlab.com/archive/adi-january-insights" class="adl-archive-link" target="_blank">View latest issue →</a>
+        </div>
+        <div class="adl-right">
+          <form method="POST" action="https://mail.axeldevlab.com/subscription/form" target="_blank">
+            <input type="hidden" name="l" value="a93e5e96-1cf7-4bff-b7b9-a38768823332">
+            <div class="adl-field">
+              <input type="email" name="email" class="adl-input" placeholder=" " required aria-label="Email address">
+              <label class="adl-label">Email address</label>
+            </div>
+            <label class="adl-checkbox">
+              <input type="checkbox" name="privacy" required>
+              <span>I agree to receive curated emails from Axel Dev Lab. You can unsubscribe at any time.</span>
+            </label>
+            <button type="submit" class="adl-btn">Subscribe now</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-10">
+        <iframe src="https://help.axeldevlab.com/open.php" style="width: 100%; min-height: 900px; border: none;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+<!-- Call to Action -->
+  <section class="py-20 px-6 bg-brand-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-5xl mx-auto">
+      <div class="cta-panel text-center">
+        <p class="eyebrow text-white/70 mb-3" data-i18n="cta_label">Axel Dev Lab 2.0</p>
+        <h2 data-i18n="cta_heading">Ready to Transform Data Into Impact?</h2>
+        <p class="text-base sm:text-lg mb-8" data-i18n="cta_intro">
+          Partner with us to develop evidence-based solutions for your most complex development challenges.
+        </p>
+        <div class="cta-panel__actions">
+          <a href="collaborate.html" class="modern-btn modern-btn--primary">
+            <span data-i18n="cta_primary">Start a Collaboration</span>
+          </a>
+          <a href="publications.html" class="modern-btn modern-btn--outline">
+            <span data-i18n="cta_secondary">Explore Our Research</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contacts -->
+  <section class="py-16 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-i18n="direct_contacts_title">Direct Contacts</h2>
+        <p class="text-gray-300 max-w-3xl mx-auto" data-i18n="direct_contacts_intro">Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab &amp; Axel Dev Consulting.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6 text-sm">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_general_heading">General &amp; Partnerships</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_general_info">General info:</span> <a href="mailto:info@axeldevlab.com" class="underline hover:text-brand-300">info@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_partnerships">Partnerships:</span> <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-300">contact@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_executive">Executive office:</span> <a href="mailto:jeanaxelt@axeldevlab.com" class="underline hover:text-brand-300">jeanaxelt@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_client_heading">Client &amp; Operations</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_support">Client support:</span> <a href="mailto:support@axeldevlab.com" class="underline hover:text-brand-300">support@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_data">Data services:</span> <a href="mailto:it@axeldevlab.com" class="underline hover:text-brand-300">it@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_billing">Billing:</span> <a href="mailto:finance@axeldevlab.com" class="underline hover:text-brand-300">finance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_research_heading">Research &amp; Media</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_research">Research desk:</span> <a href="mailto:research@axeldevlab.com" class="underline hover:text-brand-300">research@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_press">Press office:</span> <a href="mailto:press@axeldevlab.com" class="underline hover:text-brand-300">press@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_community">Community:</span> <a href="mailto:axeldevl@axeldevlab.com" class="underline hover:text-brand-300">axeldevl@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_people_heading">People &amp; Governance</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_hr">Talent &amp; HR:</span> <a href="mailto:hr@axeldevlab.com" class="underline hover:text-brand-300">hr@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_legal">Legal:</span> <a href="mailto:legal@axeldevlab.com" class="underline hover:text-brand-300">legal@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_admin">Administration:</span> <a href="mailto:admin@axeldevlab.com" class="underline hover:text-brand-300">admin@axeldevlab.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Methodology & Transparency -->
+  <section class="py-20 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 institutional-text text-gray-900 dark:text-gray-100">Our Data Standards</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          Committed to transparency, accuracy, and methodological rigor in all our data collection and analysis.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="enhanced-card p-6 text-center">
+          <div class="w-16 h-16 bg-primary-institutional rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Source Verification</h3>
+          <p class="text-gray-600 dark:text-gray-300">All data sources are verified through official government agencies, international organizations, and peer-reviewed publications.</p>
+        </div>
+        
+        <div class="enhanced-card p-6 text-center">
+          <div class="w-16 h-16 bg-success-green rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Quality Assurance</h3>
+          <p class="text-gray-600 dark:text-gray-300">Multi-stage validation process including automated checks, expert review, and cross-referencing with multiple sources.</p>
+        </div>
+        
+        <div class="enhanced-card p-6 text-center">
+          <div class="w-16 h-16 bg-data-blue rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Regular Updates</h3>
+          <p class="text-gray-600 dark:text-gray-300">Continuous monitoring and updating of datasets to ensure currency and relevance for policy and research applications.</p>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="methodology.html" class="inline-flex items-center px-6 py-3 professional-btn btn-professional text-white font-medium rounded-lg">
+          View Full Methodology
+          <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  </main>
+    <footer class="footer-v2" role="contentinfo">
+    <div class="footer-v2__grid">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-12 w-auto" loading="lazy" />
+          <div>
+            <p class="text-lg font-semibold" data-i18n="brand_lab_name">Axel Dev Lab</p>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/60" data-i18n="brand_group">Axel Dev Group LLC</p>
+          </div>
+        </div>
+        <p class="text-sm opacity-80 mb-4" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <div class="space-y-1 text-sm opacity-80">
+          <p data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p data-i18n="footer_address_line3">United States</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <nav class="grid gap-2 text-sm opacity-90">
+          <a href="index.html" data-i18n="nav_home" class="hover:text-primary-light transition">Home</a>
+          <a href="projects.html" data-i18n="nav_projects" class="hover:text-primary-light transition">Projects</a>
+          <a href="data.html" data-i18n="nav_data" class="hover:text-primary-light transition">Data</a>
+          <a href="methodology.html" data-i18n="nav_methodology" class="hover:text-primary-light transition">Methodology</a>
+          <a href="publications.html" data-i18n="nav_publications" class="hover:text-primary-light transition">Publications</a>
+          <a href="collaborate.html" data-i18n="nav_collaborate" class="hover:text-primary-light transition">Collaborate</a>
+          <a href="media.html" data-i18n="nav_media" class="hover:text-primary-light transition">Media</a>
+          <a href="about.html" data-i18n="nav_about" class="hover:text-primary-light transition">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-primary-light/90 hover:text-primary-light transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <a href="https://help.axeldevlab.com/open.php" class="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-white/90 hover:text-white" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-80"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01"/><path d="M12 12a3 3 0 1 0-3-3"/></svg>
+          <span>Need help? Report an issue</span>
+        </a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+              </svg>
+            </a>
+            <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+<!-- External JavaScript Libraries -->
+<!-- Dev-only Keycloak (replace with HTTPS in production) -->
+<script defer src="http://localhost:8089/js/keycloak.js"></script>
+<!-- Heavy libraries deferred -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/globe.gl@2.24/dist/globe.gl.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+<!-- Main JavaScript -->
+<script defer src="assets/js/main.js?v=20240319"></script>
+
+
+<script>
+// West Africa Economic Intelligence Dashboard Integration
+document.addEventListener('DOMContentLoaded', function() {
+  // Utility functions
+  function formatNumber(num) {
+    if (num === null || num === undefined) return '--';
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1) + 'B';
+    }
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    }
+    if (num >= 1000) {
+      return num.toLocaleString();
+    }
+    return num.toFixed(0);
+  }
+
+  function formatCurrency(num) {
+    if (num === null || num === undefined) return '--';
+    return '$' + formatNumber(num);
+  }
+
+  // World Bank API configuration
+  const WORLD_BANK_BASE_URL = 'https://api.worldbank.org/v2/country';
+  const DATA_YEAR = 2022; // Using the most recent complete year
+
+  const westAfricanCountries = [
+    { name: "Benin", code: "BEN" },
+    { name: "Burkina Faso", code: "BFA" },
+    { name: "Cabo Verde", code: "CPV" },
+    { name: "Côte d'Ivoire", code: "CIV" },
+    { name: "Gambia", code: "GMB" },
+    { name: "Ghana", code: "GHA" },
+    { name: "Guinea", code: "GIN" },
+    { name: "Guinea-Bissau", code: "GNB" },
+    { name: "Liberia", code: "LBR" },
+    { name: "Mali", code: "MLI" },
+    { name: "Niger", code: "NER" },
+    { name: "Nigeria", code: "NGA" },
+    { name: "Senegal", code: "SEN" },
+    { name: "Sierra Leone", code: "SLE" },
+    { name: "Togo", code: "TGO" }
+  ];
+
+  const indicators = {
+    population: "SP.POP.TOTL",
+    gdpGrowth: "NY.GDP.MKTP.KD.ZG",
+    gdpPerCapita: "NY.GDP.PCAP.CD"
+  };
+
+  // DOM elements
+  const fetchDataBtn = document.getElementById('fetchData');
+  const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
+  const dashboardLoading = document.getElementById('dashboardLoading');
+  const dashboardError = document.getElementById('dashboardError');
+  const dashboardContent = document.getElementById('dashboardContent');
+  const countryGrid = document.getElementById('countryGrid');
+  const dashboardLastUpdated = document.getElementById('dashboardLastUpdated');
+  const gdpChart = document.getElementById('gdpChart');
+  const advancedAnalytics = document.getElementById('advancedAnalytics');
+  const timeSeriesCountry = document.getElementById('timeSeriesCountry');
+  const timeSeriesIndicator = document.getElementById('timeSeriesIndicator');
+  const timeSeriesPeriod = document.getElementById('timeSeriesPeriod');
+
+  const translate = (key, fallback = '') => {
+    try {
+      const translations = typeof getMergedTranslations === 'function'
+        ? getMergedTranslations(currentLanguage)
+        : window.PAGE_TRANSLATIONS?.[currentLanguage] || {};
+      return translations[key] || fallback;
+    } catch (error) {
+      return fallback;
+    }
+  };
+
+  // Event listeners
+  if (fetchDataBtn) {
+    fetchDataBtn.addEventListener('click', fetchWorldBankData);
+  }
+  
+  if (toggleAdvancedBtn) {
+    toggleAdvancedBtn.addEventListener('click', toggleAdvancedAnalytics);
+  }
+
+  // UI state management
+  function showLoading() { 
+    dashboardLoading.classList.remove('hidden');
+    hideErrorMessage();
+    hideDashboard();
+  }
+  
+  function hideLoading() { 
+    dashboardLoading.classList.add('hidden');
+  }
+  
+  function showErrorMessage() { 
+    dashboardError.classList.remove('hidden');
+  }
+  
+  function hideErrorMessage() { 
+    dashboardError.classList.add('hidden');
+  }
+  
+  function showDashboard() { 
+    dashboardContent.classList.remove('hidden');
+  }
+  
+  function hideDashboard() { 
+    dashboardContent.classList.add('hidden');
+  }
+
+  // Main data fetching function
+  async function fetchWorldBankData() {
+    showLoading();
+    
+    try {
+      const countryData = await Promise.all(
+        westAfricanCountries.map(async (country) => {
+          try {
+            const population = await fetchIndicatorData(country.code, indicators.population, DATA_YEAR);
+            const gdpGrowth = await fetchIndicatorData(country.code, indicators.gdpGrowth, DATA_YEAR);
+            const gdpPerCapita = await fetchIndicatorData(country.code, indicators.gdpPerCapita, DATA_YEAR);
+            
+            return {
+              name: country.name,
+              code: country.code,
+              population: population,
+              gdpGrowth: gdpGrowth,
+              gdpPerCapita: gdpPerCapita,
+              year: DATA_YEAR
+            };
+          } catch (error) {
+            console.error(`Error fetching data for ${country.name}:`, error);
+            // Return null values for failed fetches
+            return {
+              name: country.name,
+              code: country.code,
+              population: null,
+              gdpGrowth: null,
+              gdpPerCapita: null,
+              year: DATA_YEAR
+            };
+          }
+        })
+      );
+      
+      processData(countryData);
+      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      showErrorMessage();
+      hideLoading();
+    }
+  }
+
+  // Fetch indicator data from World Bank API
+  async function fetchIndicatorData(countryCode, indicatorCode, year) {
+    const url = `${WORLD_BANK_BASE_URL}/${countryCode}/indicator/${indicatorCode}?format=json&date=${year}`;
+    
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // The API returns an array where the second element contains the actual data
+      if (data && data[1] && data[1].length > 0) {
+        return data[1][0].value;
+      } else {
+        console.warn(`No data found for ${countryCode} - ${indicatorCode} in ${year}`);
+        return null;
+      }
+    } catch (error) {
+      console.error(`Error fetching ${indicatorCode} for ${countryCode}:`, error);
+      return null;
+    }
+  }
+
+  // Process and display the fetched data
+  function processData(data) {
+    hideLoading();
+    
+    const validData = data.filter(country => 
+      country.population !== null && country.gdpGrowth !== null && country.gdpPerCapita !== null
+    );
+    
+    if (validData.length === 0) {
+      showErrorMessage();
+      return;
+    }
+    
+    // Calculate regional statistics
+    const totalPopulation = validData.reduce((sum, country) => sum + country.population, 0);
+    const avgGdpGrowth = validData.reduce((sum, country) => sum + country.gdpGrowth, 0) / validData.length;
+    const avgGdpPerCapita = validData.reduce((sum, country) => sum + country.gdpPerCapita, 0) / validData.length;
+    
+    // Find extremes
+    const highestGdpPerCapita = Math.max(...validData.map(country => country.gdpPerCapita));
+    const highestGdpPerCapitaCountry = validData.find(country => country.gdpPerCapita === highestGdpPerCapita);
+    
+    const lowestGdpPerCapita = Math.min(...validData.map(country => country.gdpPerCapita));
+    const lowestGdpPerCapitaCountry = validData.find(country => country.gdpPerCapita === lowestGdpPerCapita);
+    
+    const highestGdpGrowth = Math.max(...validData.map(country => country.gdpGrowth));
+    const highestGdpGrowthCountry = validData.find(country => country.gdpGrowth === highestGdpGrowth);
+    
+    const lowestGdpGrowth = Math.min(...validData.map(country => country.gdpGrowth));
+    
+    // Update KPI cards
+    document.getElementById('totalPopulation').textContent = formatNumber(totalPopulation);
+    document.getElementById('avgGdpGrowth').textContent = `${avgGdpGrowth.toFixed(2)}%`;
+    document.getElementById('avgGdpPerCapita').textContent = formatCurrency(Math.round(avgGdpPerCapita));
+    
+    // Update highlight cards
+    document.getElementById('highestGdpPerCapita').textContent = formatCurrency(Math.round(highestGdpPerCapita));
+    document.getElementById('highestGdpPerCapitaCountry').textContent = highestGdpPerCapitaCountry.name;
+    document.getElementById('highestGdpGrowth').textContent = `${highestGdpGrowth.toFixed(2)}%`;
+    document.getElementById('highestGdpGrowthCountry').textContent = highestGdpGrowthCountry.name;
+    
+    // Update trend indicators
+    const yoyLabel = translate('dashboard_trend_yoy', 'YoY');
+
+    document.getElementById('populationTrend').innerHTML = `
+      <span class="inline-flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500">
+          <path d="M12 5v14" />
+          <path d="M19 12l-7 7-7-7" />
+        </svg>
+        +2.5% ${yoyLabel}
+      </span>
+    `;
+    
+    document.getElementById('growthTrend').innerHTML = `
+      <span class="inline-flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 ${avgGdpGrowth > 0 ? 'text-green-500' : 'text-red-500'}">
+          <path d="M12 5v14" />
+          <path d="M19 12l-7 7-7-7" />
+        </svg>
+        ${avgGdpGrowth > 0 ? '+' : ''}${avgGdpGrowth.toFixed(2)}% ${yoyLabel}
+      </span>
+    `;
+    
+    document.getElementById('gdpPerCapitaTrend').innerHTML = `
+      <span class="inline-flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 ${avgGdpPerCapita > 0 ? 'text-green-500' : 'text-red-500'}">
+          <path d="M12 5v14" />
+          <path d="M19 12l-7 7-7-7" />
+        </svg>
+        ${avgGdpPerCapita > 0 ? '+' : ''}1.8% ${yoyLabel}
+      </span>
+    `;
+    
+    // Update last updated timestamp
+    dashboardLastUpdated.textContent = `${translate('dashboard_last_updated_prefix', 'Last updated:')} ${new Date().toLocaleString()}`;
+    
+    // Render country cards
+    renderCountryCards(validData);
+    
+    // Render GDP chart
+    renderGdpChart(validData);
+    
+    // Update advanced analytics
+    updateAdvancedAnalytics(validData);
+    
+    // Show the dashboard
+    showDashboard();
+  }
+
+  // Render country cards
+  function renderCountryCards(data) {
+    countryGrid.innerHTML = '';
+    
+    data.forEach(country => {
+      const card = document.createElement('div');
+      card.className = 'bg-gray-50 dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700';
+      
+      // Determine growth status
+      const growthStatus = country.gdpGrowth > 0 ? 'positive' : 'negative';
+      const growthIcon = country.gdpGrowth > 0 ? 
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>' :
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-red-500"><path d="M12 19V5" /><path d="M5 12l7-7 7 7" /></svg>';
+      
+      // Determine GDP per capita category
+      let gdpCategory = 'low';
+      let gdpColor = 'text-red-600 dark:text-red-400';
+      
+      if (country.gdpPerCapita > 3000) {
+        gdpCategory = 'high';
+        gdpColor = 'text-green-600 dark:text-green-400';
+      } else if (country.gdpPerCapita > 1000) {
+        gdpCategory = 'medium';
+        gdpColor = 'text-yellow-600 dark:text-yellow-400';
+      }
+
+      const populationLabel = translate('dashboard_country_population', 'Population');
+      const gdpLabel = translate('dashboard_country_gdp_capita', 'GDP Per Capita');
+      const statusLabel = translate('dashboard_country_status', 'Economic Status:');
+      const statusHigh = translate('dashboard_country_status_high', 'Developed');
+      const statusMid = translate('dashboard_country_status_medium', 'Developing');
+      const statusLow = translate('dashboard_country_status_low', 'Low Income');
+      const statusText = gdpCategory === 'high' ? statusHigh : gdpCategory === 'medium' ? statusMid : statusLow;
+      
+      card.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+          <h4 class="font-semibold text-gray-900 dark:text-gray-100">${country.name}</h4>
+          <span class="inline-flex items-center gap-1 text-xs font-medium ${growthStatus === 'positive' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">
+            ${growthIcon}
+            ${country.gdpGrowth !== null ? country.gdpGrowth.toFixed(2) + '%' : '--'}
+          </span>
+        </div>
+        
+        <div class="space-y-3">
+          <div>
+            <p class="text-xs text-gray-600 dark:text-gray-400">${populationLabel}</p>
+            <p class="font-medium text-gray-900 dark:text-gray-100">${formatNumber(country.population)}</p>
+          </div>
+          
+          <div>
+            <p class="text-xs text-gray-600 dark:text-gray-400">${gdpLabel}</p>
+            <p class="font-medium ${gdpColor}">${formatCurrency(Math.round(country.gdpPerCapita))}</p>
+          </div>
+          
+          <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-600 dark:text-gray-400">${statusLabel}</span>
+              <span class="font-medium ${gdpCategory === 'high' ? 'text-green-600 dark:text-green-400' : gdpCategory === 'medium' ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'}">
+                ${statusText}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      countryGrid.appendChild(card);
+    });
+  }
+
+  // Render GDP chart
+  function renderGdpChart(data) {
+    gdpChart.innerHTML = '';
+    
+    // Sort data by GDP per capita
+    const sortedData = [...data].sort((a, b) => b.gdpPerCapita - a.gdpPerCapita);
+    
+    // Create bars for each country
+    sortedData.forEach(country => {
+      const barContainer = document.createElement('div');
+      barContainer.className = 'flex items-center mb-3';
+      
+      // Determine bar color based on GDP per capita
+      let barColor = 'bg-red-500';
+      if (country.gdpPerCapita > 5000) barColor = 'bg-purple-500';
+      else if (country.gdpPerCapita > 3000) barColor = 'bg-green-500';
+      else if (country.gdpPerCapita > 1000) barColor = 'bg-yellow-500';
+      else if (country.gdpPerCapita > 500) barColor = 'bg-blue-500';
+      
+      // Calculate bar width as percentage of highest GDP
+      const maxGdp = Math.max(...sortedData.map(c => c.gdpPerCapita));
+      const barWidth = (country.gdpPerCapita / maxGdp) * 70;
+      
+      barContainer.innerHTML = `
+        <div class="w-24 text-sm text-gray-700 dark:text-gray-300 truncate">${country.name}</div>
+        <div class="flex-1 flex items-center">
+          <div class="${barColor} h-6 rounded-md" style="width: ${barWidth}%"></div>
+          <div class="ml-2 text-sm text-gray-700 dark:text-gray-300">${formatCurrency(Math.round(country.gdpPerCapita))}</div>
+        </div>
+      `;
+      
+      gdpChart.appendChild(barContainer);
+    });
+  }
+
+  // Toggle advanced analytics
+  function toggleAdvancedAnalytics() {
+    advancedAnalytics.classList.toggle('hidden');
+    
+    const advancedLabel = translate('dashboard_advanced', 'Advanced Analytics');
+    const hideLabel = translate('dashboard_hide_analytics', 'Hide Analytics');
+
+    if (advancedAnalytics.classList.contains('hidden')) {
+      toggleAdvancedBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <path d="M3 3v18h18" />
+          <path d="M7 13l3-3 4 4 3-3" />
+        </svg>
+        ${advancedLabel}
+      `;
+    } else {
+      toggleAdvancedBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <path d="M18 6L6 18" />
+          <path d="M6 6l12 12" />
+        </svg>
+        ${hideLabel}
+      `;
+    }
+  }
+
+  // Update advanced analytics section
+  function updateAdvancedAnalytics(data) {
+    // Update country dropdown
+    timeSeriesCountry.innerHTML = '<option value="all">All Countries</option>';
+    data.forEach(country => {
+      const option = document.createElement('option');
+      option.value = country.code;
+      option.textContent = country.name;
+      timeSeriesCountry.appendChild(option);
+    });
+    
+    // Calculate economic disparity
+    const gdpValues = data.map(country => country.gdpPerCapita).filter(val => val !== null);
+    const maxGdp = Math.max(...gdpValues);
+    const minGdp = Math.min(...gdpValues);
+    const disparityRatio = (maxGdp / minGdp).toFixed(1);
+    
+    // Calculate Gini coefficient (simplified approximation)
+    const sortedGdp = [...gdpValues].sort((a, b) => a - b);
+    const n = sortedGdp.length;
+    let giniSum = 0;
+    
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        giniSum += Math.abs(sortedGdp[i] - sortedGdp[j]);
+      }
+    }
+    
+    const meanGdp = sortedGdp.reduce((a, b) => a + b, 0) / n;
+    const giniCoefficient = (giniSum / (2 * n * n * meanGdp)).toFixed(3);
+    
+    // Update disparity section
+    document.getElementById('giniCoefficient').textContent = giniCoefficient;
+    document.getElementById('inequalityLevel').textContent = giniCoefficient > 0.4 ? 'high' : 'moderate';
+    document.getElementById('disparityHigh').textContent = formatCurrency(Math.round(maxGdp));
+    document.getElementById('disparityLow').textContent = formatCurrency(Math.round(minGdp));
+    document.getElementById('disparityRatio').textContent = `${disparityRatio}x`;
+    
+    // Calculate correlations (simplified)
+    const gdpPerCapitaValues = data.map(c => c.gdpPerCapita).filter(v => v !== null);
+    const gdpGrowthValues = data.map(c => c.gdpGrowth).filter(v => v !== null);
+    const populationValues = data.map(c => c.population).filter(v => v !== null);
+    
+    // Simple correlation calculation
+    function calculateCorrelation(x, y) {
+      if (x.length !== y.length) return '--';
+      
+      const n = x.length;
+      const sumX = x.reduce((a, b) => a + b, 0);
+      const sumY = y.reduce((a, b) => a + b, 0);
+      const sumXY = x.reduce((sum, val, i) => sum + val * y[i], 0);
+      const sumX2 = x.reduce((sum, val) => sum + val * val, 0);
+      const sumY2 = y.reduce((sum, val) => sum + val * val, 0);
+      
+      const numerator = n * sumXY - sumX * sumY;
+      const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+      
+      if (denominator === 0) return '--';
+      
+      return (numerator / denominator).toFixed(2);
+    }
+    
+    // Update correlation matrix
+    document.getElementById('correlationGdpGrowth').textContent = calculateCorrelation(gdpPerCapitaValues, gdpGrowthValues);
+    document.getElementById('correlationPopulation').textContent = calculateCorrelation(gdpPerCapitaValues, populationValues);
+    document.getElementById('correlationGrowthGdp').textContent = calculateCorrelation(gdpGrowthValues, gdpPerCapitaValues);
+    document.getElementById('correlationGrowthPopulation').textContent = calculateCorrelation(gdpGrowthValues, populationValues);
+    document.getElementById('correlationPopulationGdp').textContent = calculateCorrelation(populationValues, gdpPerCapitaValues);
+    document.getElementById('correlationPopulationGrowth').textContent = calculateCorrelation(populationValues, gdpGrowthValues);
+    
+    // Generate policy recommendations
+    const recommendations = document.getElementById('policyRecommendations');
+    recommendations.innerHTML = '';
+    
+    const policySuggestions = [
+      'Focus on infrastructure development to boost regional connectivity',
+      'Implement policies to diversify economies beyond primary commodities',
+      'Strengthen regional trade agreements to enhance intra-regional commerce',
+      'Invest in education and skills development for future economic growth',
+      'Promote digital transformation to leapfrog traditional development stages'
+    ];
+    
+    policySuggestions.forEach(suggestion => {
+      const li = document.createElement('li');
+      li.className = 'flex items-start gap-2';
+      li.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+        ${suggestion}
+      `;
+      recommendations.appendChild(li);
+    });
+  }
+
+  // Initialize dashboard
+  function initDashboard() {
+    // Auto-fetch data on page load
+    fetchWorldBankData();
+    
+    // Set up periodic refresh (every 5 minutes)
+    setInterval(fetchWorldBankData, 300000);
+  }
+
+  // Start the dashboard
+  initDashboard();
+});
+</script>
+
+
+<script>
+  window.PAGE_TRANSLATIONS = {
+    en: {
+      page_title: 'Axel Dev Lab | Data Intelligence & Policy Insights',
+      hero_title: 'Data Intelligence for Real-World Impact',
+      hero_subtitle: 'We turn complex development data into clear insights for policy, investment, and progress.',
+      hero_cta_primary: 'Explore Data',
+      hero_cta_secondary: 'Read Research',
+      hero_overlay_charts: 'Visual Charts',
+      hero_overlay_search: 'Find Data Fast',
+      hero_overlay_trend: 'Track Changes',
+      hero_overlay_download: 'Download Data',
+      metric_visual_charts: 'Visual Charts',
+      metric_country_maps: 'Country Maps',
+      metric_growth_trends: 'Growth Trends',
+      metric_easy_search: 'Easy Search',
+      axes_heading: 'Research Axes & Themes',
+      axes_intro: 'Core domains guiding our analysis and delivery work.',
+      axes_economic_title: 'Economic Development',
+      axes_economic_desc: 'Growth, trade, jobs, productivity, market integration.',
+      axes_social_title: 'Social Policy',
+      axes_social_desc: 'Education, health, social protection, equity.',
+      axes_governance_title: 'Governance & Institutions',
+      axes_governance_desc: 'Public sector performance, accountability, rule of law.',
+      axes_climate_title: 'Climate & Environment',
+      axes_climate_desc: 'Resilience, adaptation, natural resources, energy.',
+      axes_finance_title: 'Public Finance',
+      axes_finance_desc: 'Revenue, expenditure, debt, fiscal transparency.',
+      axes_digital_title: 'Digital & Data Governance',
+      axes_digital_desc: 'Open data, privacy, interoperability, civic tech.',
+      impact_heading: 'Data-Driven Impact Across Sectors',
+      impact_intro: 'Our work transforms raw data into actionable intelligence for policymakers, development agencies, and communities worldwide.',
+      impact_card_econ_title: 'Economic Development',
+      impact_card_econ_desc: 'Analyzing market trends, trade patterns, and economic policies to foster sustainable growth in emerging economies.',
+      impact_card_social_title: 'Social Policy',
+      impact_card_social_desc: 'Evaluating education, healthcare, and social protection programs to enhance equity and community wellbeing.',
+      impact_card_env_title: 'Environmental Sustainability',
+      impact_card_env_desc: 'Monitoring climate impacts and natural resources to support resilient development and conservation efforts.',
+      latest_ecowas: 'Latest Update: ECOWAS Dataset Released',
+      latest_ecowas_desc: 'A new trade and development dataset is now available for download.',
+      card_photo: 'Photo Essay: Urbanization in Abidjan',
+      card_photo_desc: 'A visual story of growth and inequality.',
+      card_brief: 'Policy Brief: Youth Employment',
+      card_brief_desc: 'Strategic recommendations for labor reforms.',
+      card_map: 'Map Export: Electricity Access',
+      card_map_desc: 'QGIS-powered national access map now live.',
+      get_started: 'Explore Our Platform',
+      dashboard_heading: 'West Africa Economic Intelligence',
+      dashboard_intro: 'Advanced analytics and real-time economic indicators for ECOWAS nations with economist insights.',
+      dashboard_card_title: 'Economic Data Dashboard',
+      dashboard_last_updated: 'Data not yet fetched',
+      dashboard_last_updated_prefix: 'Last updated:',
+      dashboard_refresh: 'Refresh Data',
+      dashboard_advanced: 'Advanced Analytics',
+      dashboard_hide_analytics: 'Hide Analytics',
+      dashboard_loading: 'Fetching latest economic data from World Bank API...',
+      dashboard_error: 'Data fetch failed. Check your network or try refreshing.',
+      dashboard_overview_title: 'Regional Economic Overview',
+      dashboard_population_label: 'Total Population',
+      dashboard_population_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Loading...</span>',
+      dashboard_growth_label: 'Average GDP Growth',
+      dashboard_growth_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Loading...</span>',
+      dashboard_gdp_label: 'Avg. GDP Per Capita',
+      dashboard_gdp_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Loading...</span>',
+      dashboard_trend_yoy: 'YoY',
+      dashboard_highest_gdp_label: 'Highest GDP Per Capita',
+      dashboard_highest_growth_label: 'Highest GDP Growth (Annual)',
+      dashboard_distribution_title: 'Regional GDP Per Capita Distribution',
+      dashboard_distribution_caption: 'Current USD • Auto-scrolling data stream',
+      dashboard_legend_low: '< $500',
+      dashboard_legend_low_mid: '$501 - $1,000',
+      dashboard_legend_mid: '$1,001 - $3,000',
+      dashboard_legend_mid_high: '$3,001 - $5,000',
+      dashboard_legend_high: '> $5,000',
+      dashboard_chart_loading: 'Loading GDP data visualization...',
+      dashboard_country_analysis_title: 'Country Performance Analysis',
+      dashboard_metric_institutions: 'Institutions',
+      dashboard_scenario_title: 'Scenario Outcome',
+      dashboard_scenario_description: 'Projected real GDP growth over 10 years.',
+      dashboard_chart_branding: 'Powered by Axel Dev Lab',
+      dashboard_country_population: 'Population',
+      dashboard_country_gdp_capita: 'GDP Per Capita',
+      dashboard_country_status: 'Economic Status:',
+      dashboard_country_status_high: 'Developed',
+      dashboard_country_status_medium: 'Developing',
+      dashboard_country_status_low: 'Low Income',
+      dataset_trade_title: 'ECOWAS Trade Data',
+      dataset_trade_desc: 'Regional trade patterns and economic indicators',
+      dataset_education_title: 'Education Metrics',
+      dataset_education_desc: 'Access, quality, and outcomes across developing regions',
+      dataset_climate_title: 'Climate Resilience',
+      dataset_climate_desc: 'Environmental indicators and adaptation strategies',
+      dataset_link: 'Explore dataset',
+      global_reach_heading: 'Global Reach, Local Impact',
+      global_reach_intro: 'Our work spans continents, with focused expertise in emerging economies and developing regions.',
+      global_reach_highlight: '4 Projects Across 15 Countries',
+      global_reach_caption: 'Driving evidence-based policy and insights',
+      global_reach_cta: 'Explore Our Projects',
+      cta_heading: 'Ready to Transform Data Into Impact?',
+      cta_intro: 'Partner with us to develop evidence-based solutions for your most complex development challenges.',
+      cta_primary: 'Start a Collaboration',
+      cta_secondary: 'Explore Our Research',
+      direct_contacts_title: 'Direct Contacts',
+      direct_contacts_intro: 'Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab & Axel Dev Consulting.',
+      direct_contacts_general_heading: 'General & Partnerships',
+      direct_contacts_client_heading: 'Client & Operations',
+      direct_contacts_research_heading: 'Research & Media',
+      direct_contacts_people_heading: 'People & Governance',
+      direct_contacts_general_info: 'General info:',
+      direct_contacts_partnerships: 'Partnerships:',
+      direct_contacts_executive: 'Executive office:',
+      direct_contacts_support: 'Client support:',
+      direct_contacts_data: 'Data services:',
+      direct_contacts_billing: 'Billing:',
+      direct_contacts_research: 'Research desk:',
+      direct_contacts_press: 'Press office:',
+      direct_contacts_community: 'Community:',
+      direct_contacts_hr: 'Talent & HR:',
+      direct_contacts_legal: 'Legal:',
+      direct_contacts_admin: 'Administration:'
+    },
+    fr: {
+      page_title: 'Axel Dev Lab | Intelligence des données & perspectives politiques',
+      hero_title: 'Intelligence des données pour un impact concret',
+      hero_subtitle: 'Nous transformons des données de développement complexes en informations claires pour guider les politiques, l\'investissement et le progrès.',
+      hero_cta_primary: 'Explorer les données',
+      hero_cta_secondary: 'Lire nos recherches',
+      hero_overlay_charts: 'Visualisations',
+      hero_overlay_search: 'Recherche rapide',
+      hero_overlay_trend: 'Suivre les évolutions',
+      hero_overlay_download: 'Télécharger les données',
+      metric_visual_charts: 'Visualisations',
+      metric_country_maps: 'Cartes pays',
+      metric_growth_trends: 'Tendances de croissance',
+      metric_easy_search: 'Recherche facilitée',
+      axes_heading: 'Axes et thématiques de recherche',
+      axes_intro: 'Les domaines qui orientent nos analyses et nos livrables.',
+      axes_economic_title: 'Développement économique',
+      axes_economic_desc: 'Croissance, commerce, emploi, productivité, intégration des marchés.',
+      axes_social_title: 'Politiques sociales',
+      axes_social_desc: 'Éducation, santé, protection sociale, équité.',
+      axes_governance_title: 'Gouvernance et institutions',
+      axes_governance_desc: 'Performance du secteur public, redevabilité, état de droit.',
+      axes_climate_title: 'Climat et environnement',
+      axes_climate_desc: 'Résilience, adaptation, ressources naturelles, énergie.',
+      axes_finance_title: 'Finances publiques',
+      axes_finance_desc: 'Recettes, dépenses, dette, transparence budgétaire.',
+      axes_digital_title: 'Gouvernance des données et du numérique',
+      axes_digital_desc: 'Données ouvertes, vie privée, interopérabilité, civic tech.',
+      impact_heading: 'Un impact sectoriel piloté par les données',
+      impact_intro: 'Notre travail transforme des données brutes en renseignements actionnables pour les décideurs publics, les agences de développement et les communautés du monde entier.',
+      impact_card_econ_title: 'Développement économique',
+      impact_card_econ_desc: 'Analyse des tendances de marché, des échanges et des politiques économiques pour soutenir une croissance durable dans les économies émergentes.',
+      impact_card_social_title: 'Politiques sociales',
+      impact_card_social_desc: 'Évaluation de l\'éducation, de la santé et de la protection sociale afin de renforcer l\'équité et le bien-être collectif.',
+      impact_card_env_title: 'Durabilité environnementale',
+      impact_card_env_desc: 'Suivi des impacts climatiques et des ressources naturelles pour soutenir un développement résilient et la conservation.',
+      latest_ecowas: 'Dernière mise à jour : jeu de données CEDEAO',
+      latest_ecowas_desc: 'Un nouveau jeu de données sur le commerce et le développement est disponible au téléchargement.',
+      card_photo: 'Reportage photo : urbanisation à Abidjan',
+      card_photo_desc: 'Un récit visuel sur la croissance et les inégalités.',
+      card_brief: 'Note de politique : emploi des jeunes',
+      card_brief_desc: 'Recommandations stratégiques pour les réformes du marché du travail.',
+      card_map: 'Carte export : accès à l\'électricité',
+      card_map_desc: 'Carte nationale de l\'accès à l\'électricité générée avec QGIS.',
+      get_started: 'Découvrez notre plateforme',
+      dashboard_heading: 'Veille économique Afrique de l\'Ouest',
+      dashboard_intro: 'Analyses avancées et indicateurs en temps réel pour la CEDEAO, enrichis par les éclairages d\'économistes.',
+      dashboard_card_title: 'Tableau de bord économique',
+      dashboard_last_updated: 'Données non encore chargées',
+      dashboard_last_updated_prefix: 'Dernière mise à jour :',
+      dashboard_refresh: 'Actualiser les données',
+      dashboard_advanced: 'Analyses avancées',
+      dashboard_hide_analytics: 'Masquer les analyses',
+      dashboard_loading: 'Récupération des données économiques les plus récentes via l\'API de la Banque mondiale...',
+      dashboard_error: 'Échec de récupération des données. Vérifiez votre connexion ou réessayez.',
+      dashboard_overview_title: 'Panorama économique régional',
+      dashboard_population_label: 'Population totale',
+      dashboard_population_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Chargement...</span>',
+      dashboard_growth_label: 'Croissance moyenne du PIB',
+      dashboard_growth_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Chargement...</span>',
+      dashboard_gdp_label: 'PIB moyen par habitant',
+      dashboard_gdp_trend: '<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-500"><path d="M12 5v14" /><path d="M19 12l-7 7-7-7" /></svg>Chargement...</span>',
+      dashboard_trend_yoy: 'sur un an',
+      dashboard_highest_gdp_label: 'PIB par habitant le plus élevé',
+      dashboard_highest_growth_label: 'Croissance du PIB la plus élevée (annuelle)',
+      dashboard_distribution_title: 'Répartition régionale du PIB par habitant',
+      dashboard_distribution_caption: 'USD courants • Flux de données défilant automatiquement',
+      dashboard_legend_low: '< 500 $US',
+      dashboard_legend_low_mid: '501 $US - 1 000 $US',
+      dashboard_legend_mid: '1 001 $US - 3 000 $US',
+      dashboard_legend_mid_high: '3 001 $US - 5 000 $US',
+      dashboard_legend_high: '> 5 000 $US',
+      dashboard_chart_loading: 'Chargement de la visualisation du PIB...',
+      dashboard_country_analysis_title: 'Analyse des performances pays',
+      dashboard_metric_institutions: 'Institutions',
+      dashboard_scenario_title: 'Résultat du scénario',
+      dashboard_scenario_description: 'Projection de la croissance réelle du PIB sur 10 ans.',
+      dashboard_chart_branding: 'Propulsé par Axel Dev Lab',
+      dashboard_country_population: 'Population',
+      dashboard_country_gdp_capita: 'PIB par habitant',
+      dashboard_country_status: 'Situation économique :',
+      dashboard_country_status_high: 'Développé',
+      dashboard_country_status_medium: 'En développement',
+      dashboard_country_status_low: 'Faible revenu',
+      dataset_trade_title: 'Données commerciales CEDEAO',
+      dataset_trade_desc: 'Tendances régionales des échanges et indicateurs économiques',
+      dataset_education_title: 'Indicateurs éducatifs',
+      dataset_education_desc: 'Accès, qualité et résultats dans les régions en développement',
+      dataset_climate_title: 'Résilience climatique',
+      dataset_climate_desc: 'Indicateurs environnementaux et stratégies d\'adaptation',
+      dataset_link: 'Explorer le jeu de données',
+      global_reach_heading: 'Portée mondiale, impact local',
+      global_reach_intro: 'Nous intervenons sur plusieurs continents, avec une expertise dédiée aux économies émergentes et aux régions en développement.',
+      global_reach_highlight: '4 projets dans 15 pays',
+      global_reach_caption: 'Des politiques fondées sur des preuves et des analyses',
+      global_reach_cta: 'Découvrir nos projets',
+      cta_heading: 'Prêt à transformer vos données en impact ?',
+      cta_intro: 'Collaborez avec nous pour développer des solutions fondées sur les preuves pour vos défis de développement les plus complexes.',
+      cta_primary: 'Lancer une collaboration',
+      cta_secondary: 'Explorer nos publications',
+      direct_contacts_title: 'Contacts directs',
+      direct_contacts_intro: 'Contactez l\'équipe appropriée d\'Axel Dev Group LLC, qui réunit Axel Dev Lab et Axel Dev Consulting.',
+      direct_contacts_general_heading: 'Général & partenariats',
+      direct_contacts_client_heading: 'Clients & opérations',
+      direct_contacts_research_heading: 'Recherche & médias',
+      direct_contacts_people_heading: 'Ressources & gouvernance',
+      direct_contacts_general_info: 'Infos générales :',
+      direct_contacts_partnerships: 'Partenariats :',
+      direct_contacts_executive: 'Direction générale :',
+      direct_contacts_support: 'Support client :',
+      direct_contacts_data: 'Services data :',
+      direct_contacts_billing: 'Facturation :',
+      direct_contacts_research: 'Pôle recherche :',
+      direct_contacts_press: 'Relations presse :',
+      direct_contacts_community: 'Communauté :',
+      direct_contacts_hr: 'Talents & RH :',
+      direct_contacts_legal: 'Juridique :',
+      direct_contacts_admin: 'Administration :'
+    }
+  };
+</script>
+
 </body>
 </html>

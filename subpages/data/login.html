@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login · Axel Dev Lab</title>
+  <meta name="description" content="Keycloak login that redirects viewers to their presets page (preloaded) and admins to the admin dashboard." />
+  <link rel="icon" href="data:," />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    html:not(.auth-ready) body { opacity: 0; }
+    html.auth-ready body { opacity: 1; transition: opacity .2s ease; }
+  </style>
+  <!-- Replace AUTH.DOMAIN with your Keycloak base URL, e.g. https://auth.axel-dev-lab.com -->
+  <script defer src="https://AUTH.DOMAIN/js/keycloak.js"></script>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900 flex items-center justify-center p-6">
+
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-2xl shadow p-6 border">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 font-bold">ADL</div>
+        <div>
+          <h1 class="text-xl font-semibold">Axel Dev Lab</h1>
+          <p class="text-sm text-gray-500">Secure sign‑in</p>
+        </div>
+      </div>
+      <div id="status" class="text-sm text-gray-600">Redirecting to sign‑in…</div>
+      <div class="mt-4 flex items-center gap-2">
+        <div class="animate-spin w-5 h-5 rounded-full border-2 border-amber-500 border-t-transparent"></div>
+        <span class="text-xs text-gray-500">Please wait</span>
+      </div>
+      <div class="mt-6 flex gap-2">
+        <button id="retryBtn" class="hidden rounded-xl px-3 py-2 border hover:bg-gray-50 text-sm">Try again</button>
+        <button id="logoutBtn" class="hidden rounded-xl px-3 py-2 border hover:bg-gray-50 text-sm">Logout</button>
+      </div>
+      <p class="mt-6 text-xs text-gray-500">By continuing you agree to our Terms and Privacy.</p>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG — edit to match your deployment =====
+    const KEYCLOAK_URL = 'https://AUTH.DOMAIN'; // e.g. https://auth.axel-dev-lab.com
+    const REALM = 'axel-dev-lab';
+    const CLIENT_ID = 'dashboard-frontend';
+
+    // Where to send users after login
+    const VIEWER_TARGET = '/subpages/data/worldbank-pro.html'; // presets-enabled dashboard
+    const ADMIN_TARGET = '/admin/index.html'; // your admin dashboard
+
+    // ===== Helpers =====
+    function buildViewerUrlFromPreset() {
+      // Try to use a saved preset from localStorage (same origin)
+      let presets = {};
+      try { presets = JSON.parse(localStorage.getItem('presets') || '{}'); } catch {}
+      // Prefer a preset named "Default"; otherwise first available key
+      let chosen = null;
+      if (presets && typeof presets === 'object') {
+        if (presets['Default']) chosen = presets['Default'];
+        else {
+          const keys = Object.keys(presets);
+          if (keys.length) chosen = presets[keys[0]];
+        }
+      }
+      // Fallback if no presets exist yet
+      if (!chosen) {
+        chosen = {
+          category: 'Economic',
+          indicator: 'NY.GDP.MKTP.CD',
+          countries: ['CIV','GHA','NGA'],
+          log: false, norm: false, smooth: 1, start: null, end: null
+        };
+      }
+      const p = new URLSearchParams();
+      if (chosen.category) p.set('category', chosen.category);
+      if (chosen.indicator) p.set('indicator', chosen.indicator);
+      if (Array.isArray(chosen.countries)) p.set('countries', chosen.countries.join('|'));
+      if (chosen.log) p.set('log','1');
+      if (chosen.norm) p.set('norm','1');
+      if (chosen.smooth && Number(chosen.smooth) > 1) p.set('smooth', String(chosen.smooth));
+      if (chosen.start) p.set('start', String(chosen.start));
+      if (chosen.end) p.set('end', String(chosen.end));
+      return VIEWER_TARGET + (p.toString() ? ('?' + p.toString()) : '');
+    }
+
+    function setStatus(msg, isError=false) {
+      const el = document.getElementById('status');
+      if (el) { el.textContent = msg; el.classList.toggle('text-red-600', !!isError); }
+    }
+
+    // ===== Keycloak init & redirect logic =====
+    let keycloak;
+    function initKeycloak() {
+      keycloak = new Keycloak({ url: KEYCLOAK_URL, realm: REALM, clientId: CLIENT_ID });
+      keycloak.init({ onLoad: 'login-required', pkceMethod: 'S256', checkLoginIframe: false })
+        .then(() => {
+          document.documentElement.classList.add('auth-ready');
+          setStatus('Signed in. Redirecting…');
+          const isSuper = keycloak.hasRealmRole('superadmin');
+          const isAdmin = isSuper || keycloak.hasRealmRole('admin');
+          const target = (isSuper || isAdmin) ? ADMIN_TARGET : buildViewerUrlFromPreset();
+          // Keep it clean in history
+          window.location.replace(target);
+        })
+        .catch((err) => {
+          console.error('Keycloak init failed', err);
+          document.getElementById('retryBtn')?.classList.remove('hidden');
+          setStatus('Could not start sign‑in. Check connection and try again.', true);
+        });
+    }
+
+    // Retry / Logout buttons
+    document.getElementById('retryBtn')?.addEventListener('click', () => {
+      setStatus('Retrying…');
+      initKeycloak();
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      if (!keycloak) return;
+      keycloak.logout({ redirectUri: window.location.origin + window.location.pathname });
+    });
+
+    // Kick things off
+    initKeycloak();
+  </script>
+</body>
+</html>

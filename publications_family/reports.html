@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-page="reports">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Institutional Reports | Axel Dev Group</title>
+    <meta name="description" content="Institutional reports from Axel Dev Group tracking systems performance across Africa." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="bg-gradient-to-b from-deepBlue-800 via-deepBlue-900 to-deepBlue-900 text-white">
+      <section class="mx-auto max-w-6xl px-6 py-16">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-axelGold/90">Institutional Reports</p>
+        <h1 class="mt-6 text-4xl font-semibold text-white sm:text-5xl" style="font-family: 'Poppins', sans-serif;">Institutional Reports — Systems and Performance.</h1>
+        <p class="mt-6 max-w-3xl text-lg text-slate-200">
+          Reports deliver comprehensive assessments of systems performance, readiness, and transformation priorities. Each volume blends analytics, interviews, and design scenarios tailored for governments, industries, and development partners.
+        </p>
+      </section>
+
+      <section class="mx-auto max-w-6xl space-y-10 px-6 pb-20">
+        <article class="report-card accent-reports">
+          <div class="report-card__media">
+            <img src="./assets/images/report-systems.jpg" alt="Systems performance report thumbnail" />
+          </div>
+          <div class="report-card__content">
+            <div class="report-card__header">
+              <span class="report-card__tag">Annual</span>
+              <h2>Systems Performance Atlas 2024</h2>
+              <p>Pan-African benchmarking of infrastructure, governance, and innovation systems.</p>
+            </div>
+            <ul class="report-card__meta">
+              <li>
+                <span>Release</span>
+                <strong>February 2024</strong>
+              </li>
+              <li>
+                <span>Coverage</span>
+                <strong>35 Countries</strong>
+              </li>
+              <li>
+                <span>Pages</span>
+                <strong>186</strong>
+              </li>
+            </ul>
+            <div class="report-card__actions">
+              <a href="./assets/pdf/report-systems-atlas.pdf" class="btn-primary">Download Report</a>
+              <a href="#" class="btn-secondary">Executive Summary</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="report-card accent-reports">
+          <div class="report-card__media">
+            <img src="./assets/images/report-health.jpg" alt="Health resilience report thumbnail" />
+          </div>
+          <div class="report-card__content">
+            <div class="report-card__header">
+              <span class="report-card__tag">Special Edition</span>
+              <h2>Health Resilience Scorecard</h2>
+              <p>Tracking primary health care resilience across African metropolitan regions.</p>
+            </div>
+            <ul class="report-card__meta">
+              <li>
+                <span>Release</span>
+                <strong>October 2023</strong>
+              </li>
+              <li>
+                <span>Coverage</span>
+                <strong>12 Cities</strong>
+              </li>
+              <li>
+                <span>Visuals</span>
+                <strong>48</strong>
+              </li>
+            </ul>
+            <div class="report-card__actions">
+              <a href="./assets/pdf/report-health-resilience.pdf" class="btn-primary">Download Report</a>
+              <a href="#" class="btn-secondary">Data Visualization</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="report-card accent-reports">
+          <div class="report-card__media">
+            <img src="./assets/images/report-digital.jpg" alt="Digital economy report thumbnail" />
+          </div>
+          <div class="report-card__content">
+            <div class="report-card__header">
+              <span class="report-card__tag">Quarterly</span>
+              <h2>Digital Economy State of Play</h2>
+              <p>Quarterly narratives on AI, data governance, and digital trade corridors.</p>
+            </div>
+            <ul class="report-card__meta">
+              <li>
+                <span>Release</span>
+                <strong>Q1 2024</strong>
+              </li>
+              <li>
+                <span>Focus</span>
+                <strong>AI & Data</strong>
+              </li>
+              <li>
+                <span>Annex</span>
+                <strong>Open Data Set</strong>
+              </li>
+            </ul>
+            <div class="report-card__actions">
+              <a href="./assets/pdf/report-digital-economy.pdf" class="btn-primary">Download Report</a>
+              <a href="#" class="btn-secondary">Interactive Dashboard</a>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

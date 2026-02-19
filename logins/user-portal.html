@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Portal | Axel Dev Lab</title>
+  <meta name="description" content="User dashboard for Axel Dev Lab services protected by Keycloak user role." />
+  <link rel="icon" type="image/png" href="../assets/images/exports/lg_axeldevlab_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .pattern { background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15), transparent 45%), radial-gradient(circle at bottom, rgba(56, 189, 248, 0.1), transparent 50%); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-50 min-h-screen pattern">
+  <div id="loadingState" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
+    <div class="text-center space-y-3">
+      <div class="h-12 w-12 mx-auto border-2 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-slate-400 text-sm">Connecting to Keycloak...</p>
+    </div>
+  </div>
+
+  <div id="portalShell" class="min-h-screen grid gap-6 p-6 md:grid-cols-[280px,1fr]" hidden>
+    <aside class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-6 flex flex-col">
+      <div class="space-y-2">
+        <p class="text-xs uppercase tracking-[0.35em] text-emerald-300">User Portal</p>
+        <h1 class="text-2xl font-semibold text-white">Welcome, <span id="userName">Guest</span></h1>
+        <p class="text-sm text-slate-400">Role: <span id="userRole">user</span></p>
+      </div>
+      <div class="mt-6 space-y-3 text-sm text-slate-300">
+        <a href="#services" class="block rounded-2xl border border-transparent px-4 py-2 hover:border-emerald-400/50 hover:bg-emerald-400/10">Services</a>
+        <a href="#profile" class="block rounded-2xl border border-transparent px-4 py-2 hover:border-emerald-400/50 hover:bg-emerald-400/10">Profile</a>
+        <a href="#resources" class="block rounded-2xl border border-transparent px-4 py-2 hover:border-emerald-400/50 hover:bg-emerald-400/10">Resources</a>
+      </div>
+      <div class="mt-auto pt-6 border-t border-slate-800/60 space-y-3 text-sm">
+        <p id="tokenStatus" class="text-slate-400">Session active</p>
+        <button id="logoutButton" class="w-full rounded-2xl bg-slate-800 hover:bg-slate-700 py-2 font-semibold text-white">Logout</button>
+      </div>
+    </aside>
+
+    <main class="space-y-6">
+      <section class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Dashboard</p>
+        <h2 class="text-3xl font-semibold text-white">Your Personalized Workspace</h2>
+        <p class="text-slate-300 mt-3">Access curated services, insights, and profile tools aligned with your assignments.</p>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-400">Services</p>
+            <p class="text-2xl font-semibold" id="serviceCount">4</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-400">Last Login</p>
+            <p class="text-lg font-semibold" id="lastLogin">-</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-400">Session</p>
+            <p class="text-lg font-semibold" id="sessionStatus">Secured</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Services</p>
+            <h3 class="text-2xl font-semibold text-white">Quick links</h3>
+          </div>
+        </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <article class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <h4 class="text-lg font-semibold">Insight Briefs</h4>
+            <p class="text-sm text-slate-400">Latest policy and data insight drops curated for you.</p>
+            <button class="mt-3 text-sm text-emerald-300 font-semibold">View Briefs →</button>
+          </article>
+          <article class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <h4 class="text-lg font-semibold">Data Submissions</h4>
+            <p class="text-sm text-slate-400">Upload or update your research datasets securely.</p>
+            <button class="mt-3 text-sm text-emerald-300 font-semibold">Manage Data →</button>
+          </article>
+          <article class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <h4 class="text-lg font-semibold">Project Tracker</h4>
+            <p class="text-sm text-slate-400">Monitor milestones and deliverables.</p>
+            <button class="mt-3 text-sm text-emerald-300 font-semibold">Open Tracker →</button>
+          </article>
+          <article class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <h4 class="text-lg font-semibold">Support Desk</h4>
+            <p class="text-sm text-slate-400">Chat with the operations desk for fast assistance.</p>
+            <button class="mt-3 text-sm text-emerald-300 font-semibold">Get Support →</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="profile" class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Profile</p>
+            <h3 class="text-2xl font-semibold text-white">Personal profile</h3>
+          </div>
+          <button class="rounded-2xl border border-emerald-400/40 px-4 py-2 text-sm text-emerald-200">Update Details</button>
+        </div>
+        <dl class="mt-6 grid gap-4 md:grid-cols-2 text-sm text-slate-300">
+          <div>
+            <dt class="text-slate-400">Full Name</dt>
+            <dd class="text-lg font-semibold text-white" id="profileName">-</dd>
+          </div>
+          <div>
+            <dt class="text-slate-400">Email</dt>
+            <dd class="text-lg font-semibold text-white break-all" id="profileEmail">-</dd>
+          </div>
+          <div>
+            <dt class="text-slate-400">Username</dt>
+            <dd class="text-lg font-semibold text-white" id="profileUsername">-</dd>
+          </div>
+          <div>
+            <dt class="text-slate-400">Keycloak ID</dt>
+            <dd class="text-lg font-semibold text-white" id="profileId">-</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="resources" class="rounded-3xl border border-slate-800/70 bg-slate-900/60 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Resources</p>
+        <h3 class="text-2xl font-semibold text-white">Helpful assets</h3>
+        <div class="mt-6 grid gap-4 md:grid-cols-3 text-sm">
+          <div class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <p class="font-semibold">Knowledge Base</p>
+            <p class="text-slate-400">Playbooks and research standards.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <p class="font-semibold">Community</p>
+            <p class="text-slate-400">Collaborator discussions and AMAs.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+            <p class="font-semibold">Release Notes</p>
+            <p class="text-slate-400">Latest updates to the platform.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="unauthorizedState" class="hidden fixed inset-0 z-40 bg-slate-950 text-center px-6 py-12">
+    <div class="max-w-lg mx-auto border border-rose-500/40 rounded-3xl bg-slate-900/80 p-8 space-y-4">
+      <p class="text-sm uppercase tracking-[0.35em] text-rose-300">Access denied</p>
+      <h2 class="text-3xl font-semibold text-white">User role required</h2>
+      <p class="text-slate-300 text-sm">You are authenticated but missing the <strong>user</strong> role. Please contact an administrator.</p>
+      <button id="returnToLogin" class="rounded-2xl bg-rose-500/80 hover:bg-rose-400 text-white px-4 py-2">Return to Unified Login</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@23.0.7/dist/keycloak.min.js"></script>
+  <script src="keycloak-settings.js"></script>
+  <script src="portal-auth.js"></script>
+  <script>
+    (function () {
+      var clientRef = null;
+      var loading = document.getElementById('loadingState');
+      var shell = document.getElementById('portalShell');
+      var unauthorized = document.getElementById('unauthorizedState');
+      var logoutButton = document.getElementById('logoutButton');
+      var returnButton = document.getElementById('returnToLogin');
+
+      function showShell() {
+        loading.hidden = true;
+        shell.hidden = false;
+      }
+
+      function showUnauthorized() {
+        loading.hidden = true;
+        unauthorized.classList.remove('hidden');
+      }
+
+      logoutButton.addEventListener('click', function () {
+        PortalAuth.logout(clientRef || 'user');
+      });
+      returnButton.addEventListener('click', function () {
+        window.location.href = '/logins/index.html';
+      });
+
+      // Accept realm role `user` and also `free`/`premium` as valid
+      PortalAuth.initPortal('user', ['user','free','premium'], {
+        onReady: function (client) {
+          clientRef = client;
+          renderProfile(client);
+          showShell();
+        },
+        onUnauthorized: function (client) {
+          clientRef = client;
+          showUnauthorized();
+        },
+        onError: function () {
+          loading.querySelector('p').innerHTML = 'Could not connect. <a href="/logins/index.html" class="underline">Return to login</a>';
+        },
+      });
+
+      function renderProfile(client) {
+        var token = client.tokenParsed || {};
+        document.getElementById('userName').textContent = token.given_name || token.preferred_username || 'Colleague';
+        document.getElementById('userRole').textContent = 'user';
+        document.getElementById('profileName').textContent = token.name || document.getElementById('userName').textContent;
+        document.getElementById('profileEmail').textContent = token.email || '—';
+        document.getElementById('profileUsername').textContent = token.preferred_username || '—';
+        document.getElementById('profileId').textContent = token.sub || '—';
+        document.getElementById('lastLogin').textContent = new Date().toLocaleString();
+        document.getElementById('tokenStatus').textContent = 'Session valid. Auto-refresh enabled.';
+        document.getElementById('sessionStatus').textContent = 'Active';
+      }
+    })();
+  </script>
+</body>
+</html>

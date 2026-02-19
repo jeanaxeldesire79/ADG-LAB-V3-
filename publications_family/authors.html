@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-page="authors">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authors | Axel Dev Group</title>
+    <meta name="description" content="Discover the minds shaping Axel Dev Group publications." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="mx-auto max-w-7xl px-6 py-16">
+      <header class="mb-16 space-y-6 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-axelGold">Authors</p>
+        <h1 class="text-4xl font-semibold text-deepBlue-900 sm:text-5xl" style="font-family: 'Poppins', sans-serif;">The Minds Behind the Metrics.</h1>
+        <p class="mx-auto max-w-3xl text-lg text-axelGray">
+          ADG authors blend practitioner depth with data craft. Filter by community, explore expertise, and follow their latest publications.
+        </p>
+      </header>
+
+      <section class="mb-12 flex flex-wrap justify-center gap-4">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip accent-authors" data-filter="lab">Lab</button>
+        <button class="filter-chip accent-authors" data-filter="consulting">Consulting</button>
+        <button class="filter-chip accent-authors" data-filter="advisory">Advisory</button>
+        <button class="filter-chip accent-authors" data-filter="fellow">Fellow</button>
+      </section>
+
+      <section class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="author-card" data-category="lab">
+          <div class="author-card__media">
+            <img src="./assets/images/author-amivi.jpg" alt="Portrait of Amivi Lawson" />
+          </div>
+          <div class="author-card__body">
+            <h2>Amivi Lawson</h2>
+            <p class="author-card__role">Lead Systems Architect, Data & Foresight Lab</p>
+            <p class="author-card__bio">Architecting adaptive social protection systems and applied data collaboratives.</p>
+            <ul class="author-card__tags">
+              <li>Social Protection</li>
+              <li>Data Fusion</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./briefs.html" class="btn-primary">View Briefs</a>
+              <a href="./papers.html" class="btn-tertiary">Research Papers</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="author-card" data-category="consulting">
+          <div class="author-card__media">
+            <img src="./assets/images/author-safiatou.jpg" alt="Portrait of Safiatou Ndiaye" />
+          </div>
+          <div class="author-card__body">
+            <h2>Safiatou Ndiaye</h2>
+            <p class="author-card__role">Principal Strategist, Consulting</p>
+            <p class="author-card__bio">Guides civic transformation engagements and participatory governance programs.</p>
+            <ul class="author-card__tags">
+              <li>Civic Tech</li>
+              <li>Governance</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./memos.html" class="btn-primary">Read Memos</a>
+              <a href="./reports.html" class="btn-tertiary">Reports</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="author-card" data-category="advisory">
+          <div class="author-card__media">
+            <img src="./assets/images/author-lopes.jpg" alt="Portrait of Lopes Martins" />
+          </div>
+          <div class="author-card__body">
+            <h2>Lopes Martins</h2>
+            <p class="author-card__role">Senior Advisor, Finance & Investment</p>
+            <p class="author-card__bio">Leads capital mobilization strategy and economic diplomacy portfolios.</p>
+            <ul class="author-card__tags">
+              <li>Finance</li>
+              <li>Investment</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./papers.html" class="btn-primary">Research Papers</a>
+              <a href="./press.html" class="btn-tertiary">Press</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="author-card" data-category="fellow">
+          <div class="author-card__media">
+            <img src="./assets/images/author-kemi.jpg" alt="Portrait of Dr. Kemi Ofori" />
+          </div>
+          <div class="author-card__body">
+            <h2>Dr. Kemi Ofori</h2>
+            <p class="author-card__role">Health Systems Fellow</p>
+            <p class="author-card__bio">Champions resilient health ecosystems and rapid response architecture.</p>
+            <ul class="author-card__tags">
+              <li>Health Systems</li>
+              <li>Resilience</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./briefs.html" class="btn-primary">Policy Briefs</a>
+              <a href="./reports.html" class="btn-tertiary">Reports</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="author-card" data-category="lab">
+          <div class="author-card__media">
+            <img src="./assets/images/author-amina.jpg" alt="Portrait of Dr. Amina Hassan" />
+          </div>
+          <div class="author-card__body">
+            <h2>Dr. Amina Hassan</h2>
+            <p class="author-card__role">Lead Scientist, AI & Ethics Lab</p>
+            <p class="author-card__bio">Explores responsible AI, data sovereignty, and algorithmic governance.</p>
+            <ul class="author-card__tags">
+              <li>AI Ethics</li>
+              <li>Governance</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./papers.html" class="btn-primary">Research Papers</a>
+              <a href="./memos.html" class="btn-tertiary">Memos</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="author-card" data-category="consulting">
+          <div class="author-card__media">
+            <img src="./assets/images/author-dayo.jpg" alt="Portrait of Dayo Balogun" />
+          </div>
+          <div class="author-card__body">
+            <h2>Dayo Balogun</h2>
+            <p class="author-card__role">Senior Designer, Strategic Foresight</p>
+            <p class="author-card__bio">Designs foresight immersions and scenario planning for governments.</p>
+            <ul class="author-card__tags">
+              <li>Foresight</li>
+              <li>Scenario</li>
+            </ul>
+            <div class="author-card__actions">
+              <a href="./briefs.html" class="btn-primary">Policy Briefs</a>
+              <a href="./axes.html" class="btn-tertiary">Research Axes</a>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+/* ---- Axel Dev Lab · Keycloak login theme ---- */
+
+/* Base palette */
+:root{
+    --adl-amber-50:#fff7e6;
+    --adl-amber-100:#ffedcc;
+    --adl-amber-300:#ffc266;
+    --adl-amber-500:#f59e0b;
+    --adl-amber-600:#d97706;
+    --adl-text:#f3f4f6;          /* gray-100 */
+    --adl-muted:#9ca3af;         /* gray-400 */
+    --adl-dark:#0b0f19;          /* bg start */
+  }
+  
+  /* Page */
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: linear-gradient(135deg, var(--adl-dark), #000);
+    color: var(--adl-text);
+    display:flex; align-items:center; justify-content:center;
+    min-height:100vh;
+  }
+  
+  /* Card (matches the inline structure in login.ftl) */
+  .card{
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    width: 100%;
+    max-width: 420px;
+    padding: 24px;
+    animation: fadeUp .4s ease-out both;
+  }
+  
+  /* Brand */
+  .brand{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin-bottom: 18px;
+  }
+  .brandmark{
+    width:48px; height:48px; border-radius: 14px;
+    background: var(--adl-amber-500);
+    color:#111; font-weight:800; display:grid; place-items:center; font-size:1.125rem;
+    box-shadow: 0 8px 28px rgba(245,158,11,.35);
+  }
+  .brand h1{ margin:0; font-size:1.125rem; font-weight:700 }
+  .brand p{ margin:.15rem 0 0; font-size:.85rem; color:#d1d5db }
+  
+  /* Inputs */
+  input[type=text], input[type=password], input[type=email]{
+    width:100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.15);
+    padding: 12px 12px;
+    margin-bottom: 12px;
+    color: #111;
+  }
+  input:focus{
+    outline: none;
+    border-color: var(--adl-amber-500);
+    box-shadow: 0 0 0 3px rgba(245,158,11,.25);
+  }
+  
+  /* Primary button */
+  .btn, input[type=submit][name=login]{
+    display:block; width:100%;
+    border-radius:10px;
+    border: none;
+    background: var(--adl-amber-500);
+    color:#111; font-weight:700;
+    padding: 12px 14px;
+    cursor:pointer;
+    transition: transform .06s ease, filter .15s ease;
+  }
+  .btn:hover, input[type=submit][name=login]:hover{ filter:brightness(.97) }
+  .btn:active, input[type=submit][name=login]:active{ transform: translateY(1px) }
+  
+  /* Footer */
+  .footer{
+    margin-top: 18px;
+    font-size: .8rem;
+    color: var(--adl-muted);
+    text-align:center;
+  }
+  
+  /* Small fade */
+  @keyframes fadeUp{
+    from{ opacity:0; transform: translateY(8px) }
+    to  { opacity:1; transform: none }
+  }
+  
+  /* Responsiveness */
+  @media (max-width:480px){
+    .card{ padding:18px; border-radius:14px }
+    .brandmark{ width:44px; height:44px; border-radius:12px }
+  }
+  

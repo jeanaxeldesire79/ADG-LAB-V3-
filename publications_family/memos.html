@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-page="memos">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Memos | Axel Dev Group</title>
+    <meta name="description" content="Research memos from Axel Dev Group offer reflective intelligence to align teams across the African innovation economy." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="mx-auto max-w-6xl px-6 py-16">
+      <header class="mb-16 space-y-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-deepBlue-400">Research Memos</p>
+        <h1 class="text-4xl font-semibold text-deepBlue-900 sm:text-5xl" style="font-family: 'Poppins', sans-serif;">Research Memos — Reflections for Action.</h1>
+        <p class="max-w-3xl text-lg text-axelGray">
+          Memos capture the thinking loops within Axel Dev Group — raw insights, field reflections, and scenario calibrations that ready teams for rapid iteration.
+        </p>
+      </header>
+
+      <section class="mb-10 flex flex-wrap items-center justify-between gap-6">
+        <div class="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-widest">
+          <button class="filter-chip active">All Themes</button>
+          <button class="filter-chip accent-memos">Foresight</button>
+          <button class="filter-chip accent-memos">Capital</button>
+          <button class="filter-chip accent-memos">Systems</button>
+          <button class="filter-chip accent-memos">Field Notes</button>
+        </div>
+        <button class="inline-flex items-center gap-2 rounded-full border border-deepBlue-200 px-4 py-2 text-sm font-semibold text-deepBlue-600 transition hover:border-deepBlue-300 hover:text-deepBlue-800">
+          Subscribe to Memo Dispatch
+        </button>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <article class="memo-card accent-memos">
+          <h3>Learning Loops from Dakar Civic Labs</h3>
+          <p>Three feedback loops discovered during our civic beta and how they shift the program architecture.</p>
+          <div class="memo-card__meta">
+            <span>Author: Safiatou Ndiaye</span>
+            <span>Feb 2024</span>
+          </div>
+          <div class="memo-card__tags">
+            <span>Innovation</span>
+            <span>Governance</span>
+          </div>
+          <div class="memo-card__actions">
+            <a href="./assets/pdf/memo-dakar.pdf" class="btn-primary">Read Memo</a>
+            <a href="./authors.html" class="btn-tertiary">View Author</a>
+          </div>
+        </article>
+
+        <article class="memo-card accent-memos">
+          <h3>Capital Flows, African Sovereign Wealth, and the Green Pivot</h3>
+          <p>Notes from investor councils outlining four instruments mobilizing blended climate capital.</p>
+          <div class="memo-card__meta">
+            <span>Author: Lopes Martins</span>
+            <span>Jan 2024</span>
+          </div>
+          <div class="memo-card__tags">
+            <span>Finance</span>
+            <span>Climate</span>
+          </div>
+          <div class="memo-card__actions">
+            <a href="./assets/pdf/memo-capital.pdf" class="btn-primary">Read Memo</a>
+            <a href="./authors.html" class="btn-tertiary">View Author</a>
+          </div>
+        </article>
+
+        <article class="memo-card accent-memos">
+          <h3>Designing AI Ethics Councils with Traditional Authorities</h3>
+          <p>Exploring how customary custodians can co-design data stewardship and algorithm oversight.</p>
+          <div class="memo-card__meta">
+            <span>Author: Dr. Amina Hassan</span>
+            <span>Dec 2023</span>
+          </div>
+          <div class="memo-card__tags">
+            <span>AI</span>
+            <span>Society</span>
+          </div>
+          <div class="memo-card__actions">
+            <a href="./assets/pdf/memo-ai.pdf" class="btn-primary">Read Memo</a>
+            <a href="./authors.html" class="btn-tertiary">View Author</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

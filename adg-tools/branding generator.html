@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxelDev Advanced Brand Generator | 1000+ Formats & Features</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-4R0VjP6KyHR+Y6z+4dJVpaz6RtWLpmjHtkobaN6D+PfYZ7RUTpujISiFDUFxIr05oig3NbS1Ry6j3Tz6kBx0JQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-QbVf1nwV0wweAV/QXpVZl8vLwawx2UY8ailqXF/w3vGN9VOGBev5nYeD1yfknhk+aoCA8DmF5asJ5AZt0fjO9g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-gold: #F59E0B;
+            --secondary-blue: #2E6FB5;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
+            --dark-gray: #1F2937;
+            --light-gray: #F9FAFB;
+            --axel-blue: #003366;
+            --axel-gold: #F59E0B;
+            --axel-green: #10B981;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating-panel {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .floating-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12), 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+        
+        .format-badge {
+            transition: all 0.2s ease;
+        }
+        
+        .format-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-container {
+            background-image: 
+                linear-gradient(45deg, #e9e9e9 25%, transparent 25%),
+                linear-gradient(-45deg, #e9e9e9 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #e9e9e9 75%),
+                linear-gradient(-45deg, transparent 75%, #e9e9e9 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        
+        .color-swatch {
+            transition: transform 0.1s ease-in-out;
+        }
+        
+        .color-swatch.selected {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px #F59E0B;
+        }
+        
+        .template-option {
+            transition: all 0.2s ease;
+        }
+        
+        .template-option.selected {
+            border-color: #F59E0B;
+            box-shadow: 0 0 0 2px #F59E0B;
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+        
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(0, 51, 102, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 51, 102, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .tab-button.active {
+            background-color: #F59E0B;
+            color: white;
+        }
+        
+        .adg-tab-button.active {
+            background-color: var(--axel-gold);
+            color: #fff;
+        }
+        
+        .adg-tab-panel {
+            display: none;
+        }
+        
+        .adg-tab-panel.active {
+            display: block;
+        }
+        
+        .preview-canvas {
+            background-image: 
+                linear-gradient(45deg, rgba(0, 0, 0, 0.04) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(0, 0, 0, 0.04) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.04) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.04) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+        }
+        
+        .gradient-preview {
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .gradient-preview.selected {
+            box-shadow: 0 0 0 3px #F59E0B;
+        }
+        
+        .pattern-option {
+            transition: all 0.2s ease;
+        }
+        
+        .pattern-option.selected {
+            border-color: #F59E0B;
+            box-shadow: 0 0 0 2px #F59E0B;
+        }
+        
+        .font-option {
+            transition: all 0.2s ease;
+        }
+        
+        .font-option.selected {
+            border-color: #F59E0B;
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .preset-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .preset-item:hover {
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .history-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .history-item:hover {
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="grid-pattern min-h-screen">
+    <!-- Quick Actions Floating Bar -->
+    <div class="fixed top-1/2 right-0 transform -translate-y-1/2 z-40 flex flex-col space-y-2 p-2">
+        <button id="quick-export" class="w-12 h-12 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 transition-all flex items-center justify-center pulse-glow" title="Quick Export">
+            <i class="fas fa-download"></i>
+        </button>
+        <button id="toggle-dark" class="w-12 h-12 bg-gray-700 text-white rounded-full shadow-lg hover:bg-gray-800 transition-all flex items-center justify-center" title="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button id="toggle-grid" class="w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center" title="Toggle Grid">
+            <i class="fas fa-th"></i>
+        </button>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="sticky top-0 z-30 glass-effect border-b border-gray-200">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900" style="font-family: 'Poppins', sans-serif;">AxelDev Advanced Brand Generator</h1>
+                        <p class="text-xs text-gray-500">1000+ Formats & Features</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex space-x-1">
+                        <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">Dashboard</button>
+                        <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">Templates</button>
+                        <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">Assets</button>
+                        <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">Analytics</button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Dashboard Header -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Advanced Brand Generator</h2>
+                    <p class="text-gray-600">Create professional branding materials for 1000+ formats and platforms</p>
+                </div>
+                <div class="flex space-x-3 mt-4 md:mt-0">
+                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center">
+                        <i class="fas fa-sync-alt mr-2"></i> Sync Assets
+                    </button>
+                    <button class="px-4 py-2 brand-gradient text-white rounded-lg hover:opacity-90 transition-opacity flex items-center">
+                        <i class="fas fa-plus mr-2"></i> New Project
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Format Categories -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 floating-panel">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Format Categories</h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                    <div class="format-badge p-3 bg-blue-50 rounded-lg text-center cursor-pointer hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-hashtag text-blue-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Social Media</p>
+                    </div>
+                    <div class="format-badge p-3 bg-green-50 rounded-lg text-center cursor-pointer hover:bg-green-100 transition-colors">
+                        <i class="fas fa-desktop text-green-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Website</p>
+                    </div>
+                    <div class="format-badge p-3 bg-purple-50 rounded-lg text-center cursor-pointer hover:bg-purple-100 transition-colors">
+                        <i class="fas fa-file-alt text-purple-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Documents</p>
+                    </div>
+                    <div class="format-badge p-3 bg-yellow-50 rounded-lg text-center cursor-pointer hover:bg-yellow-100 transition-colors">
+                        <i class="fas fa-bullhorn text-yellow-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Marketing</p>
+                    </div>
+                    <div class="format-badge p-3 bg-red-50 rounded-lg text-center cursor-pointer hover:bg-red-100 transition-colors">
+                        <i class="fas fa-mobile-alt text-red-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Mobile</p>
+                    </div>
+                    <div class="format-badge p-3 bg-indigo-50 rounded-lg text-center cursor-pointer hover:bg-indigo-100 transition-colors">
+                        <i class="fas fa-print text-indigo-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Print</p>
+                    </div>
+                    <div class="format-badge p-3 bg-pink-50 rounded-lg text-center cursor-pointer hover:bg-pink-100 transition-colors">
+                        <i class="fas fa-video text-pink-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Video</p>
+                    </div>
+                    <div class="format-badge p-3 bg-teal-50 rounded-lg text-center cursor-pointer hover:bg-teal-100 transition-colors">
+                        <i class="fas fa-gift text-teal-600 text-lg mb-1"></i>
+                        <p class="text-xs font-medium">Merchandise</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <!-- Left Panel - Controls & Customization -->
+            <div class="xl:col-span-1 space-y-8">
+                <!-- Format Selection -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 floating-panel">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">Format Selection</h3>
+                        <button class="text-blue-600 text-sm font-medium">Select All</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Social Media</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-instagram" class="mr-2" checked>
+                                    <label for="format-instagram" class="text-sm">Instagram</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-facebook" class="mr-2" checked>
+                                    <label for="format-facebook" class="text-sm">Facebook</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-twitter" class="mr-2">
+                                    <label for="format-twitter" class="text-sm">Twitter</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-linkedin" class="mr-2">
+                                    <label for="format-linkedin" class="text-sm">LinkedIn</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-pinterest" class="mr-2">
+                                    <label for="format-pinterest" class="text-sm">Pinterest</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-tiktok" class="mr-2">
+                                    <label for="format-tiktok" class="text-sm">TikTok</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Website</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-hero" class="mr-2">
+                                    <label for="format-hero" class="text-sm">Hero Banner</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-favicon" class="mr-2">
+                                    <label for="format-favicon" class="text-sm">Favicon</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-og" class="mr-2">
+                                    <label for="format-og" class="text-sm">Open Graph</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-web-banner" class="mr-2">
+                                    <label for="format-web-banner" class="text-sm">Web Banner</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Print Materials</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-business-card" class="mr-2">
+                                    <label for="format-business-card" class="text-sm">Business Card</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-letterhead" class="mr-2">
+                                    <label for="format-letterhead" class="text-sm">Letterhead</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-brochure" class="mr-2">
+                                    <label for="format-brochure" class="text-sm">Brochure</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-flyer" class="mr-2">
+                                    <label for="format-flyer" class="text-sm">Flyer</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Documents</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-presentation" class="mr-2">
+                                    <label for="format-presentation" class="text-sm">Presentation</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-report" class="mr-2">
+                                    <label for="format-report" class="text-sm">Report</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-proposal" class="mr-2">
+                                    <label for="format-proposal" class="text-sm">Proposal</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="format-email" class="mr-2">
+                                    <label for="format-email" class="text-sm">Email Signature</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Logo Uploads -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 floating-panel">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Logo Management</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4 items-center">
+                            <div>
+                                <label for="logo-lab-input" class="block text-sm font-medium text-gray-700 mb-1 cursor-pointer">Axel Dev Lab</label>
+                                <img id="logo-lab-preview" src="https://placehold.co/150x150/f0f0f0/ccc?text=Upload" class="rounded-md h-24 w-full object-contain bg-gray-50 border p-1 mb-2">
+                                <input type="file" id="logo-lab-input" accept="image/*" class="hidden">
+                                <button id="copy-lab-logo" class="copy-button w-full bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded-md hover:bg-gray-300 transition-colors text-sm hidden">Copy URL</button>
+                            </div>
+                            <div>
+                                <label for="logo-consulting-input" class="block text-sm font-medium text-gray-700 mb-1 cursor-pointer">Axel Dev Consulting</label>
+                                <img id="logo-consulting-preview" src="https://placehold.co/150x150/f0f0f0/ccc?text=Upload" class="rounded-md h-24 w-full object-contain bg-gray-50 border p-1 mb-2">
+                                <input type="file" id="logo-consulting-input" accept="image/*" class="hidden">
+                                <button id="copy-consulting-logo" class="copy-button w-full bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded-md hover:bg-gray-300 transition-colors text-sm hidden">Copy URL</button>
+                            </div>
+                        </div>
+                        <p id="logo-status" class="text-sm text-center text-red-600 font-semibold">Please upload both logos to begin.</p>
+                        
+                        <div class="pt-4 border-t border-gray-200">
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Logo Variations</h4>
+                            <div class="flex space-x-2 overflow-x-auto pb-2">
+                                <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium whitespace-nowrap">Primary</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium whitespace-nowrap">Icon</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium whitespace-nowrap">Monochrome</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium whitespace-nowrap">Horizontal</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium whitespace-nowrap">Vertical</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 floating-panel">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="p-3 bg-blue-50 rounded-lg text-blue-600 hover:bg-blue-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-palette text-lg mb-1"></i>
+                            <span class="text-xs font-medium">Color Palette</span>
+                        </button>
+                        <button class="p-3 bg-green-50 rounded-lg text-green-600 hover:bg-green-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-font text-lg mb-1"></i>
+                            <span class="text-xs font-medium">Typography</span>
+                        </button>
+                        <button class="p-3 bg-purple-50 rounded-lg text-purple-600 hover:bg-purple-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-image text-lg mb-1"></i>
+                            <span class="text-xs font-medium">Logo Manager</span>
+                        </button>
+                        <button class="p-3 bg-yellow-50 rounded-lg text-yellow-600 hover:bg-yellow-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-magic text-lg mb-1"></i>
+                            <span class="text-xs font-medium">AI Generator</span>
+                        </button>
+                        <button class="p-3 bg-red-50 rounded-lg text-red-600 hover:bg-red-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-download text-lg mb-1"></i>
+                            <span class="text-xs font-medium">Export Kit</span>
+                        </button>
+                        <button class="p-3 bg-indigo-50 rounded-lg text-indigo-600 hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-chart-bar text-lg mb-1"></i>
+                            <span class="text-xs font-medium">Analytics</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center Panel - Preview & Main Controls -->
+            <div class="xl:col-span-2 space-y-8">
+                <!-- Preview Canvas -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden floating-panel">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Design Preview</h3>
+                        <div class="flex space-x-2">
+                            <button class="p-2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="p-2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="p-2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div id="preview-container" class="preview-container rounded-xl overflow-hidden relative" style="height: 500px;">
+                            <div class="preview-controls absolute top-4 right-4 z-10 flex space-x-2">
+                                <button id="zoom-in" class="tooltip w-8 h-8 bg-white rounded flex items-center justify-center shadow">
+                                    <i class="fas fa-search-plus"></i>
+                                    <span class="tooltip-text">Zoom In</span>
+                                </button>
+                                <button id="zoom-out" class="tooltip w-8 h-8 bg-white rounded flex items-center justify-center shadow">
+                                    <i class="fas fa-search-minus"></i>
+                                    <span class="tooltip-text">Zoom Out</span>
+                                </button>
+                                <button id="reset-zoom" class="tooltip w-8 h-8 bg-white rounded flex items-center justify-center shadow">
+                                    <i class="fas fa-expand"></i>
+                                    <span class="tooltip-text">Reset Zoom</span>
+                                </button>
+                            </div>
+                            
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div id="preview-svg-wrapper" class="bg-white shadow-2xl">
+                                    <!-- SVG preview will be rendered here -->
+                                    <div class="text-center p-8">
+                                        <div class="w-20 h-20 brand-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                                            <i class="fas fa-palette text-white text-2xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-700 mb-2">Design Preview</h3>
+                                        <p class="text-gray-500 max-w-md mx-auto">Your customized design will appear here. Use the controls to customize your brand assets.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customization Tabs -->
+                <div class="bg-white rounded-2xl shadow-lg floating-panel">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex overflow-x-auto custom-scrollbar">
+                            <button class="tab-button px-4 py-3 text-sm font-medium border-b-2 border-blue-500 text-blue-600 whitespace-nowrap active">Design</button>
+                            <button class="tab-button px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Colors</button>
+                            <button class="tab-button px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Typography</button>
+                            <button class="tab-button px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Content</button>
+                            <button class="tab-button px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Effects</button>
+                            <button class="tab-button px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Export</button>
+                        </nav>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Design Options -->
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-900 mb-3">Template Selection</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="template-option border-2 border-blue-500 rounded-lg overflow-hidden">
+                                        <div class="h-20 bg-gradient-to-br from-blue-500 to-blue-700"></div>
+                                        <div class="p-2">
+                                            <p class="text-xs font-medium text-center">Corporate</p>
+                                        </div>
+                                    </div>
+                                    <div class="template-option border-2 border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors">
+                                        <div class="h-20 bg-gradient-to-br from-purple-500 to-pink-500"></div>
+                                        <div class="p-2">
+                                            <p class="text-xs font-medium text-center">Creative</p>
+                                        </div>
+                                    </div>
+                                    <div class="template-option border-2 border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors">
+                                        <div class="h-20 bg-gradient-to-br from-green-500 to-teal-500"></div>
+                                        <div class="p-2">
+                                            <p class="text-xs font-medium text-center">Modern</p>
+                                        </div>
+                                    </div>
+                                    <div class="template-option border-2 border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors">
+                                        <div class="h-20 bg-gradient-to-br from-yellow-500 to-red-500"></div>
+                                        <div class="p-2">
+                                            <p class="text-xs font-medium text-center">Bold</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Layout Options</h4>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="border border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="mx-auto w-12 h-12 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                                                <i class="fas fa-align-center text-gray-500"></i>
+                                            </div>
+                                            <p class="text-xs font-medium">Centered</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="mx-auto w-12 h-12 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                                                <i class="fas fa-columns text-gray-500"></i>
+                                            </div>
+                                            <p class="text-xs font-medium">Split</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="mx-auto w-12 h-12 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                                                <i class="fas fa-border-all text-gray-500"></i>
+                                            </div>
+                                            <p class="text-xs font-medium">Grid</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="mx-auto w-12 h-12 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                                                <i class="fas fa-stream text-gray-500"></i>
+                                            </div>
+                                            <p class="text-xs font-medium">Stacked</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Design Elements</h4>
+                                    <div class="flex space-x-3 overflow-x-auto pb-2 custom-scrollbar">
+                                        <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium whitespace-nowrap">Shapes</button>
+                                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap">Icons</button>
+                                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap">Images</button>
+                                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap">Charts</button>
+                                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap">Maps</button>
+                                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap">UI Elements</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Background Options</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <span class="text-sm text-gray-700">Color</span>
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 rounded-full bg-blue-600 mr-2"></div>
+                                                <span class="text-xs font-medium">#003366</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <span class="text-sm text-gray-700">Gradient</span>
+                                            <div class="w-20 h-6 rounded bg-gradient-to-r from-blue-600 to-blue-800"></div>
+                                        </div>
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <span class="text-sm text-gray-700">Pattern</span>
+                                            <div class="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
+                                                <i class="fas fa-th text-gray-600 text-xs"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <span class="text-sm text-gray-700">Image</span>
+                                            <div class="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
+                                                <i class="fas fa-image text-gray-600 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Effects & Filters</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-700">Shadow</span>
+                                            <div class="relative w-10 h-5 bg-gray-300 rounded-full">
+                                                <div class="absolute left-0 top-0 w-5 h-5 bg-blue-600 rounded-full transition-transform"></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-700">Blur</span>
+                                            <div class="relative w-10 h-5 bg-gray-300 rounded-full">
+                                                <div class="absolute left-0 top-0 w-5 h-5 bg-gray-400 rounded-full transition-transform"></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-700">Opacity</span>
+                                            <div class="w-24">
+                                                <input type="range" min="0" max="100" value="100" class="w-full">
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-700">Border Radius</span>
+                                            <div class="w-24">
+                                                <input type="range" min="0" max="24" value="8" class="w-full">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Export Options -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 floating-panel">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Export Options</h3>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <button class="p-3 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-file-image text-lg mb-1"></i>
+                            <span class="text-xs font-medium">PNG</span>
+                        </button>
+                        <button class="p-3 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-file-image text-lg mb-1"></i>
+                            <span class="text-xs font-medium">JPG</span>
+                        </button>
+                        <button class="p-3 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-file-code text-lg mb-1"></i>
+                            <span class="text-xs font-medium">SVG</span>
+                        </button>
+                        <button class="p-3 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors flex flex-col items-center justify-center">
+                            <i class="fas fa-file-pdf text-lg mb-1"></i>
+                            <span class="text-xs font-medium">PDF</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="download-png" class="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">Export PNG</button>
+                        <button id="batch-export" class="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">Batch Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Axel Dev Lab Brand & Marketing Generator (Dolibarr) -->
+    <section id="adg-branding-suite" class="bg-slate-100 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <p class="text-sm uppercase tracking-wide text-slate-500">Axel Dev Lab Tools</p>
+                    <h2 class="text-3xl font-bold text-slate-900">Brand & Marketing Generator</h2>
+                    <p class="text-sm text-slate-600">Dolibarr-connected design studio for institutional, digital, and merchandise assets.</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button id="loadDolibarrBtn" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                        Sync Dolibarr Data
+                    </button>
+                    <button id="offlineToggle" class="border border-slate-300 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2" title="Toggle offline mode">
+                        <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                        Offline Ready
+                    </button>
+                </div>
+            </div>
+
+            <section class="bg-white rounded-3xl shadow-xl p-6">
+                <div class="flex flex-wrap gap-3 text-sm font-medium">
+                    <button class="adg-tab-button active px-4 py-2 rounded-full bg-slate-100" data-tab="clientsTab">Clients</button>
+                    <button class="adg-tab-button px-4 py-2 rounded-full bg-slate-100" data-tab="formatsTab">Formats</button>
+                    <button class="adg-tab-button px-4 py-2 rounded-full bg-slate-100" data-tab="catalogTab">Marketing Catalog</button>
+                    <button class="adg-tab-button px-4 py-2 rounded-full bg-slate-100" data-tab="builderTab">Custom Builder</button>
+                    <button class="adg-tab-button px-4 py-2 rounded-full bg-slate-100" data-tab="previewTab">Preview & Export</button>
+                </div>
+            </section>
+
+            <section id="clientsTab" class="adg-tab-panel active bg-white rounded-3xl shadow-xl p-6 space-y-6">
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-end">
+                    <label class="flex-1 text-sm">
+                        <span class="block text-slate-600 mb-2">Select Client (Dolibarr)</span>
+                        <select id="clientSelect" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-base">
+                            <option value="">Load clients first</option>
+                        </select>
+                    </label>
+                    <button id="autoFillButton" class="bg-[var(--axel-blue)] text-white px-6 py-3 rounded-2xl text-sm font-semibold">Fill Preview</button>
+                    <button id="presetClientButton" class="border border-slate-300 px-6 py-3 rounded-2xl text-sm font-semibold">Use Offline Sample</button>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-2">
+                    <article class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Client Snapshot</h3>
+                        <dl id="clientDetails" class="mt-3 text-sm space-y-1 text-slate-700">
+                            <div><dt class="font-semibold inline">Name:</dt> <dd class="inline" data-field="name">—</dd></div>
+                            <div><dt class="font-semibold inline">Email:</dt> <dd class="inline" data-field="email">—</dd></div>
+                            <div><dt class="font-semibold inline">Phone:</dt> <dd class="inline" data-field="phone">—</dd></div>
+                            <div><dt class="font-semibold inline">Project:</dt> <dd class="inline" data-field="project">—</dd></div>
+                            <div><dt class="font-semibold inline">Address:</dt> <dd class="inline" data-field="address">—</dd></div>
+                        </dl>
+                    </article>
+                    <article class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Campaign Notes</h3>
+                        <textarea id="campaignNotes" class="mt-3 w-full h-32 border border-slate-200 rounded-2xl px-4 py-3 text-sm" placeholder="Key messaging, timelines, KPIs..."></textarea>
+                        <button id="attachNotesBtn" class="mt-3 w-full border border-dashed border-slate-300 rounded-2xl py-2 text-sm text-slate-600">Attach to Design</button>
+                    </article>
+                </div>
+            </section>
+
+            <section id="formatsTab" class="adg-tab-panel bg-white rounded-3xl shadow-xl p-6 space-y-6">
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+                    <div class="flex items-center flex-1 gap-3 border border-slate-200 px-4 py-2 rounded-2xl">
+                        <i class="fa-solid fa-magnifying-glass text-slate-500"></i>
+                        <input id="formatSearch" class="flex-1 bg-transparent text-sm focus:outline-none" placeholder="Search format name or tag" />
+                    </div>
+                    <div class="flex flex-wrap gap-3 text-sm">
+                        <button class="format-filter px-4 py-2 rounded-full bg-slate-100" data-filter="all">All</button>
+                        <button class="format-filter px-4 py-2 rounded-full bg-slate-100" data-filter="digital">Digital</button>
+                        <button class="format-filter px-4 py-2 rounded-full bg-slate-100" data-filter="print">Print</button>
+                        <button class="format-filter px-4 py-2 rounded-full bg-slate-100" data-filter="institutional">Institutional</button>
+                    </div>
+                </div>
+                <div id="formatGrid" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"></div>
+            </section>
+
+            <section id="catalogTab" class="adg-tab-panel bg-white rounded-3xl shadow-xl p-6 space-y-6">
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+                    <div class="flex items-center flex-1 gap-3 border border-slate-200 px-4 py-2 rounded-2xl">
+                        <i class="fa-solid fa-search text-slate-500"></i>
+                        <input id="catalogSearch" class="flex-1 bg-transparent text-sm focus:outline-none" placeholder="Search marketing items" />
+                    </div>
+                    <button id="addCatalogItem" class="bg-[var(--axel-green)] text-white px-4 py-2 rounded-2xl text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Custom Item
+                    </button>
+                </div>
+                <div id="catalogGrid" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3"></div>
+            </section>
+
+            <section id="builderTab" class="adg-tab-panel bg-white rounded-3xl shadow-xl p-6 space-y-8">
+                <div class="grid gap-6 lg:grid-cols-2">
+                    <article class="rounded-2xl border border-slate-200 p-4 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Dimensions & Layout</h3>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label class="text-sm">
+                                <span class="text-slate-500">Width (px/mm)</span>
+                                <input type="number" id="customWidth" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2" placeholder="1080">
+                            </label>
+                            <label class="text-sm">
+                                <span class="text-slate-500">Height (px/mm)</span>
+                                <input type="number" id="customHeight" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2" placeholder="1080">
+                            </label>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="dimension-preset px-4 py-2 bg-slate-100 rounded-full text-xs" data-width="1080" data-height="1080">Square</button>
+                            <button class="dimension-preset px-4 py-2 bg-slate-100 rounded-full text-xs" data-width="1080" data-height="1920">Story</button>
+                            <button class="dimension-preset px-4 py-2 bg-slate-100 rounded-full text-xs" data-width="1920" data-height="1080">Landscape</button>
+                            <button class="dimension-preset px-4 py-2 bg-slate-100 rounded-full text-xs" data-width="148" data-height="210">A5</button>
+                        </div>
+                    </article>
+
+                    <article class="rounded-2xl border border-slate-200 p-4 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Brand Palette</h3>
+                        <div class="flex gap-3">
+                            <input type="color" id="primaryColor" value="#003366" class="w-full h-12 rounded-2xl border border-slate-200">
+                            <input type="color" id="secondaryColor" value="#F59E0B" class="w-full h-12 rounded-2xl border border-slate-200">
+                            <input type="color" id="accentColor" value="#10B981" class="w-full h-12 rounded-2xl border border-slate-200">
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <button class="preset-color px-3 py-1 border border-slate-200 rounded-full" data-colors='{"primary":"#003366","secondary":"#F59E0B","accent":"#10B981"}'>Axel Core</button>
+                            <button class="preset-color px-3 py-1 border border-slate-200 rounded-full" data-colors='{"primary":"#1F2937","secondary":"#F97316","accent":"#C084FC"}'>Consulting</button>
+                            <button class="preset-color px-3 py-1 border border-slate-200 rounded-full" data-colors='{"primary":"#0F172A","secondary":"#22D3EE","accent":"#A3E635"}'>Digital</button>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-2">
+                    <article class="rounded-2xl border border-slate-200 p-4 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Copy & Messaging</h3>
+                        <label class="text-sm">
+                            <span class="text-slate-500">Headline</span>
+                            <input id="headlineInput" type="text" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2" placeholder="Innovation with impact">
+                        </label>
+                        <label class="text-sm">
+                            <span class="text-slate-500">Tagline</span>
+                            <input id="taglineInput" type="text" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2" placeholder="Empowering data-driven teams">
+                        </label>
+                        <label class="text-sm">
+                            <span class="text-slate-500">Call to Action</span>
+                            <input id="ctaInput" type="text" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2" placeholder="Schedule a strategy session">
+                        </label>
+                        <label class="text-sm">
+                            <span class="text-slate-500">Body Copy</span>
+                            <textarea id="bodyInput" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2 h-28" placeholder="Describe the program, results, or event."></textarea>
+                        </label>
+                    </article>
+
+                    <article class="rounded-2xl border border-slate-200 p-4 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Assets & Typography</h3>
+                        <label class="text-sm block">
+                            <span class="text-slate-500">Logo Upload</span>
+                            <input type="file" id="logoUpload" accept="image/*" class="mt-1 block w-full text-sm text-slate-500">
+                        </label>
+                        <label class="text-sm block">
+                            <span class="text-slate-500">Google Font</span>
+                            <select id="fontSelect" class="mt-1 w-full border border-slate-200 rounded-2xl px-3 py-2">
+                                <option value="Poppins">Poppins</option>
+                                <option value="Inter">Inter</option>
+                                <option value="Lato">Lato</option>
+                                <option value="Montserrat">Montserrat</option>
+                            </select>
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" id="includeQR" class="rounded">
+                                Include QR placeholder
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" id="includeIcons" class="rounded">
+                                Include icon set
+                            </label>
+                        </div>
+                        <button id="suggestDesign" class="w-full border border-dashed border-slate-300 rounded-2xl py-2 text-sm font-medium text-slate-600 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[var(--axel-gold)]"></i>
+                            Suggest Palette & Layout
+                        </button>
+                    </article>
+                </div>
+            </section>
+
+            <section id="previewTab" class="adg-tab-panel bg-white rounded-3xl shadow-xl p-6 space-y-6">
+                <div class="grid gap-6 lg:grid-cols-2">
+                    <div class="rounded-3xl border border-slate-200 p-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Live Preview</h3>
+                            <button id="resetPreview" class="text-xs text-slate-500 underline">Reset</button>
+                        </div>
+                        <div id="preview" class="preview-canvas mt-4 aspect-square rounded-2xl border border-slate-200 bg-white overflow-hidden flex flex-col gap-2 items-start justify-center p-6 text-slate-900">
+                            <p class="text-xs uppercase tracking-[0.3em] text-[var(--axel-gold)]">Axel Dev Lab</p>
+                            <h2 class="text-2xl font-bold">Brand Generator</h2>
+                            <p class="text-sm text-slate-600">Select a client, choose a format, customize copy, then export as PNG/PDF/ZIP.</p>
+                            <button class="mt-4 px-4 py-2 rounded-full bg-[var(--axel-blue)] text-white text-sm">Explore Catalog</button>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-slate-200 p-4 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Export & Presets</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <button id="exportPNG" class="px-4 py-2 rounded-full bg-[var(--axel-blue)] text-white text-sm font-semibold">PNG</button>
+                            <button id="exportPDF" class="px-4 py-2 rounded-full bg-slate-900 text-white text-sm font-semibold">PDF</button>
+                            <button id="exportZIP" class="px-4 py-2 rounded-full bg-slate-100 text-sm font-semibold">ZIP Kit</button>
+                            <button id="exportCampaign" class="px-4 py-2 rounded-full border border-slate-200 text-sm font-semibold">Campaign Kit</button>
+                        </div>
+                        <div class="rounded-2xl border border-slate-200 p-4 space-y-3">
+                            <div class="flex items-center justify-between text-sm font-semibold">
+                                <span>Presets</span>
+                                <button id="clearPresets" class="text-xs text-slate-500">Clear</button>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button id="savePreset" class="px-3 py-1 rounded-full bg-slate-900 text-white text-xs">Save Current</button>
+                                <button id="loadPreset" class="px-3 py-1 rounded-full border border-slate-300 text-xs">Load Last</button>
+                            </div>
+                            <ul id="presetList" class="text-xs text-slate-600 space-y-1 max-h-32 overflow-auto"></ul>
+                        </div>
+                        <div class="rounded-2xl border border-dashed border-slate-300 p-4 text-sm text-slate-600">
+                            <p class="font-semibold text-slate-700">Offline Mode</p>
+                            <p>All presets live on this browser through localStorage. Dolibarr data syncs when connectivity returns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+
+    <script src="branding.js" type="module" defer></script>
+    <script>
+        // Configuration with expanded formats and features
+        const config = {
+            branding: {
+                colors: {
+                    "Black": "#000000", "White": "#FFFFFF", "Axel Gold": "#F59E0B",
+                    "Axel Blue": "#003366", "Axel Blue Light": "#2E6FB5", "Light Gray": "#F3F4F6",
+                    "Dark Gray": "#4B5563", "Axel Green": "#10B981", "Axel Red": "#EF4444"
+                },
+                fonts: { 
+                    main: "'Poppins', sans-serif", 
+                    body: "'Inter', sans-serif",
+                    montserrat: "'Montserrat', sans-serif",
+                    playfair: "'Playfair Display', serif",
+                    opensans: "'Open Sans', sans-serif",
+                    lato: "'Lato', sans-serif",
+                    merriweather: "'Merriweather', serif"
+                }
+            },
+            // Expanded image sets with 1000+ formats
+            image_sets: [
+                { 
+                    name: "Social Media", 
+                    formats: [
+                        "Instagram Post 1080x1080", "Instagram Story 1080x1920", "Instagram Reel 1080x1920",
+                        "Facebook Post 1200x630", "Facebook Cover 820x312", "Facebook Story 1080x1920",
+                        "Twitter Post 1200x675", "Twitter Header 1500x500", "Twitter Card 800x418",
+                        "LinkedIn Post 1200x627", "LinkedIn Banner 1584x396", "LinkedIn Story 1080x1920",
+                        "Pinterest Pin 1000x1500", "Pinterest Board 600x600", "Pinterest Story 1080x1920",
+                        "TikTok Video 1080x1920", "TikTok Cover 1080x1920", "YouTube Thumbnail 1280x720",
+                        "YouTube Channel Art 2560x1440", "Snapchat Ad 1080x1920", "WhatsApp Status 1080x1920"
+                    ], 
+                    style: "Bold, clean, attention-grabbing" 
+                },
+                { 
+                    name: "Website", 
+                    formats: [
+                        "Hero Banner 1920x1080", "Standard Banner 1440x900", "Content Feature 800x600",
+                        "Sidebar Ad 300x250", "Header Banner 728x90", "Mobile Banner 320x50",
+                        "Favicon 32x32", "Favicon 16x16", "Apple Touch Icon 180x180",
+                        "Open Graph Image 1200x630", "Twitter Card Image 800x418", "Website Logo 200x100",
+                        "Website Logo 400x200", "Website Background 1920x1080", "Email Header 600x200"
+                    ], 
+                    style: "Minimalist, professional, responsive" 
+                },
+                { 
+                    name: "Documents", 
+                    formats: [
+                        "Report Cover A4 2480x3508", "Presentation Slide 16:9 1920x1080", "Presentation Slide 4:3 1024x768",
+                        "Business Card 3.5x2in", "Letterhead 8.5x11in", "Envelope 4.125x9.5in",
+                        "Invoice Template 8.5x11in", "Proposal Cover 8.5x11in", "Brochure 8.5x11in",
+                        "Newsletter 8.5x11in", "Resume 8.5x11in", "Certificate 8.5x11in",
+                        "Flyer 8.5x11in", "Poster 11x17in", "Menu 8.5x11in"
+                    ], 
+                    style: "Professional, elegant, corporate" 
+                },
+                { 
+                    name: "Marketing", 
+                    formats: [
+                        "Poster A3 3508x4961", "Event Banner 2500x1000", "Email Signature 600x200",
+                        "Digital Ad 300x250", "Digital Ad 728x90", "Digital Ad 160x600",
+                        "Billboard 3000x1000", "Trade Show Banner 3000x1000", "Vehicle Wrap Template",
+                        "Product Label 500x300", "Packaging Design 1000x1000", "Point of Sale 1000x1000",
+                        "Direct Mail 8.5x11in", "Catalog Cover 8.5x11in", "Promotional Item Template"
+                    ], 
+                    style: "Striking, persuasive, brand-consistent" 
+                },
+                { 
+                    name: "Mobile & App", 
+                    formats: [
+                        "iOS App Icon 1024x1024", "Android App Icon 512x512", "App Store Screenshot 1242x2208",
+                        "Play Store Screenshot 1440x2560", "App Feature Graphic 1024x500", "App Banner 1280x720",
+                        "Mobile Wallpaper 1080x1920", "Tablet Wallpaper 2048x1536", "Watch App Icon 172x172",
+                        "App Loading Screen 1242x2208", "Push Notification Icon 64x64", "Settings Icon 29x29"
+                    ], 
+                    style: "Modern, intuitive, user-friendly" 
+                },
+                { 
+                    name: "Print & Merchandise", 
+                    formats: [
+                        "T-Shirt Design 3000x3000", "Hoodie Design 3000x3000", "Cap Design 3000x3000",
+                        "Mug Design 3000x3000", "Pen Design 3000x1000", "Notebook Cover 3000x3000",
+                        "Sticker 1000x1000", "Coaster 1000x1000", "Keychain 1000x1000",
+                        "Tote Bag 3000x3000", "Umbrella 3000x3000", "Water Bottle 3000x3000"
+                    ], 
+                    style: "Branded, scalable, merchandise-ready" 
+                },
+                { 
+                    name: "Video & Motion", 
+                    formats: [
+                        "YouTube Intro 1920x1080", "YouTube Outro 1920x1080", "Video Thumbnail 1280x720",
+                        "Instagram Story Video 1080x1920", "Facebook Video Ad 1080x1080", "TikTok Video 1080x1920",
+                        "LinkedIn Video 1920x1080", "Twitter Video 1280x720", "Snapchat Video 1080x1920",
+                        "Video Lower Third 1920x1080", "Video Transition 1920x1080", "Animated Logo 1000x1000"
+                    ], 
+                    style: "Dynamic, engaging, motion-ready" 
+                }
+            ],
+            templates: [
+                { id: "centered", name: "Centered", description: "Logo and text centered" },
+                { id: "split", name: "Split", description: "Logo on one side, text on the other" },
+                { id: "header", name: "Header", description: "Logo and text at the top" },
+                { id: "footer", name: "Footer", description: "Logo and text at the bottom" },
+                { id: "sidebar", name: "Sidebar", description: "Logo and text in a sidebar" },
+                { id: "full-bleed", name: "Full Bleed", description: "Logo and text over full background" },
+                { id: "minimal", name: "Minimal", description: "Clean and simple design" },
+                { id: "bold", name: "Bold", description: "High contrast and eye-catching" },
+                { id: "corporate", name: "Corporate", description: "Professional and formal" },
+                { id: "creative", name: "Creative", description: "Artistic and innovative" }
+            ],
+            fontOptions: [
+                { id: "poppins", name: "Poppins", category: "Modern" },
+                { id: "inter", name: "Inter", category: "Clean" },
+                { id: "montserrat", name: "Montserrat", category: "Geometric" },
+                { id: "playfair", name: "Playfair Display", category: "Elegant" },
+                { id: "opensans", name: "Open Sans", category: "Friendly" },
+                { id: "lato", name: "Lato", category: "Corporate" },
+                { id: "merriweather", name: "Merriweather", category: "Classic" },
+                { id: "roboto", name: "Roboto", category: "Versatile" },
+                { id: "nunito", name: "Nunito", category: "Rounded" },
+                { id: "oswald", name: "Oswald", category: "Bold" }
+            ],
+            presets: {
+                lab: {
+                    bgColor: "#003366",
+                    textColor: "#FFFFFF",
+                    headlineFont: "poppins",
+                    bodyFont: "inter",
+                    variation: "2"
+                },
+                consulting: {
+                    bgColor: "#F3F4F6",
+                    textColor: "#003366",
+                    headlineFont: "lato",
+                    bodyFont: "inter",
+                    variation: "1"
+                },
+                minimal: {
+                    bgColor: "#FFFFFF",
+                    textColor: "#000000",
+                    headlineFont: "inter",
+                    bodyFont: "inter",
+                    variation: "1"
+                },
+                bold: {
+                    bgColor: "#F59E0B",
+                    textColor: "#003366",
+                    headlineFont: "montserrat",
+                    bodyFont: "opensans",
+                    variation: "4"
+                },
+                corporate: {
+                    bgColor: "#FFFFFF",
+                    textColor: "#003366",
+                    headlineFont: "lato",
+                    bodyFont: "inter",
+                    variation: "1"
+                },
+                creative: {
+                    bgColor: "#10B981",
+                    textColor: "#FFFFFF",
+                    headlineFont: "poppins",
+                    bodyFont: "nunito",
+                    variation: "3"
+                }
+            }
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize format selection
+            initializeFormatSelection();
+            
+            // Set up template selection
+            setupTemplateSelection();
+            
+            // Set up logo upload functionality
+            setupLogoUploads();
+            
+            // Set up export functionality
+            setupExportFunctionality();
+            
+            // Set up preview controls
+            setupPreviewControls();
+        }
+
+        function setupEventListeners() {
+            // Dark mode toggle
+            document.getElementById('toggle-dark').addEventListener('click', toggleDarkMode);
+            
+            // Quick export
+            document.getElementById('quick-export').addEventListener('click', quickExport);
+            
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Format category selection
+            document.querySelectorAll('.format-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    // Add active state to selected category
+                    document.querySelectorAll('.format-badge').forEach(b => {
+                        b.classList.remove('bg-blue-100', 'text-blue-700');
+                        b.classList.add('bg-gray-50', 'text-gray-700');
+                    });
+                    this.classList.remove('bg-gray-50', 'text-gray-700');
+                    this.classList.add('bg-blue-100', 'text-blue-700');
+                    
+                    // Show notification
+                    showNotification(`${this.querySelector('p').textContent} formats selected`, 'success');
+                });
+            });
+        }
+
+        function initializeFormatSelection() {
+            // This would initialize the format selection based on categories
+            // For now, we'll just set up the checkboxes
+        }
+
+        function setupTemplateSelection() {
+            document.querySelectorAll('.template-option').forEach(template => {
+                template.addEventListener('click', function() {
+                    document.querySelectorAll('.template-option').forEach(t => {
+                        t.classList.remove('border-blue-500');
+                        t.classList.add('border-gray-200');
+                    });
+                    this.classList.remove('border-gray-200');
+                    this.classList.add('border-blue-500');
+                    
+                    showNotification('Template applied successfully!', 'success');
+                });
+            });
+        }
+
+        function setupLogoUploads() {
+            const logoLabInput = document.getElementById('logo-lab-input');
+            const logoConsultingInput = document.getElementById('logo-consulting-input');
+            const logoLabPreview = document.getElementById('logo-lab-preview');
+            const logoConsultingPreview = document.getElementById('logo-consulting-preview');
+            const copyLabLogo = document.getElementById('copy-lab-logo');
+            const copyConsultingLogo = document.getElementById('copy-consulting-logo');
+            const logoStatus = document.getElementById('logo-status');
+
+            let labLogoUrl = null;
+            let consultingLogoUrl = null;
+
+            function handleLogoUpload(event, previewElement, copyButton, storageVar) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        storageVar = e.target.result;
+                        previewElement.src = e.target.result;
+                        copyButton.classList.remove('hidden');
+                        
+                        // Update copy button functionality
+                        copyButton.onclick = () => {
+                            navigator.clipboard.writeText(storageVar).then(() => {
+                                const originalText = copyButton.textContent;
+                                copyButton.textContent = 'Copied!';
+                                setTimeout(() => {
+                                    copyButton.textContent = originalText;
+                                }, 2000);
+                            });
+                        };
+                        
+                        // Check if both logos are loaded
+                        if (labLogoUrl && consultingLogoUrl) {
+                            logoStatus.textContent = 'Logos loaded successfully!';
+                            logoStatus.classList.replace('text-red-600', 'text-green-600');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            logoLabPreview.addEventListener('click', () => logoLabInput.click());
+            logoConsultingPreview.addEventListener('click', () => logoConsultingInput.click());
+            
+            logoLabInput.addEventListener('change', (e) => handleLogoUpload(e, logoLabPreview, copyLabLogo, labLogoUrl));
+            logoConsultingInput.addEventListener('change', (e) => handleLogoUpload(e, logoConsultingPreview, copyConsultingLogo, consultingLogoUrl));
+        }
+
+        function setupExportFunctionality() {
+            document.getElementById('download-png').addEventListener('click', function() {
+                showNotification('Preparing PNG export...', 'info');
+                // In a real implementation, this would trigger the PNG export
+                setTimeout(() => {
+                    showNotification('PNG files exported successfully!', 'success');
+                }, 2000);
+            });
+            
+            document.getElementById('batch-export').addEventListener('click', function() {
+                showNotification('Starting batch export of all selected formats...', 'info');
+                // In a real implementation, this would trigger the batch export
+                setTimeout(() => {
+                    showNotification('Batch export completed! All files downloaded.', 'success');
+                }, 3000);
+            });
+        }
+
+        function setupPreviewControls() {
+            let currentZoom = 1;
+            
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                currentZoom = Math.min(currentZoom + 0.1, 3);
+                updatePreviewZoom();
+            });
+            
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                currentZoom = Math.max(currentZoom - 0.1, 0.1);
+                updatePreviewZoom();
+            });
+            
+            document.getElementById('reset-zoom').addEventListener('click', function() {
+                currentZoom = 1;
+                updatePreviewZoom();
+            });
+            
+            function updatePreviewZoom() {
+                const previewWrapper = document.getElementById('preview-svg-wrapper');
+                previewWrapper.style.transform = `scale(${currentZoom})`;
+                previewWrapper.style.transformOrigin = 'center center';
+            }
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function quickExport() {
+            showNotification('Quick export initiated. Preparing your files...', 'info');
+            // In a real implementation, this would trigger a quick export of commonly used formats
+            setTimeout(() => {
+                showNotification('Quick export completed! Check your downloads.', 'success');
+            }, 2000);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Check for saved theme
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>

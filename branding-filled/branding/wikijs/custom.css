@@ -1,0 +1,8 @@
+/* Axel Dev Lab Wiki.js customizations */
+:root{
+  --adl-gold:#FFD700; --adl-black:#111111; --adl-slate:#2B2B2B;
+}
+header.navbar, .navbar { background: var(--adl-black)!important; }
+.navbar .logo, .navbar .title { color: var(--adl-gold)!important; }
+a { color: var(--adl-gold); }
+.md-content h1, .md-content h2, .md-content h3 { color: var(--adl-slate); }

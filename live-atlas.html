@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Atlas · Axel Dev Group</title>
+  <meta name="description" content="Live Atlas visualises Africa’s development systems through real-time geo-intelligence dashboards for policy, cooperation, and storytelling." />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            }
+          },
+          boxShadow: { soft:'0 8px 34px rgba(0,0,0,.06)' }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/images/exports/lg_axeldevlab_icon.png" type="image/png" />
+
+  <style>
+    body { font-family: 'Inter', var(--font-sans, system-ui), sans-serif !important; }
+    h1, h2, h3, h4, h5 { font-family: 'Poppins', 'Inter', sans-serif !important; letter-spacing: -0.01em; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes pulseGlow { 0% { transform: scale(0.9); opacity: 0.55; } 50% { transform: scale(1.05); opacity: 0.85; } 100% { transform: scale(0.9); opacity: 0.55; } }
+    .reveal { opacity: 0; transform: translateY(18px); will-change: opacity, transform; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    .hero-gradient {
+      background: radial-gradient(circle at top right, rgba(8,145,178,0.32), transparent 45%),
+                  linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(30,58,138,0.95) 45%, rgba(8,145,178,0.92) 100%);
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(248,250,252,0.92);
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.72rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.25);
+    }
+    .cta-button.primary { background: linear-gradient(135deg, #0ea5e9, #fbbf24); color: #0f172a; }
+    .cta-button.secondary { background: rgba(255,255,255,0.12); color: #f8fafc; border: 1px solid rgba(255,255,255,0.18); }
+    .cta-button:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(15,23,42,0.32); }
+
+    .section-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 24px 56px rgba(15,23,42,0.08);
+      border: 1px solid rgba(148,163,184,0.18);
+    }
+    .map-module {
+      position: relative;
+      border-radius: 32px;
+      padding: 2.4rem 2rem;
+      background: linear-gradient(145deg, rgba(2,132,199,0.68), rgba(30,64,175,0.8));
+      border: 1px solid rgba(148,163,184,0.28);
+      overflow: hidden;
+    }
+    .map-grid {
+      position: absolute;
+      inset: 15%;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px),
+                        linear-gradient(0deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.65;
+    }
+    .map-globe {
+      position: relative;
+      margin: 0 auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 30% 35%, rgba(226,232,240,0.65), rgba(30,64,175,0.35));
+      border: 2px solid rgba(148,163,184,0.35);
+      box-shadow: 0 24px 48px rgba(14,116,144,0.4);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .map-contour {
+      position: absolute;
+      width: 180px;
+      height: 220px;
+      border-radius: 60% 40% 58% 42% / 55% 42% 58% 45%;
+      background: linear-gradient(160deg, rgba(14,116,144,0.85), rgba(125,211,252,0.55));
+      filter: blur(0.6px);
+      animation: pulseGlow 6s infinite ease-in-out;
+    }
+    .map-label {
+      position: absolute;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      background: rgba(15,23,42,0.85);
+      color: #f8fafc;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid rgba(248,250,252,0.12);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.24);
+    }
+    .map-label[data-pos="north"] { top: 14%; left: 22%; }
+    .map-label[data-pos="west"] { bottom: 22%; left: 18%; }
+    .map-label[data-pos="east"] { bottom: 26%; right: 18%; }
+    .map-label[data-pos="south"] { top: 38%; right: 14%; }
+    .stat-block {
+      background: rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 1.1rem 1.3rem;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .stat-block h3 { font-size: 1.85rem; font-weight: 600; color: #f8fafc; margin-bottom: 0.25rem; }
+    .stat-block p { font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(248,250,252,0.7); }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans opacity-0 transition-opacity duration-700 dark:bg-gray-900 dark:text-gray-100">
+
+
+<!-- Brand bar (dual-brand lockup) -->
+<div class="bg-black text-white text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-3">
+      <img src="assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+      <div class="flex flex-col">
+        <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+        <span class="text-[10px] uppercase tracking-widest text-brand-300" data-i18n="brand_group">Axel Dev Group LLC</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+      <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="siteHeader" class="glass-card bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 sm:h-12 md:h-14 w-auto transition-transform group-hover:scale-[1.02]" loading="eager" />
+        <div class="leading-tight">
+          <div class="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Axel Dev Lab</div>
+          <div class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Axel Dev Group LLC</div>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-200">
+        <a href="index.html" data-i18n="nav_home" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Projects</a>
+        <a href="data.html" data-i18n="nav_data" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Data</a>
+        <a href="publications.html" data-i18n="nav_publications" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">About</a>
+
+        <button id="theme-toggle" class="inline-flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" aria-label="Toggle dark mode">
+          <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <div class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" id="langToggle" aria-label="Switch language">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+          <span id="langLabel" class="text-xs">EN</span>
+        </div>
+
+        <a id="loginBtn" href="/logins/index.html" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-light active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+          <span>Login</span>
+        </a>
+</nav>
+
+      <!-- Mobile menu button -->
+      <div class="lg:hidden flex items-center space-x-2">
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" aria-label="Toggle dark mode">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="space-y-1">
+        <a href="index.html" data-i18n="nav_home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Projects</a>
+        <a href="data.html" data-i18n="nav_data" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Data</a>
+        <a href="publications.html" data-i18n="nav_publications" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">About</a>
+
+        <div class="px-3 py-2">
+          <div class="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" id="mobile-langToggle" aria-label="Switch language">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+            <span id="mobile-langLabel" class="text-sm">English</span>
+          </div>
+        </div>
+
+        <div class="px-3 py-2">
+          <a id="mobile-loginBtn" href="/logins/index.html" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-brand-500 text-white hover:bg-brand-600 active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+            <span>Login</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<main id="main" role="main">
+  <div class="page-header">
+    <div class="max-w-7xl mx-auto px-6">
+      <nav aria-label="Breadcrumb" class="breadcrumb mb-2">
+        <a href="index.html">Home</a> / <a href="projects.html">Projects</a> / <span>Live Atlas</span>
+      </nav>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Live Atlas</h1>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero-gradient text-white">
+    <div class="max-w-6xl mx-auto px-6 py-20 lg:py-24">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+        <div class="flex-1 space-y-6 reveal">
+          <span class="chip">Geo-Intelligence Platform</span>
+          <h2 class="text-4xl sm:text-5xl font-semibold leading-tight">Live Atlas — Visualizing Progress, Powering Policy</h2>
+          <p class="text-lg text-slate-100/90 leading-relaxed">Live Atlas is a living, interactive map of Africa&rsquo;s development, governance, and infrastructure systems. It brings complex data to life through storytelling dashboards and real-time pulses.</p>
+          <div class="grid sm:grid-cols-3 gap-4 pt-4">
+            <div class="stat-block">
+              <h3>54+</h3>
+              <p>Country Views</p>
+            </div>
+            <div class="stat-block">
+              <h3>Multi-Sector</h3>
+              <p>Indicators</p>
+            </div>
+            <div class="stat-block">
+              <h3>Real-Time</h3>
+              <p>Data Pulses</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-4 pt-6">
+            <a href="#core-features" class="cta-button primary">See Core Features</a>
+            <a href="mailto:contact@axeldevlab.com?subject=Live%20Atlas%20Demo%20Request" class="cta-button secondary">Request Demo</a>
+            <a href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20Live%20Atlas" class="cta-button secondary">Partner With Us</a>
+          </div>
+        </div>
+        <div class="flex-1 reveal" data-reveal-delay="120">
+          <div class="map-module">
+            <div class="map-grid"></div>
+            <div class="map-globe">
+              <div class="map-contour"></div>
+              <div class="map-label" data-pos="north">North</div>
+              <div class="map-label" data-pos="west">West</div>
+              <div class="map-label" data-pos="east">East</div>
+              <div class="map-label" data-pos="south">South</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategic Overview -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="section-card p-10 lg:p-12 reveal">
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/10 text-brand-700 text-xs font-semibold uppercase tracking-[0.28em]">Strategic Overview</span>
+          <span class="text-sm text-gray-500 uppercase tracking-[0.25em]">Public Value</span>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-10">
+          <div class="space-y-4">
+            <h3 class="text-2xl font-semibold text-gray-900">Continental Perspective, Local Precision</h3>
+            <p class="text-gray-600 leading-relaxed">Live Atlas delivers a unified, visual language for Africa&rsquo;s development story. Nations, regions, and multilateral partners can see how infrastructure, climate, and economic systems are shifting in real time.</p>
+            <p class="text-gray-600 leading-relaxed">The platform bridges top-level diplomacy with grounded local realities. Dashboards scale from continental narratives to city-level detail without losing the context decision-makers require.</p>
+          </div>
+          <div class="space-y-4">
+            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-6">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-sky-700 mb-3">What Live Atlas Enables</h4>
+              <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+                  <span>Geospatial dashboards that surface economic, climate, and social indicators in a single pane.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+                  <span>Scenario canvases for policy, investment, and cooperation briefs.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+                  <span>Storytelling modules that translate complex data into clear, shareable narratives.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features -->
+  <section id="core-features" class="py-16 bg-slate-50 border-y border-slate-200">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/10 text-brand-700 text-xs font-semibold uppercase tracking-[0.28em]">Core Features</span>
+        <h3 class="text-3xl font-semibold text-gray-900 mt-5">A Living Map for Strategic Decisions</h3>
+        <p class="mt-4 text-gray-600 max-w-3xl mx-auto leading-relaxed">From national dashboards to regional cooperation portals, Live Atlas offers modular features that keep institutions informed and aligned.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft reveal">
+          <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-sky-500/15 text-sky-600 mb-4">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-900 mb-3">Continental &amp; National Dashboards</h4>
+          <p class="text-gray-600 leading-relaxed">Layered views of infrastructure, governance, and development indicators with drill-down to local projects.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft reveal" data-reveal-delay="120">
+          <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-sky-500/15 text-sky-600 mb-4">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M9.5 9.5c1.4 1.4 3.5 1.4 4.9 0"/><path d="M5 21h14"/><path d="M12 17a5 5 0 00-5-5H4"/><path d="M20 9h-3a5 5 0 00-5 5"/></svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-900 mb-3">Real-Time Mapping</h4>
+          <p class="text-gray-600 leading-relaxed">Dynamic layers for economic, climate, and social indicators updated with trusted data feeds.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft reveal" data-reveal-delay="240">
+          <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-sky-500/15 text-sky-600 mb-4">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 4h2l3 9 3-12 3 12 3-9h2"/><path d="M5 19h14"/><path d="M9 21h6"/></svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-900 mb-3">Interactive Storytelling</h4>
+          <p class="text-gray-600 leading-relaxed">Curated journeys that transform data into narratives for cabinet briefings, donor updates, and citizen engagement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact & Use Cases -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-10 items-start">
+      <div class="space-y-6 reveal">
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/10 text-brand-700 text-xs font-semibold uppercase tracking-[0.28em]">Impact &amp; Use Cases</span>
+        <h3 class="text-3xl font-semibold text-gray-900">Turning Complex Data into Shared Insight</h3>
+        <p class="text-gray-600 leading-relaxed">Live Atlas is built for decision rooms, diplomatic missions, and public platforms that need to see the whole picture.</p>
+        <ul class="space-y-4 text-gray-600 leading-relaxed">
+          <li class="flex items-start gap-3">
+            <svg class="h-5 w-5 text-sky-500 mt-1" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+            <span>Pan-African cooperation briefings with geo-contextual intelligence.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-5 w-5 text-sky-500 mt-1" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+            <span>National infrastructure planning powered by layered insights from energy to logistics.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-5 w-5 text-sky-500 mt-1" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+            <span>Storytelling microsites that help citizens and partners understand development trajectories.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="section-card p-8 lg:p-10 space-y-6 reveal" data-reveal-delay="120">
+        <h4 class="text-xl font-semibold text-gray-900">Why leaders depend on Live Atlas</h4>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+            <span>Integrates seamlessly with Axel Stack and ADIM for trusted data pipelines.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+            <span>Offers publish-ready exports for policy briefs, donor decks, and press releases.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+            <span>Supports multilingual, multi-tenant deployments across the continent.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision Alignment -->
+  <section class="py-16 bg-slate-900 text-slate-100">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal space-y-4">
+          <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-brand-200 text-xs font-semibold uppercase tracking-[0.28em]">Vision Alignment</span>
+          <h3 class="text-3xl font-semibold text-white">Advancing Living Infrastructure</h3>
+          <p class="text-slate-200 leading-relaxed">Live Atlas is where the Axel Dev Group commitment to Living Infrastructure comes alive. It translates data into shared understanding that strengthens regional cooperation.</p>
+        </div>
+        <div class="reveal flex flex-wrap gap-4 lg:justify-end">
+          <div class="bg-slate-800/70 border border-white/10 rounded-2xl px-6 py-5 min-w-[220px]">
+            <h4 class="text-lg font-semibold text-brand-200 mb-2">Living Infrastructure</h4>
+            <p class="text-sm text-slate-300 leading-snug">Provides the continent with a digital nervous system for development intelligence.</p>
+          </div>
+          <div class="bg-slate-800/70 border border-white/10 rounded-2xl px-6 py-5 min-w-[220px]">
+            <h4 class="text-lg font-semibold text-brand-200 mb-2">Institution of Records</h4>
+            <p class="text-sm text-slate-300 leading-snug">Keeps continental data assets governed, versioned, and trusted.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Subscription Card -->
+  <section class="py-16 px-6 bg-white dark:bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <div class="adl-subscribe">
+        <div class="adl-left">
+          <img class="adl-logo" src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab Logo">
+          <h2 class="adl-title">Stay Informed</h2>
+          <p class="adl-desc">Receive research insights, data releases, and policy analysis from the <strong>Axel Dev Lab</strong>.</p>
+          <a href="https://mail.axeldevlab.com/archive/adi-january-insights" class="adl-archive-link" target="_blank">View latest issue →</a>
+        </div>
+        <div class="adl-right">
+          <form method="POST" action="https://mail.axeldevlab.com/subscription/form" target="_blank">
+            <input type="hidden" name="l" value="a93e5e96-1cf7-4bff-b7b9-a38768823332">
+            <div class="adl-field">
+              <input type="email" name="email" class="adl-input" placeholder=" " required aria-label="Email address">
+              <label class="adl-label">Email address</label>
+            </div>
+            <label class="adl-checkbox">
+              <input type="checkbox" name="privacy" required>
+              <span>I agree to receive curated emails from Axel Dev Lab. You can unsubscribe at any time.</span>
+            </label>
+            <button type="submit" class="adl-btn">Subscribe now</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-10">
+        <iframe src="https://help.axeldevlab.com/open.php" style="width: 100%; min-height: 900px; border: none;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+<!-- Call to Action -->
+  <section class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-6 reveal">
+      <h3 class="text-3xl font-semibold text-gray-900">Bring your geography of progress to life.</h3>
+      <p class="text-lg text-gray-600 leading-relaxed">Schedule a Live Atlas walkthrough to see how your institution can visualise impact, coordinate partners, and engage the public.</p>
+      <div class="flex flex-wrap gap-4 justify-center pt-2">
+        <a href="mailto:contact@axeldevlab.com?subject=Live%20Atlas%20Discovery%20Session" class="cta-button primary">Book a Discovery Session</a>
+        <a href="mailto:partnerships@axeldevlab.com?subject=Partner%20with%20Live%20Atlas" class="cta-button secondary">Partner With Us</a>
+        <a href="projects.html" class="cta-button secondary">Back to Projects</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+  <!-- Call to Action -->
+  <section class="py-20 px-6 bg-brand-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-5xl mx-auto">
+      <div class="cta-panel text-center">
+        <p class="eyebrow text-white/70 mb-3" data-i18n="cta_label">Axel Dev Lab 2.0</p>
+        <h2 data-i18n="cta_heading">Ready to Transform Data Into Impact?</h2>
+        <p class="text-base sm:text-lg mb-8" data-i18n="cta_intro">
+          Partner with us to develop evidence-based solutions for your most complex development challenges.
+        </p>
+        <div class="cta-panel__actions">
+          <a href="collaborate.html" class="modern-btn modern-btn--primary">
+            <span data-i18n="cta_primary">Start a Collaboration</span>
+          </a>
+          <a href="publications.html" class="modern-btn modern-btn--outline">
+            <span data-i18n="cta_secondary">Explore Our Research</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contacts -->
+  <section class="py-16 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-i18n="direct_contacts_title">Direct Contacts</h2>
+        <p class="text-gray-300 max-w-3xl mx-auto" data-i18n="direct_contacts_intro">Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab &amp; Axel Dev Consulting.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6 text-sm">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_general_heading">General &amp; Partnerships</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_general_info">General info:</span> <a href="mailto:info@axeldevlab.com" class="underline hover:text-brand-300">info@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_partnerships">Partnerships:</span> <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-300">contact@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_executive">Executive office:</span> <a href="mailto:jeanaxelt@axeldevlab.com" class="underline hover:text-brand-300">jeanaxelt@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_client_heading">Client &amp; Operations</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_support">Client support:</span> <a href="mailto:support@axeldevlab.com" class="underline hover:text-brand-300">support@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_data">Data services:</span> <a href="mailto:it@axeldevlab.com" class="underline hover:text-brand-300">it@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_billing">Billing:</span> <a href="mailto:finance@axeldevlab.com" class="underline hover:text-brand-300">finance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_research_heading">Research &amp; Media</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_media">Press &amp; media:</span> <a href="mailto:studio@axeldevlab.com" class="underline hover:text-brand-300">studio@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_research">Research sparks:</span> <a href="mailto:research@axeldevlab.com" class="underline hover:text-brand-300">research@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_briefings">Briefings:</span> <a href="mailto:briefings@axeldevlab.com" class="underline hover:text-brand-300">briefings@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_people_heading">People &amp; Governance</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_people_team">People team:</span> <a href="mailto:people@axeldevlab.com" class="underline hover:text-brand-300">people@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_board">Board liaison:</span> <a href="mailto:board@axeldevlab.com" class="underline hover:text-brand-300">board@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_governance">Governance:</span> <a href="mailto:governance@axeldevlab.com" class="underline hover:text-brand-300">governance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-v2" role="contentinfo">
+    <div class="footer-v2__grid">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-12 w-auto" loading="lazy" />
+          <div>
+            <p class="text-lg font-semibold" data-i18n="brand_lab_name">Axel Dev Lab</p>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/60" data-i18n="brand_group">Axel Dev Group LLC</p>
+          </div>
+        </div>
+        <p class="text-sm opacity-80 mb-4" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <div class="space-y-1 text-sm opacity-80">
+          <p data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p data-i18n="footer_address_line3">United States</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <nav class="grid gap-2 text-sm opacity-90">
+          <a href="index.html" data-i18n="nav_home" class="hover:text-primary-light transition">Home</a>
+          <a href="projects.html" data-i18n="nav_projects" class="hover:text-primary-light transition">Projects</a>
+          <a href="data.html" data-i18n="nav_data" class="hover:text-primary-light transition">Data</a>
+          <a href="methodology.html" data-i18n="nav_methodology" class="hover:text-primary-light transition">Methodology</a>
+          <a href="publications.html" data-i18n="nav_publications" class="hover:text-primary-light transition">Publications</a>
+          <a href="collaborate.html" data-i18n="nav_collaborate" class="hover:text-primary-light transition">Collaborate</a>
+          <a href="media.html" data-i18n="nav_media" class="hover:text-primary-light transition">Media</a>
+          <a href="about.html" data-i18n="nav_about" class="hover:text-primary-light transition">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-primary-light/90 hover:text-primary-light transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <a href="https://help.axeldevlab.com/open.php" class="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-white/90 hover:text-white" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-80"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01"/><path d="M12 12a3 3 0 1 0-3-3"/></svg>
+          <span>Need help? Report an issue</span>
+        </a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+              </svg>
+            </a>
+            <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+<!-- External JavaScript Libraries -->
+<script src="http://localhost:8089/js/keycloak.js"></script>
+
+<!-- Main JavaScript -->
+<script src="assets/js/main.js"></script>
+
+<script>
+  window.PAGE_TRANSLATIONS = {
+    en: { page_title: 'Live Atlas · Axel Dev Group' },
+    fr: { page_title: 'Live Atlas · Groupe Axel Dev' }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.remove('opacity-0');
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          entry.target.style.animation = 'fadeInUp .68s cubic-bezier(.22,1,.36,1) forwards';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  });
+</script>
+
+</body>
+</html>

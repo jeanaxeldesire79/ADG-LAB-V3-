@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>West Africa Human Development Briefing</title>
+  <meta name="description" content="Live human development intelligence for West Africa, powered by the UNDP Human Development Report API with consultant-grade analytics for 15 economies." />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fefce8',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f'
+            }
+          },
+          fontFamily: {
+            display: ['Inter', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            glow: '0 30px 120px rgba(15, 23, 42, 0.4)',
+            card: '0 25px 60px rgba(2, 6, 23, 0.35)'
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.plot.ly/plotly-2.29.1.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #020617 0%, #0f172a 45%, #020617 100%);
+    }
+    .hero {
+      background: linear-gradient(140deg, rgba(30,64,175,0.88), rgba(17,24,39,0.92));
+    }
+    .glass {
+      background: linear-gradient(160deg, rgba(15,23,42,0.8), rgba(15,23,42,0.65));
+      border: 1px solid rgba(148,163,184,0.2);
+      backdrop-filter: blur(18px);
+    }
+    .card-surface {
+      background: linear-gradient(180deg, rgba(30,41,59,0.9), rgba(15,23,42,0.8));
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 26px;
+      box-shadow: 0 22px 60px rgba(15,23,42,0.28);
+    }
+    .chart-container {
+      min-height: 380px;
+    }
+    @media (max-width: 768px) {
+      .chart-container {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+
+  <div class="relative min-h-screen">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute -top-44 -right-24 h-80 w-80 rounded-full bg-sky-500/30 blur-3xl"></div>
+      <div class="absolute top-1/3 left-16 h-96 w-96 rounded-full bg-brand-500/20 blur-3xl"></div>
+      <div class="absolute bottom-0 right-10 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-6 py-12 space-y-12">
+      <header class="hero rounded-4xl px-10 py-12 shadow-glow">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div class="max-w-2xl space-y-5">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-slate-100">
+              HDI intelligence
+            </span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-white">
+              West Africa Human Development Briefing
+            </h1>
+            <p class="text-base sm:text-lg text-slate-100/80 leading-relaxed">
+              Consultant-ready insights on how 15 West African economies progress on the Human Development Index. Figures stream directly from the UNDP Human Development Report API with graceful fallback to public datasets.
+            </p>
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-200/70">Updated whenever the source datasets release new revisions.</p>
+          </div>
+          <div class="grid gap-4 text-sm text-slate-100/80">
+            <div class="rounded-3xl border border-white/20 bg-white/10 px-6 py-5">
+              <p class="text-xs uppercase tracking-wide">Region coverage</p>
+              <p class="mt-2 text-xl font-semibold text-white">ECOWAS member states (15 countries)</p>
+            </div>
+            <div class="rounded-3xl border border-white/20 bg-white/10 px-6 py-5">
+              <p class="text-xs uppercase tracking-wide">Primary source</p>
+              <p class="mt-2 text-xl font-semibold text-white">UNDP Human Development Report API</p>
+            </div>
+            <div class="rounded-3xl border border-white/20 bg-white/10 px-6 py-5">
+              <p class="text-xs uppercase tracking-wide">Connection status</p>
+              <p class="mt-2 text-xl font-semibold text-white" id="dataSourceStatus">Awaiting connection…</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="loadingState" class="glass rounded-3xl px-6 py-6 flex items-center gap-4 text-sm text-slate-200">
+        <svg class="h-6 w-6 animate-spin text-brand-300" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-90" d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path>
+        </svg>
+        <div>
+          <p class="font-semibold text-slate-100">Pulling fresh HDI indicators…</p>
+          <p id="loadingDetails" class="text-xs text-slate-400 mt-1">Checking access to the UNDP HDR API…</p>
+        </div>
+      </section>
+
+      <section id="errorState" class="hidden rounded-3xl border border-rose-500/30 bg-rose-600/10 px-6 py-5 text-sm text-rose-100">
+        <p class="font-semibold">We could not reach every data service just now.</p>
+        <p id="errorDetails" class="mt-1 text-rose-200/80"></p>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <article class="card-surface px-6 py-7 space-y-2">
+          <p class="text-xs uppercase tracking-wide text-slate-300/70">Regional average</p>
+          <p id="metric-average-value" class="text-3xl font-bold text-white">—</p>
+          <p id="metric-average-detail" class="text-sm text-slate-300/80">Awaiting source data</p>
+        </article>
+        <article class="card-surface px-6 py-7 space-y-2">
+          <p class="text-xs uppercase tracking-wide text-slate-300/70">Regional leader</p>
+          <p id="metric-leader-value" class="text-3xl font-bold text-white">—</p>
+          <p id="metric-leader-detail" class="text-sm text-slate-300/80">Awaiting source data</p>
+        </article>
+        <article class="card-surface px-6 py-7 space-y-2">
+          <p class="text-xs uppercase tracking-wide text-slate-300/70">Development gap</p>
+          <p id="metric-gap-value" class="text-3xl font-bold text-white">—</p>
+          <p id="metric-gap-detail" class="text-sm text-slate-300/80">Awaiting source data</p>
+        </article>
+        <article class="card-surface px-6 py-7 space-y-2">
+          <p class="text-xs uppercase tracking-wide text-slate-300/70">Momentum leader</p>
+          <p id="metric-improver-value" class="text-3xl font-bold text-white">—</p>
+          <p id="metric-improver-detail" class="text-sm text-slate-300/80">Awaiting source data</p>
+        </article>
+      </section>
+
+      <section class="glass rounded-4xl px-8 py-8 grid gap-8 lg:grid-cols-[3fr,2fr]">
+        <div class="space-y-4">
+          <div>
+            <h2 class="text-lg font-semibold tracking-tight text-white">Consultant takeaways</h2>
+            <p class="text-sm text-slate-300/80">Narrative automatically refreshes alongside the data.</p>
+          </div>
+          <h3 id="narrativeHeadline" class="text-2xl font-bold text-white">Waiting for data…</h3>
+          <ul id="narrativeList" class="space-y-3 text-sm text-slate-200/90 leading-relaxed list-disc pl-5">
+            <li>Indicators will populate after the dataset loads.</li>
+          </ul>
+        </div>
+        <div class="space-y-5">
+          <div>
+            <h3 class="text-base font-semibold text-white">HDI category exposure</h3>
+            <p class="text-xs uppercase tracking-[0.28em] text-slate-400 mt-1">UNDP thresholds</p>
+          </div>
+          <ul id="categoryBreakdownList" class="space-y-3 text-sm text-slate-200/80">
+            <li>Loading breakdown…</li>
+          </ul>
+          <div class="rounded-3xl border border-white/15 bg-white/5 px-5 py-4 text-xs text-slate-300/70 leading-relaxed">
+            <span class="font-semibold text-slate-200">Coverage note:</span>
+            <span id="coverageNote">Awaiting year range details.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid gap-7 xl:grid-cols-2">
+        <article class="card-surface px-7 py-8 space-y-4">
+          <div class="flex items-baseline justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Trajectory of human development</h2>
+              <p class="text-sm text-slate-300/80">HDI scores from 2000 onward · Our World in Data (UNDP HDRO series)</p>
+            </div>
+            <a class="text-xs uppercase tracking-wide text-brand-200 hover:text-brand-100 transition" href="https://github.com/owid/owid-datasets/tree/master/datasets/Human%20Development%20Index%20(OWID)" target="_blank" rel="noopener">Source</a>
+          </div>
+          <div id="trendChart" class="chart-container"></div>
+        </article>
+
+        <article class="card-surface px-7 py-8 space-y-4">
+          <div class="flex items-baseline justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Latest HDI standings</h2>
+              <p class="text-sm text-slate-300/80">Sorted by the most recent consolidated year</p>
+            </div>
+            <div class="text-xs uppercase tracking-wide text-slate-400/80">
+              <span id="latestYearTag">Year —</span>
+            </div>
+          </div>
+          <div id="latestRankingChart" class="chart-container"></div>
+        </article>
+
+        <article class="card-surface px-7 py-8 space-y-4 xl:col-span-2">
+          <div class="flex items-baseline justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Progress in the last decade</h2>
+              <p class="text-sm text-slate-300/80">Change in HDI compared with the selected baseline year</p>
+            </div>
+            <div class="text-xs uppercase tracking-wide text-slate-400/80">
+              Baseline <span id="baselineYearTag">—</span>
+            </div>
+          </div>
+          <div id="progressChart" class="chart-container"></div>
+        </article>
+      </section>
+
+      <!-- API Configuration Section -->
+      <section class="glass rounded-4xl px-8 py-7 text-sm text-slate-300/80 leading-relaxed">
+        <h3 class="text-base font-semibold text-white">API Configuration</h3>
+        <div class="mt-3 space-y-3">
+          <p>To use the UNDP HDR API, set your API key:</p>
+          <div class="flex gap-2">
+            <input type="text" id="apiKeyInput" placeholder="Enter UNDP HDR API key" 
+                   class="flex-1 px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400">
+            <button onclick="setApiKey()" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 rounded-lg text-white transition-colors">
+              Set Key
+            </button>
+            <button onclick="useDefaultKey()" class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white transition-colors">
+              Use Default Key
+            </button>
+          </div>
+          <p class="text-xs">Get your API key from <a href="https://hdr.undp.org/data" class="text-brand-300 hover:text-brand-200 underline" target="_blank">UNDP HDR Data</a></p>
+          <p class="text-xs text-slate-400" id="apiKeyStatus">API key is set. UNDP HDR API will be used.</p>
+        </div>
+      </section>
+
+      <section class="glass rounded-4xl px-8 py-7 text-sm text-slate-300/80 leading-relaxed">
+        <h3 class="text-base font-semibold text-white">Methodology & assumptions</h3>
+        <ul class="mt-3 space-y-2 list-disc pl-5">
+          <li>Countries covered: Benin, Burkina Faso, Cabo Verde, Côte d'Ivoire, The Gambia, Ghana, Guinea, Guinea-Bissau, Liberia, Mali, Niger, Nigeria, Senegal, Sierra Leone, and Togo.</li>
+          <li>Primary data source: UNDP Human Development Report API (set the browser-side key via the configuration above). When unavailable, the dashboard falls back to the public Our World in Data feed.</li>
+          <li>Latest consensus year: the most recent year where at least half the countries report HDI values. Countries without that year fall back to their most recent observation.</li>
+          <li>Momentum metrics use the closest observation at or before ten years prior to the latest consensus year. Changes are absolute HDI points.</li>
+          <li>HDI categories follow UNDP thresholds: Very high (≥0.800), High (0.700–0.799), Medium (0.550–0.699), Low (&lt;0.550).</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Configuration based on UNDP HDR API documentation
+    const HDR_API_ENDPOINTS = [
+      { 
+        label: 'UNDP HDR API v1', 
+        baseUrl: 'https://api-1.hdr.undp.org/api/v1',
+        authType: 'bearer' 
+      },
+      { 
+        label: 'UNDP HDR API v2', 
+        baseUrl: 'https://api-2.hdr.undp.org/api/v1', 
+        authType: 'bearer' 
+      }
+    ];
+
+    const HDR_API_CONFIG = {
+      indicator: '137506', // HDI indicator
+      startYear: 2000,
+      endYear: new Date().getFullYear(),
+      pageSize: 1000
+    };
+
+    const WEST_AFRICA = [
+      { code: 'BEN', m49: '204', name: 'Benin' },
+      { code: 'BFA', m49: '854', name: 'Burkina Faso' },
+      { code: 'CPV', m49: '132', name: 'Cabo Verde' },
+      { code: 'CIV', m49: '384', name: 'Côte d\'Ivoire' },
+      { code: 'GMB', m49: '270', name: 'The Gambia' },
+      { code: 'GHA', m49: '288', name: 'Ghana' },
+      { code: 'GIN', m49: '324', name: 'Guinea' },
+      { code: 'GNB', m49: '624', name: 'Guinea-Bissau' },
+      { code: 'LBR', m49: '430', name: 'Liberia' },
+      { code: 'MLI', m49: '466', name: 'Mali' },
+      { code: 'NER', m49: '562', name: 'Niger' },
+      { code: 'NGA', m49: '566', name: 'Nigeria' },
+      { code: 'SEN', m49: '686', name: 'Senegal' },
+      { code: 'SLE', m49: '694', name: 'Sierra Leone' },
+      { code: 'TGO', m49: '768', name: 'Togo' }
+    ];
+
+    const OWID_DATA_URLS = [
+      'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Human%20Development%20Index%20(OWID)/Human%20Development%20Index%20(OWID).csv',
+      'https://nyc3.digitaloceanspaces.com/owid-public/data/indicator%20Human%20Development%20Index%20(OWID).csv'
+    ];
+
+    const HDI_CATEGORIES = [
+      { key: 'very_high', label: 'Very high', min: 0.8, color: '#0ea5e9' },
+      { key: 'high', label: 'High', min: 0.7, color: '#22c55e' },
+      { key: 'medium', label: 'Medium', min: 0.55, color: '#f59e0b' },
+      { key: 'low', label: 'Low', min: 0, color: '#ef4444' }
+    ];
+
+    // Your API key integrated directly
+    const DEFAULT_API_KEY = 'HDR-UzA4bOoLIAXi4FXCUS57U9CT6w77xQiQ';
+
+    const COUNTRY_LOOKUP = new Map(WEST_AFRICA.flatMap((c) => [[c.code, c], [c.m49, c]]));
+    const qs = (selector) => document.querySelector(selector);
+    const PLOT_CONFIG = { displayModeBar: false, responsive: true };
+
+    // API Configuration Functions
+    function resolveHdrApiKey() {
+      // First check for user-set key in localStorage
+      try {
+        const stored = window.localStorage.getItem('hdr_api_key');
+        if (typeof stored === 'string' && stored.trim()) {
+          return stored.trim();
+        }
+      } catch (error) {
+        console.warn('Unable to access localStorage for HDR API key.', error);
+      }
+
+      // Use the default key if no user key is set
+      return DEFAULT_API_KEY;
+    }
+
+    function setApiKey() {
+      const input = document.getElementById('apiKeyInput');
+      const status = document.getElementById('apiKeyStatus');
+      if (input.value.trim()) {
+        localStorage.setItem('hdr_api_key', input.value.trim());
+        status.textContent = 'API key saved! Reloading page...';
+        status.className = 'text-xs text-green-400';
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      } else {
+        status.textContent = 'Please enter a valid API key';
+        status.className = 'text-xs text-rose-400';
+      }
+    }
+
+    function useDefaultKey() {
+      const status = document.getElementById('apiKeyStatus');
+      const input = document.getElementById('apiKeyInput');
+      
+      // Set the default key in the input field
+      input.value = DEFAULT_API_KEY;
+      
+      // Remove any user-set key to use the default
+      localStorage.removeItem('hdr_api_key');
+      
+      status.textContent = 'Using default API key. Reloading page...';
+      status.className = 'text-xs text-green-400';
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }
+
+    function updateApiKeyStatus() {
+      const status = document.getElementById('apiKeyStatus');
+      const apiKey = resolveHdrApiKey();
+      if (apiKey === DEFAULT_API_KEY) {
+        status.textContent = 'Using default API key. UNDP HDR API will be used.';
+        status.className = 'text-xs text-green-400';
+      } else {
+        status.textContent = 'Using custom API key. UNDP HDR API will be used.';
+        status.className = 'text-xs text-green-400';
+      }
+    }
+
+    // Data Fetching Functions - SIMPLIFIED VERSION
+    async function testApiConnection(apiKey) {
+      // Simple test - try to fetch a small dataset
+      const testUrl = `https://api-1.hdr.undp.org/api/v1/data?indicator_id=137506&country_code=BEN&year=2020&page_size=1`;
+      
+      try {
+        const response = await fetch(testUrl, {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Accept': 'application/json'
+          }
+        });
+        
+        console.log('Test API Response Status:', response.status);
+        return response.ok;
+      } catch (error) {
+        console.error('Test API Error:', error);
+        return false;
+      }
+    }
+
+    async function fetchHdrDatasetFromApi(apiKey) {
+      const countryCodes = WEST_AFRICA.map(country => country.code).join(',');
+      
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      };
+
+      for (const endpoint of HDR_API_ENDPOINTS) {
+        try {
+          console.log(`Trying ${endpoint.label}...`);
+          
+          const url = `${endpoint.baseUrl}/data?indicator_id=${HDR_API_CONFIG.indicator}&country_code=${countryCodes}&year=${HDR_API_CONFIG.startYear}-${HDR_API_CONFIG.endYear}&page_size=${HDR_API_CONFIG.pageSize}`;
+          console.log('Fetching from:', url);
+          
+          const response = await fetch(url, { 
+            method: 'GET',
+            headers: headers
+          });
+
+          console.log('Response status:', response.status);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const payload = await response.json();
+          console.log('API response received:', payload);
+          
+          if (!payload || !payload.data) {
+            throw new Error('No data in API response');
+          }
+
+          const rows = [];
+          if (Array.isArray(payload.data)) {
+            payload.data.forEach(item => {
+              if (item && item.country_code && item.year && item.value !== undefined) {
+                rows.push({
+                  code: item.country_code.toUpperCase(),
+                  year: Number(item.year),
+                  value: Number(item.value)
+                });
+              }
+            });
+          }
+
+          console.log(`Processed ${rows.length} rows from ${endpoint.label}`);
+          
+          if (rows.length > 0) {
+            const dataset = buildSeries(rows);
+            return { ...dataset, sourceLabel: endpoint.label };
+          } else {
+            throw new Error('No valid HDI data found in response');
+          }
+          
+        } catch (error) {
+          console.error(`${endpoint.label} failed:`, error.message);
+          // Continue to next endpoint
+        }
+      }
+
+      throw new Error('All UNDP API endpoints failed');
+    }
+
+    async function fetchOwiddDataset() {
+      const errors = [];
+      for (const url of OWID_DATA_URLS) {
+        try {
+          console.log('Trying OWID URL:', url);
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const csv = await response.text();
+          const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true, dynamicTyping: true });
+          if (parsed.errors && parsed.errors.length) {
+            throw new Error('CSV parsing failed.');
+          }
+          console.log('OWID data parsed successfully, rows:', parsed.data.length);
+          const dataset = buildSeries(parsed.data);
+          return { ...dataset, sourceLabel: 'Our World in Data (fallback)' };
+        } catch (error) {
+          console.error('OWID fetch error:', error);
+          errors.push(`${url}: ${error.message}`);
+        }
+      }
+      throw new Error(`Unable to download the fallback HDI dataset. Attempts: ${errors.join(' | ')}`);
+    }
+
+    function buildSeries(rows) {
+      const westCodes = new Set(WEST_AFRICA.map((country) => country.code));
+      const series = {};
+      const yearCounts = new Map();
+      let minYear = Infinity;
+      let maxYear = -Infinity;
+
+      rows.forEach((row) => {
+        const code = row.Code || row.code;
+        if (!westCodes.has(code)) return;
+
+        const year = Number(row.Year || row.year);
+        const valueRaw = row['Human Development Index'] || row.value;
+        const numericValue = Number.isFinite(valueRaw) ? valueRaw : Number(valueRaw);
+        if (!Number.isFinite(year)) return;
+
+        if (!series[code]) {
+          series[code] = [];
+        }
+
+        const value = Number.isFinite(numericValue) ? numericValue : null;
+        series[code].push({ year, value });
+
+        if (Number.isFinite(value)) {
+          yearCounts.set(year, (yearCounts.get(year) ?? 0) + 1);
+        }
+
+        if (year < minYear) minYear = year;
+        if (year > maxYear) maxYear = year;
+      });
+
+      Object.values(series).forEach((points) => points.sort((a, b) => a.year - b.year));
+
+      console.log('Built series for countries:', Object.keys(series));
+      console.log('Year range:', minYear, 'to', maxYear);
+
+      return {
+        series,
+        yearCounts,
+        coverage: {
+          startYear: minYear === Infinity ? null : minYear,
+          endYear: maxYear === -Infinity ? null : maxYear
+        }
+      };
+    }
+
+    // Data Processing Functions
+    function mean(values) {
+      const valid = values.filter((value) => Number.isFinite(value));
+      if (!valid.length) return null;
+      return valid.reduce((acc, value) => acc + value, 0) / valid.length;
+    }
+
+    function getCategory(value) {
+      if (!Number.isFinite(value)) {
+        return HDI_CATEGORIES[HDI_CATEGORIES.length - 1];
+      }
+      for (const category of HDI_CATEGORIES) {
+        if (value >= category.min) {
+          return category;
+        }
+      }
+      return HDI_CATEGORIES[HDI_CATEGORIES.length - 1];
+    }
+
+    function describeCategory(category) {
+      switch (category.key) {
+        case 'very_high':
+          return '≥ 0.800';
+        case 'high':
+          return '0.700 – 0.799';
+        case 'medium':
+          return '0.550 – 0.699';
+        default:
+          return '< 0.550';
+      }
+    }
+
+    function formatHDI(value) {
+      return Number.isFinite(value) ? value.toFixed(3) : '—';
+    }
+
+    function formatDelta(value) {
+      if (!Number.isFinite(value)) return '—';
+      const sign = value > 0 ? '+' : value < 0 ? '-' : '';
+      return sign + Math.abs(value).toFixed(3);
+    }
+
+    function findLatestPoint(points, targetYear) {
+      if (!points || !points.length) return null;
+      if (!Number.isFinite(targetYear)) {
+        for (let i = points.length - 1; i >= 0; i -= 1) {
+          if (Number.isFinite(points[i].value)) return points[i];
+        }
+        return null;
+      }
+      let candidate = null;
+      points.forEach((point) => {
+        if (!Number.isFinite(point.value)) return;
+        if (point.year <= targetYear && (!candidate || point.year > candidate.year)) {
+          candidate = point;
+        }
+      });
+      if (candidate) return candidate;
+      for (let i = points.length - 1; i >= 0; i -= 1) {
+        if (Number.isFinite(points[i].value)) return points[i];
+      }
+      return null;
+    }
+
+    function findBaselinePoint(points, targetYear) {
+      if (!points || !points.length) return null;
+      if (!Number.isFinite(targetYear)) {
+        for (const point of points) {
+          if (Number.isFinite(point.value)) return point;
+        }
+        return null;
+      }
+      let candidate = null;
+      points.forEach((point) => {
+        if (!Number.isFinite(point.value)) return;
+        if (point.year <= targetYear && (!candidate || point.year > candidate.year)) {
+          candidate = point;
+        }
+      });
+      if (candidate) return candidate;
+      for (const point of points) {
+        if (Number.isFinite(point.value)) return point;
+      }
+      return null;
+    }
+
+    function prepareSummary(series, yearCounts, coverage, sourceLabel = 'UNDP HDR API') {
+      const countryCodes = Object.keys(series);
+      if (!countryCodes.length) {
+        throw new Error('No HDI time series found for West Africa.');
+      }
+
+      const sortedYears = Array.from(yearCounts.keys()).sort((a, b) => b - a);
+      const majorityThreshold = Math.ceil(countryCodes.length / 2);
+      let consensusYear = null;
+
+      for (const year of sortedYears) {
+        if ((yearCounts.get(year) ?? 0) >= majorityThreshold) {
+          consensusYear = year;
+          break;
+        }
+      }
+      if (!consensusYear && sortedYears.length) {
+        consensusYear = sortedYears[0];
+      }
+
+      const latestEntries = [];
+      countryCodes.forEach((code) => {
+        const points = series[code];
+        const latestPoint = findLatestPoint(points, consensusYear);
+        if (!latestPoint || !Number.isFinite(latestPoint.value)) return;
+        latestEntries.push({
+          code,
+          name: COUNTRY_LOOKUP.get(code)?.name ?? code,
+          year: latestPoint.year,
+          value: latestPoint.value
+        });
+      });
+
+      if (!latestEntries.length) {
+        throw new Error('No recent HDI observations available for the selected countries.');
+      }
+
+      const average = mean(latestEntries.map((entry) => entry.value));
+      const top = latestEntries.reduce((acc, entry) => (!acc || entry.value > acc.value ? entry : acc), null);
+      const bottom = latestEntries.reduce((acc, entry) => (!acc || entry.value < acc.value ? entry : acc), null);
+
+      const baselineYear = Number.isFinite(consensusYear)
+        ? consensusYear - 10
+        : (coverage.endYear ? coverage.endYear - 10 : null);
+      const improvements = [];
+
+      latestEntries.forEach((entry) => {
+        const points = series[entry.code];
+        const baselinePoint = findBaselinePoint(points, baselineYear);
+        if (!baselinePoint || !Number.isFinite(baselinePoint.value)) return;
+        const delta = entry.value - baselinePoint.value;
+        improvements.push({
+          code: entry.code,
+          name: entry.name,
+          delta,
+          latestValue: entry.value,
+          latestYear: entry.year,
+          baselineYear: baselinePoint.year,
+          baselineValue: baselinePoint.value
+        });
+      });
+
+      const avgDelta = mean(improvements.map((item) => item.delta));
+      const improver = improvements.reduce((acc, item) => (!acc || item.delta > acc.delta ? item : acc), null);
+
+      const categoryCounts = new Map();
+      latestEntries.forEach((entry) => {
+        const category = getCategory(entry.value);
+        categoryCounts.set(category.key, (categoryCounts.get(category.key) ?? 0) + 1);
+      });
+
+      const categoryBreakdown = HDI_CATEGORIES.map((category) => ({
+        ...category,
+        count: categoryCounts.get(category.key) ?? 0,
+        share: latestEntries.length ? (categoryCounts.get(category.key) ?? 0) / latestEntries.length : 0
+      }));
+
+      return {
+        series,
+        countryCodes,
+        consensusYear,
+        latestEntries,
+        average,
+        top,
+        bottom,
+        baselineYear,
+        improvements,
+        avgDelta,
+        improver,
+        categoryBreakdown,
+        coverage,
+        sourceLabel
+      };
+    }
+
+    // UI Update Functions
+    function showError(message) {
+      const errorSection = qs('#errorState');
+      const errorDetails = qs('#errorDetails');
+      if (!errorSection || !errorDetails) return;
+      errorDetails.textContent = message;
+      errorSection.classList.remove('hidden');
+    }
+
+    async function waitForLibraries(timeout = 8000) {
+      const start = performance.now();
+      return new Promise((resolve, reject) => {
+        (function check() {
+          if (window.Plotly && window.Papa) {
+            resolve();
+            return;
+          }
+          if (performance.now() - start > timeout) {
+            reject(new Error('Required chart libraries did not load.'));
+            return;
+          }
+          requestAnimationFrame(check);
+        })();
+      });
+    }
+
+    function updateMetrics(summary) {
+      const averageValueEl = qs('#metric-average-value');
+      const averageDetailEl = qs('#metric-average-detail');
+      if (averageValueEl && averageDetailEl) {
+        if (Number.isFinite(summary.average)) {
+          const averageCategory = getCategory(summary.average);
+          averageValueEl.textContent = formatHDI(summary.average);
+          averageDetailEl.textContent = summary.consensusYear
+            ? `Average HDI in ${summary.consensusYear} (${averageCategory.label.toLowerCase()} tier)`
+            : 'Average HDI (latest consolidated year)';
+        } else {
+          averageValueEl.textContent = '—';
+          averageDetailEl.textContent = 'Average not available';
+        }
+      }
+
+      const leaderValueEl = qs('#metric-leader-value');
+      const leaderDetailEl = qs('#metric-leader-detail');
+      if (leaderValueEl && leaderDetailEl) {
+        if (summary.top) {
+          const leaderCategory = getCategory(summary.top.value);
+          leaderValueEl.textContent = formatHDI(summary.top.value);
+          leaderDetailEl.textContent = `${summary.top.name} (${leaderCategory.label.toLowerCase()}, ${summary.top.year})`;
+        } else {
+          leaderValueEl.textContent = '—';
+          leaderDetailEl.textContent = 'Leader not available';
+        }
+      }
+
+      const gapValueEl = qs('#metric-gap-value');
+      const gapDetailEl = qs('#metric-gap-detail');
+      if (gapValueEl && gapDetailEl) {
+        if (summary.top && summary.bottom) {
+          const gap = summary.top.value - summary.bottom.value;
+          gapValueEl.textContent = formatDelta(gap);
+          gapDetailEl.textContent = `${summary.top.name} vs ${summary.bottom.name}`;
+        } else {
+          gapValueEl.textContent = '—';
+          gapDetailEl.textContent = 'Gap not available';
+        }
+      }
+
+      const momentumValueEl = qs('#metric-improver-value');
+      const momentumDetailEl = qs('#metric-improver-detail');
+      if (momentumValueEl && momentumDetailEl) {
+        if (summary.improver) {
+          momentumValueEl.textContent = formatDelta(summary.improver.delta);
+          const windowLabel = summary.improver.baselineYear === summary.improver.latestYear
+            ? `since ${summary.improver.baselineYear}`
+            : `${summary.improver.baselineYear} → ${summary.improver.latestYear}`;
+          momentumDetailEl.textContent = `${summary.improver.name} (${windowLabel})`;
+        } else {
+          momentumValueEl.textContent = '—';
+          momentumDetailEl.textContent = 'Not enough historical data';
+        }
+      }
+    }
+
+    function updateNarrative(summary) {
+      const headline = qs('#narrativeHeadline');
+      const list = qs('#narrativeList');
+      if (!headline || !list) return;
+
+      headline.textContent = summary.consensusYear
+        ? `HDI pulse for ${summary.consensusYear}`
+        : 'Latest HDI pulse';
+
+      const bullets = [];
+
+      if (Number.isFinite(summary.average)) {
+        const averageCategory = getCategory(summary.average);
+        bullets.push(`Regional average HDI sits at ${formatHDI(summary.average)}, placing the bloc in the ${averageCategory.label.toLowerCase()} development tier.`);
+      }
+      if (summary.top) {
+        const leaderCategory = getCategory(summary.top.value);
+        bullets.push(`${summary.top.name} leads at ${formatHDI(summary.top.value)} (${leaderCategory.label.toLowerCase()} development, ${summary.top.year}).`);
+      }
+      if (summary.bottom) {
+        const bottomCategory = getCategory(summary.bottom.value);
+        bullets.push(`${summary.bottom.name} trails at ${formatHDI(summary.bottom.value)}, classified as ${bottomCategory.label.toLowerCase()} development.`);
+      }
+      if (summary.improver) {
+        bullets.push(`${summary.improver.name} posted the fastest ten-year gain, up ${formatDelta(summary.improver.delta)} HDI points from ${summary.improver.baselineYear} to ${summary.improver.latestYear}.`);
+      }
+      if (Number.isFinite(summary.avgDelta)) {
+        bullets.push(`Average ten-year improvement across the bloc: ${formatDelta(summary.avgDelta)} HDI points.`);
+      }
+
+      if (!bullets.length) {
+        bullets.push('No analytical highlights are available yet.');
+      }
+
+      list.innerHTML = bullets.map((item) => `<li>${item}</li>`).join('');
+    }
+
+    function updateCategoryBreakdown(summary) {
+      const list = qs('#categoryBreakdownList');
+      if (!list) return;
+      const total = summary.latestEntries.length;
+      const items = summary.categoryBreakdown.map((category) => {
+        const percent = total ? Math.round(category.share * 100) : 0;
+        return `
+          <li class="flex items-center justify-between gap-4 rounded-3xl border border-white/5 bg-white/5 px-4 py-3">
+            <div>
+              <p class="text-sm font-semibold text-white">${category.label}</p>
+              <p class="text-xs text-slate-300/70">${describeCategory(category)}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-lg font-bold text-white">${category.count}</p>
+              <p class="text-xs text-slate-400">${percent}% of bloc</p>
+            </div>
+          </li>
+        `;
+      });
+      list.innerHTML = items.join('');
+
+      const coverageNote = qs('#coverageNote');
+      if (coverageNote) {
+        const start = summary.coverage.startYear ?? 'n/a';
+        const end = summary.coverage.endYear ?? 'n/a';
+        const latest = summary.consensusYear ?? 'n/a';
+        const baselineYears = summary.improvements
+          .map((item) => item.baselineYear)
+          .filter((year) => Number.isFinite(year));
+        let baselineLabel = 'n/a';
+        if (baselineYears.length) {
+          const minBaseline = Math.min(...baselineYears);
+          const maxBaseline = Math.max(...baselineYears);
+          baselineLabel = minBaseline === maxBaseline ? `${minBaseline}` : `${minBaseline}–${maxBaseline}`;
+        }
+        coverageNote.textContent = `Data coverage spans ${start} to ${end}. Latest consolidated year: ${latest}. Momentum baseline window: ${baselineLabel}. Active source: ${summary.sourceLabel}.`;
+      }
+
+      const dataSourceStatus = qs('#dataSourceStatus');
+      if (dataSourceStatus) {
+        dataSourceStatus.textContent = summary.sourceLabel;
+      }
+    }
+
+    function renderTrendChart(summary) {
+      const container = document.getElementById('trendChart');
+      if (!container || !window.Plotly) return;
+
+      const traces = summary.countryCodes.map((code) => {
+        const country = COUNTRY_LOOKUP.get(code) ?? { name: code };
+        const points = (summary.series[code] || []).filter((point) => Number.isFinite(point.value) && point.year >= 2000);
+        return {
+          x: points.map((point) => point.year),
+          y: points.map((point) => point.value),
+          mode: 'lines+markers',
+          name: country.name,
+          hovertemplate: `${country.name}<br>%{x}: %{y:.3f}<extra></extra>`,
+          line: { width: 3 },
+          marker: { size: 6 }
+        };
+      }).filter((trace) => trace.x.length);
+
+      if (!traces.length) {
+        Plotly.purge(container);
+        container.innerHTML = '<div class="text-sm text-slate-300/70">No HDI time series available.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      Plotly.newPlot(container, traces, {
+        margin: { l: 60, r: 20, t: 10, b: 50 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: '#e2e8f0' },
+        hovermode: 'x unified',
+        xaxis: { gridcolor: 'rgba(148,163,184,0.15)', tickformat: 'd' },
+        yaxis: { gridcolor: 'rgba(148,163,184,0.15)', tickformat: '.3f', title: 'HDI' },
+        legend: { orientation: 'h', x: 0, y: 1.12 }
+      }, PLOT_CONFIG);
+    }
+
+    function renderLatestRankingChart(summary) {
+      const container = document.getElementById('latestRankingChart');
+      if (!container || !window.Plotly) return;
+
+      const sorted = [...summary.latestEntries].sort((a, b) => a.value - b.value);
+      if (!sorted.length) {
+        Plotly.purge(container);
+        container.innerHTML = '<div class="text-sm text-slate-300/70">No latest HDI data available.</div>';
+        return;
+      }
+
+      const names = sorted.map((entry) => entry.name);
+      const values = sorted.map((entry) => entry.value);
+      const colors = sorted.map((entry) => getCategory(entry.value).color);
+      const minValue = Math.min(...values);
+      const maxValue = Math.max(...values);
+      const padding = 0.02;
+      const xRange = [
+        Math.max(0, minValue - padding),
+        Math.min(1, maxValue + padding)
+      ];
+
+      container.innerHTML = '';
+      Plotly.newPlot(container, [{
+        type: 'bar',
+        orientation: 'h',
+        x: values,
+        y: names,
+        marker: {
+          color: colors,
+          line: { color: 'rgba(15,23,42,0.8)', width: 1.5 }
+        },
+        hovertemplate: '%{y}<br>HDI: %{x:.3f}<extra></extra>'
+      }], {
+        margin: { l: 120, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: '#e2e8f0' },
+        xaxis: { gridcolor: 'rgba(148,163,184,0.15)', tickformat: '.3f', range: xRange },
+        yaxis: { categoryorder: 'array', categoryarray: names },
+        hovermode: 'closest'
+      }, PLOT_CONFIG);
+
+      const latestYearTag = qs('#latestYearTag');
+      if (latestYearTag) {
+        latestYearTag.textContent = summary.consensusYear ? `Year ${summary.consensusYear}` : 'Latest available year';
+      }
+    }
+
+    function renderProgressChart(summary) {
+      const container = document.getElementById('progressChart');
+      if (!container || !window.Plotly) return;
+
+      if (!summary.improvements.length) {
+        Plotly.purge(container);
+        container.innerHTML = '<div class="text-sm text-slate-300/70">Not enough historical data to calculate momentum.</div>';
+        const baselineTag = qs('#baselineYearTag');
+        if (baselineTag) baselineTag.textContent = '—';
+        return;
+      }
+
+      const sorted = [...summary.improvements].sort((a, b) => b.delta - a.delta);
+      const names = sorted.map((item) => item.name);
+      const deltas = sorted.map((item) => item.delta);
+      const colors = sorted.map((item) => item.delta >= 0 ? '#22c55e' : '#f97316');
+
+      container.innerHTML = '';
+      Plotly.newPlot(container, [{
+        type: 'bar',
+        orientation: 'h',
+        x: deltas,
+        y: names,
+        marker: {
+          color: colors,
+          line: { color: 'rgba(15,23,42,0.8)', width: 1.5 }
+        },
+        hovertemplate: '%{y}<br>Δ HDI: %{x:.3f}<extra></extra>'
+      }], {
+        margin: { l: 160, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: '#e2e8f0' },
+        xaxis: { gridcolor: 'rgba(148,163,184,0.15)', tickformat: '+.3f' },
+        yaxis: { categoryorder: 'array', categoryarray: names }
+      }, PLOT_CONFIG);
+
+      const baselineYears = sorted
+        .map((item) => item.baselineYear)
+        .filter((year) => Number.isFinite(year));
+      const baselineTag = qs('#baselineYearTag');
+      if (baselineTag) {
+        if (baselineYears.length) {
+          const minBaseline = Math.min(...baselineYears);
+          const maxBaseline = Math.max(...baselineYears);
+          baselineTag.textContent = minBaseline === maxBaseline ? `${minBaseline}` : `${minBaseline}–${maxBaseline}`;
+        } else {
+          baselineTag.textContent = '—';
+        }
+      }
+    }
+
+    function renderCharts(summary) {
+      renderTrendChart(summary);
+      renderLatestRankingChart(summary);
+      renderProgressChart(summary);
+    }
+
+    // Main Hydration Function
+    async function hydrate() {
+      const errorState = qs('#errorState');
+      if (errorState) {
+        errorState.classList.add('hidden');
+      }
+
+      try {
+        // Update API key status
+        updateApiKeyStatus();
+        
+        // Pre-fill API key input
+        const input = document.getElementById('apiKeyInput');
+        input.value = DEFAULT_API_KEY;
+
+        const loadingDetails = qs('#loadingDetails');
+        if (loadingDetails) loadingDetails.textContent = 'Loading chart libraries…';
+        await waitForLibraries();
+
+        let dataset = null;
+        const apiKey = resolveHdrApiKey();
+
+        console.log('Starting data fetch with API key:', apiKey ? 'Present' : 'Missing');
+
+        if (apiKey) {
+          if (loadingDetails) loadingDetails.textContent = 'Testing UNDP HDR API connection…';
+          
+          try {
+            const connectionTest = await testApiConnection(apiKey);
+            
+            if (connectionTest) {
+              if (loadingDetails) loadingDetails.textContent = 'Fetching HDI data from UNDP HDR API…';
+              dataset = await fetchHdrDatasetFromApi(apiKey);
+              console.log('UNDP API dataset loaded:', dataset);
+            } else {
+              console.warn('API connection test failed, using fallback');
+              if (loadingDetails) loadingDetails.textContent = 'UNDP API unavailable; using fallback data…';
+            }
+          } catch (apiError) {
+            console.warn('HDR API fetch failed:', apiError);
+            if (loadingDetails) loadingDetails.textContent = 'UNDP API failed; switching to fallback…';
+          }
+        }
+
+        // Use fallback if UNDP API failed or no key
+        if (!dataset) {
+          if (loadingDetails) loadingDetails.textContent = 'Downloading from Our World in Data…';
+          try {
+            dataset = await fetchOwiddDataset();
+            console.log('OWID dataset loaded successfully');
+          } catch (owidError) {
+            console.warn('OWID fetch failed:', owidError);
+            if (loadingDetails) loadingDetails.textContent = 'OWID unavailable; showing error…';
+            throw new Error('Could not load data from any source. Please check your internet connection.');
+          }
+        }
+
+        if (loadingDetails) loadingDetails.textContent = 'Processing West Africa indicators…';
+        const summary = prepareSummary(dataset.series, dataset.yearCounts, dataset.coverage, dataset.sourceLabel);
+        
+        if (loadingDetails) loadingDetails.textContent = `Rendering insights from ${summary.sourceLabel}…`;
+
+        updateMetrics(summary);
+        updateNarrative(summary);
+        updateCategoryBreakdown(summary);
+        renderCharts(summary);
+
+        const loadingState = qs('#loadingState');
+        if (loadingState) loadingState.classList.add('hidden');
+        
+      } catch (error) {
+        console.error('Hydration error:', error);
+        showError(error.message);
+        const loadingState = qs('#loadingState');
+        if (loadingState) loadingState.classList.add('hidden');
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, starting hydration...');
+      hydrate();
+    });
+  </script>
+</body>
+</html>

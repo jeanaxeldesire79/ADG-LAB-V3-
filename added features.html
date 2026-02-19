@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axel Dev Lab - Interactive Policy Simulator</title>
+  <meta name="description" content="Transforming global development through data intelligence and strategic policy insights">
+
+  <!-- External Resources -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+    
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    .dark body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    /* Dark Mode Styles */
+    .dark .glass-card {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .dark ::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    
+    .dark ::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideInUp {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    
+    .animate-slideInUp {
+      animation: slideInUp 0.8s ease-out forwards;
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse 3s infinite ease-in-out;
+    }
+    
+    /* Custom Slider Styles */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: #e5e7eb;
+      outline: none;
+      cursor: pointer;
+    }
+    
+    .dark input[type="range"] {
+      background: #374151;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: var(--primary-light);
+    }
+    
+    .dark input[type="range"]::-webkit-slider-thumb {
+      background: var(--primary-light);
+      border-color: #1e293b;
+    }
+    
+    /* Progress bar for sliders */
+    .slider-progress {
+      position: absolute;
+      height: 6px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary));
+      pointer-events: none;
+    }
+    
+    /* Reveal animations for scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Loading animation */
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #e5e7eb;
+      border-bottom-color: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
+      animation: rotation 1s linear infinite;
+    }
+    
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+    }
+    
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: #1f2937;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+    }
+    
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* Chart branding */
+    .chart-branding {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      font-size: 11px;
+      color: #9ca3af;
+      font-style: italic;
+    }
+    
+    .dark .chart-branding {
+      color: #6b7280;
+    }
+    
+    /* Print styles */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      
+      .glass-card {
+        background: white !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 
+              50: '#fff7e6', 100: '#ffedcc', 200: '#ffd999', 
+              300: '#ffc266', 400: '#ffad33', 500: '#f59e0b', 
+              600: '#d97706', 700: '#b45309', 800: '#7c2d12', 900: '#431407' 
+            },
+            diplomatic: { 
+              blue: { DEFAULT: '#1e3a8a', light: '#3b82f6' }, 
+              gold: { DEFAULT: '#f59e0b', light: '#fbbf24' }, 
+              slate: '#1f2937' 
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'fade-in': 'fadeIn 0.8s ease-out forwards'
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            fadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+  <!-- Header -->
+  <header id="siteHeader" class="glass-card bg-white/80 dark:bg-slate-900/80 sticky top-4 mx-auto max-w-6xl z-50 no-print">
+    <div class="px-4 sm:px-6 py-3">
+      <div class="flex justify-between items-center">
+        <a href="#home" class="flex items-center gap-3 group nav-link">
+          <div class="h-10 w-10 rounded-full bg-diplomatic-blue flex items-center justify-center text-white">
+            <i class="fas fa-chart-line text-xl"></i>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">Axel Dev Lab</span>
+        </a>
+        
+        <nav class="hidden lg:flex space-x-8 text-sm font-medium items-center">
+          <a href="#home" class="nav-link text-gray-600 dark:text-gray-300 hover:text-diplomatic-blue-light transition-colors">Home</a>
+          <a href="#projects" class="nav-link text-gray-600 dark:text-gray-300 hover:text-diplomatic-blue-light transition-colors">Projects</a>
+          <a href="#simulator" class="nav-link text-gray-600 dark:text-gray-300 hover:text-diplomatic-blue-light transition-colors">Simulator</a>
+          <a href="#about" class="nav-link text-gray-600 dark:text-gray-300 hover:text-diplomatic-blue-light transition-colors">About</a>
+          
+          <button id="theme-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+            <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+            <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+          </button>
+          
+          <button id="print-button" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors tooltip">
+            <i class="fas fa-print"></i>
+            <span class="tooltip-text">Print this report</span>
+          </button>
+          <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+        
+        <div class="lg:hidden">
+          <button id="mobile-menu-button" class="p-2 rounded-md text-gray-600 dark:text-gray-300">
+            <i id="menu-open-icon" class="fas fa-bars"></i>
+            <i id="menu-close-icon" class="fas fa-times hidden"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div id="mobile-menu" class="hidden lg:hidden mt-4 space-y-1">
+        <a href="#home" class="nav-link block px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">Home</a>
+        <a href="#projects" class="nav-link block px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">Projects</a>
+        <a href="#simulator" class="nav-link block px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">Simulator</a>
+        <a href="#about" class="nav-link block px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">About</a>
+        
+        <div class="flex justify-center space-x-4 pt-2">
+          <button id="mobile-theme-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+            <i id="mobile-theme-toggle-dark-icon" class="fas fa-moon"></i>
+            <i id="mobile-theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+          </button>
+          
+          <button id="mobile-print-button" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+            <i class="fas fa-print"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Home Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center py-16 px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white animate-slideInUp">
+          <span class="block">Transforming Development</span>
+          <span class="block text-diplomatic-blue dark:text-diplomatic-blue-light mt-2">Through Data Intelligence</span>
+        </h1>
+        
+        <p class="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 dark:text-gray-300 animate-fadeIn" style="animation-delay: 0.3s">
+          We provide strategic policy insights and innovative data solutions to tackle the world's most pressing development challenges.
+        </p>
+        
+        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 animate-fadeIn" style="animation-delay: 0.6s">
+          <a href="#simulator" class="px-6 py-3 bg-diplomatic-blue hover:bg-diplomatic-blue-light text-white font-medium rounded-lg transition-colors shadow-md">
+            Try Simulator
+          </a>
+          <a href="#projects" class="px-6 py-3 bg-white dark:bg-slate-800 text-diplomatic-blue dark:text-diplomatic-blue-light border border-diplomatic-blue dark:border-diplomatic-blue-light font-medium rounded-lg transition-colors">
+            View Projects
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Snapshot Section -->
+    <section class="py-16 sm:py-24 bg-white dark:bg-slate-800/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">West Africa Economic Snapshot</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Live aggregated data for West African countries from the World Bank.</p>
+        </div>
+        
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="glass-card p-6 text-center reveal">
+            <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <i class="fas fa-chart-line text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">Mean GDP Growth</h3>
+            <p class="mt-2 text-4xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <span id="gdp-growth-value" class="counter">0</span>%
+            </p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Annual Average</p>
+          </div>
+          
+          <div class="glass-card p-6 text-center reveal" style="transition-delay: 100ms;">
+            <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <i class="fas fa-dollar-sign text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">Mean GDP per Capita</h3>
+            <p class="mt-2 text-4xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">
+              $<span id="gdp-per-capita-value" class="counter">0</span>
+            </p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Current US$</p>
+          </div>
+          
+          <div class="glass-card p-6 text-center reveal" style="transition-delay: 200ms;">
+            <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <i class="fas fa-users text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">Total Population</h3>
+            <p class="mt-2 text-4xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <span id="population-value" class="counter">0</span>M
+            </p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Across the region</p>
+          </div>
+          
+          <div class="glass-card p-6 text-center reveal" style="transition-delay: 300ms;">
+            <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <i class="fas fa-book-open text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">Mean Adult Literacy</h3>
+            <p class="mt-2 text-4xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">
+              <span id="literacy-rate-value" class="counter">0</span>%
+            </p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">% of people 15+</p>
+          </div>
+        </div>
+        
+        <div class="mt-12 text-center">
+          <a href="#simulator" class="inline-flex items-center text-diplomatic-blue dark:text-diplomatic-blue-light hover:underline font-medium">
+            Explore our Policy Simulator
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simulator Section -->
+    <section id="simulator" class="py-16 sm:py-24 bg-gray-50 dark:bg-slate-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">Interactive Policy Simulator</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Discover how policy choices impact economic growth. Adjust the sliders below to generate a 10-year forecast based on our regression model.
+          </p>
+        </div>
+        
+        <div class="mt-12 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
+          <!-- Control Panel -->
+          <div class="lg:col-span-4 space-y-6 reveal">
+            <div class="glass-card p-6">
+              <h3 class="font-bold text-lg text-gray-900 dark:text-white flex items-center">
+                <i class="fas fa-sliders-h mr-2 text-diplomatic-blue"></i>
+                Control Panel
+              </h3>
+              
+              <div class="mt-4 space-y-6">
+                <!-- HDI Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="hdiSlider" class="font-medium text-sm text-gray-700 dark:text-gray-300">
+                      Human Development Index (HDI)
+                    </label>
+                    <span id="hdiValue" class="text-sm font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">0.55</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="hdiProgress" style="width: 30%;"></div>
+                    <input id="hdiSlider" type="range" min="0.4" max="0.9" step="0.01" value="0.55" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span>Low (0.4)</span>
+                    <span>High (0.9)</span>
+                  </div>
+                </div>
+                
+                <!-- Stability Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="stabilitySlider" class="font-medium text-sm text-gray-700 dark:text-gray-300">
+                      Political Stability
+                    </label>
+                    <span id="stabilityValue" class="text-sm font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">5</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="stabilityProgress" style="width: 50%;"></div>
+                    <input id="stabilitySlider" type="range" min="0" max="10" step="1" value="5" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span>Unstable (0)</span>
+                    <span>Stable (10)</span>
+                  </div>
+                </div>
+                
+                <!-- Institutional Quality Slider -->
+                <div class="relative pt-1">
+                  <div class="flex justify-between items-center">
+                    <label for="institutionSlider" class="font-medium text-sm text-gray-700 dark:text-gray-300">
+                      Institutional Quality
+                    </label>
+                    <span id="institutionValue" class="text-sm font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">0.0</span>
+                  </div>
+                  <div class="relative mt-1">
+                    <div class="slider-progress" id="institutionProgress" style="width: 50%;"></div>
+                    <input id="institutionSlider" type="range" min="-2.0" max="2.0" step="0.1" value="0.0" class="w-full relative z-10">
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span>Weak (-2.0)</span>
+                    <span>Strong (2.0)</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex justify-between">
+                <button id="resetButton" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors">
+                  <i class="fas fa-redo-alt mr-1"></i> Reset
+                </button>
+                
+                <button id="saveButton" class="px-4 py-2 text-sm bg-diplomatic-blue hover:bg-diplomatic-blue-light text-white rounded-md transition-colors">
+                  <i class="fas fa-save mr-1"></i> Save Scenario
+                </button>
+              </div>
+            </div>
+            
+            <div class="glass-card p-4 text-xs text-gray-500 dark:text-gray-400">
+              <h4 class="font-semibold text-gray-700 dark:text-gray-300">References:</h4>
+              <p class="mt-1">1. Model & analysis by Dr. A. Riley, Axel Dev Lab. 2. Methodology adapted from Barro, R. J. (2003). 3. Institutional concepts from Kaufmann, D., et al. (2010).</p>
+            </div>
+          </div>
+          
+          <!-- Results Panel -->
+          <div class="lg:col-span-8 mt-8 lg:mt-0 space-y-6 reveal" style="transition-delay: 200ms;">
+            <!-- Explanation Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div id="hdiCard" class="glass-card p-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+                    <i class="fas fa-graduation-cap"></i>
+                  </div>
+                  <h4 class="font-bold text-sm text-gray-900 dark:text-white">HDI</h4>
+                </div>
+                <p id="hdiDescription" class="text-xs mt-2 text-gray-600 dark:text-gray-300"></p>
+              </div>
+              
+              <div id="stabilityCard" class="glass-card p-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+                    <i class="fas fa-peace"></i>
+                  </div>
+                  <h4 class="font-bold text-sm text-gray-900 dark:text-white">Stability</h4>
+                </div>
+                <p id="stabilityDescription" class="text-xs mt-2 text-gray-600 dark:text-gray-300"></p>
+              </div>
+              
+              <div id="institutionCard" class="glass-card p-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light">
+                    <i class="fas fa-landmark"></i>
+                  </div>
+                  <h4 class="font-bold text-sm text-gray-900 dark:text-white">Institutions</h4>
+                </div>
+                <p id="institutionDescription" class="text-xs mt-2 text-gray-600 dark:text-gray-300"></p>
+              </div>
+            </div>
+            
+            <!-- Outcome Card -->
+            <div class="glass-card p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div class="text-center sm:text-left">
+                <h3 class="font-bold text-lg text-gray-900 dark:text-white">Scenario Outcome</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">Projected real GDP growth over 10 years.</p>
+              </div>
+              <p id="outcomeValue" class="text-4xl font-extrabold text-green-600 dark:text-green-400">+0.0%</p>
+            </div>
+            
+            <!-- Chart -->
+            <div class="glass-card p-4 relative">
+              <canvas id="policyImpactChart" height="300"></canvas>
+              <div class="chart-branding">Powered by Axel Dev Lab</div>
+            </div>
+            
+            <!-- Export Options -->
+            <div class="flex justify-end space-x-4">
+              <button id="exportPNG" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors">
+                <i class="fas fa-download mr-1"></i> Export PNG
+              </button>
+              <button id="exportPDF" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors">
+                <i class="fas fa-file-pdf mr-1"></i> Export PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl reveal">Our Projects</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 reveal">A selection of our innovative work.</p>
+        </div>
+        
+        <div class="mt-12 grid md:grid-cols-2 gap-8">
+          <div class="glass-card p-8 reveal">
+            <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light mb-4">
+              <i class="fas fa-file-alt text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">Smart Policy Briefs</h2>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">This project uses AI to synthesize data into concise, actionable policy briefs, providing decision-makers with real-time, evidence-based recommendations.</p>
+            <a href="#" class="inline-flex items-center mt-4 text-diplomatic-blue dark:text-diplomatic-blue-light hover:underline text-sm font-medium">
+              Learn more
+              <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+          
+          <div class="glass-card p-8 reveal" style="transition-delay: 100ms;">
+            <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light mb-4">
+              <i class="fas fa-map-marked-alt text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light">Côte d'Ivoire Mapping</h2>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">We conduct fieldwork to create high-resolution, geolocated datasets on agricultural productivity and market access, including an interactive mapping portal for spatial analysis.</p>
+            <a href="#" class="inline-flex items-center mt-4 text-diplomatic-blue dark:text-diplomatic-blue-light hover:underline text-sm font-medium">
+              Learn more
+              <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-16 sm:py-24 bg-gray-50 dark:bg-slate-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">About Axel Dev Lab</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Our mission, vision, and team.</p>
+        </div>
+        
+        <div class="mt-12 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 space-y-8 reveal">
+          <div>
+            <h3 class="text-2xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light flex items-center">
+              <i class="fas fa-bullseye mr-2"></i> Our Mission
+            </h3>
+            <p class="mt-2">To empower policymakers, NGOs, and international organizations with clear, data-driven insights that lead to more effective and equitable development outcomes.</p>
+          </div>
+          
+          <div>
+            <h3 class="text-2xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light flex items-center">
+              <i class="fas fa-eye mr-2"></i> Our Vision
+            </h3>
+            <p class="mt-2">We envision a world where every policy decision is informed by rigorous evidence and where data is a primary tool for promoting human progress.</p>
+          </div>
+          
+          <div>
+            <h3 class="text-2xl font-bold text-diplomatic-blue dark:text-diplomatic-blue-light flex items-center">
+              <i class="fas fa-users mr-2"></i> Our Team
+            </h3>
+            <p class="mt-2">Our interdisciplinary team combines expertise in economics, data science, policy analysis, and software development to create innovative solutions for development challenges.</p>
+          </div>
+        </div>
+        
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="glass-card p-6 text-center reveal">
+            <div class="w-20 h-20 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light mb-4">
+              <i class="fas fa-chart-bar text-3xl"></i>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white">Data Analysis</h4>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Advanced statistical modeling and machine learning techniques.</p>
+          </div>
+          
+          <div class="glass-card p-6 text-center reveal" style="transition-delay: 100ms;">
+            <div class="w-20 h-20 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light mb-4">
+              <i class="fas fa-laptop-code text-3xl"></i>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white">Software Development</h4>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Custom tools and platforms for data visualization and analysis.</p>
+          </div>
+          
+          <div class="glass-card p-6 text-center reveal" style="transition-delay: 200ms;">
+            <div class="w-20 h-20 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-diplomatic-blue dark:text-diplomatic-blue-light mb-4">
+              <i class="fas fa-handshake text-3xl"></i>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white">Policy Advisory</h4>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Evidence-based recommendations for policymakers and stakeholders.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800 dark:bg-black py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="flex justify-center space-x-6 mb-6">
+        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+          <i class="fab fa-twitter text-lg"></i>
+        </a>
+        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+          <i class="fab fa-linkedin-in text-lg"></i>
+        </a>
+        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+          <i class="fab fa-github text-lg"></i>
+        </a>
+        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+          <i class="fas fa-envelope text-lg"></i>
+        </a>
+      </div>
+      
+      <p class="text-slate-400">&copy; 2025 Axel Dev Lab. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // =======================================================
+      // 1. GLOBAL & UI SCRIPTS
+      // =======================================================
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const openIcon = document.getElementById('menu-open-icon');
+      const closeIcon = document.getElementById('menu-close-icon');
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+      const darkIcon = document.getElementById('theme-toggle-dark-icon');
+      const lightIcon = document.getElementById('theme-toggle-light-icon');
+      const mobileDarkIcon = document.getElementById('mobile-theme-toggle-dark-icon');
+      const mobileLightIcon = document.getElementById('mobile-theme-toggle-light-icon');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const printButtons = document.querySelectorAll('#print-button, #mobile-print-button');
+      
+      // Mobile menu toggle
+      if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          openIcon.classList.toggle('hidden');
+          closeIcon.classList.toggle('hidden');
+        });
+      }
+      
+      // Theme toggle functionality
+      const applyTheme = (isDark) => {
+        document.documentElement.classList.toggle('dark', isDark);
+        if (darkIcon) darkIcon.classList.toggle('hidden', !isDark);
+        if (lightIcon) lightIcon.classList.toggle('hidden', isDark);
+        if (mobileDarkIcon) mobileDarkIcon.classList.toggle('hidden', !isDark);
+        if (mobileLightIcon) mobileLightIcon.classList.toggle('hidden', isDark);
+        
+        // Update chart colors for dark mode
+        const policyChart = Chart.getChart('policyImpactChart');
+        if (policyChart) {
+          const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+          const labelColor = isDark ? '#94a3b8' : '#4b5563';
+          
+          ['x', 'y'].forEach(axis => {
+            Object.assign(policyChart.options.scales[axis], {
+              grid: { color: gridColor },
+              ticks: { color: labelColor },
+              title: { color: labelColor }
+            });
+          });
+          
+          policyChart.update();
+        }
+      };
+      
+      // Check for saved theme preference or respect OS preference
+      const isDarkMode = localStorage.getItem('color-theme') === 'dark' || 
+        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      
+      applyTheme(isDarkMode);
+      
+      // Theme toggle event listeners
+      const handleThemeToggle = () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('color-theme', isDark ? 'dark' : 'light');
+        applyTheme(isDark);
+      };
+      
+      if (themeToggleBtn) themeToggleBtn.addEventListener('click', handleThemeToggle);
+      if (mobileThemeToggleBtn) mobileThemeToggleBtn.addEventListener('click', handleThemeToggle);
+      
+      // Print functionality
+      printButtons.forEach(btn => {
+        btn.addEventListener('click', () => window.print());
+      });
+      
+      // Smooth scrolling for navigation links
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update URL hash without scrolling
+            history.pushState(null, null, `#${targetId}`);
+            
+            // Close mobile menu if open
+            if (!mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.add('hidden');
+              openIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+            }
+          }
+        });
+      });
+      
+      // Reveal animations on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      
+      // Counter animation for statistics
+      const animateCounter = (el, target, suffix = '') => {
+        if (isNaN(target)) return;
+        
+        let start = 0;
+        const duration = 2000;
+        const stepTime = Math.abs(Math.floor(duration / target));
+        
+        const timer = setInterval(() => {
+          start += 1;
+          el.textContent = start.toLocaleString() + suffix;
+          
+          if (start === target) {
+            clearInterval(timer);
+          }
+        }, stepTime);
+      };
+      
+      // =======================================================
+      // 2. DATA FETCHING FROM WORLD BANK API
+      // =======================================================
+      const fetchData = async (indicator, formatting) => {
+        // West African countries: Benin, Burkina Faso, Cabo Verde, Côte d'Ivoire, Gambia, Ghana, Guinea, Guinea-Bissau, Liberia, Mali, Mauritania, Niger, Nigeria, Senegal, Sierra Leone, Togo
+        const url = `https://api.worldbank.org/v2/country/BEN;BFA;CPV;CIV;GMB;GHA;GIN;GNB;LBR;MLI;MRT;NER;NGA;SEN;SLE;TGO/indicator/${indicator}?date=2015:2024&format=json&per_page=1000`;
+        
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+          
+          // Extract values from the response
+          const values = data[1]?.filter(item => item.value != null).map(item => item.value) || [];
+          
+          if (values.length === 0) {
+            return { raw: 'N/A' };
+          }
+          
+          // Calculate mean
+          const sum = values.reduce((a, b) => a + b, 0);
+          const mean = sum / values.length;
+          
+          return formatting(mean);
+        } catch (e) {
+          console.error(`Error fetching ${indicator}:`, e);
+          return { raw: 'N/A' };
+        }
+      };
+
+      // Fetch and display all data
+      (async () => {
+        // GDP growth (annual %)
+        const gdpGrowth = await fetchData('NY.GDP.MKTP.KD.ZG', (mean) => ({
+          raw: mean.toFixed(1),
+          display: Math.round(mean * 10) / 10
+        }));
+        
+        // GDP per capita (current US$)
+        const gdpCapita = await fetchData('NY.GDP.PCAP.CD', (mean) => ({
+          raw: mean.toFixed(0),
+          display: Math.round(mean)
+        }));
+        
+        // Population, total
+        const population = await fetchData('SP.POP.TOTL', (mean) => ({
+          raw: (mean / 1000000).toFixed(1),
+          display: Math.round(mean / 1000000)
+        }));
+        
+        // Literacy rate, adult total (% of people ages 15 and above)
+        const literacy = await fetchData('SE.ADT.LITR.ZS', (mean) => ({
+          raw: mean.toFixed(1),
+          display: Math.round(mean)
+        }));
+        
+        // Set data targets for counters
+        document.getElementById('gdp-growth-value').dataset.target = gdpGrowth.display;
+        document.getElementById('gdp-per-capita-value').dataset.target = gdpCapita.display;
+        document.getElementById('population-value').dataset.target = population.display;
+        document.getElementById('literacy-rate-value').dataset.target = literacy.display;
+        
+        // Animate counters when they come into view
+        const counterObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const target = parseInt(entry.target.dataset.target);
+              const suffix = entry.target.id === 'population-value' ? 'M' : 
+                            entry.target.id === 'gdp-per-capita-value' ? '' : '%';
+              animateCounter(entry.target, target, suffix);
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.counter').forEach(counter => {
+          counterObserver.observe(counter);
+        });
+      })();
+      
+      // =======================================================
+      // 3. SIMULATOR PAGE SCRIPTS
+      // =======================================================
+      const hdiSlider = document.getElementById('hdiSlider');
+      const stabilitySlider = document.getElementById('stabilitySlider');
+      const institutionSlider = document.getElementById('institutionSlider');
+      const hdiValue = document.getElementById('hdiValue');
+      const stabilityValue = document.getElementById('stabilityValue');
+      const institutionValue = document.getElementById('institutionValue');
+      const hdiDesc = document.getElementById('hdiDescription');
+      const stabilityDesc = document.getElementById('stabilityDescription');
+      const institutionDesc = document.getElementById('institutionDescription');
+      const outcomeValue = document.getElementById('outcomeValue');
+      const resetButton = document.getElementById('resetButton');
+      const saveButton = document.getElementById('saveButton');
+      const exportPNG = document.getElementById('exportPNG');
+      const exportPDF = document.getElementById('exportPDF');
+      const hdiProgress = document.getElementById('hdiProgress');
+      const stabilityProgress = document.getElementById('stabilityProgress');
+      const institutionProgress = document.getElementById('institutionProgress');
+      
+      const ctx = document.getElementById('policyImpactChart')?.getContext('2d');
+      if (!ctx) return; // Don't run chart logic if not on the simulator page
+      
+      // Description data for each variable
+      const descriptions = {
+        hdi: [
+          { t: 0.55, d: "Low Development. Basic literacy challenges, life expectancy below 60." },
+          { t: 0.7, d: "Medium Development. Most children in school, basic healthcare accessible." },
+          { t: 0.8, d: "High Development. Widespread quality education and healthcare, high living standards." },
+          { t: Infinity, d: "Very High Development. Advanced social safety nets and education systems." }
+        ],
+        stability: [
+          { t: 2, d: "Major Conflict. Active civil unrest or warfare, severe disruption to state functions." },
+          { t: 4, d: "High Instability. Frequent protests, high political tension, elevated risk of violence." },
+          { t: 7, d: "Moderate Stability. Functioning political process with some periodic tensions." },
+          { t: Infinity, d: "High Stability & Peace. Strong democratic processes and social cohesion." }
+        ],
+        institutions: [
+          { t: -1.0, d: "Very Weak Institutions. Pervasive corruption and weak rule of law." },
+          { t: 0.0, d: "Weak Institutions. Corruption is a common challenge, inconsistent laws." },
+          { t: 1.0, d: "Moderate Institutions. Functioning bureaucracy with ongoing transparency reforms." },
+          { t: Infinity, d: "Strong Institutions. High government effectiveness, strong control of corruption." }
+        ]
+      };
+      
+      // Get description based on value
+      function getDesc(value, type) {
+        return descriptions[type].find(item => value < item.t).d;
+      }
+      
+      // Calculate annual growth based on inputs
+      function calculateAnnualGrowth(hdi, stability, institutions) {
+        return 0.01 + 
+               ((hdi - 0.5) * 0.05) + 
+               ((stability - 5) * 0.005) + 
+               (institutions * 0.01) + 
+               (stability < 3 ? (3 - stability) * -0.015 : 0);
+      }
+      
+      // Generate growth path over 10 years
+      function generateGrowthPath(rate) {
+        let path = [100];
+        for (let i = 1; i <= 10; i++) {
+          path.push(path[path.length - 1] * (1 + rate));
+        }
+        return path;
+      }
+      
+      // Update slider progress indicators
+      function updateSliderProgress(slider, progressElement) {
+        const value = parseFloat(slider.value);
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+        const percentage = ((value - min) / (max - min)) * 100;
+        progressElement.style.width = `${percentage}%`;
+      }
+      
+      // Initialize chart
+      const baselinePath = generateGrowthPath(calculateAnnualGrowth(0.55, 5, 0.0));
+      
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, 'rgba(30, 58, 138, 0.3)');
+      gradient.addColorStop(1, 'rgba(30, 58, 138, 0)');
+      
+      const darkGradient = ctx.createLinearGradient(0, 0, 0, 300);
+      darkGradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+      darkGradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+      
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 11 }, (_, i) => `Year ${i}`),
+          datasets: [
+            {
+              label: 'Baseline',
+              data: baselinePath,
+              borderColor: '#9ca3af',
+              borderWidth: 2,
+              pointRadius: 0,
+              borderDash: [5, 5],
+              fill: false
+            },
+            {
+              label: 'Your Scenario',
+              data: [],
+              borderColor: '#1e3a8a',
+              backgroundColor: document.documentElement.classList.contains('dark') ? darkGradient : gradient,
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0.1,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                font: { size: 10 },
+                color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#4b5563'
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+              titleColor: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#374151',
+              bodyColor: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#374151',
+              borderColor: document.documentElement.classList.contains('dark') ? '#334155' : '#e5e7eb',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Relative GDP Index',
+                color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#4b5563'
+              },
+              grid: {
+                color: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'
+              },
+              ticks: {
+                color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#4b5563'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Time Horizon (Years)',
+                color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#4b5563'
+              },
+              grid: {
+                color: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'
+              },
+              ticks: {
+                color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#4b5563'
+              }
+            }
+          }
+        }
+      });
+      
+      // Update the simulator with current values
+      function updateSimulator() {
+        const hdi = parseFloat(hdiSlider.value);
+        const stability = parseInt(stabilitySlider.value);
+        const institutions = parseFloat(institutionSlider.value);
+        
+        // Update displayed values
+        hdiValue.textContent = hdi.toFixed(2);
+        stabilityValue.textContent = stability;
+        institutionValue.textContent = institutions.toFixed(1);
+        
+        // Update descriptions
+        hdiDesc.textContent = getDesc(hdi, 'hdi');
+        stabilityDesc.textContent = getDesc(stability, 'stability');
+        institutionDesc.textContent = getDesc(institutions, 'institutions');
+        
+        // Update progress indicators
+        updateSliderProgress(hdiSlider, hdiProgress);
+        updateSliderProgress(stabilitySlider, stabilityProgress);
+        updateSliderProgress(institutionSlider, institutionProgress);
+        
+        // Calculate and update growth path
+        const growthRate = calculateAnnualGrowth(hdi, stability, institutions);
+        const userPath = generateGrowthPath(growthRate);
+        
+        chart.data.datasets[1].data = userPath;
+        chart.update();
+        
+        // Calculate and display total growth
+        const totalGrowth = ((userPath[10] / userPath[0]) - 1) * 100;
+        outcomeValue.textContent = `${totalGrowth >= 0 ? '+' : ''}${totalGrowth.toFixed(1)}%`;
+        
+        // Color code based on performance vs baseline
+        const baselineGrowth = ((baselinePath[10] / baselinePath[0]) - 1) * 100;
+        outcomeValue.className = `text-4xl font-extrabold ${
+          totalGrowth >= baselineGrowth ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+        }`;
+      }
+      
+      // Reset simulator to default values
+      function resetSimulator() {
+        hdiSlider.value = 0.55;
+        stabilitySlider.value = 5;
+        institutionSlider.value = 0.0;
+        updateSimulator();
+      }
+      
+      // Save current scenario
+      function saveScenario() {
+        const scenario = {
+          hdi: parseFloat(hdiSlider.value),
+          stability: parseInt(stabilitySlider.value),
+          institutions: parseFloat(institutionSlider.value),
+          timestamp: new Date().toISOString()
+        };
+        
+        // In a real application, you would save this to a database
+        // For now, we'll just show a confirmation message
+        const originalText = saveButton.innerHTML;
+        saveButton.innerHTML = '<i class="fas fa-check mr-1"></i> Saved!';
+        saveButton.classList.add('bg-green-600', 'hover:bg-green-700');
+        
+        setTimeout(() => {
+          saveButton.innerHTML = originalText;
+          saveButton.classList.remove('bg-green-600', 'hover:bg-green-700');
+        }, 2000);
+        
+        console.log('Scenario saved:', scenario);
+      }
+      
+      // Export chart as PNG
+      function exportChartPNG() {
+        const chartCanvas = document.getElementById('policyImpactChart');
+        const image = chartCanvas.toDataURL('image/png');
+        
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'policy-simulator-chart.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      
+      // Set up event listeners
+      [hdiSlider, stabilitySlider, institutionSlider].forEach(slider => {
+        slider.addEventListener('input', updateSimulator);
+      });
+      
+      if (resetButton) resetButton.addEventListener('click', resetSimulator);
+      if (saveButton) saveButton.addEventListener('click', saveScenario);
+      if (exportPNG) exportPNG.addEventListener('click', exportChartPNG);
+      if (exportPDF) exportPDF.addEventListener('click', () => {
+        alert('PDF export would be implemented with a library like jsPDF in a production environment.');
+      });
+      
+      // Initialize the simulator
+      updateSimulator();
+    });
+  </script>
+</body>
+</html>

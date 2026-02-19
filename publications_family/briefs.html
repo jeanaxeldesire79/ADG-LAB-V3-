@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-page="briefs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Policy Briefs | Axel Dev Group</title>
+    <meta name="description" content="Policy briefs from Axel Dev Group deliver sharp intelligence crafted for African decision-makers." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="mx-auto max-w-7xl px-6 py-16">
+      <header class="mb-16 space-y-6 text-center lg:text-left">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-axelGold">Policy Briefs</p>
+        <h1 class="text-4xl font-semibold text-deepBlue-900 sm:text-5xl" style="font-family: 'Poppins', sans-serif;">Policy Briefs — Sharp Intelligence for Decision-Makers.</h1>
+        <p class="mx-auto max-w-3xl text-lg text-axelGray lg:mx-0">
+          Designed for cabinet rooms and board tables, Axel Dev Group briefs convert real-time signals into actionable options. Download executive-ready analyses that accelerate decisive, continental action.
+        </p>
+      </header>
+
+      <section class="mb-10 flex flex-wrap items-center justify-between gap-6">
+        <div class="flex flex-wrap gap-3">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">Economic Policy</button>
+          <button class="filter-chip">Infrastructure</button>
+          <button class="filter-chip">Digital</button>
+          <button class="filter-chip">Social Systems</button>
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="text-xs font-semibold uppercase tracking-widest text-axelGray">Sort by</label>
+          <select class="rounded-full border border-axelGold/60 bg-white px-4 py-2 text-sm font-medium text-axelGray focus:border-axelGold focus:outline-none">
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Most Downloaded</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <article class="publication-card accent-briefs">
+          <div class="publication-card__media">
+            <img src="./assets/images/brief-energy.jpg" alt="Energy resilience brief cover" />
+            <span class="publication-card__badge">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M4 3h12l-1 4H5l-1-4zm1 6h10l1 8H4l1-8z" />
+              </svg>
+              Energy
+            </span>
+          </div>
+          <div class="publication-card__body">
+            <h3>Power Pools & Sovereign Energy Security</h3>
+            <p>Rapid-action roadmap to secure resilient power sharing and microgrid integration across ECOWAS.</p>
+            <ul class="publication-card__meta">
+              <li>Amivi Lawson</li>
+              <li>March 2024</li>
+              <li>Axis: Energy</li>
+            </ul>
+            <div class="publication-card__tags">
+              <span>Grid</span>
+              <span>Resilience</span>
+            </div>
+            <div class="publication-card__actions">
+              <a href="./assets/pdf/brief-power-pools.pdf" class="btn-primary">Read PDF</a>
+              <a href="#" class="btn-secondary">Learn More</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="publication-card accent-briefs">
+          <div class="publication-card__media">
+            <img src="./assets/images/brief-governance.jpg" alt="Governance scenario brief cover" />
+            <span class="publication-card__badge">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 12h2v2H9v-2zm0-8h2v6H9V4z" />
+              </svg>
+              Governance
+            </span>
+          </div>
+          <div class="publication-card__body">
+            <h3>Scenario Planning for Civic Transitions</h3>
+            <p>Four foresight pathways to anticipate civic transitions and democratic consolidation over the next decade.</p>
+            <ul class="publication-card__meta">
+              <li>Dayo Balogun</li>
+              <li>February 2024</li>
+              <li>Axis: Governance</li>
+            </ul>
+            <div class="publication-card__tags">
+              <span>Scenario</span>
+              <span>Civic Tech</span>
+            </div>
+            <div class="publication-card__actions">
+              <a href="./assets/pdf/brief-scenario.pdf" class="btn-primary">Read PDF</a>
+              <a href="#" class="btn-secondary">Learn More</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="publication-card accent-briefs">
+          <div class="publication-card__media">
+            <img src="./assets/images/brief-health.jpg" alt="Health systems brief cover" />
+            <span class="publication-card__badge">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 2a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm1 9H9V9H7V7h2V5h2v2h2v2h-2v2z" />
+              </svg>
+              Health
+            </span>
+          </div>
+          <div class="publication-card__body">
+            <h3>Primary Health Nodes for Rapid Response</h3>
+            <p>Blueprint for agile, district-level health nodes coordinating genomic surveillance and community responders.</p>
+            <ul class="publication-card__meta">
+              <li>Dr. Kemi Ofori</li>
+              <li>January 2024</li>
+              <li>Axis: Health Systems</li>
+            </ul>
+            <div class="publication-card__tags">
+              <span>Health</span>
+              <span>Response</span>
+            </div>
+            <div class="publication-card__actions">
+              <a href="./assets/pdf/brief-health.pdf" class="btn-primary">Read PDF</a>
+              <a href="#" class="btn-secondary">Learn More</a>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom design tokens and components come from styles.css */
+/* You can import it here if using postcss-import; otherwise, link both files. */
+/* @import './styles.css'; */
+

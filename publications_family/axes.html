@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-page="axes">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Axes | Axel Dev Group</title>
+    <meta name="description" content="Discover Axel Dev Group research axes shaping Africa’s future intelligence." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="mx-auto max-w-7xl px-6 py-16">
+      <header class="mb-16 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-axelGold">Research Axes</p>
+        <h1 class="mt-4 text-4xl font-semibold text-deepBlue-900 sm:text-5xl" style="font-family: 'Poppins', sans-serif;">Axes of Research — Shaping Africa’s Future Intelligence.</h1>
+        <p class="mx-auto mt-6 max-w-3xl text-lg text-axelGray">
+          Our research axes organize Axel Dev Group’s knowledge ecosystem. Explore each axis to access linked publications, insight streams, and collaborative opportunities.
+        </p>
+      </header>
+
+      <section class="axes-grid">
+        <a href="./briefs.html" class="axis-card" data-axis="governance">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3l7 4v10l-7 4-7-4V7l7-4z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 12l7-4"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 12v9"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 12L5 8"/>
+              </svg>
+            </div>
+            <h2>Governance & Institutions</h2>
+            <p>Adaptive governance, resilient public institutions, civic transitions.</p>
+            <span class="axis-card__cta">View Publications</span>
+          </div>
+        </a>
+
+        <a href="./reports.html" class="axis-card" data-axis="energy">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 10h4V4l6 10h-4v6L7 10z"/>
+              </svg>
+            </div>
+            <h2>Energy & Climate Systems</h2>
+            <p>Resilient grids, climate finance, and renewable industrialization.</p>
+            <span class="axis-card__cta">View Reports</span>
+          </div>
+        </a>
+
+        <a href="./papers.html" class="axis-card" data-axis="ai">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="3" stroke-width="1.5" />
+                <path stroke-linecap="round" stroke-width="1.5" d="M12 5V3m0 18v-2m7-7h2M3 12h2m13.657-5.657l1.414-1.414M5.929 18.071l1.414-1.414m0-8.486L5.93 5.1m12.728 12.97-1.414-1.414"/>
+              </svg>
+            </div>
+            <h2>AI, Data & Digital Economies</h2>
+            <p>Responsible AI, data sovereignty, and digital corridors.</p>
+            <span class="axis-card__cta">View Research</span>
+          </div>
+        </a>
+
+        <a href="./briefs.html" class="axis-card" data-axis="defense">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3l7 4v5c0 5-3.5 9.5-7 9.5S5 17 5 12V7l7-4z"/>
+              </svg>
+            </div>
+            <h2>Defense & Security Futures</h2>
+            <p>Strategic foresight for peacekeeping, cyber, and resilience.</p>
+            <span class="axis-card__cta">See Briefs</span>
+          </div>
+        </a>
+
+        <a href="./reports.html" class="axis-card" data-axis="labour">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 11l3-3 3 3m-6 4l3 3 3-3M4 7h16M4 17h16"/>
+              </svg>
+            </div>
+            <h2>Labor & Human Capital</h2>
+            <p>Skills transitions, workforce modernization, and inclusion.</p>
+            <span class="axis-card__cta">View Reports</span>
+          </div>
+        </a>
+
+        <a href="./papers.html" class="axis-card" data-axis="finance">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3m0-6c1.306 0 2.417.835 2.83 2M12 14c-1.306 0-2.417.835-2.83 2M3 5v14h18V5H3z"/>
+              </svg>
+            </div>
+            <h2>Finance & Capital Markets</h2>
+            <p>Blended finance instruments and sovereign wealth strategies.</p>
+            <span class="axis-card__cta">Access Papers</span>
+          </div>
+        </a>
+
+        <a href="./press.html" class="axis-card" data-axis="urban">
+          <div class="axis-card__inner">
+            <div class="axis-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 21h16M6 21V7l6-4 6 4v14M10 14h4"/>
+              </svg>
+            </div>
+            <h2>Urban Systems & Territories</h2>
+            <p>Metropolitan innovation, mobility, and territorial foresight.</p>
+            <span class="axis-card__cta">Press & Highlights</span>
+          </div>
+        </a>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

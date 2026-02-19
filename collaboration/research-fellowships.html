@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n-title>Research Fellowships | Axel Dev Lab</title>
+  <meta name="description" content="Co-author transformative research with Axel Dev Lab. Explore expectations, fellowship design, benefits, and submission requirements for research fellows." />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" href="../assets/images/exports/lg_axeldevlab_icon.png" type="image/png" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            }
+          },
+          boxShadow: { soft:'0 8px 34px rgba(0,0,0,.06)' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-white via-slate-50 to-white text-gray-900 font-sans min-h-screen dark:bg-gray-900 dark:text-gray-100">
+
+
+<!-- Brand bar -->
+<div class="bg-black text-white text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-3">
+      <img src="../assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+      <div class="flex flex-col">
+        <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+        <span class="text-[10px] uppercase tracking-widest text-brand-300" data-i18n="brand_group">Axel Dev Group LLC</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+      <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="siteHeader" class="glass-card bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-2 sm:gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="../assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 sm:h-12 md:h-14 w-auto transition-transform group-hover:scale-[1.02]" loading="eager" />
+        <div class="leading-tight">
+          <div class="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Axel Dev Lab</div>
+          <div class="text-[10px] sm:text-[12px] uppercase tracking-widest text-gray-500 dark:text-gray-400">Mapping Ideas, Powering Progress</div>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex relative space-x-6 text-sm font-medium items-center" aria-label="Main navigation">
+        <a href="../index.html" data-i18n="nav_home" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Home</a>
+        <a href="../projects.html" data-i18n="nav_projects" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Projects</a>
+        <a href="../subpages/data/worldbank.html" data-i18n="nav_wb" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition">AIX Exchange: Country Benchmarking</a>
+        <a href="../data.html" data-i18n="nav_data" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Data</a>
+        <a href="../methodology.html" data-i18n="nav_methodology" class="inline-flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">
+          <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+          <span>Methodology</span>
+        </a>
+        <a href="../publications.html" data-i18n="nav_publications" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Publications</a>
+        <a href="../collaborate.html" data-i18n="nav_collaborate" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="../media.html" data-i18n="nav_media" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Media</a>
+        <a href="../about.html" data-i18n="nav_about" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">About</a>
+        <button id="theme-toggle" class="relative inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-gray-700 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+          <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a.75.75 0 01.75.75V5a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V15.75A.75.75 0 0110 15zm8-5a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5A.75.75 0 0118 10zm-13 0a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5A.75.75 0 015 10zm11.657-6.657a.75.75 0 011.06 0l.354.353a.75.75 0 01-1.06 1.06l-.354-.353a.75.75 0 010-1.06zM5.636 15.657a.75.75 0 011.06 0l.354.354a.75.75 0 11-1.06 1.06l-.354-.353a.75.75 0 010-1.06zM15.657 14.364a.75.75 0 010 1.06l-.353.354a.75.75 0 11-1.06-1.06l.353-.354a.75.75 0 011.06 0zM6.697 5.636a.75.75 0 010 1.06L6.343 7.05a.75.75 0 11-1.06-1.06l.353-.354a.75.75 0 011.06 0zM10 5.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"/></svg>
+        </button>
+        <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+
+      <div class="flex items-center gap-2 lg:hidden">
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle theme">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+          <svg id="mobile-theme-toggle-light-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a.75.75 0 01.75.75V5a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V15.75A.75.75 0 0110 15zm8-5a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5A.75.75 0 0118 10zm-13 0a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5A.75.75 0 015 10zm11.657-6.657a.75.75 0 011.06 0l.354.353a.75.75 0 01-1.06 1.06l-.354-.353a.75.75 0 010-1.06zM5.636 15.657a.75.75 0 011.06 0l.354.354a.75.75 0 11-1.06 1.06l-.354-.353a.75.75 0 010-1.06zM15.657 14.364a.75.75 0 010 1.06l-.353.354a.75.75 0 11-1.06-1.06l.353-.354a.75.75 0 011.06 0zM6.697 5.636a.75.75 0 010 1.06L6.343 7.05a.75.75 0 11-1.06-1.06l.353-.354a.75.75 0 011.06 0zM10 5.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"/></svg>
+        </button>
+
+        <div class="hidden sm:inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400" id="langToggle" role="button">
+          <span id="langLabel">EN</span>
+        </div>
+
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="px-2 pt-4 pb-3 space-y-1">
+        <a href="../index.html" data-i18n="nav_home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Home</a>
+        <a href="../projects.html" data-i18n="nav_projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Projects</a>
+        <a href="../data.html" data-i18n="nav_data" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Data</a>
+        <div class="ml-6 space-y-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50/60 dark:bg-gray-900/40 px-3 py-3 text-sm text-gray-600 dark:text-gray-300">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+          <a href="../data.html" data-i18n="nav_data_portal" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Data Portal</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="../subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>AIX Exchange: Country Benchmarking</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="../subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Dashboards</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+          </a>
+          <a href="../subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Maps</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+          </a>
+          <a href="../subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Datasets</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+          </a>
+          <p class="px-3 pt-1 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</p>
+        </div>
+        <a href="../methodology.html" data-i18n="nav_methodology" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+            <span>Methodology</span>
+          </span>
+        </a>
+        <a href="../publications.html" data-i18n="nav_publications" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Publications</a>
+        <a href="../collaborate.html" data-i18n="nav_collaborate" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Collaborate</a>
+        <a href="../media.html" data-i18n="nav_media" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Media</a>
+        <a href="../about.html" data-i18n="nav_about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">About</a>
+        
+        <div class="px-3 py-2">
+          <div class="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" id="mobile-langToggle" aria-label="Switch language">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+            <span id="mobile-langLabel" class="text-sm">English</span>
+          </div>
+        </div>
+        
+        <div class="px-3 py-2">
+          <button id="mobile-loginBtn" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-brand-500 text-white hover:bg-brand-600 active:scale-95 transition shadow-sm hover:shadow-md">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+            </svg>
+            <span>Sign in</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="userMenu" class="relative hidden">
+      <button id="userChip"
+        class="inline-flex items-center gap-2 px-2 py-1 rounded-md border bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <span id="userAvatar"
+            class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-semibold">U</span>
+          <span id="userName" class="text-sm text-gray-700 dark:text-gray-200">User</span>
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/></svg>
+        </button>
+        <div id="userDropdown"
+            class="absolute right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-2 hidden menu z-50 min-w-[12rem]">
+          <a href="../subpages/data/worldbank-pro.html" class="text-gray-800 dark:text-gray-200">My presets</a>
+          <a href="../logins/index.html" id="adminLink" class="text-gray-800 dark:text-gray-200 hidden">Admin dashboard</a>
+          <hr class="my-2 border-gray-200 dark:border-gray-600" />
+          <button id="logoutBtn" class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">Logout</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<main id="main" role="main" class="pb-16">
+  <div class="page-header">
+    <div class="max-w-7xl mx-auto px-6">
+      <nav aria-label="Breadcrumb" class="breadcrumb mb-2">
+        <a href="../index.html">Home</a> / <a href="../collaborate.html">Collaborate</a> / <span>Research Fellowships</span>
+      </nav>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white" data-i18n="hero_title">Research Fellowships</h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-3xl" data-i18n="hero_intro">
+        Partner with Axel Dev Lab to advance evidence that shifts policy and unlocks equitable systems. We collaborate with researchers, civic technologists, and storytellers who push beyond conventional outputs.
+      </p>
+    </div>
+  </div>
+
+  <section class="relative mt-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white shadow-2xl">
+        <div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_55%)]"></div>
+        <div class="relative md:flex md:items-center md:justify-between md:pl-16 md:pr-12 md:py-16 py-14 px-8">
+          <div class="max-w-xl">
+            <p class="uppercase tracking-[0.3em] text-xs text-purple-200/80 mb-4" data-i18n="hero_label">Fellowship cohort</p>
+            <h2 class="hero-title text-3xl sm:text-4xl font-bold leading-tight mb-4" data-i18n="hero_headline">
+              Advance evidence that shapes narratives and decisions.
+            </h2>
+            <p class="hero-subtitle text-base sm:text-lg text-purple-100/80 mb-6" data-i18n="hero_description">
+              Our fellowships convene researchers, policy entrepreneurs, and creative technologists to generate deep narratives, longitudinal data stories, and actionable playbooks for governments and ecosystems in transition.
+            </p>
+            <div class="flex flex-wrap items-center gap-3 hero-cta">
+              <a href="mailto:hr@axeldevlab.com" class="inline-flex items-center gap-2 rounded-full bg-white/10 text-white px-5 py-2.5 text-sm font-semibold hover:bg-white/20 transition" data-i18n="hero_btn_primary">
+                Submit fellowship concept
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="../collaborate.html" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white/90 hover:text-white hover:border-white/60 transition" data-i18n="hero_btn_secondary">
+                Review collaboration menu
+              </a>
+            </div>
+          </div>
+          <div class="mt-10 md:mt-0">
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div class="rounded-2xl bg-white/10 backdrop-blur p-6 border border-white/20 shadow-lg stagger-item">
+                <p class="text-sm uppercase tracking-[0.2em] text-purple-200/70" data-i18n="hero_metric_one_label">Fellowship span</p>
+                <p class="text-3xl font-bold" data-i18n="hero_metric_one_value">6–12 months</p>
+                <p class="text-xs text-purple-200/70" data-i18n="hero_metric_one_caption">Part-time with structured sprint cycles</p>
+              </div>
+              <div class="rounded-2xl bg-white/10 backdrop-blur p-6 border border-white/20 shadow-lg stagger-item" style="animation-delay:0.1s">
+                <p class="text-sm uppercase tracking-[0.2em] text-purple-200/70" data-i18n="hero_metric_two_label">Focus pillars</p>
+                <p class="text-3xl font-bold" data-i18n="hero_metric_two_value">Governance · Climate · Inclusive growth</p>
+                <p class="text-xs text-purple-200/70" data-i18n="hero_metric_two_caption">Plus civic tech & future of work</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-14">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400 mb-3" data-i18n="expectations_label">What we expect</p>
+          <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white" data-i18n="expectations_title">Elevate evidence into movements and mandates.</h3>
+        </div>
+        <p class="max-w-2xl text-sm text-gray-600 dark:text-gray-300" data-i18n="expectations_intro">
+          Fellows lead flagship research, foresight, and storytelling programs with our ecosystem partners. We seek scholars and practitioners who combine intellectual rigor with a systems and justice lens.
+        </p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="stagger-item rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition">
+          <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-emerald-100 text-emerald-700 mb-4">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2.5 7-6-4-6 4 2.5-7L2 9h7z"/></svg>
+          </div>
+          <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white" data-i18n="expectations_one_title">Rigorous inquiry</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="expectations_one_copy">
+            Design research architectures, triangulate data sources, and uphold ethical standards while interrogating power, context, and narrative.
+          </p>
+        </div>
+        <div class="stagger-item rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition" style="animation-delay:0.1s">
+          <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-700 mb-4">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M12 4h9"/><path d="M14 9h7"/><path d="M14 15h7"/><path d="M3 4h1a4 4 0 014 4v0a4 4 0 01-4 4H3V4z"/><path d="M3 12h1a4 4 0 014 4v0a4 4 0 01-4 4H3v-8z"/></svg>
+          </div>
+          <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white" data-i18n="expectations_two_title">Collaborative authorship</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="expectations_two_copy">
+            Co-develop knowledge products with communities, practitioners, and creatives—ensuring shared authorship and contextual resonance.
+          </p>
+        </div>
+        <div class="stagger-item rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition" style="animation-delay:0.2s">
+          <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-amber-100 text-amber-700 mb-4">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white" data-i18n="expectations_three_title">Policy fluency</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="expectations_three_copy">
+            Translate insights into actionable recommendations, investment pipelines, and engagement strategies for decision-makers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16 bg-white dark:bg-gray-900/60">
+    <div class="max-w-7xl mx-auto px-6 py-14">
+      <div class="grid lg:grid-cols-[2fr_3fr] gap-12 items-start">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400 mb-3" data-i18n="journey_label">How to become one</p>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="journey_title">A fellowship design sprint to ensure alignment and depth.</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="journey_intro">
+            We co-create each fellowship around your research agenda and the communities it serves. Expect intentional conversations that explore scope, governance, and resourcing.
+          </p>
+        </div>
+        <div class="grid gap-6">
+          <div class="rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-slate-50 dark:bg-gray-900/50">
+            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600 mb-2" data-i18n="journey_step_one_tag">Step 01</div>
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="journey_step_one_title">Submit research agenda</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="journey_step_one_copy">
+              Share your fellowship thesis, geographic anchors, collaborators, and anticipated outputs. We assess resonance with our impact roadmap and partner demand.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-slate-50 dark:bg-gray-900/50">
+            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600 mb-2" data-i18n="journey_step_two_tag">Step 02</div>
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="journey_step_two_title">Co-design study architecture</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="journey_step_two_copy">
+              Work with our practice leads and community advisors to refine methods, governance, open-data plans, and storytelling formats.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-slate-50 dark:bg-gray-900/50">
+            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600 mb-2" data-i18n="journey_step_three_tag">Step 03</div>
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="journey_step_three_title">Launch with editorial & policy support</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="journey_step_three_copy">
+              Finalise partnership agreements, set milestones, and assemble an editorial + policy translation squad to amplify findings as they emerge.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400 mb-3" data-i18n="value_label">What you gain</p>
+          <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white" data-i18n="value_title">Design research inside a platform built for influence.</h3>
+        </div>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="value_one_title">Publication platform</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="value_one_copy">
+            Co-publish longform reports, multimedia narratives, datasets, and policy briefs with distribution across our institutional network.
+          </p>
+        </article>
+        <article class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="value_two_title">Data infrastructure</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="value_two_copy">
+            Access proprietary data pipelines, GIS assets, modeling support, and research assistants to operationalise your methodology.
+          </p>
+        </article>
+        <article class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/60 p-6 shadow-sm hover:shadow-lg transition">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="value_three_title">Policy convenings</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="value_three_copy">
+            Present at closed-door briefings, multilateral roundtables, and public salons curated by Axel Dev Lab to move ideas into action.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="rounded-3xl border border-gray-200 dark:border-gray-700 bg-gradient-to-r from-sky-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-900/80 dark:to-gray-900/60 p-8 shadow-xl">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-500 dark:text-gray-400 mb-3" data-i18n="materials_label">Materials to submit</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="materials_title">Assemble a fellowship dossier that signals depth and vision.</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-i18n="materials_intro">
+              We welcome nuance. Include links where helpful and specify embargoed or confidential sections—we will protect sensitive information.
+            </p>
+            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-200">
+              <li data-i18n="materials_item_one">• Curriculum vitae highlighting research outputs, institutional affiliations, and language capabilities</li>
+              <li data-i18n="materials_item_two">• Fellowship concept note (2–3 pages) outlining the core question, context, methods, and timeline</li>
+              <li data-i18n="materials_item_three">• Representative writing sample or creative research artefact (published or unpublished)</li>
+              <li data-i18n="materials_item_four">• Two references or letters of support (academic, community, or practitioner)</li>
+            </ul>
+          </div>
+          <div class="max-w-sm w-full">
+            <div class="rounded-2xl bg-white/80 dark:bg-gray-900/70 border border-gray-200 dark:border-gray-700 shadow-lg p-6">
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="materials_cta_title">Send materials to</h4>
+              <a href="mailto:hr@axeldevlab.com" class="inline-flex items-center gap-2 text-brand-600 dark:text-brand-400 font-semibold" data-i18n="materials_cta_email">
+                hr@axeldevlab.com
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 4l-10 7L2 4"/></svg>
+              </a>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-4" data-i18n="materials_cta_note">Subject line: “Research Fellowship – [Theme]”.</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-2" data-i18n="materials_cta_timeline">Responses within 15 business days. Shortlisted fellows join a design colloquium.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="rounded-3xl bg-purple-50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-900/30 p-8 md:p-12 text-center shadow-[0_20px_60px_rgba(124,58,237,0.22)] dark:shadow-none">
+        <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="cta_title">Ready to steward a research agenda with us?</h3>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-6 max-w-3xl mx-auto" data-i18n="cta_copy">
+          Share the question you are driven to answer, the partners you envision, and the influence you hope to unlock. Our fellowship desk will schedule a discovery session.
+        </p>
+        <a href="mailto:hr@axeldevlab.com" class="inline-flex items-center gap-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-full transition" data-i18n="cta_button">
+          Start the fellowship conversation
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-[#0b1f3a] text-gray-200 py-14 px-6 transition-colors">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="../assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 transition-all" />
+          <div class="leading-tight">
+            <div class="text-lg sm:text-xl font-bold tracking-tight text-white" data-i18n="brand_lab_name">Axel Dev Lab</div>
+            <div class="text-[10px] sm:text-xs uppercase tracking-widest text-brand-200" data-i18n="brand_group">Axel Dev Group LLC</div>
+          </div>
+        </div>
+        <p class="opacity-80 text-sm" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <p class="text-sm opacity-80" data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+        <p class="text-sm opacity-80" data-i18n="footer_address_line2">Erie, PA 16502</p>
+        <p class="text-sm opacity-80" data-i18n="footer_address_line3">United States</p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <ul class="space-y-2 text-sm opacity-90">
+          <li><a href="../index.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_home">Home</a></li>
+          <li><a href="../projects.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_projects">Projects</a></li>
+          <li><a href="../data.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_data">Data</a></li>
+          <li>
+            <a href="../methodology.html" class="inline-flex items-center gap-2 hover:text-brand-200 transition-colors" data-i18n="nav_methodology">
+              <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+              <span>Methodology</span>
+            </a>
+          </li>
+          <li><a href="../publications.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_publications">Publications</a></li>
+          <li><a href="../collaborate.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_collaborate">Collaborate</a></li>
+          <li><a href="../media.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_media">Media</a></li>
+          <li><a href="../about.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_about">About</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-brand-200 hover:text-brand-100 transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.69L7.27 4H4z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-white/10 text-center text-sm opacity-70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="http://localhost:8089/js/keycloak.js"></script>
+<script src="../assets/js/main.js"></script>
+
+<script>
+  window.PAGE_TRANSLATIONS = {
+    en: {
+      page_title: 'Research Fellowships | Axel Dev Lab',
+      hero_title: 'Research Fellowships',
+      hero_intro: 'Partner with Axel Dev Lab to advance evidence that shifts policy and unlocks equitable systems. We collaborate with researchers, civic technologists, and storytellers who push beyond conventional outputs.',
+      hero_label: 'Fellowship cohort',
+      hero_headline: 'Advance evidence that shapes narratives and decisions.',
+      hero_description: 'Our fellowships convene researchers, policy entrepreneurs, and creative technologists to generate deep narratives, longitudinal data stories, and actionable playbooks for governments and ecosystems in transition.',
+      hero_btn_primary: 'Submit fellowship concept',
+      hero_btn_secondary: 'Review collaboration menu',
+      hero_metric_one_label: 'Fellowship span',
+      hero_metric_one_value: '6–12 months',
+      hero_metric_one_caption: 'Part-time with structured sprint cycles',
+      hero_metric_two_label: 'Focus pillars',
+      hero_metric_two_value: 'Governance · Climate · Inclusive growth',
+      hero_metric_two_caption: 'Plus civic tech & future of work',
+      expectations_label: 'What we expect',
+      expectations_title: 'Elevate evidence into movements and mandates.',
+      expectations_intro: 'Fellows lead flagship research, foresight, and storytelling programs with our ecosystem partners. We seek scholars and practitioners who combine intellectual rigor with a systems and justice lens.',
+      expectations_one_title: 'Rigorous inquiry',
+      expectations_one_copy: 'Design research architectures, triangulate data sources, and uphold ethical standards while interrogating power, context, and narrative.',
+      expectations_two_title: 'Collaborative authorship',
+      expectations_two_copy: 'Co-develop knowledge products with communities, practitioners, and creatives—ensuring shared authorship and contextual resonance.',
+      expectations_three_title: 'Policy fluency',
+      expectations_three_copy: 'Translate insights into actionable recommendations, investment pipelines, and engagement strategies for decision-makers.',
+      journey_label: 'How to become one',
+      journey_title: 'A fellowship design sprint to ensure alignment and depth.',
+      journey_intro: 'We co-create each fellowship around your research agenda and the communities it serves. Expect intentional conversations that explore scope, governance, and resourcing.',
+      journey_step_one_tag: 'Step 01',
+      journey_step_one_title: 'Submit research agenda',
+      journey_step_one_copy: 'Share your fellowship thesis, geographic anchors, collaborators, and anticipated outputs. We assess resonance with our impact roadmap and partner demand.',
+      journey_step_two_tag: 'Step 02',
+      journey_step_two_title: 'Co-design study architecture',
+      journey_step_two_copy: 'Work with our practice leads and community advisors to refine methods, governance, open-data plans, and storytelling formats.',
+      journey_step_three_tag: 'Step 03',
+      journey_step_three_title: 'Launch with editorial & policy support',
+      journey_step_three_copy: 'Finalise partnership agreements, set milestones, and assemble an editorial + policy translation squad to amplify findings as they emerge.',
+      value_label: 'What you gain',
+      value_title: 'Design research inside a platform built for influence.',
+      value_one_title: 'Publication platform',
+      value_one_copy: 'Co-publish longform reports, multimedia narratives, datasets, and policy briefs with distribution across our institutional network.',
+      value_two_title: 'Data infrastructure',
+      value_two_copy: 'Access proprietary data pipelines, GIS assets, modeling support, and research assistants to operationalise your methodology.',
+      value_three_title: 'Policy convenings',
+      value_three_copy: 'Present at closed-door briefings, multilateral roundtables, and public salons curated by Axel Dev Lab to move ideas into action.',
+      materials_label: 'Materials to submit',
+      materials_title: 'Assemble a fellowship dossier that signals depth and vision.',
+      materials_intro: 'We welcome nuance. Include links where helpful and specify embargoed or confidential sections—we will protect sensitive information.',
+      materials_item_one: '• Curriculum vitae highlighting research outputs, institutional affiliations, and language capabilities',
+      materials_item_two: '• Fellowship concept note (2–3 pages) outlining the core question, context, methods, and timeline',
+      materials_item_three: '• Representative writing sample or creative research artefact (published or unpublished)',
+      materials_item_four: '• Two references or letters of support (academic, community, or practitioner)',
+      materials_cta_title: 'Send materials to',
+      materials_cta_email: 'hr@axeldevlab.com',
+      materials_cta_note: 'Subject line: “Research Fellowship – [Theme]”.',
+      materials_cta_timeline: 'Responses within 15 business days. Shortlisted fellows join a design colloquium.',
+      cta_title: 'Ready to steward a research agenda with us?',
+      cta_copy: 'Share the question you are driven to answer, the partners you envision, and the influence you hope to unlock. Our fellowship desk will schedule a discovery session.',
+      cta_button: 'Start the fellowship conversation'
+    },
+    fr: {
+      page_title: 'Bourses de recherche | Axel Dev Lab',
+      hero_title: 'Bourses de recherche',
+      hero_intro: 'Collaborez avec Axel Dev Lab pour produire des preuves qui transforment les politiques et libèrent des systèmes plus équitables. Nous travaillons avec chercheurs, innovateurs civiques et storytellers audacieux.',
+      hero_label: 'Cohorte de fellows',
+      hero_headline: 'Produire des preuves qui influencent récits et décisions.',
+      hero_description: 'Nos bourses rassemblent chercheurs, entrepreneurs politiques et technologues créatifs afin de générer des récits profonds, des données longitudinales et des playbooks actionnables pour des écosystèmes en transition.',
+      hero_btn_primary: 'Soumettre votre concept de bourse',
+      hero_btn_secondary: 'Consulter les collaborations',
+      hero_metric_one_label: 'Durée de la bourse',
+      hero_metric_one_value: '6–12 mois',
+      hero_metric_one_caption: 'Temps partiel structuré en sprints',
+      hero_metric_two_label: 'Piliers thématiques',
+      hero_metric_two_value: 'Gouvernance · Climat · Croissance inclusive',
+      hero_metric_two_caption: 'Ainsi que civic tech & futur du travail',
+      expectations_label: 'Ce que nous attendons',
+      expectations_title: 'Transformer vos preuves en mouvements et mandats.',
+      expectations_intro: 'Les fellows pilotent des programmes phares de recherche, prospective et narration avec nos partenaires. Nous recherchons des profils alliant rigueur intellectuelle, vision systémique et justice sociale.',
+      expectations_one_title: 'Enquête rigoureuse',
+      expectations_one_copy: 'Concevoir des cadres de recherche, croiser les sources et respecter les standards éthiques tout en interrogeant pouvoir, contexte et récit.',
+      expectations_two_title: 'Auteur co-créatif',
+      expectations_two_copy: 'Co-construire des productions avec communautés, praticiens et créatifs en garantissant l’appropriation partagée et la pertinence locale.',
+      expectations_three_title: 'Fluence politique',
+      expectations_three_copy: 'Traduire les insights en recommandations opérationnelles, feuilles de route d’investissement et stratégies d’engagement pour décideurs.',
+      journey_label: 'Comment rejoindre',
+      journey_title: 'Un sprint de conception pour garantir profondeur et alignement.',
+      journey_intro: 'Nous co-concevons chaque bourse autour de votre agenda de recherche et des communautés concernées. Attendez-vous à des échanges dédiés au périmètre, à la gouvernance et aux ressources.',
+      journey_step_one_tag: 'Étape 01',
+      journey_step_one_title: 'Soumettre votre agenda',
+      journey_step_one_copy: 'Partagez votre thèse, vos ancrages géographiques, vos partenaires et les livrables visés. Nous évaluons l’alignement avec notre feuille de route et la demande partenaire.',
+      journey_step_two_tag: 'Étape 02',
+      journey_step_two_title: 'Co-designer l’architecture',
+      journey_step_two_copy: 'Affiner méthodes, gouvernance, plan d’ouverture des données et formats narratifs avec nos responsables de pratique et conseillers communautaires.',
+      journey_step_three_tag: 'Étape 03',
+      journey_step_three_title: 'Lancement avec appui éditorial & politique',
+      journey_step_three_copy: 'Finaliser les accords, définir les jalons et mobiliser une équipe éditoriale/policy pour amplifier les résultats en continu.',
+      value_label: 'Ce que vous gagnez',
+      value_title: 'Mener vos recherches sur une plateforme d’influence.',
+      value_one_title: 'Plateforme de publication',
+      value_one_copy: 'Co-publier rapports, récits multimédias, jeux de données et notes de politique diffusés auprès de notre réseau institutionnel.',
+      value_two_title: 'Infrastructure data',
+      value_two_copy: 'Accéder à nos pipelines de données, ressources SIG, appuis de modélisation et assistants de recherche pour opérationnaliser votre méthode.',
+      value_three_title: 'Fora politiques',
+      value_three_copy: 'Présenter lors de briefings confidentiels, tables rondes multilatérales et salons publics pour transformer les idées en action.',
+      materials_label: 'Dossier à soumettre',
+      materials_title: 'Composez un dossier de bourse riche et visionnaire.',
+      materials_intro: 'Nous apprécions la nuance. Ajoutez des liens si utile et signalez les segments confidentiels — nous protégeons vos sources.',
+      materials_item_one: '• CV détaillant publications, affiliations et langues',
+      materials_item_two: '• Note conceptuelle (2–3 pages) décrivant question, contexte, méthode et calendrier',
+      materials_item_three: '• Échantillon représentatif (article, note, production créative)',
+      materials_item_four: '• Deux références ou lettres de soutien (académiques, communautaires ou professionnelles)',
+      materials_cta_title: 'Envoyer à',
+      materials_cta_email: 'hr@axeldevlab.com',
+      materials_cta_note: 'Objet : “Research Fellowship – [Thème]”.',
+      materials_cta_timeline: 'Réponse sous 15 jours ouvrés. Les finalistes participent à un colloque de conception.',
+      cta_title: 'Prêt à porter un agenda de recherche avec nous ?',
+      cta_copy: 'Décrivez la question qui vous anime, les partenaires imaginés et l’impact visé. Notre équipe bourses planifiera une session découverte.',
+      cta_button: 'Engager la conversation bourse'
+    }
+  };
+</script>
+</body>
+</html>

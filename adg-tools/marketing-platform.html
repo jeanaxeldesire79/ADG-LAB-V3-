@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADG Growth Command | Marketing Platform & Playbook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-blue: #0B2447;
+            --royal-blue: #19376D;
+            --accent-gold: #F5B553;
+            --accent-teal: #16BDCA;
+            --accent-emerald: #34D399;
+            --accent-sky: #38BDF8;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top, rgba(25, 55, 109, 0.25), transparent 60%),
+                        linear-gradient(135deg, #020617, #050b18 60%, #010409);
+            color: #F8FAFC;
+        }
+        .particle-field {
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(245, 181, 83, 0.4), transparent 45%),
+                radial-gradient(circle at 80% 10%, rgba(52, 211, 153, 0.35), transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(56, 189, 248, 0.3), transparent 35%);
+            animation: particleDrift 28s linear infinite alternate;
+            opacity: 0.25;
+            filter: blur(50px);
+        }
+        .gradient-vignette {
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.1), transparent 70%);
+            mix-blend-mode: screen;
+            opacity: 0.4;
+        }
+        .glass {
+            background: rgba(10, 18, 36, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.75rem;
+            box-shadow: 0 15px 60px rgba(3, 6, 12, 0.6);
+        }
+        .section-badge {
+            letter-spacing: 0.35em;
+        }
+        .grid-overlay {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .campaign-tab {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 0.75rem 1.35rem;
+            background: rgba(255, 255, 255, 0.04);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .campaign-tab.active {
+            background: linear-gradient(120deg, rgba(245, 181, 83, 0.95), rgba(255, 237, 186, 0.9));
+            color: #0f172a;
+            border-color: transparent;
+            box-shadow: 0 10px 30px rgba(245, 181, 83, 0.4);
+        }
+        .campaign-tab:not(.active):hover {
+            border-color: rgba(245, 181, 83, 0.4);
+            box-shadow: 0 8px 24px rgba(245, 181, 83, 0.2);
+        }
+        .flow-node {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(18px);
+            position: relative;
+        }
+        .flow-node::after {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--accent-gold);
+            position: absolute;
+            top: -0.4rem;
+            left: calc(50% - 6px);
+            box-shadow: 0 0 15px rgba(245, 181, 83, 0.45);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+        .flow-connector path {
+            stroke-dasharray: 12;
+            animation: dash 18s linear infinite;
+        }
+        .accordion-card {
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+        .accordion-card summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .accordion-card summary::-webkit-details-marker {
+            display: none;
+        }
+        .accordion-card[open] {
+            border-color: rgba(245, 181, 83, 0.45);
+            box-shadow: 0 12px 30px rgba(245, 181, 83, 0.15);
+        }
+        .badge {
+            border-radius: 999px;
+            padding: 0.2rem 0.9rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .phase-chip {
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.85rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .tool-card {
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(11, 36, 71, 0.35);
+            padding: 1.5rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(22, 189, 202, 0.25);
+        }
+        .tool-registry-panel {
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(11, 36, 71, 0.4);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .tool-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .tool-filter {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.15rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(248, 250, 252, 0.8);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+        .tool-filter.active {
+            background: linear-gradient(120deg, rgba(245, 181, 83, 0.9), rgba(52, 211, 153, 0.85));
+            color: #0f172a;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(245, 181, 83, 0.25);
+        }
+        .tool-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .tool-row {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1.2fr 0.9fr;
+            gap: 1rem;
+            align-items: center;
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.2rem 1.4rem;
+            background: rgba(2, 6, 23, 0.65);
+        }
+        .tool-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(248, 250, 252, 0.55);
+            margin-bottom: 0.35rem;
+        }
+        .category-chip {
+            border-radius: 0.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.15rem 0.65rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(248, 250, 252, 0.75);
+        }
+        .coverage-badge {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(248, 250, 252, 0.85);
+        }
+        .status-pill {
+            border-radius: 999px;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .status-core {
+            background: rgba(52, 211, 153, 0.2);
+            color: #34D399;
+        }
+        .status-growth {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38BDF8;
+        }
+        .status-beta {
+            background: rgba(245, 181, 83, 0.2);
+            color: #F5B553;
+        }
+        .tool-link {
+            color: #F5B553;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .tool-link:hover {
+            color: #fcd34d;
+        }
+        .tool-integration {
+            font-size: 0.75rem;
+            color: rgba(248, 250, 252, 0.6);
+        }
+        .doc-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .doc-link:hover {
+            background: rgba(245, 181, 83, 0.08);
+            transform: translateX(6px);
+        }
+        .case-nav button {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.7);
+            transition: background 0.2s ease;
+        }
+        .case-nav button:hover {
+            background: rgba(245, 181, 83, 0.18);
+        }
+        .ripple-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 60%);
+            transform: scale(0);
+            opacity: 0;
+            animation: ripple 4s infinite;
+        }
+        .observe {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .observe.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .floating-orb {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            top: -60px;
+            right: -80px;
+            background: radial-gradient(circle, rgba(245, 181, 83, 0.35), transparent 60%);
+            filter: blur(30px);
+            animation: float 12s ease-in-out infinite alternate;
+        }
+        @keyframes float {
+            from { transform: translateY(0) scale(1); opacity: 0.7; }
+            to { transform: translateY(-25px) scale(1.1); opacity: 0.4; }
+        }
+        @keyframes particleDrift {
+            from { transform: translate3d(-30px, -30px, 0); }
+            to { transform: translate3d(40px, 20px, 0); }
+        }
+        @keyframes dash {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: -240; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            70% { transform: scale(1.4); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.55; }
+            70% { transform: scale(2); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        @media (max-width: 1024px) {
+            .tool-row {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+        @media (max-width: 640px) {
+            .tool-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="relative min-h-screen overflow-hidden">
+        <div class="particle-field absolute inset-0 pointer-events-none"></div>
+        <div class="gradient-vignette absolute inset-0 pointer-events-none"></div>
+
+        <main class="relative z-10 max-w-7xl mx-auto px-6 py-12 space-y-16">
+            <!-- Hero -->
+            <section class="glass rounded-3xl p-10 md:grid md:grid-cols-2 gap-10 hero-panel observe">
+                <div class="space-y-6 relative">
+                    <div class="floating-orb hidden md:block"></div>
+                    <div class="section-badge text-xs tracking-[0.35em] uppercase text-white/70">ADG Growth Command</div>
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                        Marketing Platform & Motion Playbook
+                    </h1>
+                    <p class="text-white/80 text-lg leading-relaxed">
+                        The living command interface for orchestrating public, private, impact, talent, product, and institutional campaigns.
+                        Every lever is scripted, governed, and animated so teams can execute with precision.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="ripple-btn px-6 py-3 rounded-full text-sm font-semibold bg-amber-400 text-slate-900 uppercase tracking-wide shadow-lg shadow-amber-500/40">
+                            Launch Command Workspace
+                        </button>
+                        <button class="px-6 py-3 rounded-full text-sm font-semibold border border-white/30 text-white uppercase tracking-wide hover:bg-white/10 transition">
+                            Download Motion Brief
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap gap-3 text-xs uppercase text-white/60">
+                        <span class="badge border-white/40">Marketing strategy center</span>
+                        <span class="badge border-white/40">Animated workflows</span>
+                        <span class="badge border-white/40">Governance layer</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-2 hero-metric">
+                        <p class="text-sm text-white/60">Lead velocity target</p>
+                        <div class="text-4xl font-bold text-emerald-300">
+                            <span data-count-up="35" data-suffix="%" class="count">0</span>
+                        </div>
+                        <p class="text-xs text-white/60">Compounded pipeline acceleration per quarter.</p>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-2 hero-metric">
+                        <p class="text-sm text-white/60">Conversion reliability</p>
+                        <div class="text-4xl font-bold text-amber-300">
+                            <span data-count-up="32" data-suffix="%" class="count">0</span>
+                        </div>
+                        <p class="text-xs text-white/60">SQL → signed mandate across core motions.</p>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-2 hero-metric col-span-2">
+                        <p class="text-sm text-white/60">Pipeline coverage</p>
+                        <div class="text-4xl font-bold text-sky-300">
+                            <span data-count-up="4.5" data-decimals="1" data-suffix="x" class="count">0</span>
+                        </div>
+                        <p class="text-xs text-white/60">Guardrail vs. quarterly bookings requirements.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Campaign Archetypes -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-8 observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Campaign Architect</p>
+                    <h2 class="text-3xl font-bold">Switch between ADG command motions</h2>
+                    <p class="text-white/70">Animated profiles include approved rules of engagement, workflow focus, required tooling, and document placeholders.</p>
+                </div>
+                <div class="flex flex-wrap gap-3" id="campaign-tabs">
+                    <button class="campaign-tab active" data-campaign="public">
+                        <i class="fa-solid fa-landmark"></i> Public
+                    </button>
+                    <button class="campaign-tab" data-campaign="private">
+                        <i class="fa-solid fa-building"></i> Private
+                    </button>
+                    <button class="campaign-tab" data-campaign="impact">
+                        <i class="fa-solid fa-hand-holding-heart"></i> Impact
+                    </button>
+                    <button class="campaign-tab" data-campaign="product">
+                        <i class="fa-solid fa-rocket"></i> Product
+                    </button>
+                    <button class="campaign-tab" data-campaign="talent">
+                        <i class="fa-solid fa-user-tie"></i> Talent
+                    </button>
+                    <button class="campaign-tab" data-campaign="institutional">
+                        <i class="fa-solid fa-chess-knight"></i> Institutional
+                    </button>
+                </div>
+                <div id="campaign-details" class="space-y-6"></div>
+            </section>
+
+            <!-- Workflow Visualization -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-8 grid-overlay observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Workflow Visualization</p>
+                    <h2 class="text-3xl font-bold">Awareness → Capture → Nurture → Conversion → Advocacy</h2>
+                    <p class="text-white/70">GSAP-animated flow map keeps teams synchronized on energy transfer across the command chain.</p>
+                </div>
+                <div class="relative flow-wrapper">
+                    <svg class="flow-connector absolute inset-0 pointer-events-none hidden md:block" viewBox="0 0 1200 200" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#F5B553" />
+                                <stop offset="50%" stop-color="#16BDCA" />
+                                <stop offset="100%" stop-color="#34D399" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M50 120 Q 150 40 250 120 T 450 120 T 650 120 T 850 120 T 1050 120" stroke="url(#flowGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <div class="grid md:grid-cols-5 gap-4 relative z-10">
+                        <div class="flow-node flow-node-1">
+                            <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-wave-square text-amber-300"></i> Awareness</p>
+                            <h3 class="text-xl font-semibold mt-2">Signals</h3>
+                            <p class="text-sm text-white/70">Earned + owned drops, AR demos, civic listening labs.</p>
+                        </div>
+                        <div class="flow-node flow-node-2">
+                            <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-filter text-amber-300"></i> Capture</p>
+                            <h3 class="text-xl font-semibold mt-2">Intent forms</h3>
+                            <p class="text-sm text-white/70">Smart landing nodes, compliance-ready lead magnets.</p>
+                        </div>
+                        <div class="flow-node flow-node-3">
+                            <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-flask text-amber-300"></i> Nurture</p>
+                            <h3 class="text-xl font-semibold mt-2">Story arcs</h3>
+                            <p class="text-sm text-white/70">Behavioral triggers, ROI sims, personalized dossiers.</p>
+                        </div>
+                        <div class="flow-node flow-node-4">
+                            <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-people-arrows text-amber-300"></i> Conversion</p>
+                            <h3 class="text-xl font-semibold mt-2">Decision rooms</h3>
+                            <p class="text-sm text-white/70">Executive war rooms, proof stacks, legal fast track.</p>
+                        </div>
+                        <div class="flow-node flow-node-5">
+                            <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-retweet text-amber-300"></i> Loyalty</p>
+                            <h3 class="text-xl font-semibold mt-2">Advocacy loop</h3>
+                            <p class="text-sm text-white/70">Account growth maps, councils, public-ready proof.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rules of Engagement -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-6 observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Rules of Engagement</p>
+                    <h2 class="text-3xl font-bold">Compliance ladders & ethical posture</h2>
+                    <p class="text-white/70">Each mission slot references the rule cards below. Use badges for quick assignment or review.</p>
+                </div>
+                <div class="space-y-4">
+                    <details class="accordion-card" open>
+                        <summary>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-scale-balanced text-amber-300 text-xl"></i>
+                                <span class="text-lg font-semibold">Legal & Governance</span>
+                            </div>
+                            <span class="badge border-white/30">Level 01 review</span>
+                        </summary>
+                        <div class="px-6 pb-6 text-white/80 text-sm space-y-2">
+                            <p>All public, institutional, and regulated campaigns require pre-flight compliance review with archived approvals.</p>
+                            <ul class="list-disc pl-5 space-y-1 text-white/60">
+                                <li>Pre-approved claims library stored in Notion + Airtable.</li>
+                                <li>Redline log for every policy mention or statutory reference.</li>
+                                <li>Legal-response SLA: 24h for fast-track, 72h for standard.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion-card">
+                        <summary>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-heart text-emerald-300 text-xl"></i>
+                                <span class="text-lg font-semibold">Ethics & Community</span>
+                            </div>
+                            <span class="badge border-white/30">Impact shield</span>
+                        </summary>
+                        <div class="px-6 pb-6 text-white/80 text-sm space-y-2">
+                            <p>Applies to impact, talent, public, and nonprofit storytelling. Includes representation standards and consent workflows.</p>
+                            <ul class="list-disc pl-5 space-y-1 text-white/60">
+                                <li>Community council notified for sensitive launches.</li>
+                                <li>Inclusive imagery checklist executed by creative ops.</li>
+                                <li>Impact claims validated by monitoring & evaluation team.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="accordion-card">
+                        <summary>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-comment-dots text-sky-300 text-xl"></i>
+                                <span class="text-lg font-semibold">Communications Ladder</span>
+                            </div>
+                            <span class="badge border-white/30">Voice kit</span>
+                        </summary>
+                        <div class="px-6 pb-6 text-white/80 text-sm space-y-2">
+                            <p>Dictates copy review sequence, crisis overrides, and stakeholder comms calendar.</p>
+                            <ul class="list-disc pl-5 space-y-1 text-white/60">
+                                <li>Voice calibration meeting before first-touch asset release.</li>
+                                <li>Executive review for any multi-market announcement.</li>
+                                <li>Emergency switchboard for tone or narrative violations.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Tool stack & playbooks -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-7 observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Tool Stack & Playbooks</p>
+                    <h2 class="text-3xl font-bold">Operational kit per campaign layer</h2>
+                    <p class="text-white/70">Tooling grid references core, amplify, and intelligence rails. Hover cards pulse when new SOP revisions drop.</p>
+                </div>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="tool-card">
+                        <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-satellite-dish text-amber-300"></i> Acquisition</p>
+                        <h3 class="text-xl font-semibold mt-2">Signal stack</h3>
+                        <ul class="mt-3 text-sm text-white/70 space-y-1">
+                            <li>LinkedIn + X orchestration</li>
+                            <li>Owned media CMS</li>
+                            <li>Podcast + live broadcast kit</li>
+                            <li>PR wire automation</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-brain text-teal-300"></i> Intelligence</p>
+                        <h3 class="text-xl font-semibold mt-2">Insight desk</h3>
+                        <ul class="mt-3 text-sm text-white/70 space-y-1">
+                            <li>Clay + Apollo enrichment</li>
+                            <li>GovData / Sector RSS monitors</li>
+                            <li>Notion knowledge graph</li>
+                            <li>Signal anomaly alerts</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-emerald-300"></i> Experience</p>
+                        <h3 class="text-xl font-semibold mt-2">Creative ops</h3>
+                        <ul class="mt-3 text-sm text-white/70 space-y-1">
+                            <li>Figma systems + Webflow</li>
+                            <li>Video studio & Lottie bank</li>
+                            <li>Copy AI assistants</li>
+                            <li>Localization matrix</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <p class="text-xs uppercase text-white/60 flex items-center gap-2"><i class="fa-solid fa-gears text-sky-300"></i> Automation</p>
+                        <h3 class="text-xl font-semibold mt-2">Journey engine</h3>
+                        <ul class="mt-3 text-sm text-white/70 space-y-1">
+                            <li>HubSpot orchestration</li>
+                            <li>Monday ritual board</li>
+                            <li>Segment + CDP triggers</li>
+                            <li>Legal OS + DocuSign</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tool-registry-panel">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div>
+                            <p class="text-xs uppercase text-white/60">Admin Tool Registry</p>
+                            <h3 class="text-2xl font-semibold">Link every system to an accountable owner</h3>
+                            <p class="text-sm text-white/70 mt-2">Live list feeds the backend portal so squads can audit coverage, cadences, and integration depth before a mission launches.</p>
+                        </div>
+                        <div class="text-sm text-white/60 space-y-1">
+                            <p>Auto-synced with governance board</p>
+                            <p class="flex items-center gap-2">
+                                <span class="badge border-white/40">Live since Q1</span>
+                                <span class="badge border-white/40">Last refresh <span id="tool-refresh">~</span></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tool-filter-bar">
+                        <button class="tool-filter active" data-tool-filter="all">All rails</button>
+                        <button class="tool-filter" data-tool-filter="acquisition">Acquisition</button>
+                        <button class="tool-filter" data-tool-filter="intelligence">Intelligence</button>
+                        <button class="tool-filter" data-tool-filter="experience">Experience</button>
+                        <button class="tool-filter" data-tool-filter="automation">Automation</button>
+                    </div>
+                    <div class="tool-list" id="tool-registry"></div>
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <p class="text-xs uppercase text-white/60">Playbook Assets</p>
+                    <div class="mt-3 flex flex-wrap gap-3 text-sm">
+                        <span class="badge border-white/40">Motion storyboard templates</span>
+                        <span class="badge border-white/40">Channel cadences</span>
+                        <span class="badge border-white/40">Offer architecture</span>
+                        <span class="badge border-white/40">Escalation trees</span>
+                        <span class="badge border-white/40">Localization glossaries</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case studies carousel -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-6 observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Animated Case Studies</p>
+                    <h2 class="text-3xl font-bold">Command room examples</h2>
+                    <p class="text-white/70">Swipe through living dossiers that train squads on pacing, proof, and stakeholder choreography.</p>
+                </div>
+                <div class="relative">
+                    <div class="absolute -top-4 right-4 flex gap-3 case-nav">
+                        <button id="case-prev" aria-label="Previous case"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="case-next" aria-label="Next case"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 space-y-4" id="case-study-card">
+                        <p class="text-xs uppercase text-white/60" id="case-study-type">Campaign type</p>
+                        <h3 class="text-2xl font-semibold" id="case-study-title">Case title</h3>
+                        <p class="text-white/70 text-sm" id="case-study-summary">Summary</p>
+                        <ul class="text-white/80 text-sm space-y-2" id="case-study-metrics"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documentation -->
+            <section class="glass rounded-3xl border border-white/10 p-8 space-y-4 observe">
+                <h3 class="text-2xl font-bold">Formal Campaign Frameworks & SOPs</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <a href="#" class="glass p-4 rounded-xl border border-white/10 flex items-center gap-3 hover:bg-white/10 transition">
+                        <i class="fa-solid fa-file-contract text-amber-400 text-2xl"></i>
+                        <span>Campaign Governance Charter (PDF)</span>
+                    </a>
+                    <a href="#" class="glass p-4 rounded-xl border border-white/10 flex items-center gap-3 hover:bg-white/10 transition">
+                        <i class="fa-solid fa-scroll text-teal-400 text-2xl"></i>
+                        <span>Marketing Operations Manual</span>
+                    </a>
+                    <a href="#" class="glass p-4 rounded-xl border border-white/10 flex items-center gap-3 hover:bg-white/10 transition">
+                        <i class="fa-solid fa-shield-halved text-emerald-300 text-2xl"></i>
+                        <span>Rules of Engagement Policy</span>
+                    </a>
+                </div>
+                <p class="text-xs text-white/60">Link placeholders point to ADG Notion rooms, DocSend packets, or secured PDF assets.</p>
+            </section>
+
+            <!-- Governance timeline -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-7 observe">
+                <div class="flex flex-col gap-3">
+                    <p class="section-badge text-xs uppercase text-white/60">Governance & Review Cadence</p>
+                    <h2 class="text-3xl font-bold">Command timeline from signal → signed mandate</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="relative pl-10 governance-step">
+                        <span class="absolute left-0 top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-amber-400/20 text-amber-300 font-semibold">01</span>
+                        <h3 class="text-xl font-semibold">Signal capture & entity qualification</h3>
+                        <p class="text-white/70 text-sm mt-1">Clay + Sector RSS + Ops desk verify mandate, budget authority, compliance appetite.</p>
+                        <p class="text-xs text-white/60 mt-1">Output: Qualification sheet + intro narrative.</p>
+                    </div>
+                    <div class="relative pl-10 governance-step">
+                        <span class="absolute left-0 top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-teal-400/20 text-teal-300 font-semibold">02</span>
+                        <h3 class="text-xl font-semibold">Engagement stance summit</h3>
+                        <p class="text-white/70 text-sm mt-1">Marketing lead, channel owner, delivery counterpart align on tone, incentives, and content runway.</p>
+                        <p class="text-xs text-white/60 mt-1">Output: Positioning kit + asset sprint board.</p>
+                    </div>
+                    <div class="relative pl-10 governance-step">
+                        <span class="absolute left-0 top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-300 font-semibold">03</span>
+                        <h3 class="text-xl font-semibold">Orchestration & nurture</h3>
+                        <p class="text-white/70 text-sm mt-1">Channels deploy scripted cadences, CRM automations, and personalized assets with 18h max lag.</p>
+                        <p class="text-xs text-white/60 mt-1">Output: Opportunity dossier + win-risk matrix.</p>
+                    </div>
+                    <div class="relative pl-10 governance-step">
+                        <span class="absolute left-0 top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-sky-400/20 text-sky-300 font-semibold">04</span>
+                        <h3 class="text-xl font-semibold">Decision enablement & close</h3>
+                        <p class="text-white/70 text-sm mt-1">Executive room, ROI narrative, procurement checklist, DocuSign + onboarding runway.</p>
+                        <p class="text-xs text-white/60 mt-1">Output: Signed SOW, success KPIs, comms pack.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="glass rounded-3xl border border-white/10 p-10 space-y-4 text-center observe">
+                <p class="section-badge text-xs uppercase text-white/60">Next mission</p>
+                <h2 class="text-3xl font-bold">Ready to spin up the next campaign sprint?</h2>
+                <p class="text-white/70 max-w-2xl mx-auto">Deploy the command workspace or schedule a live review to tailor playbooks for public, private, impact, or institutional counterparts.</p>
+                <div class="flex flex-wrap justify-center gap-4 pt-2">
+                    <button class="ripple-btn px-8 py-3 rounded-full text-sm font-semibold bg-emerald-300 text-slate-900 uppercase tracking-wide">
+                        Launch Mission Control
+                    </button>
+                    <button class="px-8 py-3 rounded-full text-sm font-semibold border border-white/30 text-white uppercase tracking-wide hover:bg-white/10 transition">
+                        Schedule Review
+                    </button>
+                </div>
+            </section>
+
+            <footer class="text-center text-xs text-white/60 pb-12">
+                ADG Tools Marketing Platform · Updated <span id="current-year"></span> · Internal orchestration & partner alignment only.
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script>
+        const campaigns = {
+            public: {
+                icon: "fa-landmark",
+                color: "text-amber-400",
+                title: "Public Sector & Institutional Trust",
+                strategy: "Evidence-first storytelling and policy-grade campaigns covering reform, infrastructure, or civic readiness mandates.",
+                rules: [
+                    "Prior legal + governance review required before any outbound asset.",
+                    "Language references must cite verified public data sources and footnotes.",
+                    "Engagement tone stays neutral, integrity-based, and multi-lingual when needed."
+                ],
+                tools: ["LinkedIn Ads", "Presswire", "Mailchimp", "GovData.io"],
+                docs: [
+                    { title: "Public Comms SOP", url: "#" },
+                    { title: "Crisis Response Protocol", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Manifestos, hearings, advisory boards." },
+                    { label: "Capture", note: "Policy portals, civic registration flows." },
+                    { label: "Nurture", note: "Town hall follow-ups, compliance briefs." },
+                    { label: "Conversion", note: "Executive read-outs, procurement packs." },
+                    { label: "Advocacy", note: "Community scorecards, press briefings." }
+                ]
+            },
+            private: {
+                icon: "fa-building",
+                color: "text-emerald-300",
+                title: "Private & Corporate Campaigns",
+                strategy: "Outcome-driven marketing with quantified ROI, sales enablement, and rapid experimentation loops.",
+                rules: [
+                    "ROI claims must cite client-approved metrics or third-party validation.",
+                    "Sales enablement content reviewed by account lead + legal prior to release.",
+                    "Visual identity mirrors corporate palettes with bold typography and motion cues."
+                ],
+                tools: ["HubSpot", "Webflow", "Google Ads", "Figma"],
+                docs: [
+                    { title: "Brand Kit", url: "#" },
+                    { title: "Sales Deck Template", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Category narratives, paid launch bursts." },
+                    { label: "Capture", note: "Demo funnels, diagnostic tools, ABM forms." },
+                    { label: "Nurture", note: "ROI calculators, executive newsletters." },
+                    { label: "Conversion", note: "Decision rooms, proof-of-value pilots." },
+                    { label: "Advocacy", note: "Customer councils, referral accelerators." }
+                ]
+            },
+            impact: {
+                icon: "fa-hand-holding-heart",
+                color: "text-teal-300",
+                title: "Impact & Nonprofit Campaigns",
+                strategy: "Human-centered storytelling, community voice, and transparent impact dashboards.",
+                rules: [
+                    "Representation ethics apply — informed consent + attribution logs.",
+                    "Impact data validated by monitoring & evaluation team before publication.",
+                    "Imagery must comply with inclusive guidelines and accessibility standards."
+                ],
+                tools: ["Canva", "Listmonk", "Trello", "SurveyCTO"],
+                docs: [
+                    { title: "Impact Reporting Framework", url: "#" },
+                    { title: "Donor Visibility Policy", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Community listening, documentary drops." },
+                    { label: "Capture", note: "Petition hubs, donor enrollment kits." },
+                    { label: "Nurture", note: "Impact diaries, field notes, grant updates." },
+                    { label: "Conversion", note: "Funding circles, stewardship calls." },
+                    { label: "Advocacy", note: "Board-ready dashboards, coalition media." }
+                ]
+            },
+            product: {
+                icon: "fa-rocket",
+                color: "text-sky-300",
+                title: "Product & Innovation Launches",
+                strategy: "Tech-forward positioning, roadmap transparency, and rapid beta loops.",
+                rules: [
+                    "NDAs enforced prior to early-access or roadmap previews.",
+                    "Beta users must sign participation agreements + feedback cadence.",
+                    "Follow the build-in-public disclosure checklist before dev diaries."
+                ],
+                tools: ["ProductHunt", "GitHub Pages", "Notion Roadmap", "Linear"],
+                docs: [
+                    { title: "Launch SOP", url: "#" },
+                    { title: "Post-Mortem Template", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Teasers, builder logs, roadmap peeks." },
+                    { label: "Capture", note: "Beta waitlists, interactive sandboxes." },
+                    { label: "Nurture", note: "Changelog drip, AMA sessions, office hours." },
+                    { label: "Conversion", note: "Pilot bundles, success architects." },
+                    { label: "Advocacy", note: "Feature spotlight tours, co-marketing." }
+                ]
+            },
+            talent: {
+                icon: "fa-user-tie",
+                color: "text-rose-300",
+                title: "Talent & Recruitment Campaigns",
+                strategy: "Employer branding fused with community-driven hiring flows and DEI accountability.",
+                rules: [
+                    "DEI language compliance and inclusive storytelling enforced.",
+                    "Visuals must align with HR identity systems and accessibility standards.",
+                    "Candidate experience tracked with NPS + qualitative feedback loops."
+                ],
+                tools: ["LinkedIn Recruiter", "Notion Careers", "Greenhouse", "Calendly"],
+                docs: [
+                    { title: "Recruitment Policy", url: "#" },
+                    { title: "Internship Campaign Guide", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Employer brand films, community events." },
+                    { label: "Capture", note: "Career portals, referral drives, scholarships." },
+                    { label: "Nurture", note: "Candidate care flows, talent newsletters." },
+                    { label: "Conversion", note: "Panel kits, hiring manager scorecards." },
+                    { label: "Advocacy", note: "Alumni councils, ambassador programs." }
+                ]
+            },
+            institutional: {
+                icon: "fa-chess-knight",
+                color: "text-indigo-300",
+                title: "Institutional Alliances & Capital Programs",
+                strategy: "Risk-balanced engagement for multilaterals, funds, or coalition capital mandates.",
+                rules: [
+                    "Investment statements require finance + legal co-sign before release.",
+                    "Use multi-scenario modeling with conservative + progressive cases.",
+                    "Hotline for reputational risk triggers to alert executive sponsors."
+                ],
+                tools: ["PitchBook", "Carta", "InvestorHub", "DocSend"],
+                docs: [
+                    { title: "Capital Formation Playbook", url: "#" },
+                    { title: "LP Reporting SOP", url: "#" }
+                ],
+                phases: [
+                    { label: "Awareness", note: "Thought-leadership, economic briefings." },
+                    { label: "Capture", note: "Investor labs, secure data rooms." },
+                    { label: "Nurture", note: "Quarterly letters, diligence tours." },
+                    { label: "Conversion", note: "IC sessions, legal readiness, signatures." },
+                    { label: "Advocacy", note: "LP communities, transparency dashboards." }
+                ]
+            }
+        };
+
+        const caseStudies = [
+            {
+                title: "City Resilience Command Program",
+                type: "Public Sector",
+                summary: "Activated policy manifesto, AR dashboards, and civic listening tours for a metropolitan modernization mandate.",
+                metrics: [
+                    "3 policy briefings signed within 14 days.",
+                    "750K verified citizen touchpoints.",
+                    "Zero compliance escalations across 5 agencies."
+                ]
+            },
+            {
+                title: "Private Scaleup Growth Sprint",
+                type: "Private Enterprise",
+                summary: "Stacked paid + partner motions, live build diaries, and pilot guarantees to unlock mid-market adoption.",
+                metrics: [
+                    "45% SQL → proposal rate with dual-offer ladder.",
+                    "2 partner-sourced deals per 30-day cycle.",
+                    "CAC payback under 4 months."
+                ]
+            },
+            {
+                title: "Impact Coalition Visibility Drive",
+                type: "Impact & Nonprofit",
+                summary: "Human-centered storytelling with field diaries, donor dashboards, and bilingual community events.",
+                metrics: [
+                    "Retention boosted to 90% among anchor donors.",
+                    "Grant pipeline expanded by $4.2M.",
+                    "Representation checklist score 100%."
+                ]
+            }
+        ];
+
+        const toolRegistry = [
+            {
+                name: "HubSpot Orchestrator",
+                category: "automation",
+                summary: "Sequences, deal health alerts, and compliance logging for capture → conversion.",
+                owner: "Lifecycle Ops",
+                cadence: "Journeys QA every Monday · 09:00 GMT",
+                coverage: ["Public", "Private", "Product", "Talent"],
+                status: { label: "Core", tag: "core" },
+                integrations: "HubSpot • Segment • Legal OS",
+                link: "https://app.hubspot.com",
+                cta: "Open workflows"
+            },
+            {
+                name: "Legal OS + DocuSign Chain",
+                category: "automation",
+                summary: "Mandate-ready contract stack with instant policy inserts and archiving.",
+                owner: "Governance Desk",
+                cadence: "Live contract sync within 12h",
+                coverage: ["Public", "Private", "Institutional"],
+                status: { label: "Core", tag: "core" },
+                integrations: "DocuSign • Google Drive • HubSpot",
+                link: "https://www.docusign.com",
+                cta: "Open legal OS"
+            },
+            {
+                name: "LinkedIn Signal Grid",
+                category: "acquisition",
+                summary: "Organic + paid calibration table for campaigns, moderators, and boosting slots.",
+                owner: "Growth Studio",
+                cadence: "Slots refreshed Tue & Thu",
+                coverage: ["Public", "Private", "Talent"],
+                status: { label: "Growth", tag: "growth" },
+                integrations: "LinkedIn Campaign Manager • Shield",
+                link: "https://www.linkedin.com",
+                cta: "View channel map"
+            },
+            {
+                name: "Presswire Command Deck",
+                category: "acquisition",
+                summary: "Embargo manager, narrative QA, and rapid-release scaffolding for comms.",
+                owner: "Communications Pod",
+                cadence: "Embargo sweep 48h pre-flight",
+                coverage: ["Public", "Impact"],
+                status: { label: "Beta", tag: "beta" },
+                integrations: "Mailchimp • Notion Newsroom",
+                link: "https://www.prnewswire.com",
+                cta: "Open presswire"
+            },
+            {
+                name: "Clay & Apollo Desk",
+                category: "intelligence",
+                summary: "Prospect intelligence, enrichment, and prioritization for private + capital motions.",
+                owner: "Research Pod",
+                cadence: "Data sync nightly · 23:00 GMT",
+                coverage: ["Private", "Institutional", "Product"],
+                status: { label: "Core", tag: "core" },
+                integrations: "Clay • Apollo • Airbyte",
+                link: "https://www.clay.run",
+                cta: "Open enrichment"
+            },
+            {
+                name: "GovData Monitor",
+                category: "intelligence",
+                summary: "Policy-grade RSS mesh aggregating live regulations, RFPs, and civic alerts.",
+                owner: "Policy Intel",
+                cadence: "Feeds refresh hourly",
+                coverage: ["Public", "Institutional"],
+                status: { label: "Growth", tag: "growth" },
+                integrations: "GovData.io • RSS Mesh • Airtable",
+                link: "https://www.govdata.de",
+                cta: "View feed"
+            },
+            {
+                name: "Figma/Webflow Systems",
+                category: "experience",
+                summary: "Component library + deployment bridge for landing nodes, microsites, and Lottie.",
+                owner: "Creative Ops",
+                cadence: "Design QA every Wednesday",
+                coverage: ["Product", "Private", "Talent"],
+                status: { label: "Core", tag: "core" },
+                integrations: "Figma • Webflow • LottieFiles",
+                link: "https://www.figma.com",
+                cta: "Open system"
+            },
+            {
+                name: "Storyforge Copy AI",
+                category: "experience",
+                summary: "Voice kit calibrator plus AI-assisted scripts tied to ethics + comms ladders.",
+                owner: "Editorial Pod",
+                cadence: "Voice kit sync every Friday",
+                coverage: ["Impact", "Public", "Product"],
+                status: { label: "Growth", tag: "growth" },
+                integrations: "Jasper • Notion • Grammarly",
+                link: "https://www.jasper.ai",
+                cta: "Launch writer"
+            },
+            {
+                name: "Greenhouse Talent OS",
+                category: "automation",
+                summary: "Recruiting huddles, referral routing, and candidate feedback log.",
+                owner: "People Lab",
+                cadence: "Stage SLAs tracked daily",
+                coverage: ["Talent", "Private"],
+                status: { label: "Core", tag: "core" },
+                integrations: "Greenhouse • Calendly • Notion Careers",
+                link: "https://www.greenhouse.io",
+                cta: "Open pipeline"
+            },
+            {
+                name: "ProductHunt Launch Radar",
+                category: "acquisition",
+                summary: "Launch room for product drops with roadmap teasers and beta lists.",
+                owner: "Product Marketing",
+                cadence: "Sprint reviews every Friday",
+                coverage: ["Product", "Private"],
+                status: { label: "Beta", tag: "beta" },
+                integrations: "ProductHunt • Linear • GitHub",
+                link: "https://www.producthunt.com",
+                cta: "Prep launch"
+            }
+        ];
+
+        const campaignDetails = document.getElementById('campaign-details');
+        const campaignTabs = document.querySelectorAll('[data-campaign]');
+        const toolRegistryEl = document.getElementById('tool-registry');
+        const toolFilters = document.querySelectorAll('[data-tool-filter]');
+        const toolRefresh = document.getElementById('tool-refresh');
+        let activeCampaign = 'public';
+        let activeToolFilter = 'all';
+
+        if (toolRefresh) {
+            const formatted = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date());
+            toolRefresh.textContent = formatted;
+        }
+
+        function renderToolRegistry(filter = 'all') {
+            if (!toolRegistryEl) return;
+            const filteredTools = toolRegistry.filter(tool => filter === 'all' || tool.category === filter);
+            toolRegistryEl.innerHTML = filteredTools.map(tool => {
+                const coverageHtml = (tool.coverage || []).map(tag => `<span class="coverage-badge">${tag}</span>`).join('');
+                const statusHtml = tool.status ? `<span class="status-pill status-${tool.status.tag}">${tool.status.label}</span>` : '';
+                return `
+                    <div class="tool-row">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                ${statusHtml}
+                                <span class="category-chip">${tool.category}</span>
+                            </div>
+                            <h4 class="text-lg font-semibold">${tool.name}</h4>
+                            <p class="text-white/70 text-sm mt-1">${tool.summary}</p>
+                        </div>
+                        <div>
+                            <p class="tool-label">Owner</p>
+                            <p class="text-white/80 text-sm font-medium">${tool.owner}</p>
+                            <p class="tool-integration mt-1">${tool.cadence}</p>
+                        </div>
+                        <div>
+                            <p class="tool-label">Coverage</p>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${coverageHtml}
+                            </div>
+                        </div>
+                        <div>
+                            <p class="tool-label">Integrations</p>
+                            <p class="tool-integration mb-3">${tool.integrations}</p>
+                            <a href="${tool.link}" class="tool-link" target="_blank" rel="noreferrer">
+                                ${tool.cta} <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            gsap.from('#tool-registry .tool-row', { opacity: 0, y: 20, duration: 0.6, stagger: 0.05, ease: 'power3.out' });
+        }
+
+        if (toolFilters.length) {
+            toolFilters.forEach(button => {
+                button.addEventListener('click', () => {
+                    activeToolFilter = button.dataset.toolFilter || 'all';
+                    toolFilters.forEach(btn => btn.classList.toggle('active', btn === button));
+                    renderToolRegistry(activeToolFilter);
+                });
+            });
+        }
+
+        renderToolRegistry(activeToolFilter);
+
+        function renderCampaign(type) {
+            const campaign = campaigns[type];
+            if (!campaign) return;
+
+            campaignDetails.innerHTML = `
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl ${campaign.color}">
+                                <i class="fa-solid ${campaign.icon}"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase text-white/60">Active campaign</p>
+                                <h3 class="text-2xl font-semibold">${campaign.title}</h3>
+                            </div>
+                        </div>
+                        <span class="badge border-white/40">${campaign.strategy.split(' ').slice(0, 3).join(' ')}...</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
+                            <p class="text-xs uppercase text-white/60">Strategy spine</p>
+                            <p class="text-sm text-white/80">${campaign.strategy}</p>
+                            <div class="grid sm:grid-cols-2 gap-3 pt-1">
+                                ${campaign.phases.map(phase => `
+                                    <div class="phase-chip">
+                                        <p class="text-xs uppercase text-white/60">${phase.label}</p>
+                                        <p class="text-sm text-white/80 mt-1">${phase.note}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
+                            <p class="text-xs uppercase text-white/60">Rules of engagement</p>
+                            <ul class="space-y-2 text-sm text-white/80">
+                                ${campaign.rules.map(rule => `
+                                    <li class="flex gap-2">
+                                        <i class="fa-solid fa-shield-check text-emerald-300 mt-1"></i>
+                                        <span>${rule}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-xs uppercase text-white/60 mb-2">Required tools</p>
+                            <div class="flex flex-wrap gap-2 text-sm">
+                                ${campaign.tools.map(tool => `<span class="badge border-white/30 bg-white/5">${tool}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase text-white/60 mb-2">SOP & Docs</p>
+                            <div class="space-y-2">
+                                ${campaign.docs.map(doc => `
+                                    <a href="${doc.url}" class="doc-link" target="_blank" rel="noreferrer">
+                                        <i class="fa-solid fa-link text-amber-300"></i>
+                                        <span>${doc.title}</span>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setActiveCampaign(type) {
+            activeCampaign = type;
+            campaignTabs.forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.campaign === type);
+            });
+            renderCampaign(type);
+            gsap.from('#campaign-details > div', { opacity: 0, y: 25, duration: 0.6, ease: 'power3.out' });
+        }
+
+        campaignTabs.forEach(tab => {
+            tab.addEventListener('click', () => setActiveCampaign(tab.dataset.campaign));
+        });
+
+        setActiveCampaign(activeCampaign);
+
+        const caseTitle = document.getElementById('case-study-title');
+        const caseType = document.getElementById('case-study-type');
+        const caseSummary = document.getElementById('case-study-summary');
+        const caseMetrics = document.getElementById('case-study-metrics');
+        let caseIndex = 0;
+
+        function renderCaseStudy(index) {
+            const study = caseStudies[index];
+            caseType.textContent = study.type;
+            caseTitle.textContent = study.title;
+            caseSummary.textContent = study.summary;
+            caseMetrics.innerHTML = study.metrics.map(item => `
+                <li class="flex gap-2 items-start">
+                    <i class="fa-solid fa-circle text-emerald-300 text-[0.5rem] mt-1"></i>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+            gsap.from('#case-study-card', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' });
+        }
+
+        document.getElementById('case-prev').addEventListener('click', () => {
+            caseIndex = (caseIndex - 1 + caseStudies.length) % caseStudies.length;
+            renderCaseStudy(caseIndex);
+        });
+        document.getElementById('case-next').addEventListener('click', () => {
+            caseIndex = (caseIndex + 1) % caseStudies.length;
+            renderCaseStudy(caseIndex);
+        });
+
+        renderCaseStudy(caseIndex);
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.25 });
+
+        document.querySelectorAll('.observe').forEach(section => observer.observe(section));
+
+        const counters = document.querySelectorAll('[data-count-up]');
+        const counterObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    animateCounter(entry.target);
+                    entry.target.dataset.animated = 'true';
+                }
+            });
+        }, { threshold: 0.8 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        function animateCounter(el) {
+            const target = parseFloat(el.dataset.countUp || '0');
+            const decimals = parseInt(el.dataset.decimals || '0', 10);
+            const suffix = el.dataset.suffix || '';
+            const prefix = el.dataset.prefix || '';
+            const obj = { value: 0 };
+            gsap.to(obj, {
+                value: target,
+                duration: 1.8,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    el.textContent = `${prefix}${obj.value.toFixed(decimals)}${suffix}`;
+                }
+            });
+        }
+
+        gsap.from('.hero-panel', { opacity: 0, y: 40, duration: 1, ease: 'power3.out' });
+        gsap.from('.campaign-tab', { opacity: 0, y: 10, duration: 0.6, stagger: 0.05, delay: 0.3, ease: 'power3.out' });
+        gsap.utils.toArray('.flow-node').forEach((node, index) => {
+            gsap.from(node, { opacity: 0, y: 30, duration: 0.8, delay: 0.4 + index * 0.1, ease: 'power3.out' });
+        });
+        gsap.utils.toArray('.governance-step').forEach((step, index) => {
+            gsap.from(step, { opacity: 0, x: -20, duration: 0.6, delay: 0.6 + index * 0.1, ease: 'power3.out' });
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

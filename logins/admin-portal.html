@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Portal | Axel Dev Lab</title>
+  <meta name="description" content="Administrator virtual office with dashboards, services, org hierarchy, marketing library, operations, and tooling." />
+  <link rel="icon" type="image/png" href="../assets/images/exports/lg_axeldevlab_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .grid-bg { background-image: linear-gradient(120deg, rgba(249, 115, 22, 0.08) 0%, transparent 45%), radial-gradient(circle at top right, rgba(217, 70, 239, 0.15), transparent 40%); }
+  </style>
+</head>
+<body class="bg-[#05070f] text-slate-50 min-h-screen grid-bg">
+  <div id="adminLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-[#05070f]">
+    <div class="space-y-4 text-center">
+      <div class="h-12 w-12 border-2 border-orange-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="text-sm text-slate-400">Authorizing with Keycloak (admin-portal)...</p>
+    </div>
+  </div>
+
+  <div id="adminShell" class="min-h-screen" hidden>
+    <header class="border-b border-white/10 bg-black/40 backdrop-blur">
+      <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.35em] text-amber-300">Admin Virtual Office</p>
+          <h1 class="text-3xl md:text-4xl font-semibold text-white">Executive Control Room</h1>
+          <p class="text-slate-300 text-sm">Role-gated access for operations, marketing, and organizational intelligence.</p>
+        </div>
+        <div class="text-sm text-right space-y-1">
+          <p class="text-slate-300">Signed in as <span id="adminName">Administrator</span></p>
+          <p class="text-emerald-300" id="realmInfo">Realm: axel-dev-lab</p>
+          <button id="adminLogout" class="rounded-2xl bg-slate-900/80 border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 space-y-8">
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Dashboard</p>
+            <h2 class="text-3xl font-semibold text-white">Operational pulse</h2>
+            <p class="text-slate-300 text-sm mt-2">Monitor stats, spot blockers, and broadcast updates.</p>
+          </div>
+          <div class="flex gap-3">
+            <button class="rounded-2xl border border-white/20 px-4 py-2 text-sm">Sync Keycloak</button>
+            <button class="rounded-2xl bg-amber-400/90 text-black font-semibold px-4 py-2 text-sm">Share Update</button>
+          </div>
+        </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-4">
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-4">
+            <p class="text-xs text-slate-400">Active Sessions</p>
+            <p class="text-3xl font-semibold" id="statSessions">--</p>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-4">
+            <p class="text-xs text-slate-400">Pending Requests</p>
+            <p class="text-3xl font-semibold" id="statRequests">8</p>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-4">
+            <p class="text-xs text-slate-400">Docs Updated</p>
+            <p class="text-3xl font-semibold" id="statDocs">3</p>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-4">
+            <p class="text-xs text-slate-400">Incidents</p>
+            <p class="text-3xl font-semibold text-emerald-300" id="statIncidents">0</p>
+          </div>
+        </div>
+        <div class="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+          <p class="text-sm text-amber-200">Company update</p>
+          <p class="text-slate-200 text-sm mt-2" id="companyUpdate">Rolling out the unified login MVP this week. Monitor adoption metrics closely.</p>
+        </div>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Services Directory</p>
+            <h3 class="text-2xl font-semibold text-white">Virtual office services</h3>
+          </div>
+          <div class="flex gap-3 text-sm">
+            <button class="rounded-2xl border border-white/20 px-4 py-2">Add Service</button>
+            <button class="rounded-2xl border border-white/20 px-4 py-2">Reorder</button>
+          </div>
+        </div>
+        <div class="mt-6 grid gap-4 lg:grid-cols-3">
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2">
+            <h4 class="text-lg font-semibold text-white">Program Management</h4>
+            <p class="text-sm text-slate-300">Milestone tracking, resourcing, and escalations.</p>
+            <button class="text-sm font-semibold text-amber-300">Open workspace →</button>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2">
+            <h4 class="text-lg font-semibold text-white">Data Platform</h4>
+            <p class="text-sm text-slate-300">Pipelines, ingestion status, and integrity alerts.</p>
+            <button class="text-sm font-semibold text-amber-300">Launch console →</button>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2">
+            <h4 class="text-lg font-semibold text-white">People Ops</h4>
+            <p class="text-sm text-slate-300">Assignments, approvals, and compliance docs.</p>
+            <button class="text-sm font-semibold text-amber-300">Review queue →</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Org hierarchy</p>
+            <h3 class="text-2xl font-semibold text-white">Search departments & teammates</h3>
+          </div>
+          <input type="search" placeholder="Search by name, function, or country" class="rounded-2xl border border-white/20 bg-black/40 px-4 py-2 text-sm placeholder:text-slate-500 w-full lg:w-72" />
+        </div>
+        <div class="mt-6 overflow-auto rounded-2xl border border-white/10">
+          <table class="min-w-full text-sm text-left">
+            <thead class="bg-black/40 text-slate-400 text-xs uppercase tracking-widest">
+              <tr>
+                <th class="px-4 py-3">Name</th>
+                <th class="px-4 py-3">Department</th>
+                <th class="px-4 py-3">Region</th>
+                <th class="px-4 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="px-4 py-3 text-white">Ama D.</td>
+                <td class="px-4 py-3">Policy Analytics</td>
+                <td class="px-4 py-3">Accra</td>
+                <td class="px-4 py-3 text-emerald-300">Active</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-white">Lucas F.</td>
+                <td class="px-4 py-3">Data Platform</td>
+                <td class="px-4 py-3">Lisbon</td>
+                <td class="px-4 py-3 text-amber-200">Onboarding</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-white">Ivy N.</td>
+                <td class="px-4 py-3">Markets</td>
+                <td class="px-4 py-3">Nairobi</td>
+                <td class="px-4 py-3 text-emerald-300">Active</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid gap-6 lg:grid-cols-2">
+        <article class="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Marketing block</p>
+          <h3 class="text-2xl font-semibold text-white">Document library</h3>
+          <p class="text-slate-300 text-sm mt-2">Upload, categorize, and distribute brand collateral.</p>
+          <div class="mt-6 space-y-3">
+            <div class="rounded-2xl border border-white/10 bg-black/40 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-semibold">Brand kit v3</p>
+                <p class="text-xs text-slate-400">Updated 3 days ago</p>
+              </div>
+              <button class="text-sm font-semibold text-amber-300">Download</button>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-black/40 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-semibold">Investor narrative</p>
+                <p class="text-xs text-slate-400">Updated 1 day ago</p>
+              </div>
+              <button class="text-sm font-semibold text-amber-300">Download</button>
+            </div>
+            <div class="rounded-2xl border border-dashed border-white/20 bg-black/20 p-4 text-center text-sm">
+              <p>Drop files here or</p>
+              <button class="mt-2 rounded-full border border-white/30 px-4 py-1 text-xs">Upload document</button>
+            </div>
+          </div>
+        </article>
+        <article class="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Operations</p>
+          <h3 class="text-2xl font-semibold text-white">Workflow diagrams</h3>
+          <ul class="mt-6 space-y-3 text-sm text-slate-200">
+            <li class="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <p class="font-semibold">Incident response</p>
+              <p class="text-slate-400">Intake → triage → fix → retrospective.</p>
+            </li>
+            <li class="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <p class="font-semibold">Data release</p>
+              <p class="text-slate-400">Model validation → policy review → publishing.</p>
+            </li>
+            <li class="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <p class="font-semibold">Partner onboarding</p>
+              <p class="text-slate-400">Due diligence → approvals → credentialing.</p>
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Admin tools</p>
+        <h3 class="text-2xl font-semibold text-white">System control links</h3>
+        <div class="mt-6 grid gap-4 md:grid-cols-2 text-sm">
+          <a href="#" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-emerald-300/50">
+            <p class="font-semibold">Keycloak Console</p>
+            <p class="text-slate-400">Manage roles, sessions, and identity providers.</p>
+          </a>
+          <a href="#" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-emerald-300/50">
+            <p class="font-semibold">Monitoring Stack</p>
+            <p class="text-slate-400">Grafana dashboards and alerts.</p>
+          </a>
+          <a href="#" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-emerald-300/50">
+            <p class="font-semibold">Deployment Board</p>
+            <p class="text-slate-400">Review build pipelines and approvals.</p>
+          </a>
+          <a href="#" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-emerald-300/50">
+            <p class="font-semibold">Audit Logs</p>
+            <p class="text-slate-400">Trace sensitive actions and exports.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Tools</p>
+        <h3 class="text-2xl font-semibold text-white">ADG TOOLS</h3>
+        <div class="mt-6 grid gap-4 md:grid-cols-2 text-sm">
+          <a href="../adg-tools/EmployeeGEN_V2.html" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-amber-300/50">
+            <p class="font-semibold">Employee Generator</p>
+            <p class="text-slate-400">Create, export, and manage employee records.</p>
+          </a>
+          <a href="../adg-tools/backendportal.html" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-amber-300/50">
+            <p class="font-semibold">Infrastructure Map</p>
+            <p class="text-slate-400">Backends, services, and website map.</p>
+          </a>
+          <a href="../adg-tools/branding%20generator.html" class="rounded-2xl border border-white/10 bg-black/40 p-4 hover:border-amber-300/50">
+            <p class="font-semibold">Branding Generator</p>
+            <p class="text-slate-400">Generate and download brand assets.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="adminUnauthorized" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-black/90 px-6">
+    <div class="max-w-lg text-center space-y-4 border border-rose-500/50 rounded-3xl bg-black/70 p-8">
+      <p class="text-xs uppercase tracking-[0.35em] text-rose-300">Restricted</p>
+      <h2 class="text-3xl font-semibold text-white">Admin role required</h2>
+      <p class="text-slate-300 text-sm">You are missing the <strong>admin</strong> role. Please contact the platform team for provisioning.</p>
+      <button id="adminReturn" class="rounded-2xl bg-rose-500/80 hover:bg-rose-400 px-4 py-2 font-semibold">Return to Unified Login</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@23.0.7/dist/keycloak.min.js"></script>
+  <script src="keycloak-settings.js"></script>
+  <script src="portal-auth.js"></script>
+  <script>
+    (function () {
+      var adminClient = null;
+      var loading = document.getElementById('adminLoading');
+      var shell = document.getElementById('adminShell');
+      var unauthorized = document.getElementById('adminUnauthorized');
+      var logoutBtn = document.getElementById('adminLogout');
+      var returnBtn = document.getElementById('adminReturn');
+
+      logoutBtn.addEventListener('click', function () {
+        PortalAuth.logout(adminClient || 'admin');
+      });
+      returnBtn.addEventListener('click', function () {
+        window.location.href = '/logins/index.html';
+      });
+
+      PortalAuth.initPortal('admin', ['admin'], {
+        onReady: function (client) {
+          adminClient = client;
+          hydrateDashboard(client);
+          loading.classList.add('hidden');
+          shell.hidden = false;
+        },
+        onUnauthorized: function (client) {
+          adminClient = client;
+          loading.classList.add('hidden');
+          unauthorized.classList.remove('hidden');
+        },
+        onError: function () {
+          loading.querySelector('p').textContent = 'Failed to connect to Keycloak. Retry shortly or contact support.';
+        },
+      });
+
+      function hydrateDashboard(client) {
+        var token = client.tokenParsed || {};
+        document.getElementById('adminName').textContent = token.preferred_username || token.name || 'Administrator';
+        document.getElementById('realmInfo').textContent = 'Realm: ' + (client.realm || window.KEYCLOAK_SETTINGS.realm);
+        document.getElementById('statSessions').textContent = Math.floor(Math.random() * 15) + 5;
+        document.getElementById('companyUpdate').textContent = 'Admin portal secured for ' + (token.preferred_username || 'admin') + '. Track adoption metrics via Keycloak.';
+      }
+    })();
+  </script>
+</body>
+</html>

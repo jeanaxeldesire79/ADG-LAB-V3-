@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure Map | Axel Dev Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b5fc0;
+            --secondary: #fbbf24;
+            --secondary-light: #fcd34d;
+            --dark: #0f172a;
+            --dark-card: #1e293b;
+            --dark-card-hover: #2d3748;
+            --text: #f8fafc;
+            --text-light: #cbd5e1;
+            --accent: #10b981;
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 15px 35px rgba(251, 191, 36, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 20%);
+            z-index: -1;
+        }
+
+        header {
+            color: var(--secondary);
+            text-align: center;
+            padding: 3rem 1rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            background-size: 200% 200%;
+            animation: animatedGradient 12s ease infinite;
+        }
+
+        @keyframes animatedGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .search-box:focus-within {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--secondary);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1rem;
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-box button {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-box button:hover {
+            background: var(--secondary-light);
+            transform: scale(1.05);
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        /* Smart layout with sidebar */
+        .layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+        .sidebar {
+            position: sticky;
+            top: 16px;
+            align-self: start;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        .sidebar h3 { font-size: 0.9rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-light); margin: 0 0 .5rem 0; }
+        .nav-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .25rem; }
+        .nav-list a { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .5rem .6rem; border-radius: 10px; text-decoration: none; color: var(--text); border: 1px solid transparent; }
+        .nav-list a:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1); }
+        .badge { background: rgba(255,255,255,.1); color: var(--text-light); padding: 2px 8px; border-radius: 999px; font-size: .7rem; }
+        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem; margin-top: .75rem; }
+        .quick-card { background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: .65rem .75rem; display: flex; align-items: center; gap: .5rem; color: var(--text); text-decoration: none; }
+        .quick-card i { color: var(--secondary); }
+        .quick-card:hover { background: rgba(0,0,0,.45); }
+
+        .category-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .category-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-tab.active {
+            background: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0 2rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ✨ New Category Heading styles */
+        .category-heading {
+            grid-column: 1 / -1; /* Span full width */
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .category-heading:first-of-type {
+            margin-top: 0;
+        }
+
+
+        .card {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background 0.4s ease-out;
+            transform-style: preserve-3d;
+
+            opacity: 0;
+            animation: cardFadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes cardFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+            z-index: 3;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.08) 50%, transparent 80%);
+            transition: transform 0.6s ease;
+            transform: skewX(-25deg);
+            z-index: 2;
+        }
+
+        .card:hover {
+            transform: perspective(1000px) rotateX(7deg) scale(1.03);
+            box-shadow: var(--shadow-hover);
+            background: var(--dark-card-hover);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover::after {
+            transform: skewX(-25deg) translateX(250%);
+        }
+        
+        .card-icon,
+        .card-content {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease-out;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .card:hover .card-icon {
+            transform: translateZ(50px);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover .card-content {
+            transform: translateZ(25px);
+        }
+
+        .card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem; /* Reduced margin */
+        }
+
+        /* ✨ New styles for visible link */
+        .card-link {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-family: monospace;
+            margin-bottom: 1.25rem;
+            word-break: break-all;
+        }
+        
+        /* ✨ New styles for hover details */
+        .card-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, margin-bottom 0.4s ease;
+            margin-bottom: 0;
+        }
+        
+        .card:hover .card-details {
+            opacity: 1;
+            max-height: 150px; /* Allow space for details to appear */
+            margin-bottom: 1.5rem; /* Add spacing when visible */
+        }
+        
+        .card-details h4 {
+            color: var(--text);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: auto; /* Pushes to bottom */
+        }
+
+        .card a:hover {
+            color: var(--secondary-light);
+            gap: 0.75rem;
+        }
+
+        .card a i {
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Class to hide items for filtering */
+        .hidden {
+            display: none;
+        }
+
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .category-tabs {
+                gap: 0.5rem;
+            }
+            
+            .category-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Axel Dev Group — Infrastructure Map</h1>
+            <p>Overview of backends, services, and the website map</p>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search services...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="all">All</button>
+            <button class="category-tab" data-category="brand">Brand & Social</button>
+            <button class="category-tab" data-category="domain">Domain & Email</button>
+            <button class="category-tab" data-category="infra">Infrastructure</button>
+            <button class="category-tab" data-category="business">Business</button>
+            <button class="category-tab" data-category="pm">Project Management</button>
+            <button class="category-tab" data-category="development">Development</button>
+        </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h3>Navigate</h3>
+        <ul class="nav-list">
+          <li><a href="#infra" data-jump="infra">Infrastructure <span class="badge" id="count-infra">--</span></a></li>
+          <li><a href="#development" data-jump="development">Development <span class="badge" id="count-development">--</span></a></li>
+          <li><a href="#brand" data-jump="brand">Brand & Social <span class="badge" id="count-brand">--</span></a></li>
+          <li><a href="#domain" data-jump="domain">Domain & Email <span class="badge" id="count-domain">--</span></a></li>
+          <li><a href="#business" data-jump="business">Business <span class="badge" id="count-business">--</span></a></li>
+          <li><a href="#pm" data-jump="pm">Project Management <span class="badge" id="count-pm">--</span></a></li>
+          <li><a href="#site-map" data-jump="site-map">Website Map</a></li>
+        </ul>
+        <div style="height:1px;background:rgba(255,255,255,.08);margin:.75rem 0"></div>
+        <div class="quick-actions">
+          <a class="quick-card" href="../logins/admin-portal.html"><i class="fas fa-chalkboard"></i> Admin Portal</a>
+          <a class="quick-card" href="../logins/index.html"><i class="fas fa-user-shield"></i> Unified Login</a>
+          <a class="quick-card" href="../adg-tools/EmployeeGEN_V2.html"><i class="fas fa-id-badge"></i> Employee Generator</a>
+        </div>
+      </aside>
+      <main>
+    <section class="grid" id="infra">
+
+        <h2 class="category-heading" data-category-heading="infra">Infrastructure</h2>
+
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="card-content">
+                <h3>Unified Login (Keycloak)</h3>
+                <p>Identity and access management for all portals.</p>
+                <div class="card-link">logins/index.html</div>
+                <a href="../logins/index.html">
+                    Open Unified Login <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <div class="card-content">
+                <h3>ADG Tools</h3>
+                <p>Internal utilities: Employee Generator, Branding, and more.</p>
+                <div class="card-link">adg-tools/</div>
+                <a href="../logins/admin-portal.html">
+                    View in Admin Portal <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-server"></i>
+            </div>
+            <div class="card-content">
+                <h3>Hetzner Console</h3>
+                <p>Primary server management (root access).</p>
+                <div class="card-link">console.hetzner.com</div>
+                <a href="https://console.hetzner.com/projects/12264824/servers/111593645/overview" target="_blank" rel="noopener noreferrer">
+                    Open Console <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="category-heading" id="development" data-category-heading="development">Development</h2>
+
+        <div class="card" data-category="development">
+            <div class="card-icon">
+                <i class="fas fa-server"></i>
+            </div>
+            <div class="card-content">
+                <h3>Backend API</h3>
+                <p>FastAPI core service with Prometheus monitoring</p>
+                <div class="card-link">api.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Main RESTful API for all platform services. Built on Python/FastAPI, containerized, and deployed on k8s.</p>
+                </div>
+                <a href="https://api.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="development">
+            <div class="card-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="card-content">
+                <h3>Drupal</h3>
+                <p>Knowledge library and CMS</p>
+                <div class="card-link">library.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Internal documentation, guides, and articles. Please contribute any new findings or procedures here.</p>
+                </div>
+                <a href="https://library.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card" data-category="development">
+            <div class="card-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div class="card-content">
+                <h3>n8n</h3>
+                <p>Automation and workflow orchestration</p>
+                <div class="card-link">automation.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Workflow automation tool for connecting services. Used for ETL, notifications, and internal process automation.</p>
+                </div>
+                <a href="https://automation.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="development">
+            <div class="card-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="card-content">
+                <h3>AI Studio</h3>
+                <p>Company AI and LLM workspace</p>
+                <div class="card-link">aistudio.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Access to internal LLM models, RAG pipelines, and AI-powered tools. Connects to our vector database.</p>
+                </div>
+                <a href="https://aistudio.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="category-heading" data-category-heading="monitoring">Monitoring</h2>
+
+        <div class="card" data-category="monitoring">
+            <div class="card-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="card-content">
+                <h3>Grafana</h3>
+                <p>Analytics and observability dashboards</p>
+                <div class="card-link">observability.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Visualizes metrics from Prometheus and other sources. Check here for system health, performance, and error rates.</p>
+                </div>
+                <a href="https://observability.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="monitoring">
+            <div class="card-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <div class="card-content">
+                <h3>Prometheus</h3>
+                <p>Metrics and monitoring system</p>
+                <div class="card-link">metrics.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Time-series database for all system metrics. Use PromQL to query raw data or explore service targets.</p>
+                </div>
+                <a href="https://metrics.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="category-heading" data-category-heading="data">Data & Analytics</h2>
+
+        <div class="card" data-category="data">
+            <div class="card-icon">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="card-content">
+                <h3>Superset</h3>
+                <p>Data dashboards and analytics</p>
+                <div class="card-link">data.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Business Intelligence (BI) tool for creating and sharing data visualizations and dashboards from our data warehouse.</p>
+                </div>
+                <a href="https://data.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="data">
+            <div class="card-icon">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div class="card-content">
+                <h3>Apache Airflow</h3>
+                <p>Data pipeline orchestration and scheduling</p>
+                <div class="card-link">airflow.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Manages all data-related DAGs (Directed Acyclic Graphs). Use this to schedule, monitor, and manage data pipelines.</p>
+                </div>
+                <a href="https://airflow.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card" data-category="data">
+            <div class="card-icon">
+                <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <div class="card-content">
+                <h3>QGIS Server</h3>
+                <p>Map visualization and geospatial analysis</p>
+                <div class="card-link">maps.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>WMS/WFS server for rendering geospatial data layers used in various front-end applications.</p>
+                </div>
+                <a href="https://maps.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="data">
+            <div class="card-icon">
+                <i class="fas fa-globe-americas"></i>
+            </div>
+            <div class="card-content">
+                <h3>GeoServer</h3>
+                <p>Geospatial data and layer management</p>
+                <div class="card-link">geoadmin.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Admin interface for managing geospatial data, styles (SLD), and service configuration for OGC services.</p>
+                </div>
+                <a href="https://geoadmin.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="category-heading" data-category-heading="infra">Infrastructure</h2>
+
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div class="card-content">
+                <h3>Portainer</h3>
+                <p>Docker and container management console</p>
+                <div class="card-link">monitor.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>GUI for managing our Docker/k8s environments. Used for inspecting containers, logs, and managing stacks.</p>
+                </div>
+                <a href="https://monitor.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <div class="card-content">
+                <h3>Nextcloud</h3>
+                <p>Secure file management and collaboration</p>
+                <div class="card-link">drive.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Internal file storage (like Google Drive). Store and share project files, assets, and other documents securely.</p>
+                </div>
+                <a href="https://drive.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-hdd"></i>
+            </div>
+            <div class="card-content">
+                <h3>MinIO Console</h3>
+                <p>Object storage management dashboard</p>
+                <div class="card-link">storageconsole.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Admin console for our S3-compatible object storage. Manage buckets, user policies, and stored files.</p>
+                </div>
+                <a href="https://storageconsole.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="infra">
+            <div class="card-icon">
+                <i class="fas fa-database"></i>
+            </div>
+            <div class="card-content">
+                <h3>MinIO API</h3>
+                <p>S3-compatible object storage endpoint</p>
+                <div class="card-link">storageapi.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>This is the API endpoint for programmatic S3 access. Use this URL in your application's S3 client configuration.</p>
+                </div>
+                <a href="https://storageapi.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <h2 class="category-heading" data-category-heading="admin">Admin & Support</h2>
+
+        <div class="card" data-category="admin">
+            <div class="card-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <div class="card-content">
+                <h3>Keycloak</h3>
+                <p>Authentication and Single Sign-On (SSO)</p>
+                <div class="card-link">auth.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Identity and Access Management (IAM). Manages all user accounts, roles, and SSO for the services in this portal.</p>
+                </div>
+                <a href="https://auth.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="admin">
+            <div class="card-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="card-content">
+                <h3>Dolibarr</h3>
+                <p>ERP and CRM management suite</p>
+                <div class="card-link">office.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Used by admin and sales for managing clients, projects, invoices, and other business operations.</p>
+                </div>
+                <a href="https://office.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="admin">
+            <div class="card-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <div class="card-content">
+                <h3>Chatwoot</h3>
+                <p>Helpdesk and client support center</p>
+                <div class="card-link">help.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Omni-channel support inbox for managing customer conversations from email, chat, and social media.</p>
+                </div>
+                <a href="https://help.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="category-heading" data-category-heading="marketing">Marketing</h2>
+
+        <div class="card" data-category="marketing">
+            <div class="card-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="card-content">
+                <h3>Mautic</h3>
+                <p>Email campaigns and marketing automation</p>
+                <div class="card-link">marketing.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>Build and send marketing campaigns, create landing pages, and manage automated email sequences.</p>
+                </div>
+                <a href="https://marketing.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card" data-category="marketing">
+            <div class="card-icon">
+                <i class="fas fa-mail-bulk"></i>
+            </div>
+            <div class="card-content">
+                <h3>Listmonk</h3>
+                <p>Newsletter and mailing management</p>
+                <div class="card-link">mail.axeldevlab.com</div>
+                <div class="card-details">
+                    <h4>Additional Details</h4>
+                    <p>High-performance, self-hosted newsletter and mailing list manager. Used for transactional and bulk emails.</p>
+                </div>
+                <a href="https://mail.axeldevlab.com" target="_blank">
+                    Access Service <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+    </section>
+      </main>
+    </div>
+
+    <section class="grid">
+        <h2 class="category-heading" data-category-heading="brand">Brand & Social</h2>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-github"></i></div>
+            <div class="card-content">
+                <h3>GitHub (Personal)</h3>
+                <p>Account: jean-axel-github</p>
+                <div class="card-link">github.com/jeanaxeldesire79</div>
+                <a href="https://github.com/jeanaxeldesire79" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-github"></i></div>
+            <div class="card-content">
+                <h3>GitHub (Organization)</h3>
+                <p>Org: @axeldevlab — Email: axeldevlab@outlook.com</p>
+                <div class="card-link">github.com/axeldevlab</div>
+                <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-linkedin"></i></div>
+            <div class="card-content">
+                <h3>LinkedIn (Personal)</h3>
+                <p>Profile: jean-axel-Linkedin</p>
+                <div class="card-link">linkedin.com/in/jeanaxeltohougbe</div>
+                <a href="https://www.linkedin.com/in/jeanaxeltohougbe/" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-linkedin"></i></div>
+            <div class="card-content">
+                <h3>LinkedIn (Company)</h3>
+                <p>Page: Axel Dev Lab</p>
+                <div class="card-link">linkedin.com/company/axeldevlab</div>
+                <a href="https://www.linkedin.com/company/axeldevlab/" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-youtube"></i></div>
+            <div class="card-content">
+                <h3>YouTube</h3>
+                <p>Channel: @axeldevlab — Email: axeldevlab@gmail.com</p>
+                <div class="card-link">youtube.com/@axeldevlab</div>
+                <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-x-twitter"></i></div>
+            <div class="card-content">
+                <h3>X (Twitter)</h3>
+                <p>Handle: @axeldevlab — Email: axeldevlab@gmail.com</p>
+                <div class="card-link">x.com/axeldevlab</div>
+                <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-facebook"></i></div>
+            <div class="card-content">
+                <h3>Facebook</h3>
+                <p>Page: Axel Dev Lab — User: jean-axel-facebook</p>
+                <div class="card-link">facebook.com/axeldevlab</div>
+                <a href="https://www.facebook.com/axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-instagram"></i></div>
+            <div class="card-content">
+                <h3>Instagram</h3>
+                <p>Handle: axeldevlab — Email: axeldevlab@gmail.com</p>
+                <div class="card-link">instagram.com/axeldevlab</div>
+                <a href="https://www.instagram.com/axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fas fa-rss"></i></div>
+            <div class="card-content">
+                <h3>Substack</h3>
+                <p>Publication: @axeldevlab — Email: axeldevlab@gmail.com</p>
+                <div class="card-link">substack.com/@axeldevlab</div>
+                <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="brand">
+            <div class="card-icon"><i class="fab fa-tiktok"></i></div>
+            <div class="card-content">
+                <h3>TikTok</h3>
+                <p>Handle: @axeldevlab — Email: axeldevlab@outlook.com</p>
+                <div class="card-link">tiktok.com/@axeldevlab</div>
+                <a href="https://www.tiktok.com/@axeldevlab" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <h2 class="category-heading" data-category-heading="domain">Domain & Email</h2>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fas fa-globe"></i></div>
+            <div class="card-content">
+                <h3>Namecheap</h3>
+                <p>Registrar — Account: t.jeanaxeldesire79@gmail.com</p>
+                <div class="card-link">namecheap.com</div>
+                <a href="https://www.namecheap.com" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fas fa-mail-bulk"></i></div>
+            <div class="card-content">
+                <h3>MXroute</h3>
+                <p>Email hosting — Account: t.jeanaxeldesire79@gmail.com</p>
+                <div class="card-link">mxroute.com</div>
+                <a href="https://mxroute.com" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="card-content">
+                <h3>Cloudflare</h3>
+                <p>DNS/CDN — Account: jeanaxelt@axeldevlab.com</p>
+                <div class="card-link">dash.cloudflare.com</div>
+                <a href="https://dash.cloudflare.com" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+            <div class="card-content">
+                <h3>Vercel</h3>
+                <p>Hosting — Account: t.jeanaxeldesire79@gmail.com</p>
+                <div class="card-link">vercel.com/axeldevlabs-projects/axel-dev-lab-website-static</div>
+                <a href="https://vercel.com/axeldevlabs-projects/axel-dev-lab-website-static" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fab fa-google"></i></div>
+            <div class="card-content">
+                <h3>Gmail</h3>
+                <p>Mailbox: axeldevlab@gmail.com</p>
+                <div class="card-link">mail.google.com</div>
+                <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fab fa-microsoft"></i></div>
+            <div class="card-content">
+                <h3>Outlook</h3>
+                <p>Mailbox: axeldevlab@outlook.com</p>
+                <div class="card-link">outlook.live.com</div>
+                <a href="https://outlook.live.com/mail/0/" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="domain">
+            <div class="card-icon"><i class="fas fa-cloud"></i></div>
+            <div class="card-content">
+                <h3>DigitalOcean</h3>
+                <p>Cloud provider — Account: t.jeanaxeldesire79@gmail.com</p>
+                <div class="card-link">cloud.digitalocean.com</div>
+                <a href="https://cloud.digitalocean.com/droplets/new?i=2f9095&fleetUuid=f66f0f85-1218-4576-b5d6-7fea4eb3d0e1&distro=ubuntu&distroImage=ubuntu-25-04-x64&region=nyc3&size=s-2vcpu-4gb" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <h2 class="category-heading" data-category-heading="business">Business</h2>
+
+        <div class="card" data-category="business">
+            <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+            <div class="card-content">
+                <h3>Registered Agent</h3>
+                <p>PA Registered Agent portal</p>
+                <div class="card-link">pennsylvaniaregisteredagent.com</div>
+                <a href="https://www.pennsylvaniaregisteredagent.com/client-login/" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="business">
+            <div class="card-icon"><i class="fas fa-briefcase"></i></div>
+            <div class="card-content">
+                <h3>PA Business Hub</h3>
+                <p>Account: axeldev — Email: t.jeanaxeldesire79@gmail.com</p>
+                <div class="card-link">hub.business.pa.gov</div>
+                <a href="https://hub.business.pa.gov/Login/Index?ReturnUrl=%2FHome%2FDashboard" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <h2 class="category-heading" data-category-heading="pm">Project Management</h2>
+
+        <div class="card" data-category="pm">
+            <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="card-content">
+                <h3>Taiga</h3>
+                <p>Project tracking — Login via jean-axel GitHub</p>
+                <div class="card-link">taiga.io</div>
+                <a href="https://taiga.io" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <div class="card" data-category="pm">
+            <div class="card-icon"><i class="fas fa-key"></i></div>
+            <div class="card-content">
+                <h3>Keybase</h3>
+                <p>Secure team chat & files — Email: axeldevlab@outlook.com</p>
+                <div class="card-link">keybase.io</div>
+                <a href="https://keybase.io" target="_blank" rel="noopener noreferrer">Open <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+        <h2 class="category-heading" id="site-map">Website Map</h2>
+
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-sitemap"></i></div>
+            <div class="card-content">
+                <h3>Main Site Sections</h3>
+                <p>Navigate key public pages of axeldevlab.com.</p>
+                <ul style="margin:0; padding-left:1rem; line-height:1.8;">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../data.html">Data Portal</a></li>
+                    <li><a href="../media.html">Media</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../collaborate.html">Collaborate</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../publications.html">Publications</a></li>
+                    <li><a href="../live-atlas.html">Live Atlas</a></li>
+                    <li><a href="../k-track.html">K-Track</a></li>
+                    <li><a href="../axel-stack.html">Axel Stack</a></li>
+                    <li><a href="../contacts.html">Contacts</a></li>
+                    <li><a href="../logins/index.html">Unified Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Documentation</a>
+                <a href="#">Support</a>
+            </div>
+            <div>© 2025 Axel Dev Group — All Rights Reserved</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const cards = document.querySelectorAll('.card');
+            const headings = document.querySelectorAll('.category-heading'); // ✨ Get headings
+            const categories = ['brand','domain','infra','business','pm','development'];
+
+            // Apply staggered animation delay
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 50}ms`; // Faster stagger
+            });
+
+            // Function to filter cards based on search and category
+            function updateSidebarCounts() {
+                categories.forEach(cat => {
+                    const el = document.getElementById(`count-${cat}`);
+                    if (!el) return;
+                    const count = Array.from(cards).filter(c => c.dataset.category === cat && !c.classList.contains('hidden')).length;
+                    el.textContent = count;
+                });
+            }
+
+            function filterCards() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+                
+                const isSearching = searchTerm.length > 0;
+                const isFiltering = activeCategory !== 'all';
+
+                // ✨ Show/hide headings based on filters
+                headings.forEach(heading => {
+                    const headingCategory = heading.dataset.categoryHeading;
+                    
+                    if (isSearching || isFiltering) {
+                        // Hide all headings if searching or filtering
+                        heading.classList.add('hidden');
+                    } else {
+                        // Show all headings if "All" is selected and not searching
+                        heading.classList.remove('hidden');
+                    }
+                });
+
+                // Show/hide cards
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = (card.querySelector('p')?.textContent || '').toLowerCase();
+                    const link = (card.querySelector('.card-link')?.textContent || '').toLowerCase();
+                    const cardCategory = card.dataset.category;
+
+                    const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm) || link.includes(searchTerm);
+                    const matchesCategory = (activeCategory === 'all' || cardCategory === activeCategory);
+
+                    if (matchesSearch && matchesCategory) {
+                        card.classList.remove('hidden');
+                        
+                        // Re-trigger animation if it was hidden
+                        if (card.style.animationName === 'none') {
+                            card.style.animation = 'none';
+                            setTimeout(() => {
+                                card.style.animation = '';
+                            }, 10);
+                        }
+                    } else {
+                        card.classList.add('hidden');
+                        card.style.animationName = 'none'; // Stop animation when hidden
+                    }
+                });
+                updateSidebarCounts();
+            }
+
+            // Search functionality
+            searchInput.addEventListener('input', filterCards);
+            
+            // Category tabs functionality
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Run filter
+                    filterCards();
+                });
+            });
+            
+            // Initial filter call and counts
+            filterCards();
+        });
+    </script>
+</body>
+</html>

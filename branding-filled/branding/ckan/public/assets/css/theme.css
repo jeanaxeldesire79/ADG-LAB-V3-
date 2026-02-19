@@ -1,0 +1,38 @@
+/* Axel Dev Lab CKAN Theme (CKAN 2.10) */
+:root{
+  --adl-gold:#FFD700;
+  --adl-gold-acc:#FFB400;
+  --adl-black:#111111;
+  --adl-slate:#2B2B2B;
+  --adl-white:#FFFFFF;
+}
+body {
+  font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--adl-slate);
+}
+.navbar, .masthead, .site-footer {
+  background: var(--adl-black)!important;
+  color: var(--adl-white)!important;
+}
+.navbar a, .site-footer a { color: var(--adl-gold)!important; }
+.navbar .navbar-brand img { height: 34px; }
+.homepage .module-search .module-content {
+  background: linear-gradient(180deg, rgba(255,215,0,0.12), rgba(255,215,0,0));
+  border: 1px solid rgba(255,215,0,0.35);
+  border-radius: 10px;
+}
+.btn, .btn-primary {
+  background: var(--adl-gold); border-color: var(--adl-gold); color: #000;
+}
+.btn:hover, .btn:focus, .btn-primary:hover { background: var(--adl-gold-acc); border-color: var(--adl-gold-acc); }
+.dataset-item, .resource-item {
+  border-left: 4px solid var(--adl-gold);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+.adl-hero {
+  padding: 40px 24px; margin-bottom: 20px; border-radius: 12px;
+  background: linear-gradient(135deg, #111 0%, #2B2B2B 60%);
+  color: var(--adl-white);
+}
+.adl-hero h1 { color: var(--adl-gold); margin: 0 0 8px 0; }
+.adl-hero p { margin: 0; opacity: 0.85; }

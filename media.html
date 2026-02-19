@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" data-adl-version="media-3.0">
+<head>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media & Stories | Axel Dev Lab</title>
+  <meta name="description" content="Immerse yourself in Axel Dev Lab stories spanning talks, podcasts, field photography, and press features." />
+  <link rel="icon" href="assets/images/exports/lg_axeldevlab_icon.png" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/tw-config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            },
+            midnight: {
+              900: '#0b1628',
+              950: '#070e1a'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter','system-ui','sans-serif'],
+            display: ['Playfair Display','serif']
+          },
+          boxShadow: {
+            glow: '0 28px 80px rgba(17, 24, 39, 0.28)',
+            innerGlow: 'inset 0 1px 0 rgba(255,255,255,0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+  <script>
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+  </script>
+
+  <style>
+    .ink-gradient {
+      background: radial-gradient(120% 120% at 0% 0%, rgba(245, 158, 11, 0.38) 0%, rgba(11, 22, 40, 0.9) 46%, rgba(7, 14, 26, 1) 100%);
+    }
+    .orbit {
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(60% 60% at 50% 50%, rgba(255, 221, 155, 0.18) 0%, rgba(11, 22, 40, 0) 70%);
+      filter: blur(0);
+      opacity: 0.6;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(18px);
+    }
+    .dark .glass {
+      background: rgba(17, 24, 39, 0.6);
+      border-color: rgba(249, 158, 11, 0.12);
+    }
+    .tag-chip {
+      border-radius: 9999px;
+      border: 1px solid rgba(107, 114, 128, 0.25);
+      padding: 0.35rem 0.85rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      transition: all 0.25s ease;
+    }
+    .tag-chip.active {
+      border-color: #f59e0b;
+      color: #92400e;
+      background: rgba(245, 158, 11, 0.15);
+    }
+    .dark .tag-chip.active {
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.6);
+      background: rgba(245, 158, 11, 0.18);
+    }
+    dialog::backdrop {
+      background: rgba(3, 7, 18, 0.65);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-50 font-sans">
+
+
+  <div class="bg-black text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+        <div class="flex flex-col">
+          <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+          <span class="text-[10px] uppercase tracking-[0.5em] text-brand-300" data-i18n="brand_group">Axel Dev Group LLC</span>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+        <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+        <span class="hidden sm:inline text-brand-400">|</span>
+        <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+        <span class="hidden sm:inline text-brand-400">|</span>
+        <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+      </div>
+    </div>
+  </div>
+
+  <header id="siteHeader" class="sticky top-0 z-50 border-b border-gray-200/70 bg-white/90 backdrop-blur dark:border-gray-800 dark:bg-gray-950/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab icon" class="h-10 sm:h-12 transition-transform group-hover:scale-[1.04]" />
+        <div class="leading-tight">
+          <span class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">Axel Dev Lab</span>
+          <span class="text-[10px] uppercase tracking-[0.45em] text-gray-500 dark:text-gray-400">Media Desk</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium" aria-label="Main navigation">
+        <a href="index.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_home">Home</a>
+        <a href="projects.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_projects">Projects</a>
+        <a href="data.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_data">Data</a>
+        <a href="publications.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_publications">Publications</a>
+        <a href="collaborate.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_collaborate">Collaborate</a>
+        <a href="media.html" aria-current="page" class="text-brand-600 dark:text-brand-300 font-semibold transition-colors" data-i18n="nav_media">Media</a>
+        <a href="about.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition-colors" data-i18n="nav_about">About</a>
+        <button id="theme-toggle" class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2.5 py-1.5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition" aria-label="Toggle dark mode">
+          <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8 8 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <div id="langToggle" class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2.5 py-1.5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors" aria-label="Switch language">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+          <span id="langLabel" class="text-xs">EN</span>
+        </div>
+</nav>
+
+      <div class="lg:hidden flex items-center gap-2">
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition" aria-label="Toggle dark mode">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8 8 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="lg:hidden hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur">
+      <div class="px-4 pt-4 pb-6 space-y-2 text-sm">
+        <a href="index.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_home">Home</a>
+        <a href="projects.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_projects">Projects</a>
+        <a href="data.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_data">Data</a>
+        <a href="publications.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_publications">Publications</a>
+        <a href="collaborate.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_collaborate">Collaborate</a>
+        <a href="media.html" class="block rounded-lg px-3 py-2 bg-brand-500 text-white hover:bg-brand-600 transition" data-i18n="nav_media">Media</a>
+        <a href="about.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-i18n="nav_about">About</a>
+        <div class="mt-4 space-y-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 p-3">
+          <p class="text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400" data-i18n="media_rooms_label">Media Rooms</p>
+          <a href="media/videos.html" class="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span data-i18n="media_card_videos_badge">Videos</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="media/podcasts.html" class="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span data-i18n="media_card_podcasts_badge">Podcasts</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="media/photos.html" class="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span data-i18n="media_card_photos_badge">Photos</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="media/press.html" class="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span data-i18n="media_card_press_badge">Press</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative px-6 py-20 bg-[#020617] text-white overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-60">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.35),transparent_55%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(167,139,250,0.25),transparent_45%)]"></div>
+      </div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="aurora-shell px-6 sm:px-10 py-14">
+        <div class="grid gap-14 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div class="space-y-7">
+            <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs tracking-[0.35em] uppercase" data-i18n="media_badge">Axel Dev Lab Media</span>
+            <div class="space-y-5">
+              <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight" data-i18n="media_hero_title">Stories, Signals, and Voices from the Axel Dev Lab network.</h1>
+              <p class="text-base sm:text-lg text-white/80 max-w-2xl" data-i18n="media_hero_intro">Dive into our latest talks, podcasts, field reports, and press highlights bringing data-driven development to life across Africa and the global south.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              <div class="glow-card-v2 p-5">
+                <p class="text-xs uppercase tracking-[0.32em] text-white/70" data-i18n="media_stat_pieces_label">Pieces</p>
+                <p id="statTotal" class="mt-2 text-3xl font-semibold">—</p>
+                <p class="text-xs text-white/60 mt-1" data-i18n="media_stat_pieces_desc">Media items spanning formats.</p>
+              </div>
+              <div class="glow-card-v2 p-5">
+                <p class="text-xs uppercase tracking-[0.32em] text-white/70" data-i18n="media_stat_voices_label">Voices</p>
+                <p id="statVoices" class="mt-2 text-3xl font-semibold">—</p>
+                <p class="text-xs text-white/60 mt-1" data-i18n="media_stat_voices_desc">Platforms amplifying our work.</p>
+              </div>
+              <div class="glow-card-v2 p-5">
+                <p class="text-xs uppercase tracking-[0.32em] text-white/70" data-i18n="media_stat_span_label">Span</p>
+                <p id="statSpan" class="mt-2 text-3xl font-semibold">—</p>
+                <p class="text-xs text-white/60 mt-1" data-i18n="media_stat_span_desc">Year range covered.</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <a href="mailto:press@axeldevlab.com?subject=Press%20Inquiry" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-white hover:bg-brand-600 transition">
+                <span data-i18n="media_cta_briefing">Book a briefing</span>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="assets/media/AxelDev_Media_Kit.pdf" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-sm uppercase tracking-[0.25em] text-white hover:bg-white/10 transition" target="_blank" rel="noopener" data-i18n="media_cta_kit">
+                Download media kit
+              </a>
+            </div>
+          </div>
+          <div id="heroCard" class="studio-panel background-blur tilt-card relative overflow-hidden flex flex-col gap-4">
+            <div class="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/70">
+              <span data-i18n="media_spotlight_label">Spotlight</span>
+              <span id="heroType">—</span>
+            </div>
+            <div id="heroVisual" class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/10 flex items-center justify-center text-white/70 text-sm">
+              <span data-i18n="media_spotlight_loading">Loading spotlight…</span>
+            </div>
+            <div class="space-y-3">
+              <h2 id="heroTitle" class="text-2xl font-semibold leading-snug" data-i18n="media_spotlight_title_default">Stay tuned.</h2>
+              <p id="heroDesc" class="text-sm text-white/80" data-i18n="media_spotlight_desc_default">Fresh stories will flow in as soon as we load the catalog.</p>
+            </div>
+            <div class="flex items-center justify-between text-xs text-white/70">
+              <span id="heroMeta">—</span>
+              <div class="flex items-center gap-2">
+                <button id="heroPreview" class="inline-flex items-center gap-1.5 rounded-full border border-white/30 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.35em] hover:bg-white/10 transition" disabled data-i18n="media_spotlight_preview">Preview</button>
+                <a id="heroLink" class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-brand-500 text-white hover:bg-brand-600 transition" href="#" target="_blank" rel="noopener" aria-label="Open spotlight story">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white/90 dark:bg-gray-950/85 reveal">
+      <div class="max-w-6xl mx-auto px-6 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p class="uppercase tracking-[0.35em] text-xs text-brand-500" data-i18n="media_rooms_label">Media Rooms</p>
+            <h2 class="text-2xl sm:text-3xl font-display text-gray-900 dark:text-white" data-i18n="media_rooms_title">Choose your format.</h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-300 max-w-xl" data-i18n="media_rooms_desc">Each space is designed for deep consumption—immersive video briefings, long-form podcasts, photographic journeys, and global features.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <a href="media/videos.html" class="tilt-card relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/85 dark:bg-gray-900/70 backdrop-blur p-6 shadow-glow">
+            <div class="space-y-3">
+              <span class="inline-flex items-center gap-2 rounded-full bg-rose-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-rose-600 dark:text-rose-300" data-i18n="media_card_videos_badge">Videos</span>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white leading-snug" data-i18n="media_card_videos_title">Keynotes & live showcases.</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="media_card_videos_desc">Visual explainers, demos, and forums from the Axel Dev Lab stage.</p>
+            </div>
+            <span class="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-brand-500" data-i18n="media_card_videos_cta">Enter <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="media/podcasts.html" class="tilt-card relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/85 dark:bg-gray-900/70 backdrop-blur p-6 shadow-glow">
+            <div class="space-y-3">
+              <span class="inline-flex items-center gap-2 rounded-full bg-sky-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-sky-600 dark:text-sky-300" data-i18n="media_card_podcasts_badge">Podcasts</span>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white leading-snug" data-i18n="media_card_podcasts_title">Long-form conversations.</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="media_card_podcasts_desc">Deeper dives with policy shapers, investors, and civic technologists.</p>
+            </div>
+            <span class="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-brand-500" data-i18n="media_card_podcasts_cta">Listen in <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="media/photos.html" class="tilt-card relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/85 dark:bg-gray-900/70 backdrop-blur p-6 shadow-glow">
+            <div class="space-y-3">
+              <span class="inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-emerald-600 dark:text-emerald-300" data-i18n="media_card_photos_badge">Photo Essays</span>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white leading-snug" data-i18n="media_card_photos_title">Field photography & galleries.</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="media_card_photos_desc">See the environments powering our research—cities, labs, and communities.</p>
+            </div>
+            <span class="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-brand-500" data-i18n="media_card_photos_cta">Explore <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="media/press.html" class="tilt-card relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/85 dark:bg-gray-900/70 backdrop-blur p-6 shadow-glow">
+            <div class="space-y-3">
+              <span class="inline-flex items-center gap-2 rounded-full bg-amber-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-amber-600 dark:text-amber-300" data-i18n="media_card_press_badge">Press</span>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white leading-snug" data-i18n="media_card_press_title">Coverage & commentary.</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="media_card_press_desc">Global perspectives amplifying Axel Dev Lab’s mission and work.</p>
+            </div>
+            <span class="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-brand-500" data-i18n="media_card_press_cta">Read on <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative -mt-10 pb-16 reveal">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="glass border border-gray-200/60 dark:border-gray-800/80 rounded-3xl shadow-glow px-5 sm:px-8 py-6 space-y-5">
+          <div class="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-8">
+            <div class="flex-1">
+              <label for="mediaSearch" class="sr-only" data-i18n="media_search_label">Search media</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                </span>
+                <input id="mediaSearch" type="search" placeholder="Search title, platform, topic, or region…" data-i18n="media_search_placeholder" data-i18n-attr="placeholder" class="w-full rounded-2xl border border-gray-200/70 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 pl-11 pr-4 py-3 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-400/60" />
+                <span class="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 text-[11px] uppercase tracking-[0.35em] text-gray-400">⌘K</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3" id="typeFilters">
+              <button class="tag-chip active" data-type="all" data-i18n="media_filter_all">All</button>
+              <button class="tag-chip" data-type="video" data-i18n="media_filter_video">Video</button>
+              <button class="tag-chip" data-type="podcast" data-i18n="media_filter_podcast">Podcast</button>
+              <button class="tag-chip" data-type="press" data-i18n="media_filter_press">Press</button>
+              <button class="tag-chip" data-type="photo" data-i18n="media_filter_photo">Photo</button>
+            </div>
+            <div class="flex items-center gap-3">
+              <label for="yearFilter" class="text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400" data-i18n="media_filter_year_label">Year</label>
+              <select id="yearFilter" class="rounded-full border border-gray-200/70 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 px-4 py-2 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-400/60">
+                <option value="all" data-i18n="media_filter_all_option">All</option>
+              </select>
+            </div>
+            <button id="clearFilters" class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-gray-600 dark:text-gray-300 hover:text-brand-500 transition" data-i18n="media_filter_clear">
+              Clear
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2" id="tagRail" aria-label="Topic filters"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-16 reveal">
+      <div class="max-w-6xl mx-auto px-6">
+        <div id="mediaGrid" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3"></div>
+        <div id="emptyState" class="hidden rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/70 dark:bg-gray-900/60 py-12 text-center text-sm text-gray-600 dark:text-gray-300">
+          <p data-i18n="media_empty_state">No media matches those filters yet. Try removing a filter or explore the full catalog.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gray-900 text-gray-100 dark:bg-midnight-950 reveal">
+      <div class="max-w-6xl mx-auto px-6 space-y-12">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p class="uppercase tracking-[0.35em] text-xs text-brand-200" data-i18n="media_press_label">Press + Appearances</p>
+            <h2 class="text-2xl sm:text-3xl font-display mt-2" data-i18n="media_press_title">Moments from the road.</h2>
+          </div>
+          <a href="mailto:press@axeldevlab.com" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-xs uppercase tracking-[0.35em] hover:bg-white/10 transition" data-i18n="media_press_cta">Request commentary</a>
+        </div>
+        <ol id="timelineList" class="relative space-y-8">
+          <li class="relative pl-8">
+            <span class="absolute left-1 top-1.5 h-3 w-3 rounded-full bg-brand-400"></span>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p class="text-sm text-gray-300" data-i18n="media_press_placeholder">We are lining up recent press hits — the list will load once the catalog arrives.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="py-16 reveal">
+      <div class="max-w-6xl mx-auto px-6 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p class="uppercase tracking-[0.35em] text-xs text-brand-500" data-i18n="media_series_label">Series</p>
+            <h2 class="text-2xl sm:text-3xl font-display text-gray-900 dark:text-white" data-i18n="media_series_title">Curated playlists & recurring formats.</h2>
+          </div>
+        </div>
+        <div id="seriesWrap" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3"></div>
+        <div class="rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 p-8">
+          <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="media_series_note" data-i18n-attr="html">Have a new series idea or partnership in mind? Email <a class="underline decoration-brand-400 hover:text-brand-600 dark:hover:text-brand-300" href="mailto:studio@axeldevlab.com">studio@axeldevlab.com</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-20 reveal">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-800 bg-gradient-to-r from-brand-500 via-brand-400 to-orange-300 text-gray-900 dark:text-gray-900 p-10 shadow-glow">
+          <div class="grid gap-10 lg:grid-cols-2 items-center">
+            <div class="space-y-4">
+              <p class="uppercase tracking-[0.35em] text-xs text-gray-900/60" data-i18n="media_subscribe_label">Join the orbit</p>
+              <h2 class="text-3xl font-display leading-tight" data-i18n="media_subscribe_title">Subscribe to Media Signals</h2>
+              <p class="text-base text-gray-900/70" data-i18n="media_subscribe_desc">A quarterly briefing curated by the Axel Dev Lab studio: emerging projects, invitations to briefings, and behind-the-scenes field notes.</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="email" placeholder="you@example.com" data-i18n="media_subscribe_placeholder" data-i18n-attr="placeholder" class="w-full rounded-full px-4 py-3 text-sm border border-gray-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+                <button class="rounded-full bg-gray-900 text-white uppercase tracking-[0.35em] px-5 py-3 text-xs hover:bg-gray-800 transition" data-i18n="media_subscribe_button">Subscribe</button>
+              </div>
+            </div>
+            <div class="relative rounded-2xl bg-white/70 backdrop-blur p-6 border border-white/60 shadow-innerGlow text-gray-700">
+              <p class="text-sm leading-relaxed" data-i18n="media_subscribe_quote">“Axel Dev Lab brings clarity to the data economy and helps decision-makers translate numbers into missions. Their media briefings are the quickest way to catch the real story.”</p>
+              <div class="mt-5">
+                <p class="text-sm font-semibold">Chidi Akpobome</p>
+                <p class="text-xs uppercase tracking-[0.35em] text-gray-500" data-i18n="media_subscribe_quote_title">Editor, Civic Signal Africa</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="mediaPreview" class="w-[min(880px,95vw)] rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 p-0 overflow-hidden">
+      <div class="flex items-start justify-between border-b border-gray-200 dark:border-gray-800 px-6 py-5">
+        <div class="pr-6">
+          <p class="text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400" id="previewType">—</p>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-1" id="previewTitle">Title</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="previewMeta">—</p>
+        </div>
+        <button id="previewClose" class="rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Close preview">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div id="previewVisual" class="aspect-video rounded-2xl bg-gray-100 dark:bg-gray-900/70 flex items-center justify-center text-gray-500 dark:text-gray-400 text-sm">
+          Loading…
+        </div>
+        <div class="space-y-4">
+          <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed" id="previewDesc">Description</p>
+          <div class="space-y-2 text-sm" id="previewTags"></div>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <a id="previewPrimary" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-white hover:bg-brand-600 transition">Open</a>
+            <a id="previewSecondary" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">View alternate</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+  </main>
+
+      <!-- Subscription Card -->
+  <section class="py-16 px-6 bg-white dark:bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <div class="adl-subscribe">
+        <div class="adl-left">
+          <img class="adl-logo" src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab Logo">
+          <h2 class="adl-title">Stay Informed</h2>
+          <p class="adl-desc">Receive research insights, data releases, and policy analysis from the <strong>Axel Dev Lab</strong>.</p>
+          <a href="https://mail.axeldevlab.com/archive/adi-january-insights" class="adl-archive-link" target="_blank">View latest issue →</a>
+        </div>
+        <div class="adl-right">
+          <form method="POST" action="https://mail.axeldevlab.com/subscription/form" target="_blank">
+            <input type="hidden" name="l" value="a93e5e96-1cf7-4bff-b7b9-a38768823332">
+            <div class="adl-field">
+              <input type="email" name="email" class="adl-input" placeholder=" " required aria-label="Email address">
+              <label class="adl-label">Email address</label>
+            </div>
+            <label class="adl-checkbox">
+              <input type="checkbox" name="privacy" required>
+              <span>I agree to receive curated emails from Axel Dev Lab. You can unsubscribe at any time.</span>
+            </label>
+            <button type="submit" class="adl-btn">Subscribe now</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-10">
+        <iframe src="https://help.axeldevlab.com/open.php" style="width: 100%; min-height: 900px; border: none;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+<!-- Call to Action -->
+  <section class="py-20 px-6 bg-brand-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-5xl mx-auto">
+      <div class="cta-panel text-center">
+        <p class="eyebrow text-white/70 mb-3" data-i18n="cta_label">Axel Dev Lab 2.0</p>
+        <h2 data-i18n="cta_heading">Ready to Transform Data Into Impact?</h2>
+        <p class="text-base sm:text-lg mb-8" data-i18n="cta_intro">
+          Partner with us to develop evidence-based solutions for your most complex development challenges.
+        </p>
+        <div class="cta-panel__actions">
+          <a href="collaborate.html" class="modern-btn modern-btn--primary">
+            <span data-i18n="cta_primary">Start a Collaboration</span>
+          </a>
+          <a href="publications.html" class="modern-btn modern-btn--outline">
+            <span data-i18n="cta_secondary">Explore Our Research</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contacts -->
+  <section class="py-16 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-i18n="direct_contacts_title">Direct Contacts</h2>
+        <p class="text-gray-300 max-w-3xl mx-auto" data-i18n="direct_contacts_intro">Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab &amp; Axel Dev Consulting.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6 text-sm">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_general_heading">General &amp; Partnerships</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_general_info">General info:</span> <a href="mailto:info@axeldevlab.com" class="underline hover:text-brand-300">info@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_partnerships">Partnerships:</span> <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-300">contact@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_executive">Executive office:</span> <a href="mailto:jeanaxelt@axeldevlab.com" class="underline hover:text-brand-300">jeanaxelt@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_client_heading">Client &amp; Operations</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_support">Client support:</span> <a href="mailto:support@axeldevlab.com" class="underline hover:text-brand-300">support@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_data">Data services:</span> <a href="mailto:it@axeldevlab.com" class="underline hover:text-brand-300">it@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_billing">Billing:</span> <a href="mailto:finance@axeldevlab.com" class="underline hover:text-brand-300">finance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_research_heading">Research &amp; Media</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_media">Press &amp; media:</span> <a href="mailto:studio@axeldevlab.com" class="underline hover:text-brand-300">studio@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_research">Research sparks:</span> <a href="mailto:research@axeldevlab.com" class="underline hover:text-brand-300">research@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_briefings">Briefings:</span> <a href="mailto:briefings@axeldevlab.com" class="underline hover:text-brand-300">briefings@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_people_heading">People &amp; Governance</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_people_team">People team:</span> <a href="mailto:people@axeldevlab.com" class="underline hover:text-brand-300">people@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_board">Board liaison:</span> <a href="mailto:board@axeldevlab.com" class="underline hover:text-brand-300">board@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_governance">Governance:</span> <a href="mailto:governance@axeldevlab.com" class="underline hover:text-brand-300">governance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-v2" role="contentinfo">
+    <div class="footer-v2__grid">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-12 w-auto" loading="lazy" />
+          <div>
+            <p class="text-lg font-semibold" data-i18n="brand_lab_name">Axel Dev Lab</p>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/60" data-i18n="brand_group">Axel Dev Group LLC</p>
+          </div>
+        </div>
+        <p class="text-sm opacity-80 mb-4" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <div class="space-y-1 text-sm opacity-80">
+          <p data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p data-i18n="footer_address_line3">United States</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <nav class="grid gap-2 text-sm opacity-90">
+          <a href="index.html" data-i18n="nav_home" class="hover:text-primary-light transition">Home</a>
+          <a href="projects.html" data-i18n="nav_projects" class="hover:text-primary-light transition">Projects</a>
+          <a href="data.html" data-i18n="nav_data" class="hover:text-primary-light transition">Data</a>
+          <a href="methodology.html" data-i18n="nav_methodology" class="hover:text-primary-light transition">Methodology</a>
+          <a href="publications.html" data-i18n="nav_publications" class="hover:text-primary-light transition">Publications</a>
+          <a href="collaborate.html" data-i18n="nav_collaborate" class="hover:text-primary-light transition">Collaborate</a>
+          <a href="media.html" data-i18n="nav_media" class="hover:text-primary-light transition">Media</a>
+          <a href="about.html" data-i18n="nav_about" class="hover:text-primary-light transition">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-primary-light/90 hover:text-primary-light transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <a href="https://help.axeldevlab.com/open.php" class="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-white/90 hover:text-white" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-80"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01"/><path d="M12 12a3 3 0 1 0-3-3"/></svg>
+          <span>Need help? Report an issue</span>
+        </a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+              </svg>
+            </a>
+            <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script src="http://localhost:8089/js/keycloak.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    window.PAGE_TRANSLATIONS = {
+      en: {
+        page_title: 'Media & Stories | Axel Dev Lab',
+        media_hero_title: 'Media & Engagement',
+        media_hero_intro: 'Talks, videos, podcasts, photo essays, and press featuring Axel Dev Lab.',
+        media_badge: 'Axel Dev Lab Media',
+        media_stat_pieces_label: 'Pieces',
+        media_stat_pieces_desc: 'Media items spanning formats.',
+        media_stat_voices_label: 'Voices',
+        media_stat_voices_desc: 'Platforms amplifying our work.',
+        media_stat_span_label: 'Span',
+        media_stat_span_desc: 'Year range covered.',
+        media_cta_briefing: 'Book a briefing',
+        media_cta_kit: 'Download media kit',
+        media_spotlight_label: 'Spotlight',
+        media_spotlight_loading: 'Loading spotlight…',
+        media_spotlight_preview: 'Preview',
+        media_spotlight_title_default: 'Stay tuned.',
+        media_spotlight_desc_default: 'Fresh stories will flow in as soon as we load the catalog.',
+        media_rooms_label: 'Media Rooms',
+        media_rooms_title: 'Choose your format.',
+        media_rooms_desc: 'Each space is designed for deep consumption—immersive video briefings, long-form podcasts, photographic journeys, and global features.',
+        media_card_videos_badge: 'Videos',
+        media_card_videos_title: 'Keynotes & live showcases.',
+        media_card_videos_desc: 'Visual explainers, demos, and forums from the Axel Dev Lab stage.',
+        media_card_videos_cta: 'Enter',
+        media_card_podcasts_badge: 'Podcasts',
+        media_card_podcasts_title: 'Long-form conversations.',
+        media_card_podcasts_desc: 'Deeper dives with policy shapers, investors, and civic technologists.',
+        media_card_podcasts_cta: 'Listen in',
+        media_card_photos_badge: 'Photo Essays',
+        media_card_photos_title: 'Field photography & galleries.',
+        media_card_photos_desc: 'See the environments powering our research—cities, labs, and communities.',
+        media_card_photos_cta: 'Explore',
+        media_card_press_badge: 'Press',
+        media_card_press_title: 'Coverage & commentary.',
+        media_card_press_desc: 'Global perspectives amplifying Axel Dev Lab’s mission and work.',
+        media_card_press_cta: 'Read on',
+        media_search_label: 'Search media',
+        media_search_placeholder: 'Search title, platform, topic, or region…',
+        media_filter_all: 'All',
+        media_filter_video: 'Video',
+        media_filter_podcast: 'Podcast',
+        media_filter_press: 'Press',
+        media_filter_photo: 'Photo',
+        media_filter_year_label: 'Year',
+        media_filter_all_option: 'All',
+        media_filter_clear: 'Clear',
+        media_empty_state: 'No media matches those filters yet. Try removing a filter or explore the full catalog.',
+        media_press_label: 'Press + Appearances',
+        media_press_title: 'Moments from the road.',
+        media_press_cta: 'Request commentary',
+        media_press_placeholder: 'We are lining up recent press hits — the list will load once the catalog arrives.',
+        media_series_label: 'Series',
+        media_series_title: 'Curated playlists & recurring formats.',
+        media_series_note: 'Have a new series idea or partnership in mind? Email <a class="underline decoration-brand-400 hover:text-brand-600 dark:hover:text-brand-300" href="mailto:studio@axeldevlab.com">studio@axeldevlab.com</a>.',
+        media_subscribe_label: 'Join the orbit',
+        media_subscribe_title: 'Subscribe to Media Signals',
+        media_subscribe_desc: 'A quarterly briefing curated by the Axel Dev Lab studio: emerging projects, invitations to briefings, and behind-the-scenes field notes.',
+        media_subscribe_placeholder: 'you@example.com',
+        media_subscribe_button: 'Subscribe',
+        media_subscribe_quote: '“Axel Dev Lab brings clarity to the data economy and helps decision-makers translate numbers into missions. Their media briefings are the quickest way to catch the real story.”',
+        media_subscribe_quote_title: 'Editor, Civic Signal Africa',
+        media_press_prefix: 'Press office:',
+        media_interview_prefix: 'Interview requests:'
+      },
+      fr: {
+        page_title: 'Médias & Histoires | Axel Dev Lab',
+        media_hero_title: 'Médias & Engagement',
+        media_hero_intro: 'Conférences, vidéos, podcasts, reportages photo et articles de presse au sujet d’Axel Dev Lab.',
+        media_badge: 'Médias Axel Dev Lab',
+        media_stat_pieces_label: 'Contenus',
+        media_stat_pieces_desc: 'Formats médiatiques disponibles.',
+        media_stat_voices_label: 'Voix',
+        media_stat_voices_desc: 'Plateformes qui relaient notre travail.',
+        media_stat_span_label: 'Période',
+        media_stat_span_desc: 'Plage d’années couverte.',
+        media_cta_briefing: 'Organiser un briefing',
+        media_cta_kit: 'Télécharger le kit média',
+        media_spotlight_label: 'À la une',
+        media_spotlight_loading: 'Chargement de la mise en avant…',
+        media_spotlight_preview: 'Aperçu',
+        media_spotlight_title_default: 'Restez à l’écoute.',
+        media_spotlight_desc_default: 'De nouveaux contenus apparaîtront dès que le catalogue sera chargé.',
+        media_rooms_label: 'Espaces médias',
+        media_rooms_title: 'Choisissez votre format.',
+        media_rooms_desc: 'Chaque espace est conçu pour une immersion complète : briefings vidéo, podcasts de fond, récits photographiques et revues de presse.',
+        media_card_videos_badge: 'Vidéos',
+        media_card_videos_title: 'Keynotes et démonstrations en direct.',
+        media_card_videos_desc: 'Explications visuelles, démonstrations et forums animés par Axel Dev Lab.',
+        media_card_videos_cta: 'Entrer',
+        media_card_podcasts_badge: 'Podcasts',
+        media_card_podcasts_title: 'Conversations au long cours.',
+        media_card_podcasts_desc: 'Des échanges approfondis avec décideurs, investisseurs et civic technologists.',
+        media_card_podcasts_cta: 'Écouter',
+        media_card_photos_badge: 'Reportages photo',
+        media_card_photos_title: 'Photographies de terrain et galeries.',
+        media_card_photos_desc: 'Découvrez les territoires où naissent nos recherches — villes, laboratoires, communautés.',
+        media_card_photos_cta: 'Explorer',
+        media_card_press_badge: 'Presse',
+        media_card_press_title: 'Couverture & analyses.',
+        media_card_press_desc: 'Regards internationaux sur la mission et l’impact d’Axel Dev Lab.',
+        media_card_press_cta: 'Lire',
+        media_search_label: 'Rechercher dans les médias',
+        media_search_placeholder: 'Rechercher un titre, une plateforme, un thème ou une région…',
+        media_filter_all: 'Tout',
+        media_filter_video: 'Vidéo',
+        media_filter_podcast: 'Podcast',
+        media_filter_press: 'Presse',
+        media_filter_photo: 'Photo',
+        media_filter_year_label: 'Année',
+        media_filter_all_option: 'Toutes',
+        media_filter_clear: 'Effacer',
+        media_empty_state: 'Aucun contenu ne correspond à ces filtres. Retirez-en un ou consultez le catalogue complet.',
+        media_press_label: 'Presse & interventions',
+        media_press_title: 'Moments sur le terrain.',
+        media_press_cta: 'Demander un commentaire',
+        media_press_placeholder: 'Nous préparons la liste des derniers articles — elle apparaîtra dès que le catalogue sera chargé.',
+        media_series_label: 'Séries',
+        media_series_title: 'Playlists et formats récurrents sélectionnés.',
+        media_series_note: 'Une idée de série ou de partenariat ? Écrivez-nous à <a class="underline decoration-brand-400 hover:text-brand-600 dark:hover:text-brand-300" href="mailto:studio@axeldevlab.com">studio@axeldevlab.com</a>.',
+        media_subscribe_label: 'Rejoindre l’orbite',
+        media_subscribe_title: 'Abonnez-vous à Media Signals',
+        media_subscribe_desc: 'Une lettre trimestrielle préparée par le studio Axel Dev Lab : nouveaux projets, invitations aux briefings et coulisses des terrains.',
+        media_subscribe_placeholder: 'vous@example.com',
+        media_subscribe_button: 'S’abonner',
+        media_subscribe_quote: '« Axel Dev Lab apporte de la clarté à l’économie des données et aide les décideurs à transformer les chiffres en missions. Leurs briefings médias sont le moyen le plus rapide de saisir l’essentiel. »',
+        media_subscribe_quote_title: 'Rédacteur en chef, Civic Signal Africa',
+        media_press_prefix: 'Presse :',
+        media_interview_prefix: 'Demandes d’entretien :'
+      }
+    };
+
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    const state = {
+      all: [],
+      filters: {
+        search: '',
+        type: 'all',
+        year: 'all',
+        tag: null
+      },
+      searchIndex: null,
+      starred: new Set(JSON.parse(localStorage.getItem('media_starred') || '[]'))
+    };
+
+    const sampleMedia = [
+      { id:'adl-keynote', title:'Keynote: Data for Climate Resilience', type:'video', platform:'YouTube', series:'Keynotes', date:'2025-06-04', duration:'22:10', topics:['climate','resilience'], region:['africa'], desc:'Founder Jean Axel Tohougbe charts the climate data playbook for resilient infrastructure at the Dakar Climate Forum.', url:'https://www.youtube.com/watch?v=xxxxx', embed:'https://www.youtube.com/embed/xxxxx', thumb:'assets/images/exports/lg_axeldevlab.png', featured:true },
+      { id:'adl-podcast-energy', title:'Podcast: Financing Africa’s Energy Transition', type:'podcast', platform:'Spotify · Invest Africa', series:'Podcast Circuit', date:'2025-05-18', duration:'34:52', topics:['energy','economy'], region:['west africa'], desc:'A candid conversation on blended finance and grid intelligence with Invest Africa.', url:'https://open.spotify.com/episode/yyyyy', audio:'https://open.spotify.com/episode/yyyyy', thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-field-abidjan', title:'Photo Essay: Urbanization in Abidjan', type:'photo', platform:'Gallery', series:'Field Stories', date:'2024-12-02', topics:['urban','governance'], region:['côte d\'ivoire'], desc:'Field imagery capturing informal transit nodes reshaping Abidjan’s economy.', url:'/media/gallery/abidjan.html', images:['/media/gallery/abidjan-1.jpg'], thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-press-gis', title:'Press: GIS Watch Interview on Data Equity', type:'press', platform:'GIS Watch', series:'Press', date:'2025-04-09', topics:['governance','policy'], region:['global'], desc:'Axel Dev Lab on equitable data governance and civic tech ecosystems.', url:'https://giswatch.org/interview/axeldevlab', thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-panel-urban', title:'Panel: Cities Intelligence Forum (Nairobi)', type:'video', platform:'Cities Alliance', series:'Panels', date:'2025-03-22', duration:'48:10', topics:['urban','planning'], region:['east africa'], desc:'Data practitioners debate the future of spatial intelligence for African cities.', url:'https://www.youtube.com/watch?v=zzzzz', embed:'https://www.youtube.com/embed/zzzzz', thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-podcast-gov', title:'Podcast: Governance Signals', type:'podcast', platform:'Apple Podcasts', series:'Podcast Circuit', date:'2024-11-12', duration:'27:34', topics:['governance'], region:['ecowas'], desc:'How data coalitions unlock reforms across ECOWAS.', url:'https://podcasts.apple.com/example', audio:'https://podcasts.apple.com/example', thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-photo-lake', title:'Photo Set: Lake Chad Observatory', type:'photo', platform:'Axel Dev Studio', series:'Field Stories', date:'2024-09-28', topics:['environment'], region:['central africa'], desc:'Monitoring environmental stress and community adaptation.', url:'/media/gallery/lakechad.html', images:['/media/gallery/lakechad-1.jpg'], thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-press-ft', title:'Press: Financial Times | Africa’s Emerging Data Stack', type:'press', platform:'Financial Times', series:'Press', date:'2025-01-29', topics:['economy','data'], region:['africa'], desc:'Financial Times looks at Axel Dev Lab’s contribution to Africa’s sovereign data agenda.', url:'https://ft.com/article/axeldevlab', thumb:'assets/images/exports/lg_axeldevlab.png' },
+      { id:'adl-toolkit', title:'Tutorial: Policy Toolkit Walkthrough', type:'video', platform:'Vimeo', series:'Tutorials', date:'2025-02-10', duration:'18:21', topics:['policy','toolkit'], region:['africa'], desc:'A walkthrough of the Axel Stack policy toolkit for Ministries of Planning.', url:'https://vimeo.com/axeldevlab/toolkit', embed:'https://player.vimeo.com/video/123456', thumb:'assets/images/exports/lg_axeldevlab.png' }
+    ];
+
+    const el = {
+      grid: $('#mediaGrid'),
+      empty: $('#emptyState'),
+      hero: $('#heroCard'),
+      heroType: $('#heroType'),
+      heroTitle: $('#heroTitle'),
+      heroDesc: $('#heroDesc'),
+      heroMeta: $('#heroMeta'),
+      heroPreview: $('#heroPreview'),
+      heroLink: $('#heroLink'),
+      search: $('#mediaSearch'),
+      typeBar: $('#typeFilters'),
+      yearSelect: $('#yearFilter'),
+      clear: $('#clearFilters'),
+      tagRail: $('#tagRail'),
+      timeline: $('#timelineList'),
+      seriesWrap: $('#seriesWrap'),
+      previewDialog: $('#mediaPreview'),
+      previewClose: $('#previewClose'),
+      previewTitle: $('#previewTitle'),
+      previewMeta: $('#previewMeta'),
+      previewDesc: $('#previewDesc'),
+      previewVisual: $('#previewVisual'),
+      previewTags: $('#previewTags'),
+      previewPrimary: $('#previewPrimary'),
+      previewSecondary: $('#previewSecondary'),
+      previewType: $('#previewType')
+    };
+
+    const numberFmt = new Intl.NumberFormat();
+
+    function loadMediaCatalog() {
+      fetch('/data/media.json', { cache: 'no-store' })
+        .then(res => {
+          if (!res.ok) throw new Error('Missing media.json');
+          return res.json();
+        })
+        .then(data => bootstrapMedia(Array.isArray(data) ? data : sampleMedia))
+        .catch(() => bootstrapMedia(sampleMedia));
+    }
+
+    function bootstrapMedia(items) {
+      state.all = items
+        .map(item => ({
+          ...item,
+          topics: (item.topics || []).map(t => String(t).toLowerCase()),
+          region: (item.region || []).map(r => String(r).toLowerCase())
+        }))
+        .filter(item => item.title && item.date);
+
+      state.searchIndex = new Fuse(state.all, {
+        includeScore: true,
+        threshold: 0.35,
+        keys: ['title', 'platform', 'series', 'topics', 'region', 'desc']
+      });
+
+      populateYearFilter();
+      renderTagRail();
+      updateStats();
+      pickHero();
+      renderSeries(state.all);
+      applyFilters();
+      setupKeyboardShortcuts();
+    }
+
+    function populateYearFilter() {
+      const years = [...new Set(state.all.map(item => new Date(item.date).getFullYear()).filter(Boolean))].sort((a, b) => b - a);
+      el.yearSelect.innerHTML = '<option value="all">All</option>' + years.map(year => `<option value="${year}">${year}</option>`).join('');
+    }
+
+    function renderTagRail() {
+      const freq = new Map();
+      state.all.forEach(item => (item.topics || []).forEach(topic => freq.set(topic, (freq.get(topic) || 0) + 1)));
+      const tags = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+      el.tagRail.innerHTML = tags.map(([topic, count]) => `
+        <button class="tag-chip ${state.filters.tag === topic ? 'active' : ''}" data-tag="${topic}">
+          ${topic.toUpperCase()} <span class="ml-1 text-[10px] opacity-60">${count}</span>
+        </button>
+      `).join('');
+      el.tagRail.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tag = btn.dataset.tag;
+          state.filters.tag = state.filters.tag === tag ? null : tag;
+          renderTagRail();
+          applyFilters();
+        });
+      });
+    }
+
+    function updateStats() {
+      $('#statTotal').textContent = numberFmt.format(state.all.length);
+      const platforms = new Set(state.all.map(item => (item.platform || '').toLowerCase()).filter(Boolean));
+      $('#statVoices').textContent = numberFmt.format(platforms.size);
+      const years = [...new Set(state.all.map(item => new Date(item.date).getFullYear()).filter(Boolean))].sort((a, b) => a - b);
+      $('#statSpan').textContent = years.length ? `${years[0]}–${years[years.length - 1]}` : '—';
+    }
+
+    function pickHero() {
+      if (!state.all.length) return;
+      const featured = state.all.find(item => item.featured);
+      const freshest = [...state.all].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+      const heroItem = featured || freshest;
+      renderHero(heroItem);
+    }
+
+    function renderHero(item) {
+      if (!item) return;
+      el.heroType.textContent = (item.type || 'Story').toUpperCase();
+      el.heroTitle.textContent = item.title;
+      el.heroDesc.textContent = item.desc || 'Explore the full story.';
+      const metaBits = [
+        item.platform,
+        item.series,
+        item.duration,
+        dayjs(item.date).fromNow()
+      ].filter(Boolean);
+      el.heroMeta.textContent = metaBits.join(' • ') || dayjs(item.date).format('MMM D, YYYY');
+      el.heroLink.href = item.url || '#';
+      el.heroLink.classList.toggle('pointer-events-none', !item.url);
+      el.heroLink.classList.toggle('opacity-60', !item.url);
+      el.heroPreview.disabled = false;
+      el.heroPreview.dataset.id = item.id;
+      el.heroPreview.onclick = () => openPreview(item.id);
+      const visual = document.createElement('div');
+      visual.id = 'heroVisual';
+      visual.className = 'relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/20 bg-white/5';
+      visual.style.transform = 'translateY(0px)';
+      if (item.thumb) {
+        visual.innerHTML = `
+          <img src="${item.thumb}" alt="${item.title}" class="h-full w-full object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        `;
+      } else {
+        visual.innerHTML = `
+          <div class="h-full w-full bg-gradient-to-br from-brand-500/40 via-white/5 to-transparent flex items-center justify-center text-white/70 text-sm">
+            Preview available in full story.
+          </div>
+        `;
+      }
+      const currentVisual = document.getElementById('heroVisual');
+      if (currentVisual) {
+        currentVisual.replaceWith(visual);
+      } else {
+        el.hero.appendChild(visual);
+      }
+    }
+
+    function applyFilters() {
+      let items = [...state.all];
+      if (state.filters.search) {
+        const hits = state.searchIndex.search(state.filters.search);
+        const allowed = new Set(hits.map(hit => hit.item.id));
+        items = items.filter(item => allowed.has(item.id));
+      }
+      if (state.filters.type !== 'all') {
+        items = items.filter(item => (item.type || '').toLowerCase() === state.filters.type);
+      }
+      if (state.filters.year !== 'all') {
+        items = items.filter(item => dayjs(item.date).isValid() && dayjs(item.date).year().toString() === state.filters.year);
+      }
+      if (state.filters.tag) {
+        items = items.filter(item => (item.topics || []).includes(state.filters.tag));
+      }
+      items.sort((a, b) => new Date(b.date) - new Date(a.date));
+      renderGrid(items);
+      renderTimeline(state.all);
+    }
+
+    function renderGrid(items) {
+      if (!items.length) {
+        el.grid.innerHTML = '';
+        el.empty.classList.remove('hidden');
+        return;
+      }
+      el.empty.classList.add('hidden');
+      el.grid.innerHTML = items.map(renderCard).join('');
+      attachCardHandlers();
+      applyTilt();
+    }
+
+    function renderCard(item) {
+      const liked = state.starred.has(item.id);
+      const meta = [
+        item.platform,
+        item.series,
+        dayjs(item.date).format('MMM D, YYYY')
+      ].filter(Boolean).join(' • ');
+      const topics = (item.topics || []).map(topic => `<span class="rounded-full border border-gray-200 dark:border-gray-700 px-2 py-1 text-[11px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">${topic}</span>`).join(' ');
+      return `
+        <article class="tilt-card relative overflow-hidden rounded-3xl border border-gray-200/70 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 backdrop-blur shadow-glow hover:-translate-y-1 transition-transform">
+          <div class="relative h-44 overflow-hidden">
+            ${item.thumb ? `<img src="${item.thumb}" alt="${item.title}" class="h-full w-full object-cover" loading="lazy" />` : `<div class="h-full w-full bg-gradient-to-br from-brand-500/20 via-gray-200/40 to-white/10 dark:from-brand-500/15 dark:via-gray-900/40 dark:to-gray-900/20 flex items-center justify-center text-gray-400 text-sm">No preview thumbnail</div>`}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-white/80">
+              <span class="inline-flex items-center gap-2 uppercase tracking-[0.35em]">${(item.type || 'Story').toUpperCase()}</span>
+              <span>${dayjs(item.date).fromNow()}</span>
+            </div>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold leading-snug text-gray-900 dark:text-white">${item.title}</h3>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">${meta}</p>
+              </div>
+              <button class="rounded-full border border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-300 px-2 py-1 text-sm hover:border-brand-500 hover:text-brand-500 dark:hover:text-brand-300 transition" data-role="star" data-id="${item.id}" aria-pressed="${liked}">
+                ${liked ? '★' : '☆'}
+              </button>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed line-clamp-3">${item.desc || ''}</p>
+            <div class="flex flex-wrap gap-2">${topics}</div>
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+              <a href="${item.url || '#'}" ${item.url ? 'target="_blank" rel="noopener"' : 'aria-disabled="true"'} class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-white hover:bg-brand-600 transition ${item.url ? '' : 'pointer-events-none opacity-60'}">
+                Open
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+              <button class="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-role="preview" data-id="${item.id}">
+                Preview
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function attachCardHandlers() {
+      el.grid.querySelectorAll('[data-role="star"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.id;
+          if (state.starred.has(id)) {
+            state.starred.delete(id);
+          } else {
+            state.starred.add(id);
+          }
+          btn.textContent = state.starred.has(id) ? '★' : '☆';
+          btn.setAttribute('aria-pressed', state.starred.has(id));
+          localStorage.setItem('media_starred', JSON.stringify([...state.starred]));
+        });
+      });
+      el.grid.querySelectorAll('[data-role="preview"]').forEach(btn => {
+        btn.addEventListener('click', () => openPreview(btn.dataset.id));
+      });
+    }
+
+    function renderTimeline(items) {
+      const timelineItems = items
+        .filter(item => ['press', 'video', 'podcast'].includes((item.type || '').toLowerCase()))
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 6);
+      if (!timelineItems.length) {
+        el.timeline.innerHTML = `
+          <li class="relative pl-8">
+            <span class="absolute left-1 top-1.5 h-3 w-3 rounded-full bg-brand-400"></span>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-gray-300">No press appearances published yet.</div>
+          </li>
+        `;
+        return;
+      }
+      el.timeline.innerHTML = timelineItems.map(item => `
+        <li class="relative pl-8">
+          <span class="absolute left-1 top-1.5 h-3 w-3 rounded-full bg-brand-400"></span>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.35em] text-brand-200">
+              <span>${dayjs(item.date).format('MMM D, YYYY')}</span>
+              <span>${(item.platform || 'Media').toUpperCase()}</span>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold text-white leading-snug">${item.title}</h3>
+            <p class="mt-2 text-sm text-gray-200 leading-relaxed">${item.desc || ''}</p>
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-gray-300">
+              ${(item.topics || []).map(topic => `<span>${topic}</span>`).join('')}
+            </div>
+            ${item.url ? `<a class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.35em] text-white hover:bg-white/20 transition" href="${item.url}" target="_blank" rel="noopener">Open</a>` : ''}
+          </div>
+        </li>
+      `).join('');
+    }
+
+    function renderSeries(items) {
+      const groups = items.reduce((acc, item) => {
+        const key = item.series || 'Stories';
+        (acc[key] = acc[key] || []).push(item);
+        return acc;
+      }, {});
+      const cards = Object.entries(groups)
+        .filter(([, list]) => list.length > 1)
+        .sort((a, b) => b[1].length - a[1].length)
+        .slice(0, 6)
+        .map(([series, list]) => {
+          const latest = list.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+          return `
+            <article class="tilt-card rounded-3xl border border-gray-200/70 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 backdrop-blur p-6 space-y-4 shadow-glow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-xs uppercase tracking-[0.35em] text-brand-500">Series</p>
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-1">${series}</h3>
+                </div>
+                <span class="rounded-full border border-gray-200 dark:border-gray-700 px-3 py-1 text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-300">${list.length} pieces</span>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">${latest.desc || 'A signature Axel Dev Lab collection.'}</p>
+              <div class="space-y-2 text-sm">
+                ${list.slice(0, 3).map(item => `
+                  <div class="flex items-start gap-2 text-gray-500 dark:text-gray-300">
+                    <span class="mt-1 h-1.5 w-1.5 rounded-full bg-brand-500/80"></span>
+                    <a class="hover:text-brand-600 dark:hover:text-brand-300 transition" href="${item.url || '#'}" ${item.url ? 'target="_blank" rel="noopener"' : 'aria-disabled="true"'}>${item.title}</a>
+                  </div>
+                `).join('')}
+              </div>
+            </article>
+          `;
+        }).join('');
+      el.seriesWrap.innerHTML = cards || `
+        <div class="rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 p-8 text-sm text-gray-600 dark:text-gray-300">
+          Once we have multiple items per series, they will appear here for easy binge listening or viewing.
+        </div>
+      `;
+      applyTilt();
+    }
+
+    function applyReveal() {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10%' });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    function applyTilt() {
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        if (card.dataset.tiltBound === 'true') return;
+        card.dataset.tiltBound = 'true';
+        const rect = card.getBoundingClientRect();
+        const halfW = rect.width / 2;
+        const halfH = rect.height / 2;
+        let rafId;
+        card.addEventListener('mousemove', event => {
+          const bounds = card.getBoundingClientRect();
+          const x = event.clientX - bounds.left - halfW;
+          const y = event.clientY - bounds.top - halfH;
+          const rotateX = (y / halfH) * -5;
+          const rotateY = (x / halfW) * 7;
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(rafId);
+          card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+        });
+      });
+    }
+
+    function applyAmbientMotion() {
+      window.addEventListener('scroll', () => {
+        const offset = window.scrollY * 0.08;
+        const orbitEl = document.querySelector('.orbit');
+        const heroEl = document.getElementById('heroVisual');
+        if (orbitEl) orbitEl.style.transform = `translateY(${offset}px)`;
+        if (heroEl) heroEl.style.transform = `translateY(${offset * 0.6}px)`;
+      }, { passive: true });
+    }
+
+    function openPreview(id) {
+      const item = state.all.find(entry => entry.id === id);
+      if (!item) return;
+      el.previewTitle.textContent = item.title;
+      el.previewType.textContent = (item.type || 'Story').toUpperCase();
+      el.previewMeta.textContent = [
+        item.platform,
+        item.series,
+        item.duration,
+        dayjs(item.date).format('MMM D, YYYY')
+      ].filter(Boolean).join(' • ');
+      el.previewDesc.textContent = item.desc || 'Explore the full story via the provided links.';
+      el.previewTags.innerHTML = `
+        <div class="flex flex-wrap gap-2">
+          ${(item.topics || []).map(topic => `<span class="rounded-full border border-gray-300 dark:border-gray-700 px-2 py-1 text-[11px] uppercase tracking-[0.35em] text-gray-500 dark:text-gray-300">${topic}</span>`).join('')}
+          ${(item.region || []).map(region => `<span class="rounded-full border border-gray-300 dark:border-gray-700 px-2 py-1 text-[11px] uppercase tracking-[0.35em] text-gray-500 dark:text-gray-300">${region}</span>`).join('')}
+        </div>
+      `;
+      el.previewPrimary.href = item.url || '#';
+      el.previewPrimary.classList.toggle('pointer-events-none', !item.url);
+      el.previewPrimary.classList.toggle('opacity-60', !item.url);
+      if (item.embed && item.type === 'video') {
+        el.previewVisual.innerHTML = `<iframe class="h-full w-full rounded-2xl" src="${item.embed}" title="${item.title}" allowfullscreen loading="lazy"></iframe>`;
+      } else if (item.audio) {
+        el.previewVisual.innerHTML = `<audio controls class="w-full"><source src="${item.audio}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
+      } else if ((item.images || []).length) {
+        el.previewVisual.innerHTML = `<img src="${item.images[0]}" alt="${item.title}" class="h-full w-full rounded-2xl object-cover" loading="lazy" />`;
+      } else {
+        el.previewVisual.innerHTML = `<div class="h-full w-full rounded-2xl bg-gray-100 dark:bg-gray-900/70 flex items-center justify-center text-gray-500 dark:text-gray-400 text-sm">Preview coming soon.</div>`;
+      }
+      if (item.embed && item.url && item.embed !== item.url) {
+        el.previewSecondary.href = item.embed;
+        el.previewSecondary.classList.remove('hidden');
+      } else {
+        el.previewSecondary.classList.add('hidden');
+      }
+      el.previewDialog.showModal();
+    }
+
+    function setupControls() {
+      let searchDebounce;
+      el.search.addEventListener('input', (event) => {
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(() => {
+          state.filters.search = event.target.value.trim();
+          applyFilters();
+        }, 150);
+      });
+      el.typeBar.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.filters.type = btn.dataset.type;
+          el.typeBar.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+          applyFilters();
+        });
+      });
+      el.yearSelect.addEventListener('change', event => {
+        state.filters.year = event.target.value;
+        applyFilters();
+      });
+      el.clear.addEventListener('click', () => {
+        state.filters.search = '';
+        state.filters.type = 'all';
+        state.filters.year = 'all';
+        state.filters.tag = null;
+        el.search.value = '';
+        el.yearSelect.value = 'all';
+        el.typeBar.querySelectorAll('button').forEach(btn => btn.classList.toggle('active', btn.dataset.type === 'all'));
+        renderTagRail();
+        applyFilters();
+      });
+      el.previewClose.addEventListener('click', () => el.previewDialog.close());
+      el.previewDialog.addEventListener('cancel', (ev) => ev.preventDefault());
+      el.previewDialog.addEventListener('click', (event) => {
+        const rect = el.previewDialog.getBoundingClientRect();
+        const within = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (!within) el.previewDialog.close();
+      });
+    }
+
+    function setupKeyboardShortcuts() {
+      window.addEventListener('keydown', (event) => {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          el.search.focus();
+        }
+        if (event.key === 'Escape' && el.previewDialog.open) {
+          el.previewDialog.close();
+        }
+      }, { passive: false });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupControls();
+      setupKeyboardShortcuts();
+      applyReveal();
+      applyTilt();
+      applyAmbientMotion();
+      loadMediaCatalog();
+    });
+  </script>
+</body>
+</html>

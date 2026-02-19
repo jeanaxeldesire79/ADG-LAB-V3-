@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-page="press">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Press Releases | Axel Dev Group</title>
+    <meta name="description" content="Press releases from Axel Dev Group share our voice in the public sphere." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+              heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            },
+            colors: {
+              axelGold: '#F59E0B',
+              deepBlue: {
+                50: '#E4EAF6',
+                100: '#C4D0EC',
+                200: '#9AB1E1',
+                300: '#6E92D6',
+                400: '#4C78C7',
+                500: '#2959B5',
+                600: '#1E3A8A',
+                700: '#1A3274',
+                800: '#182A60',
+                900: '#14245A',
+              },
+              axelGray: '#4B5563',
+            },
+            boxShadow: {
+              glow: '0 20px 45px -15px rgba(30, 58, 138, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./assets/css/publications.css" />
+  </head>
+  <body class="min-h-screen bg-white text-axelGray antialiased">
+
+    <div data-include="header"></div>
+
+    <main class="mx-auto max-w-6xl px-6 py-16">
+      <header class="mb-16 border-b border-amber-200 pb-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-amber-500">Press Releases</p>
+        <h1 class="mt-4 text-4xl font-semibold text-deepBlue-900 sm:text-5xl" style="font-family: 'Poppins', sans-serif;">Press Releases — Our Voice in the Public Sphere.</h1>
+        <div class="mt-6 flex flex-col gap-4 text-sm text-axelGray lg:flex-row lg:items-center lg:justify-between">
+          <p class="max-w-2xl">Stay informed on strategic partnerships, initiative launches, and statements from Axel Dev Group leadership.</p>
+          <div class="flex items-center gap-3">
+            <label class="text-xs font-semibold uppercase tracking-widest">Sort</label>
+            <select class="rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-medium text-axelGray focus:border-amber-400 focus:outline-none">
+              <option>Newest</option>
+              <option>Oldest</option>
+              <option>Campus</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <section class="grid gap-12 lg:grid-cols-[2fr,1fr]">
+        <div class="space-y-10">
+          <article class="press-article accent-press">
+            <time datetime="2024-03-18">18 March 2024</time>
+            <h2>Axel Dev Group Launches Strategic Intelligence Campus in Kigali</h2>
+            <p>New campus hosts futures lab, data observatory, and executive programs co-designed with regional institutions.</p>
+            <div class="press-article__actions">
+              <a href="./assets/pdf/press-kigali-campus.pdf" class="btn-primary">Download Release</a>
+              <a href="#" class="btn-secondary">Media Kit</a>
+            </div>
+          </article>
+
+          <article class="press-article accent-press">
+            <time datetime="2024-02-05">05 February 2024</time>
+            <h2>Partnership with Continental Development Bank on Systems Modernization</h2>
+            <p>Collaboration focuses on data governance, policy design, and foresight tools for priority nations.</p>
+            <div class="press-article__actions">
+              <a href="./assets/pdf/press-cdb.pdf" class="btn-primary">Download Release</a>
+              <a href="#" class="btn-secondary">Interview Notes</a>
+            </div>
+          </article>
+
+          <article class="press-article accent-press">
+            <time datetime="2023-12-12">12 December 2023</time>
+            <h2>Axel Dev Foresight Lab Issues Annual Outlook on African Systems</h2>
+            <p>Annual outlook draws on macro scenario modeling to frame priority moves for 2030 readiness.</p>
+            <div class="press-article__actions">
+              <a href="./assets/pdf/press-annual-outlook.pdf" class="btn-primary">Download Release</a>
+              <a href="#" class="btn-secondary">Request Briefing</a>
+            </div>
+          </article>
+        </div>
+
+        <aside class="space-y-8">
+          <div class="rounded-2xl border border-amber-200 bg-amber-50/60 p-6">
+            <h3 class="text-lg font-semibold text-deepBlue-900" style="font-family: 'Poppins', sans-serif;">Press Contacts</h3>
+            <p class="mt-3 text-sm">For interviews, statements, or media assets, connect with our communications team.</p>
+            <div class="mt-6 space-y-2 text-sm">
+              <p class="font-semibold text-deepBlue-800">press@axeldev.africa</p>
+              <p>+228 90 70 77 60</p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-amber-200 bg-white p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-deepBlue-900" style="font-family: 'Poppins', sans-serif;">Media Resources</h3>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li><a class="hover:text-amber-500" href="#">Brand & Visual Guidelines</a></li>
+              <li><a class="hover:text-amber-500" href="#">Leadership Bios</a></li>
+              <li><a class="hover:text-amber-500" href="#">Institutional Factsheet</a></li>
+              <li><a class="hover:text-amber-500" href="#">Photo Library</a></li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div data-include="footer"></div>
+    <script src="./assets/js/publications.js"></script>
+  </body>
+</html>

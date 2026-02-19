@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axel Dev Lab | Data Intelligence & Policy Insights</title>
+  <meta name="description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <link rel="canonical" href="https://axeldevlab.com/">
+  
+  <!-- Preconnect/DNS Prefetch for critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://axeldevlab.com/">
+  <meta property="og:title" content="Axel Dev Lab | Data Intelligence & Policy Insights">
+  <meta property="og:description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <meta property="og:image" content="assets/images/exports/lg_axeldevlab.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Axel Dev Lab | Data Intelligence & Policy Insights">
+  <meta name="twitter:description" content="Transforming global development through data intelligence and strategic policy insights.">
+  <meta name="twitter:image" content="assets/images/exports/lg_axeldevlab.png">
+
+  <!-- Theme color for light/dark -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827">
+  
+  <!-- Apply saved theme early to avoid flash -->
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>World Bank — Global Data Dashboard &middot; Axel Dev Lab</title>
+  <meta name="description" content="Axel Dev Lab — World Bank Global Data Dashboard with comparisons, powered by World Bank API." />
+
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>" />
+
+  <!-- Tailwind CSS -->
+  <link rel="icon" type="image/png" href="assets/images/exports/lg_axeldevlab_icon.png">
+  
+  <!-- Removed temporary CSS hack that forced white backgrounds -->
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+  <!-- Rest of your head content... -->
+  
+  <!-- Tailwind CSS (keep non-deferred to avoid FOUC with CDN runtime) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff7e6',
+              100: '#ffedcc',
+              200: '#ffd999',
+              300: '#ffc266',
+              400: '#ffad33',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#7c2d12',
+              900: '#431407'
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            },
+            africa: { 500: '#2563eb', 600: '#1d4ed8' },
+            world: { 500: '#10b981', 600: '#059669' }
+            diplomatic: {
+              blue: '#1e3a8a',
+              gold: '#f59e0b',
+              slate: '#1f2937'
+            }
+          },
+          boxShadow: {
+            soft: '0 8px 34px rgba(0,0,0,.06)',
+            glow: '0 0 10px rgba(245, 158, 11, 0.5)'
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif']
+          },
+          animation: {
+            'pulse-soft': 'pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'fade-in-up': 'fadeInUp 0.6s ease-out forwards'
+          },
+          keyframes: {
+            pulseSoft: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.8 }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- PDF & capture libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js + Zoom plugin -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <!-- Preload critical resources -->
+  <link rel="preload" href="assets/js/main.js" as="script">
+  <link rel="preload" href="assets/images/exports/lg_axeldevlab_icon.png" as="image">
+</head>
+
+  <style>
+    :focus-visible {
+      outline: 3px solid #f59e0b;
+      outline-offset: 2px;
+    }
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
+
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+<!-- Brand bar (dual-brand lockup) -->
+<div class="bg-black text-white text-xs sm:text-sm">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-3">
+      <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+      <div class="flex flex-col">
+        <span class="font-semibold tracking-wide text-base sm:text-lg" data-i18n="brand_lab_name">Axel Dev Lab</span>
+        <span class="text-[10px] uppercase tracking-widest text-brand-300" data-i18n="brand_group">Axel Dev Group LLC</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+      <span data-i18n="motto_lab">Mapping Ideas, Powering Progress.</span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <span><span data-i18n="brand_consulting_name">Axel Dev Consulting</span> — <em data-i18n="brand_consulting_tagline">Strategic Solutions, Grounded in Data.</em></span>
+      <span class="hidden sm:inline text-brand-400">|</span>
+      <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors" data-i18n="brand_contact_email">info@axeldevlab.com</a>
+    </div>
+  </div>
+</div>
+
+    @keyframes blink {
+      0%, 49% { opacity: 1 }
+      50%, 100% { opacity: 0 }
+    }
+<!-- Header -->
+<header id="siteHeader" class="glass-card bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex justify-between items-center">
+      <!-- Logo lockup -->
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-10 sm:h-12 md:h-14 w-auto transition-transform group-hover:scale-[1.02]" loading="eager" />
+        <div class="leading-tight">
+          <div class="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Axel Dev Lab</div>
+          <div class="text-[10px] sm:text-[12px] uppercase tracking-widest text-gray-500 dark:text-gray-400">Mapping Ideas, Powering Progress</div>
+        </div>
+      </a>
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex relative space-x-6 text-sm font-medium items-center" aria-label="Main navigation">
+        <a href="index.html" data-i18n="nav_home" aria-current="page" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Projects</a>
+        <div class="relative group" aria-haspopup="true">
+          <a href="data.html" data-i18n="nav_data" class="inline-flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">
+            Data
+            <svg class="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 011.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <div class="pointer-events-none opacity-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto group-hover:opacity-100 group-focus-within:opacity-100 absolute left-0 mt-3 w-64 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-2xl transition ease-out duration-150">
+            <div class="px-4 py-4 grid gap-2 text-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+              <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                <span>Data Portal</span>
+                <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                <span>AIX Exchange: Country Benchmarking</span>
+                <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                <span>Dashboards</span>
+                <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+              </a>
+              <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                <span>Maps</span>
+                <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+              </a>
+              <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                <span>Datasets</span>
+                <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+              </a>
+            </div>
+            <div class="border-t border-gray-100 dark:border-gray-800 px-4 py-3 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</div>
+          </div>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="inline-flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">
+          <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+          <span>Methodology</span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 transition hover:underline underline-offset-4">About</a>
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      will-change: transform, opacity;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeInUp .6s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .typewriter {
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .typewriter::after {
+      content: "▌";
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+      color: #f59e0b;
+    }
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" aria-label="Toggle dark mode">
+          <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+    /* Loading bar */
+    .loading-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #f59e0b, #ffad33, #f59e0b);
+      background-size: 200% 100%;
+      animation: loading 2s linear infinite;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0 }
+      100% { background-position: -200% 0 }
+    }
+    .fade-in {
+      animation: fadeIn .3s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+        <!-- Language switcher -->
+        <div class="inline-flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" id="langToggle" aria-label="Switch language">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+          <span id="langLabel" class="text-xs">EN</span>
+        </div>
+
+    /* Dropdown styling */
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: #fff;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,.1);
+      z-index: 10;
+      max-height: 300px;
+      overflow-y: auto;
+      border-radius: .5rem;
+    }
+    .dropdown.open .dropdown-content { display: block; }
+    .dark .dropdown-content {
+      background: #1f2937;
+      box-shadow: 0 8px 16px rgba(0,0,0,.3);
+    }
+    .dropdown-item {
+      padding: .5rem 1rem;
+      cursor: pointer;
+    }
+    .dropdown-item:hover { background: #f3f4f6 }
+    .dark .dropdown-item:hover { background: #374151 }
+        <!-- Auth: Sign-in button (shown when logged out) -->
+        <button id="loginBtn"
+          class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-brand-500 text-white hover:bg-brand-600 active:scale-95 transition shadow-sm hover:shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+          </svg>
+          <span>Sign in</span>
+        </button>
+        <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+
+    /* Country chip */
+    .country-chip { transition: all .2s ease; }
+    .country-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+      <!-- Mobile menu button -->
+      <div class="lg:hidden flex items-center space-x-2">
+        <!-- Mobile Dark Mode Toggle -->
+        <button id="mobile-theme-toggle" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" aria-label="Toggle dark mode">
+          <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        
+        <!-- Hamburger menu button -->
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" aria-label="Open main menu">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    /* Table improvements */
+    #dataTable {
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+    }
+    #dataTable th,
+    #dataTable td {
+      padding: 0.6rem 0.75rem;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+      border-right: 1px solid rgba(200,200,200,0.3);
+    }
+    #dataTable th:first-child,
+    #dataTable td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+    }
+    .dark #dataTable th:first-child,
+    .dark #dataTable td:first-child { color: #d1d5db; }
+    #dataTable th:last-child,
+    #dataTable td:last-child { border-right: none; }
+    #dataTable th:not(:first-child),
+    #dataTable td:not(:first-child) { min-width: 120px; }
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="px-2 pt-4 pb-3 space-y-1">
+        <a href="index.html" data-i18n="nav_home" aria-current="page" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Home</a>
+        <a href="projects.html" data-i18n="nav_projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Projects</a>
+        <a href="data.html" data-i18n="nav_data" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Data</a>
+        <div class="ml-6 space-y-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50/60 dark:bg-gray-900/40 px-3 py-3 text-sm text-gray-600 dark:text-gray-300">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Explore</p>
+          <a href="data.html" data-i18n="nav_data_portal" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Data Portal</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/worldbank.html" data-i18n="nav_wb" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>AIX Exchange: Country Benchmarking</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="subpages/data/dashboards/" data-i18n="nav_data_dashboards" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Dashboards</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="12" width="3" height="4" rx="1"/></svg>
+          </a>
+          <a href="subpages/data/maps/" data-i18n="nav_data_maps" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Maps</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6l6-2z"/></svg>
+          </a>
+          <a href="subpages/data/datasets/" data-i18n="nav_data_datasets" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 hover:bg-white dark:hover:bg-gray-800 transition">
+            <span>Datasets</span>
+            <svg class="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 5 9-5"/></svg>
+          </a>
+          <p class="px-3 pt-1 text-xs text-gray-500 dark:text-gray-400" data-i18n="nav_data_note">Note: AIX requires secure sign-in.</p>
+        </div>
+        <a href="methodology.html" data-i18n="nav_methodology" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+            <span>Methodology</span>
+          </span>
+        </a>
+        <a href="publications.html" data-i18n="nav_publications" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Publications</a>
+        <a href="collaborate.html" data-i18n="nav_collaborate" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Collaborate</a>
+        <a href="media.html" data-i18n="nav_media" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Media</a>
+        <a href="about.html" data-i18n="nav_about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">About</a>
+        
+        <!-- Mobile Language switcher -->
+        <div class="px-3 py-2">
+          <div class="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors" id="mobile-langToggle" aria-label="Switch language">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.3 0 2.51.31 3.58.86-.25.34-.52.67-.8.98H9.22A7.93 7.93 0 0112 4zM6.05 6.79A7.94 7.94 0 004.06 12c0 1.89.65 3.63 1.74 5h2.81a19.6 19.6 0 01-.47-2.5h2.11V12H6.5c.12-1.1.43-2.15.92-3.12h3.83V7.63H8.6c.4-.58.84-1.12 1.32-1.63H6.05zm11.9 0h-3.87c.48.51.92 1.05 1.32 1.63h-2.66V8.88h3.83c.49.97.8 2.02.92 3.12h-3.74v2.5h2.11c-.08.86-.24 1.7-.47 2.5h2.81A7.94 7.94 0 0019.94 12c0-1.89-.65-3.63-1.74-5zM12 20a7.93 7.93 0 01-2.78-.52c.28-.31.55-.64.8-.98h5.56c.28-.31.55-.64.8-.98A7.93 7.93 0 0112 20z"/></svg>
+            <span id="mobile-langLabel" class="text-sm">English</span>
+          </div>
+        </div>
+        
+        <!-- Mobile Sign-in button -->
+        <div class="px-3 py-2">
+          <button id="mobile-loginBtn" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-brand-500 text-white hover:bg-brand-600 active:scale-95 transition shadow-sm hover:shadow-md">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V11a2 2 0 00-2-2h-1V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9z"/>
+            </svg>
+            <span>Sign in</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    /* Change indicators */
+    .value-change {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 4px;
+      font-size: 0.75rem;
+      vertical-align: middle;
+    }
+    .value-up { color: #10b981; }
+    .value-down { color: #ef4444; }
+    .value-change svg {
+      width: 10px;
+      height: 10px;
+    }
+    
+    #dataTable tr:hover {
+      background: rgba(245,158,11,0.08);
+      transition: background 0.2s ease;
+    }
+    
+    /* Stats columns styling */
+    .stats-mean { color: #3b82f6; }
+    .stats-min { color: #ef4444; }
+    .stats-max { color: #10b981; }
+    
+    .dark .stats-mean { color: #60a5fa; }
+    .dark .stats-min { color: #f87171; }
+    .dark .stats-max { color: #34d399; }
+    
+    /* New styles for improved dashboard */
+    .card {
+      @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-soft;
+    }
+    
+    .btn-primary {
+      @apply bg-brand-500 text-white font-medium hover:bg-brand-600 transition-colors;
+    }
+    
+    .btn-secondary {
+      @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+    }
+    
+    .input-field {
+      @apply w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2;
+    }
+    
+    .kpi-card {
+      @apply bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-soft;
+    }
+  </style>
+</head>
+    <!-- Auth: User chip + dropdown (shown when logged in) -->
+    <div id="userMenu" class="relative hidden">
+      <button id="userChip"
+        class="inline-flex items-center gap-2 px-2 py-1 rounded-md border bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <span id="userAvatar"
+            class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-semibold">U</span>
+          <span id="userName" class="text-sm text-gray-700 dark:text-gray-200">User</span>
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/></svg>
+        </button>
+        <div id="userDropdown"
+            class="absolute right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-2 hidden menu z-50 min-w-[12rem]">
+          <a href="subpages/data/worldbank-pro.html" class="text-gray-800 dark:text-gray-200">My presets</a>
+          <a href="subpages/login.html" id="adminLink" class="text-gray-800 dark:text-gray-200 hidden">Admin dashboard</a>
+          <hr class="my-2 border-gray-200 dark:border-gray-600" />
+          <button id="logoutBtn" class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">Logout</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+  <!-- Loading bar -->
+  <div
+    id="loadingBar"
+    class="loading-bar fixed top-0 left-0 right-0 z-30 hidden"
+    role="progressbar"
+    aria-label="Loading data"
+    aria-hidden="true">
+  </div>
+
+  <!-- Brand bar -->
+  <div class="bg-black text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 bg-brand-500 rounded-full flex items-center justify-center">
+          <span class="text-white font-bold text-lg">A</span>
+        </div>
+        <span class="font-semibold tracking-wide text-base sm:text-lg">Axel Dev Lab</span>
+      </div>
+      <div class="flex items-center gap-4 text-gray-100 text-xs sm:text-sm">
+        <span class="hidden sm:inline">Mapping Ideas, Powering Progress.</span>
+        <span class="hidden sm:inline text-brand-400">|</span>
+        <span class="hidden sm:inline">Axel Dev Consulting — <em>Strategic Solutions, Grounded in Data.</em></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header with Navbar -->
+  <header id="siteHeader" class="bg-white/80 backdrop-blur border-b border-gray-200 sticky top-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="h-12 w-12 bg-brand-500 rounded-xl flex items-center justify-center">
+          <span class="text-white font-bold text-xl">A</span>
+        </div>
+        <div class="leading-tight">
+          <div class="text-xl font-extrabold tracking-tight text-gray-900">Axel Dev Lab</div>
+          <div class="text-[12px] uppercase tracking-widest text-gray-500">Mapping Ideas, Powering Progress</div>
+        </div>
+      </a>
+
+      <!-- Navbar -->
+      <nav class="relative space-x-6 text-sm font-medium flex items-center">
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Home</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Projects</a>
+        <a href="#" aria-current="page">World Bank</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Data</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Publications</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Collaborate</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">Media</a>
+        <a href="#" class="hover:text-brand-600 transition hover:underline underline-offset-4">About</a>
+        
+        <!-- Theme toggle -->
+        <button id="themeBtn" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="max-w-7xl mx-auto px-6 mt-4">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <a href="#">Home</a> / <a href="#">Data</a> / <span>World Bank</span>
+    </nav>
+  </div>
+
+
+  <!-- Main -->
+  <main id="main" class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Dashboard Header -->
+    <section class="mb-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">World Bank Global Data Dashboard</h1>
+          <p class="text-gray-600 dark:text-gray-400 mt-2">Interactive data visualization and analysis for global development indicators</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-gray-500">Last updated:</span>
+          <span id="dataUpdateDate" class="text-sm font-medium">Loading...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls Row -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-8 card">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Category -->
+          <div class="dropdown">
+            <button class="input-field flex items-center justify-between">
+              <span id="categoryDisplay">Select Category</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="dropdown-content">
+              <div id="categoryList" class="py-1"></div>
+            </div>
+          </div>
+
+          <!-- Indicator -->
+          <div class="md:col-span-2 dropdown">
+            <button class="input-field flex items-center justify-between">
+              <span id="indicatorDisplay">Select Indicator</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="dropdown-content">
+              <div id="indicatorList" class="py-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Countries Picker -->
+        <div class="mt-4">
+          <label class="block text-sm font-medium mb-1">Countries</label>
+          <div class="dropdown w-full">
+            <button 
+              type="button"
+              class="input-field text-left flex items-center justify-between"
+              aria-haspopup="true"
+              aria-expanded="false">
+              <span>Select countries...</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div class="dropdown-content w-full" id="countryDropdown">
+              <!-- Search -->
+              <div class="p-2 border-b border-gray-200 dark:border-gray-700">
+                <input 
+                  id="countryInput"
+                  type="text"
+                  placeholder="Search countries..."
+                  class="input-field text-sm" />
+              </div>
+
+              <!-- Country Groups -->
+              <div class="p-2 border-b border-gray-200 dark:border-gray-700">
+                <h4 class="font-medium text-sm">Country Groups</h4>
+              </div>
+              <div id="countryGroups" class="py-1"></div>
+
+              <!-- Individual Countries -->
+              <div class="p-2 border-b border-gray-200 dark:border-gray-700 border-t">
+                <h4 class="font-medium text-sm">Individual Countries</h4>
+              </div>
+              <div id="individualCountries" class="py-1"></div>
+            </div>
+          </div>
+
+          <!-- Selected Chips -->
+          <div id="countryChips" class="mt-2 flex flex-wrap gap-2"></div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Tip: Select up to 6 countries to compare. Country groups are listed first.
+          </p>
+        </div>
+
+        <!-- Advanced Toggles -->
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <label class="flex items-center gap-2">
+            <input id="logScale" type="checkbox" class="scale-110 accent-brand-500" />
+            <span class="text-sm">Log scale</span>
+          </label>
+          <label class="flex items-center gap-2">
+            <input id="normalize" type="checkbox" class="scale-110 accent-brand-500" />
+            <span class="text-sm">Normalize (index 100 at first year)</span>
+          </label>
+          <div class="flex items-center gap-2">
+            <label for="smoothWindow" class="text-sm">Smooth (moving avg):</label>
+            <input id="smoothWindow" type="range" min="1" max="7" step="2" value="1" class="w-40 accent-brand-500" />
+            <span id="smoothLabel" class="text-sm tabular-nums">1</span>
+          </div>
+        </div>
+
+        <!-- Year Range -->
+        <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
+          <div>
+            <label for="startYear" class="block text-sm font-medium mb-1">Start year</label>
+            <input id="startYear" type="number" value="1960" class="input-field" />
+          </div>
+          <div>
+            <label for="endYear" class="block text-sm font-medium mb-1">End year</label>
+            <input id="endYear" type="number" value="2014" class="input-field" />
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button id="fetchBtn" class="btn-primary flex-1 rounded-xl px-4 py-2 shadow">Fetch Data</button>
+          <button id="resetBtn" class="btn-secondary rounded-xl px-4 py-2">Reset</button>
+          <button id="exportPngBtn" class="btn-secondary rounded-xl px-3 py-2">PNG</button>
+          <button id="exportCsvBtn" class="btn-secondary rounded-xl px-3 py-2">CSV</button>
+          <button id="exportPdfBtn" class="btn-secondary rounded-xl px-3 py-2">PDF</button>
+        </div>
+      </div>
+      
+      <!-- Info Panel -->
+      <div class="lg:col-span-4 card">
+        <h3 class="text-lg font-semibold mb-3">About This Dashboard</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+          This interactive dashboard visualizes World Bank data for global comparisons. 
+          Select indicators and countries to generate customized visualizations and reports.
+        </p>
+        <div class="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+          <p><strong>Data Source:</strong> World Bank Open Data API</p>
+          <p><strong>Last Updated:</strong> <span id="dataUpdateDate">Loading...</span></p>
+          <p><strong>Provider:</strong> Axel Dev Lab</p>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <h4 class="text-sm font-medium mb-2">Quick Actions</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="quickGDP" class="text-xs btn-secondary py-1 rounded-lg">GDP Trends</button>
+            <button id="quickPopulation" class="text-xs btn-secondary py-1 rounded-lg">Population</button>
+            <button id="quickEducation" class="text-xs btn-secondary py-1 rounded-lg">Education</button>
+            <button id="quickHealth" class="text-xs btn-secondary py-1 rounded-lg">Health</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KPI Cards -->
+    <section id="kpiSection" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" hidden>
+      <h2 class="sr-only">
+        Key Performance Indicators
+      </h2>
+      <!-- KPI cards will be injected here -->
+    </section>
+
+    <!-- Chart Section -->
+    <section class="mt-6 card fade-in">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 id="chartTitle" class="text-lg font-semibold">—</h2>
+          <p id="chartMeta" class="text-xs text-gray-500 dark:text-gray-400">—</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div id="spinner" class="hidden animate-spin w-6 h-6 rounded-full border-2 border-brand-500 border-t-transparent"></div>
+          <button id="chartResetZoomBtn" class="text-xs px-2 py-1 rounded border hover:bg-gray-50 dark:hover:bg-gray-800 hidden">Reset Zoom</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Chart -->
+        <div class="lg:col-span-9 relative" style="height:420px">
+          <canvas id="chart"></canvas>
+        </div>
+        <!-- Legend -->
+        <div class="lg:col-span-3">
+          <h4 class="text-sm font-medium mb-2">Legend</h4>
+          <div id="chartLegend" class="space-y-1 text-xs text-gray-700 dark:text-gray-300 max-h-[380px] overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <div class="text-xs text-gray-500 dark:text-gray-400 mt-4 flex justify-between">
+        <span>Source: World Bank API</span>
+        <span>Provider: <strong class="text-brand-600">Axel Dev Lab</strong></span>
+      </div>
+    </section>
+
+    <!-- Data Table -->
+    <section class="mt-6 card fade-in">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-md font-semibold">Data Table</h3>
+        <div class="flex items-center gap-2">
+          <button id="shareBtn" class="text-xs px-2 py-1 rounded border hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-1">Share</button>
+          <button id="copyTableBtn" class="text-xs px-2 py-1 rounded border hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-1">Copy</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm" id="dataTable">
+          <thead class="bg-gray-50 dark:bg-gray-800">
+            <tr id="tableHeadRow"><th>Year</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+
+  <!-- Footer -->
+  
+  <footer class="bg-[#0b1f3a] text-gray-200 py-14 px-6 transition-colors">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 transition-all" />
+            <div class="leading-tight">
+              <div class="text-lg sm:text-xl font-bold tracking-tight text-white" data-i18n="brand_lab_name">Axel Dev Lab</div>
+              <div class="text-[10px] sm:text-xs uppercase tracking-widest text-brand-200" data-i18n="brand_group">Axel Dev Group LLC</div>
+            </div>
+          </div>
+          <p class="opacity-80 text-sm" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+          <p class="text-sm opacity-80" data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p class="text-sm opacity-80" data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p class="text-sm opacity-80" data-i18n="footer_address_line3">United States</p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+          <ul class="space-y-2 text-sm opacity-90">
+            <li><a href="index.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_home">Home</a></li>
+            <li><a href="projects.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_projects">Projects</a></li>
+            <li><a href="data.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_data">Data</a></li>
+            <li>
+              <a href="methodology.html" class="inline-flex items-center gap-2 hover:text-brand-200 transition-colors" data-i18n="nav_methodology">
+                <svg class="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 5-5"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4h6"/></svg>
+                <span>Methodology</span>
+              </a>
+            </li>
+            <li><a href="publications.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_publications">Publications</a></li>
+            <li><a href="collaborate.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_collaborate">Collaborate</a></li>
+            <li><a href="media.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_media">Media</a></li>
+            <li><a href="about.html" class="hover:text-brand-200 transition-colors" data-i18n="nav_about">About</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+          <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+          <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-brand-200 hover:text-brand-100 transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+          <div class="mt-4 space-y-2">
+            <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- YouTube -->
+              <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+                </svg>
+              </a>
+
+              <!-- X / Twitter -->
+              <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+                </svg>
+              </a>
+
+              <!-- GitHub -->
+              <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+                </svg>
+              </a>
+
+              <!-- Substack -->
+              <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+                </svg>
+              </a>
+
+              <!-- Facebook -->
+              <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+                </svg>
+              </a>
+
+              <!-- LinkedIn -->
+              <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon icon-5">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+                </svg>
+              </a>
+
+              <!-- Instagram -->
+              <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                  <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+      <div class="pt-8 border-t border-white/10 text-center text-sm opacity-70">
+        <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div
+    id="toast"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm px-4 py-2 rounded-xl shadow-lg hidden flex items-center gap-2 z-50"
+  >
+    <svg id="toastIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="toastMessage"></span>
+  </div>
+
+<script>
+  "use strict";
+  // ---------------------- Catalog ----------------------
+  const CATALOG = {
+    Economic: {
+      "NY.GDP.MKTP.CD": "GDP (current US$)",
+      "NY.GDP.MKTP.KD.ZG": "GDP growth (annual %)",
+      "NY.GDP.PCAP.CD": "GDP per capita (current US$)",
+      "NY.GDP.PCAP.KD": "GDP per capita (constant US$)",
+      "NY.GDP.MKTP.KD": "GDP (constant US$)",
+      "NE.EXP.GNFS.ZS": "Exports of goods & services (% of GDP)",
+      "NE.IMP.GNFS.ZS": "Imports of goods & services (% of GDP)",
+      "NE.TRD.GNFS.ZS": "Trade (% of GDP)",
+      "BX.KLT.DINV.WD.GD.ZS": "FDI, net inflows (% of GDP)",
+      "BM.KLT.DINV.WD.GD.ZS": "FDI, net outflows (% of GDP)",
+      "NY.GNS.ICTR.ZS": "Gross savings (% of GDP)",
+      "FP.CPI.TOTL.ZG": "Inflation, consumer prices (annual %)",
+      "GC.DOD.TOTL.GD.ZS": "Central government debt (% of GDP)",
+      "GC.REV.XGRT.GD.ZS": "Government revenue (% of GDP)",
+      "GC.XPN.TOTL.GD.ZS": "Government expenditure (% of GDP)",
+      "IC.BUS.EASE.XQ": "Ease of doing business index (1=most business-friendly regulations)",
+      "IC.REG.COST.PC.ZS": "Cost of business start-up procedures (% of GNI per capita)"
+    },
+    Demographic: {
+      "SP.POP.TOTL": "Population, total",
+      "SP.POP.GROW": "Population growth (annual %)",
+      "SP.POP.TOTL.FE.ZS": "Population, female (% of total)",
+      "SP.URB.TOTL.IN.ZS": "Urban population (% of total)",
+      "SP.URB.GROW": "Urban population growth (annual %)",
+      "SP.DYN.LE00.IN": "Life expectancy at birth, total (years)",
+      "SP.DYN.IMRT.IN": "Infant mortality rate (per 1,000 live births)",
+      "SP.DYN.CBRT.IN": "Birth rate, crude (per 1,000 people)",
+      "SP.DYN.CDRT.IN": "Death rate, crude (per 1,000 people)",
+      "SM.POP.NETM": "Net migration",
+      "SP.POP.DPND": "Age dependency ratio (% of working-age population)"
+    },
+
+    Financial: {
+      "FS.AST.PRVT.GD.ZS": "Domestic credit to private sector (% of GDP)",
+      "FD.RES.LIQU.AS.ZS": "Bank liquid reserves to bank assets (%)",
+      "GFDD.DM.02": "Stock market capitalization (% of GDP)",
+      "FR.INR.RINR": "Real interest rate (%)",
+      "PA.NUS.FCRF": "Official exchange rate (LCU per US$, period average)",
+      "FI.RES.TOTL.CD": "Total reserves (includes gold, current US$)",
+      "NE.RSB.GNFS.CD": "External balance on goods and services (current US$)"
+    },
+
+    Poverty: {
+      "SI.POV.DDAY": "Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)",
+      "SI.POV.NAHC": "Poverty headcount ratio at national poverty lines (% of population)",
+      "SI.POV.GINI": "Gini index",
+      "SI.SPR.PC40": "Share of population living on less than $3.65 a day (2017 PPP) (%)"
+    },
+
+    Labor: {
+      "SL.UEM.TOTL.ZS": "Unemployment, total (% of labor force)",
+      "SL.UEM.TOTL.FE.ZS": "Unemployment, female (% of female labor force)",
+      "SL.TLF.CACT.ZS": "Labor force participation rate (% of population ages 15+)",
+      "SL.TLF.CACT.FE.ZS": "Labor force participation rate, female (% of female population ages 15+)",
+      "SL.EMP.TOTL.SP.ZS": "Employment to population ratio, 15+, total (%)",
+      "SL.EMP.VULN.ZS": "Vulnerable employment (% of total employment)",
+      "NV.IND.EMPL.KD": "Employment in industry (% of total employment)",
+      "NV.SRV.EMPL.KD": "Employment in services (% of total employment)"
+    },
+
+
+    Infrastructure: {
+      "EG.ELC.ACCS.ZS": "Access to electricity (% of population)",
+      "EG.ELC.RNEW.ZS": "Renewable electricity output (% of total electricity output)",
+      "EG.USE.COMM.FO.ZS": "Fossil fuel energy consumption (% of total)",
+      "IT.NET.USER.ZS": "Individuals using the Internet (% of population)",
+      "IT.CEL.SETS.P2": "Mobile cellular subscriptions (per 100 people)",
+      "IS.RRS.PASG.KM": "Railways, passengers carried (million passenger-km)",
+      "IS.RRS.GOOD.MT.K6": "Railways, goods transported (million ton-km)",
+      "IS.AIR.PSGR": "Air transport, passengers carried"
+    },
+
+    Environment: {
+      "EN.ATM.CO2E.PC": "CO₂ emissions (metric tons per capita)",
+      "EN.ATM.CO2E.KT": "CO₂ emissions (kt)",
+      "EN.ATM.GHGT.KT.CE": "Total greenhouse gas emissions (kt of CO₂ equivalent)",
+      "EG.FEC.RNEW.ZS": "Renewable energy consumption (% of total final energy consumption)",
+      "AG.LND.FRST.ZS": "Forest area (% of land area)",
+      "ER.H2O.FWTL.ZS": "Annual freshwater withdrawals, total (% of internal resources)",
+      "ER.PTD.TOTL.ZS": "Terrestrial and marine protected areas (% of total territorial area)"
+    },
+
+    Health: {
+      "SH.XPD.CHEX.GD.ZS": "Current health expenditure (% of GDP)",
+      "SH.XPD.CHEX.PC.CD": "Current health expenditure per capita (current US$)",
+      "SH.DYN.MORT": "Mortality rate, under-5 (per 1,000 live births)",
+      "SH.STA.OWGH.ZS": "Overweight children (% of children under 5)",
+      "SH.STA.BRTW.ZS": "Low-birthweight babies (% of births)",
+      "SH.STA.MMRT": "Maternal mortality ratio (modeled estimate, per 100,000 live births)",
+      "SH.TBS.INCD": "Incidence of tuberculosis (per 100,000 people)",
+      "SH.IMM.MEAS": "Child immunization rate, measles (% of children ages 12-23 months)",
+      "SH.MED.BEDS.ZS": "Hospital beds (per 1,000 people)",
+      "SH.MED.PHYS.ZS": "Physicians (per 1,000 people)"
+    },
+
+    Education: {
+      "SE.XPD.TOTL.GD.ZS": "Government expenditure on education (% of GDP)",
+      "SE.XPD.PRIM.ZS": "Government expenditure on education, primary (% of government expenditure on education)",
+      "SE.ADT.LITR.ZS": "Literacy rate, adult total (% of people ages 15 and above)",
+      "SE.PRM.ENRR": "School enrollment, primary (% gross)",
+      "SE.SEC.ENRR": "School enrollment, secondary (% gross)",
+      "SE.TER.ENRR": "School enrollment, tertiary (% gross)",
+      "SE.PRM.NENR": "School enrollment, primary (% net)",
+      "SE.SEC.NENR": "School enrollment, secondary (% net)",
+      "SE.PRM.CMPT.ZS": "Primary completion rate (% of relevant age group)"
+    },
+
+    "Public Sector": {
+      "IQ.CPA.TRAN.XQ": "Transparency, accountability, and corruption in the public sector rating (1=low to 6=high)",
+      "GE.EST": "Government Effectiveness: Estimate (-2.5=weak to 2.5=strong)",
+      "RL.EST": "Rule of Law: Estimate (-2.5=weak to 2.5=strong)",
+      "PV.EST": "Political Stability and Absence of Violence/Terrorism: Estimate (-2.5=weak to 2.5=strong)"
+    }
+  };
+
+  // ---------------------- Country list ----------------------
+  const COUNTRY_GROUPS = {
+    "West Africa": ["BEN", "BFA", "CPV", "CIV", "GMB", "GHA", "GIN", "GNB", "LBR", "MLI", "MRT", "NER", "NGA", "SEN", "SLE", "TGO"],
+    "Ecowas": ["BEN", "CPV", "CIV", "GMB", "GHA", "GIN", "GNB", "LBR", "MRT", "NGA", "SEN", "SLE", "TGO"],
+    "AES": ["BFA", "MLI", "NER"],
+    "East Africa": ["BDI", "COM", "DJI", "ERI", "ETH", "KEN", "MDG", "MWI", "MUS", "MOZ", "RWA", "SYC", "SOM", "SSD", "SDN", "TZA", "UGA", "ZMB", "ZWE"],
+    "Central Africa": ["AGO", "CMR", "CAF", "TCD", "COD", "COG", "GNQ", "GAB", "STP"],
+    "Southern Africa": ["BWA", "SWZ", "LSO", "NAM", "ZAF"],
+    "North Africa": ["DZA", "EGY", "LBY", "MAR", "TUN"],
+    "European Union": ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"],
+    "G7": ["CAN", "FRA", "DEU", "ITA", "JPN", "GBR", "USA"],
+    "BRICS": ["BRA", "RUS", "IND", "CHN", "ZAF"],
+    "ASEAN": ["BRN", "KHM", "IDN", "LAO", "MYS", "MMR", "PHL", "SGP", "THA", "VNM"],
+    "Latin America": ["ARG", "BOL", "BRA", "CHL", "COL", "CRI", "DOM", "ECU", "SLV", "GTM", "HND", "MEX", "NIC", "PAN", "PRY", "PER", "URY", "VEN"]
+  };
+
+  const INDIVIDUAL_COUNTRIES = {
+    "United States": "USA",
+    "China": "CHN",
+    "India": "IND",
+    "Japan": "JPN",
+    "Germany": "DEU",
+    "United Kingdom": "GBR",
+    "France": "FRA",
+    "Brazil": "BRA",
+    "Canada": "CAN",
+    "Australia": "AUS",
+    "South Africa": "ZAF",
+    "Nigeria": "NGA",
+    "Mexico": "MEX",
+    "South Korea": "KOR",
+    "Russia": "RUS"
+  };
+
+  // ---------------------- DOM refs ----------------------
+  const els = {
+    categoryDisplay: document.getElementById('categoryDisplay'),
+    categoryList: document.getElementById('categoryList'),
+    indicatorDisplay: document.getElementById('indicatorDisplay'),
+    indicatorList: document.getElementById('indicatorList'),
+    countryInput: document.getElementById('countryInput'),
+    countryDropdown: document.getElementById('countryDropdown'),
+    countryGroups: document.getElementById('countryGroups'),
+    individualCountries: document.getElementById('individualCountries'),
+    countryChips: document.getElementById('countryChips'),
+    logScale: document.getElementById('logScale'),
+    normalize: document.getElementById('normalize'),
+    smoothWindow: document.getElementById('smoothWindow'),
+    smoothLabel: document.getElementById('smoothLabel'),
+    startYear: document.getElementById('startYear'),
+    endYear: document.getElementById('endYear'),
+    fetchBtn: document.getElementById('fetchBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    exportPngBtn: document.getElementById('exportPngBtn'),
+    exportCsvBtn: document.getElementById('exportCsvBtn'),
+    exportPdfBtn: document.getElementById('exportPdfBtn'),
+    chartTitle: document.getElementById('chartTitle'),
+    chartMeta: document.getElementById('chartMeta'),
+    spinner: document.getElementById('spinner'),
+    chart: document.getElementById('chart'),
+    chartResetZoomBtn: document.getElementById('chartResetZoomBtn'),
+    kpiSection: document.getElementById('kpiSection'),
+    chartLegend: document.getElementById('chartLegend'),
+    tableHeadRow: document.getElementById('tableHeadRow'),
+    tbody: document.getElementById('tbody'),
+    shareBtn: document.getElementById('shareBtn'),
+    copyTableBtn: document.getElementById('copyTableBtn'),
+    themeBtn: document.getElementById('themeBtn'),
+    themeIcon: document.getElementById('themeIcon'),
+    toast: document.getElementById('toast'),
+    toastMessage: document.getElementById('toastMessage'),
+    toastIcon: document.getElementById('toastIcon'),
+    loadingBar: document.getElementById('loadingBar'),
+    dataUpdateDate: document.getElementById('dataUpdateDate'),
+    quickGDP: document.getElementById('quickGDP'),
+    quickPopulation: document.getElementById('quickPopulation'),
+    quickEducation: document.getElementById('quickEducation'),
+    quickHealth: document.getElementById('quickHealth')
+  };
+
+  // ---------------------- State ----------------------
+  const state = {
+    countries: [],
+    countryCodes: new Map(),
+    category: "Economic",
+    indicator: "NY.GDP.PCAP.CD",
+    start: 1960,
+    end: 2014,
+    years: [],
+    seriesMap: new Map(),
+    chart: null
+  };
+
+  const dataCache = new Map(); // In-memory cache for fetched data
+  // ---------------------- Utilities ----------------------
+  function showToast(msg, type = 'success') {
+    els.toastMessage.textContent = msg;
+    els.toast.classList.remove('hidden');
+    setTimeout(() => els.toast.classList.add('hidden'), 3000);
+  }
+
+  function movingAverage(arr, window) {
+    if (window <= 1) return arr.slice();
+    return arr.map((_, i) => {
+      const s = Math.max(0, i - Math.floor(window / 2));
+      const e = Math.min(arr.length, i + Math.ceil(window / 2));
+      const slice = arr.slice(s, e).filter(v => Number.isFinite(v));
+      return slice.length ? slice.reduce((a, b) => a + b, 0) / slice.length : NaN;
+    });
+  }
+
+  function normalizeIndex(arr) {
+    const first = arr.find(v => Number.isFinite(v));
+    if (!Number.isFinite(first) || first === 0) return arr.slice();
+    return arr.map(v => Number.isFinite(v) ? (v / first) * 100 : NaN);
+  }
+
+  function clampYear(y) { return y ? Math.round(Number(y)) : undefined; }
+
+  function toCSVFromMap(years, seriesMap) {
+    const countries = [...seriesMap.keys()];
+    const header = ['year', ...countries].join(',') + '\n';
+    const rows = years.map((y, i) => [
+      y, ...countries.map(c => {
+        const v = (seriesMap.get(c) || [])[i];
+        return Number.isFinite(v) ? v : '';
+      })
+    ].join(',')).join('\n');
+    return header + rows + '\n';
+  }
+
+  function cacheGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
+  function cacheSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
+
+  // ---------------------- World Bank API ----------------------
+  async function fetchSeries(countryCode, indicator) {
+    const cacheKey = `${countryCode}:${indicator}`;
+    if (dataCache.has(cacheKey)) return dataCache.get(cacheKey);
+
+    els.loadingBar.classList.remove('hidden');
+    try {
+      const url = `https://api.worldbank.org/v2/country/${countryCode}/indicator/${indicator}?format=json&per_page=20000`;
+      const r = await fetch(url);
+      if (!r.ok) throw new Error('API error fetching data.');
+      const j = await r.json();
+      if (!j || !Array.isArray(j[1])) throw new Error('Invalid API response format.');
+
+      const rows = (j[1] || [])
+        .filter(x => x.value !== null)
+        .map(x => ({ year: Number(x.date), value: Number(x.value) }))
+        .sort((a, b) => a.year - b.year);
+
+      dataCache.set(cacheKey, rows);
+      return rows;
+    } finally {
+      els.loadingBar.classList.add('hidden');
+    }
+  }
+
+  // ---------------------- Rendering ----------------------
+  function populateSelectors() {
+    els.categoryList.innerHTML = '';
+    for (const cat of Object.keys(CATALOG)) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.textContent = cat;
+      item.onclick = () => {
+        state.category = cat;
+        els.categoryDisplay.textContent = cat;
+        updateIndicatorOptions();
+        // If data is already shown, re-fetch for the new category
+        if (state.countries.length > 0) fetchAndProcessData();
+      };
+      els.categoryList.appendChild(item);
+    }
+    els.categoryDisplay.textContent = state.category;
+    updateIndicatorOptions();
+
+    els.countryGroups.innerHTML = '';
+    for (const [groupName, countryCodes] of Object.entries(COUNTRY_GROUPS)) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.innerHTML = `${groupName} <span class="text-xs text-gray-500">${countryCodes.length} countries</span>`;
+      item.onclick = () => {
+        // Add all countries in the group (up to 6 total)
+        countryCodes.forEach(code => {
+          if (state.countries.length < 6) {
+            const countryName = getCountryNameByCode(code);
+            if (countryName && !state.countries.includes(countryName)) {
+              state.countries.push(countryName);
+              state.countryCodes.set(countryName, code);
+            }
+          }
+        });
+        renderCountryChips();
+        fetchAndProcessData();
+      };
+      els.countryGroups.appendChild(item);
+    }
+
+    els.individualCountries.innerHTML = '';
+    for (const [countryName, countryCode] of Object.entries(INDIVIDUAL_COUNTRIES)) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.innerHTML = `${countryName} <span class="text-xs text-gray-500">${countryCode}</span>`;
+      item.onclick = () => addCountry(countryName, countryCode);
+      els.individualCountries.appendChild(item);
+    }
+  }
+
+  function getCountryNameByCode(code) {
+    // Find country name by code in our lists
+    for (const [name, cCode] of Object.entries(INDIVIDUAL_COUNTRIES)) {
+      if (cCode === code) return name;
+    }
+    
+    // If not found in individual countries, search in groups
+    for (const [groupName, countryCodes] of Object.entries(COUNTRY_GROUPS)) {
+      if (countryCodes.includes(code)) {
+        // Return a formatted name for countries in groups
+        return `${code} (${groupName})`;
+      }
+    }
+    
+    return null;
+  }
+
+  function updateIndicatorOptions() {
+    els.indicatorList.innerHTML = '';
+    const obj = CATALOG[state.category] || {};
+    for (const [code, label] of Object.entries(obj)) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.innerHTML = `${label} <span class="text-xs text-gray-500">${code}</span>`;
+      item.onclick = () => {
+        state.indicator = code;
+        els.indicatorDisplay.textContent = label;
+        // If data is already shown, re-fetch for the new indicator
+        if (state.countries.length > 0) fetchAndProcessData();
+      };
+      els.indicatorList.appendChild(item);
+    }
+    els.indicatorDisplay.textContent = obj[state.indicator] || 'Select Indicator';
+  }
+
+  async function renderCountryChips() {
+    els.countryChips.innerHTML = '';
+    state.countries.forEach(name => {
+      const chip = document.createElement('span');
+      chip.className = 'country-chip inline-flex items-center gap-2 px-3 py-1 rounded-full border bg-white dark:bg-gray-800';
+      chip.innerHTML = `<span class="text-sm">${name}</span>`;
+      const x = document.createElement('button');
+      x.className = 'text-xs px-1.5 py-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-600';
+      x.innerHTML = '&times;';
+      x.onclick = async () => {
+        state.seriesMap.delete(name);
+        state.countries = state.countries.filter(n => n !== name);
+        state.countryCodes.delete(name); // This is correct
+        await renderCountryChips();
+        fetchAndProcessData(); // Use the new function
+      };
+      chip.appendChild(x);
+      els.countryChips.appendChild(chip);
+    });
+  }
+
+  function regressionLine(x, y) {
+    // Simple linear regression (least squares)
+    const n = x.length;
+    const xMean = x.reduce((a,b)=>a+b,0)/n;
+    const yMean = y.reduce((a,b)=>a+b,0)/n;
+    let num=0, den=0;
+    for(let i=0;i<n;i++){
+      num += (x[i]-xMean)*(y[i]-yMean);
+      den += (x[i]-xMean)**2;
+    }
+    const slope = num/den;
+    const intercept = yMean - slope*xMean;
+    return x.map(v => slope*v+intercept);
+  }
+
+  // --- NEW DATA FETCHING & PROCESSING LOGIC ---
+  async function fetchAndProcessData() {
+    const { countries, countryCodes, indicator } = state;
+    
+    if (countries.length === 0) {
+      initializeEmptyChart();
+      return;
+    }
+
+    els.spinner.classList.remove('hidden');
+    els.fetchBtn.disabled = true;
+
+    try {
+      // 1. Fetch all required data, using cache
+      const countryData = new Map();
+      for (const name of countries) {
+        const code = countryCodes.get(name);
+        if (!code) continue;
+        const data = await fetchSeries(code, indicator);
+        countryData.set(name, data);
+      }
+
+      // 2. Process data
+      const allYears = [...new Set([...countryData.values()].flatMap(rows => rows.map(r => r.year)))].sort((a, b) => a - b);
+      
+      if (allYears.length === 0) {
+        showToast('No data available for this indicator and country selection.', 'warning');
+        initializeEmptyChart('No Data Available', 'Try a different indicator or country selection.');
+        return;
+      }
+
+      const y0 = clampYear(els.startYear.value) ?? allYears[0];
+      const y1 = clampYear(els.endYear.value) ?? allYears[allYears.length - 1];
+      const yearsFiltered = allYears.filter(y => y >= y0 && y <= y1);
+
+      if (yearsFiltered.length === 0) {
+        showToast(`No data available for the selected year range (${y0}–${y1}).`, 'warning');
+        initializeEmptyChart('No Data in Year Range', `Try expanding the start and end years.`);
+        return;
+      }
+
+      const smooth = Number(els.smoothWindow.value || 1);
+      const norm = els.normalize.checked;
+      const processedSeries = new Map();
+
+      for (const [name, rows] of countryData.entries()) {
+        const dataByYear = new Map(rows.map(r => [r.year, r.value]));
+        let series = yearsFiltered.map(y => dataByYear.get(y) ?? NaN);
+        
+        if (smooth > 1) series = movingAverage(series, smooth);
+        if (norm) series = normalizeIndex(series);
+        
+        processedSeries.set(name, series);
+      }
+
+      // 3. Update state
+      state.years = yearsFiltered;
+      state.seriesMap = processedSeries;
+
+      // 4. Render everything
+      const indicatorLabel = CATALOG[state.category]?.[state.indicator] || indicator;
+      els.chartTitle.textContent = indicatorLabel;
+      els.chartMeta.textContent = `Indicator: ${indicator} | Years: ${y0}–${y1}`;
+
+      renderChart();
+      renderTable();
+      renderKPIs();
+      showToast('Data loaded successfully');
+
+    } catch (error) {
+      console.error("Failed to fetch or process data:", error);
+      showToast(error.message || 'An unknown error occurred.', 'error');
+      initializeEmptyChart('Error Loading Data', 'Please check the console and try again.');
+    } finally {
+      els.spinner.classList.add('hidden');
+      els.fetchBtn.disabled = false;
+    }
+  }
+
+  async function addCountry(name, code) {
+    if (state.countries.length >= 6) {
+      showToast("Max 6 countries", "warning");
+      return;
+    }
+    if (!state.countries.includes(name)) {
+      state.countries.push(name);
+      state.countryCodes.set(name, code);
+      await renderCountryChips();
+      fetchAndProcessData();
+    }
+  }
+
+  // --- NEW CHART RENDERING LOGIC ---
+  function renderChart() {
+    if (state.chart) state.chart.destroy();
+
+    // New "Neon" color palette
+    const CHART_COLORS = ['#00f5d4', '#f72585', '#70e000', '#ffbe0b', '#7209b7', '#3a86ff'];
+    const isDark = document.documentElement.classList.contains('dark');
+    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+    const textColor = isDark ? '#d1d5db' : '#374151';
+
+    const datasets = [...state.seriesMap.entries()].map(([name, data], i) => {
+      const color = CHART_COLORS[i % CHART_COLORS.length];
+      return {
+        label: name,
+        data: data,
+        borderColor: color,
+        backgroundColor: color,
+        borderWidth: 2.5, // Slightly thicker for a better glow
+        pointRadius: 0, // Hide points for a cleaner neon line
+        pointHoverRadius: 6,
+        tension: 0.1,
+        // --- NEON GLOW EFFECT ---
+        shadowColor: color,
+        shadowBlur: isDark ? 12 : 8, // More intense glow in dark mode
+      };
+    });
+
+    state.chart = new Chart(els.chart, {
+      type: 'line',
+      data: { labels: state.years, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index', // Show tooltip for all datasets at a given year
+          intersect: false,
+        },
+        onHover: (event, chartElements, chart) => {
+          // Reset all datasets to default style
+          chart.data.datasets.forEach((dataset, i) => {
+            dataset.borderWidth = 2.5;
+            dataset.borderColor = CHART_COLORS[i % CHART_COLORS.length];
+          });
+
+          if (chartElements.length > 0) {
+            // Dim other datasets
+            chart.data.datasets.forEach((dataset, i) => {
+              if (i !== chartElements[0].datasetIndex) {
+                dataset.borderColor = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
+              }
+            });
+            // Highlight the hovered one
+            const hoveredDataset = chart.data.datasets[chartElements[0].datasetIndex];
+            hoveredDataset.borderWidth = 3.5;
+            hoveredDataset.borderColor = CHART_COLORS[chartElements[0].datasetIndex % CHART_COLORS.length];
+          }
+          chart.update('none'); // 'none' prevents re-animation
+        },
+        plugins: {
+          legend: { display: false }, // We use a custom legend
+          tooltip: {
+            backgroundColor: isDark ? '#1f2937' : '#fff',
+            titleColor: isDark ? '#f3f4f6' : '#111827',
+            bodyColor: isDark ? '#d1d5db' : '#374151',
+            borderColor: isDark ? '#374151' : '#e5e7eb',
+            borderWidth: 1,
+            padding: 10,
+            boxPadding: 4,
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = context.parsed.y;
+                return `${label}: ${Number.isFinite(value) ? value.toLocaleString(undefined, {maximumFractionDigits: 2}) : 'N/A'}`;
+              }
+            }
+          },
+          zoom: {
+            zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+            pan: { enabled: true, mode: 'x' },
+            onZoomComplete: ({chart}) => els.chartResetZoomBtn.classList.remove('hidden'),
+            onPanComplete: ({chart}) => els.chartResetZoomBtn.classList.remove('hidden'),
+          }
+        },
+        scales: {
+          y: {
+            type: els.logScale.checked ? 'logarithmic' : 'linear',
+            grid: { color: gridColor, drawBorder: false },
+            ticks: { color: textColor, padding: 8 },
+          },
+          x: {
+            grid: { display: false }, // Cleaner look
+            ticks: { color: textColor, padding: 8, maxRotation: 0, autoSkipPadding: 20 },
+          }
+        }
+      }
+    });
+
+    renderCustomLegend(CHART_COLORS, isDark);
+    els.chartResetZoomBtn.onclick = () => {
+      state.chart.resetZoom();
+      els.chartResetZoomBtn.classList.add('hidden');
+    };
+  }
+
+  function renderCustomLegend(colors, isDark) {
+    const legendContainer = els.chartLegend;
+    legendContainer.innerHTML = '';
+    state.chart.data.datasets.forEach((dataset, i) => {
+      const color = colors[i % colors.length];
+      const legendItem = document.createElement('div');
+      legendItem.className = 'flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-gray-800';
+      legendItem.innerHTML = `
+        <span class="inline-block w-4 h-1 rounded-full" style="background-color: ${color};"></span>
+        <span class="text-sm">${dataset.label}</span>
+      `;
+
+      const toggleVisibility = () => {
+        const isVisible = state.chart.isDatasetVisible(i);
+        state.chart.setDatasetVisibility(i, !isVisible);
+        legendItem.style.opacity = isVisible ? '0.5' : '1';
+        state.chart.update();
+      };
+
+      const highlightSeries = () => {
+        state.chart.data.datasets.forEach((ds, j) => {
+          ds.borderWidth = (i === j) ? 3.5 : 2.5;
+          ds.borderColor = (i === j) ? colors[j % colors.length] : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)');
+        });
+        state.chart.update('none');
+      };
+
+      const resetHighlight = () => {
+        state.chart.data.datasets.forEach((ds, j) => {
+          ds.borderWidth = 2.5;
+          ds.borderColor = colors[j % colors.length];
+        });
+        state.chart.update('none');
+      };
+
+      legendItem.onclick = toggleVisibility;
+      legendItem.onmouseenter = highlightSeries;
+      legendItem.onmouseleave = resetHighlight;
+      legendContainer.appendChild(legendItem);
+    });
+  }
+
+  function calcCAGR(startVal, endVal, years) {
+    if (!Number.isFinite(startVal) || !Number.isFinite(endVal) || years <= 1) return NaN;
+    return ((endVal / startVal) ** (1 / (years - 1)) - 1) * 100;
+  }
+
+  function renderKPIs() {
+    const container = els.kpiSection;
+    container.innerHTML = '';
+
+    state.countries.forEach(country => {
+      const series = state.seriesMap.get(country) || [];
+      if (!series.length) return;
+
+      const firstYear = state.years[0];
+      const lastYear = state.years[state.years.length - 1];
+      const startVal = series[0];
+      const endVal = series[series.length - 1];
+      const cagr = calcCAGR(startVal, endVal, state.years.length);
+
+      // Best / Worst
+      let bestIdx = -1, worstIdx = -1;
+      let maxVal = -Infinity, minVal = Infinity;
+      series.forEach((v, i) => {
+        if (Number.isFinite(v)) {
+          if (v > maxVal) { maxVal = v; bestIdx = i; }
+          if (v < minVal) { minVal = v; worstIdx = i; }
+        }
+      });
+
+      container.innerHTML += `
+        <div class="kpi-card">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-lg">${country}</h3>
+            <span class="text-xs text-gray-500">${state.indicator}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="rounded-xl border p-3 bg-gray-50 dark:bg-gray-800">
+              <div class="text-xs text-gray-500">Latest (${lastYear})</div>
+              <div class="text-xl font-bold text-brand-600">
+                ${Number.isFinite(endVal)?endVal.toLocaleString(): '—'}
+              </div>
+            </div>
+            <div class="rounded-xl border p-3 bg-gray-50 dark:bg-gray-800">
+              <div class="text-xs text-gray-500">CAGR (${firstYear}–${lastYear})</div>
+              <div class="text-xl font-bold ${cagr>=0?'text-green-600':'text-red-600'}">
+                ${Number.isFinite(cagr)?cagr.toFixed(2)+'%':'—'}
+              </div>
+            </div>
+            <div class="col-span-2 rounded-xl border p-3 bg-gray-50 dark:bg-gray-800">
+              <div class="text-xs text-gray-500">Range</div>
+              <div class="text-sm">
+                <span class="text-emerald-600 font-semibold">Best:</span> 
+                  ${Number.isFinite(maxVal)?maxVal.toLocaleString():'—'} (${bestIdx !== -1 ? state.years[bestIdx] : '—'})<br>
+                <span class="text-rose-600 font-semibold">Worst:</span> 
+                  ${Number.isFinite(minVal)?minVal.toLocaleString():'—'} (${worstIdx !== -1 ? state.years[worstIdx] : '—'})
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    container.hidden = state.countries.length === 0;
+  }
+
+  function renderTable() {
+    // Headers
+    els.tableHeadRow.innerHTML =
+      `<th class="text-left">Year</th>` +
+      [...state.seriesMap.keys()].map(c => `<th>${c}</th>`).join('') +
+      `<th>Mean</th><th>Min</th><th>Max</th>`;
+
+    // Build rows (latest year first)
+    const sortedYears = [...state.years].sort((a, b) => b - a);
+    els.tbody.innerHTML = sortedYears.map((y, sortedIndex) => {
+      const originalIndex = state.years.indexOf(y); // Index in the original, unsorted years array
+
+      // Collect values
+      const values = [];
+      const countryCells = [...state.seriesMap.keys()].map(c => {
+        const series = state.seriesMap.get(c);
+        const v = series[originalIndex]; // Current value
+        const prevYear = sortedIndex < sortedYears.length - 1 ? sortedYears[sortedIndex + 1] : null;
+        const prev = prevYear !== null ? series[state.years.indexOf(prevYear)] : null;
+        
+        // Create change indicator
+        let changeIndicator = "";
+        if (Number.isFinite(v) && Number.isFinite(prev) && prev !== 0) {
+          const isUp = v > prev;
+          changeIndicator = `<span class="value-change ${isUp ? 'value-up' : 'value-down'}">
+            <svg viewBox="0 0 10 10" fill="currentColor">
+              <polygon points="${isUp ? '5,0 10,10 0,10' : '0,0 10,0 5,10'}" />
+            </svg>
+          </span>`;
+        }
+        
+        if (Number.isFinite(v)) values.push(v);
+        return `<td>${Number.isFinite(v) ? v.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : ''} ${changeIndicator}</td>`;
+      });
+
+      // Stats
+      let mean = "", min = "", max = "";
+      if (values.length) {
+        const sum = values.reduce((a, b) => a + b, 0);
+        mean = (sum / values.length).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        min = Math.min(...values).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        max = Math.max(...values).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
+
+      return `<tr>
+        <td class="font-medium">${y}</td>
+        ${countryCells.join('')}
+        <td class="stats-mean">${mean}</td>
+        <td class="stats-min">${min}</td>
+        <td class="stats-max">${max}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ---------------------- Button handlers ----------------------
+  els.resetBtn.addEventListener('click', () => {
+    state.countries = [];
+    state.countryCodes = new Map();
+    state.category = "Economic";
+    state.indicator = "NY.GDP.PCAP.CD";
+    state.start = 1960;
+    state.end = 2014;
+    els.startYear.value = 1960;
+    els.endYear.value = 2014;
+    renderCountryChips();
+    populateSelectors();
+    // Don't auto-fetch on reset, just show empty state
+    initializeEmptyChart();
+  });
+
+  els.exportPngBtn.addEventListener('click', () => {
+    if (!state.chart) return;
+    const a = document.createElement('a');
+    a.href = state.chart.toBase64Image();
+    a.download = `chart_${state.indicator}.png`;
+    a.click();
+  });
+
+  els.exportCsvBtn.addEventListener('click', () => {
+    if (!state.seriesMap.size) return;
+    const csv = toCSVFromMap(state.years, state.seriesMap);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `data_${state.indicator}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  /* -------------------- PDF EXPORT (BRANDED, PRO) -------------------- */
+
+  // --- Helpers ---
+  function fmtNum(v, d = 2) {
+    return Number.isFinite(v) ? v.toLocaleString(undefined, { maximumFractionDigits: d }) : '—';
+  }
+  function fmtPct(v, d = 2) {
+    return Number.isFinite(v) ? `${v.toFixed(d)}%` : '—';
+  }
+  function fiveNumberSummary(values) {
+    const sorted = values.filter(Number.isFinite).sort((a,b)=>a-b);
+    if (!sorted.length) return {min:'—',q1:'—',median:'—',q3:'—',max:'—'};
+    const q = p => sorted[Math.floor(p*(sorted.length-1))];
+    return { min: sorted[0], q1: q(0.25), median: q(0.5), q3: q(0.75), max: sorted[sorted.length-1] };
+  }
+  function calcCAGR(startVal, endVal, periods) {
+    if (!Number.isFinite(startVal) || !Number.isFinite(endVal) || periods <= 1) return NaN;
+    return ((endVal / startVal) ** (1 / (periods - 1)) - 1) * 100;
+  }
+  function lastValid(series) {
+    for (let i = series.length - 1; i >= 0; i--) {
+      if (Number.isFinite(series[i])) return i;
+    }
+    return -1;
+  }
+  async function loadImgDataURL(url) {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      return await new Promise(resolve => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.readAsDataURL(blob);
+      });
+    } catch { return null; }
+  }
+
+  // --- Brand visuals ---
+  function drawHeader(doc, w, x=32, y=32, logoDataUrl=null) {
+    doc.setFillColor(245,158,11);
+    doc.rect(0, 0, w, 4, 'F');
+
+    if (logoDataUrl) {
+      doc.addImage(logoDataUrl, 'PNG', x, y-10, 16, 16);
+      x += 20;
+    }
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(14);
+    doc.setTextColor(17,24,39);
+    doc.text('Axel Dev Lab', x, y);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(9);
+    doc.setTextColor(100);
+    doc.text('Strategic Solutions, Grounded in Data', x, y+5);
+  }
+  function drawFooter(doc, pageNumber, pageCount, w, h) {
+    doc.setDrawColor(230);
+    doc.setLineWidth(0.2);
+    doc.line(32, h-40, w-32, h-40);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(110);
+    const left = `\u00A9 ${new Date().getFullYear()} Axel Dev Lab \u00B7 World Bank Open Data`;
+    const right = `Page ${pageNumber} / ${pageCount}`;
+    doc.text(left, 32, h-28);
+    doc.text(right, w-32, h-28, { align: 'right' });
+
+    doc.setTextColor(80);
+    doc.text(
+      'Need deeper analytics (custom maps, forecasting, dashboards)? Contact: t.jeanaxeldesire79@gmail.com · LinkedIn: Jean-Axel Désiré Tohougbe',
+      32, h-16
+    );
+  }
+  function drawWatermark(doc, w, h) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(28);
+    doc.setTextColor(230); // very light gray
+    doc.text('Axel Dev Lab', w-120, h-40, { align:'right' });
+  }
+
+  // --- KPI card per country ---
+  function kpiCard(doc, x, y, w, h, brandRGB, country, latestYear, latestVal, yoyPct, cagrPct) {
+    doc.setFillColor(255,255,255);
+    doc.setDrawColor(235);
+    doc.roundedRect(x, y, w, h, 3, 3, 'S');
+
+    // Title band
+    doc.setFillColor(...brandRGB);
+    doc.roundedRect(x, y, w, 20, 3, 3, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.text(country, x+8, y+14);
+
+    // Latest value
+    doc.setTextColor(17, 24, 39);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text(`Latest (${latestYear})`, x+12, y+36);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(13);
+    doc.text(fmtNum(latestVal), x+12, y+50);
+
+    // CAGR
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.setTextColor(107);
+    doc.text('CAGR', x+12, y+70);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.setTextColor(17, 24, 39);
+    doc.text(fmtPct(cagrPct), x+12, y+82);
+
+    // YoY
+    const up = Number.isFinite(yoyPct) && yoyPct >= 0;
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.setTextColor(up ? [16,185,129] : [220,38,38]);
+    doc.text(fmtPct(yoyPct), x+w-42, y+50, { align:'right' });
+
+    // Divider
+    doc.setDrawColor(240);
+    doc.line(x+12, y+58, x+w-12, y+58);
+  }
+
+    // --- Main Export ---
+  async function exportPdfPro() {
+    const { jsPDF } = window.jspdf;
+    try {
+      const doc = new jsPDF({ unit:'pt', format:'a4' });
+
+      const w = doc.internal.pageSize.getWidth();
+      const h = doc.internal.pageSize.getHeight();
+      const marginX = 32;
+      const brandRGB = [245,158,11];
+      const logoData = null; // No logo for this example
+
+      // ---- PAGE 1 ----
+      drawHeader(doc, w, marginX, 40, logoData);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.setTextColor(17, 24, 39);
+      doc.text('World Bank — Global Data Dashboard Report', marginX, 90);
+
+      const label = els.indicatorDisplay?.textContent?.trim() || state.indicator;
+      const yearsLabel = `${state.years[0]}–${state.years[state.years.length-1]}`;
+      const countryList = state.countries.join(', ');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(90);
+      doc.text(`Indicator: ${label} \u2022 Years: ${yearsLabel} \u2022 Countries: ${countryList}`, marginX, 110);
+
+      // KPI cards
+      let cx = marginX, cy = 130;
+      const cardW = (w - marginX*2 - 16) / 2;
+      const cardH = 90;
+      state.countries.forEach((c, idx) => {
+        const series = state.seriesMap.get(c) || [];
+        const lastIdx = lastValid(series);
+        const prevIdx = lastIdx > 0 ? lastIdx-1 : -1;
+        const latestYear = lastIdx >= 0 ? state.years[lastIdx] : '—';
+        const latestVal  = lastIdx >= 0 ? series[lastIdx] : NaN;
+        const prevVal    = prevIdx >= 0 ? series[prevIdx] : NaN;
+        const yoy        = Number.isFinite(latestVal) && Number.isFinite(prevVal) && prevVal !== 0
+                            ? (latestVal/prevVal - 1)*100 : NaN;
+        const firstIdx = series.findIndex(Number.isFinite);
+        const firstVal = firstIdx >= 0 ? series[firstIdx] : NaN;
+        const cagr = calcCAGR(firstVal, latestVal, (lastIdx - firstIdx + 1));
+        kpiCard(doc, cx, cy, cardW, cardH, brandRGB, c, latestYear, latestVal, yoy, cagr);
+        if (idx % 2 === 0) cx = marginX + cardW + 16; else { cx = marginX; cy += cardH + 20; }
+      });
+
+      // Five-number summary table
+      const rows = state.countries.map(c => {
+        const arr = (state.seriesMap.get(c) || []).filter(Number.isFinite);
+        const s = fiveNumberSummary(arr);
+        return [c, fmtNum(s.min), fmtNum(s.q1), fmtNum(s.median), fmtNum(s.q3), fmtNum(s.max)];
+      });
+      const all = [...state.seriesMap.values()].flat().filter(Number.isFinite);
+      const sc = fiveNumberSummary(all);
+      rows.push(['All Combined', fmtNum(sc.min), fmtNum(sc.q1), fmtNum(sc.median), fmtNum(sc.q3), fmtNum(sc.max)]);
+
+      doc.autoTable({
+        startY: cy + cardH + 20,
+        head: [['Country','Min','Q1','Median','Q3','Max']],
+        body: rows,
+        styles: { font: 'helvetica', fontSize: 9, cellPadding: 6, lineColor: [235, 235, 235], textColor: [31, 41, 55] },
+        headStyles: { fillColor: [249, 250, 251], textColor: [55, 65, 81], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor:[252,252,253] },
+        theme: 'grid',
+        margin: { left: marginX, right: marginX }
+      });
+
+      drawWatermark(doc, w, h);
+      drawFooter(doc, 1, 2, w, h);
+
+      // ---- PAGE 2 ----
+      doc.addPage();
+      drawHeader(doc, w, marginX, 40, logoData);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('Dataset & Visualization', marginX, 90);
+
+      // Chart snapshot
+      const chartCanvas = document.getElementById('chart');
+      if (chartCanvas) {
+        const chartImg = await html2canvas(chartCanvas,{backgroundColor:'#fff',scale:1.5}).then(c => c.toDataURL('image/png',1.0));
+        doc.addImage(chartImg, 'PNG', marginX, 105, w - marginX*2, 180);
+      }
+
+      // Data table snapshot
+      const cols = ['Year', ...[...state.seriesMap.keys()], 'Mean','Min','Max'];
+      const dataRows = [];
+      [...state.years].sort((a,b)=>b-a).forEach(y => {
+        const i = state.years.indexOf(y);
+        const values = [];
+        const cells = [...state.seriesMap.keys()].map(c => {
+          const v = (state.seriesMap.get(c) || [])[i];
+          if (Number.isFinite(v)) values.push(v);
+          return fmtNum(v);
+        });
+        const mean = values.length ? fmtNum(values.reduce((a,b)=>a+b,0)/values.length) : '—';
+        const min  = values.length ? fmtNum(Math.min(...values)) : '—';
+        const max  = values.length ? fmtNum(Math.max(...values)) : '—';
+        dataRows.push([y.toString(), ...cells, mean, min, max]);
+      });
+
+      doc.autoTable({
+        startY: 300,
+        head: [cols],
+        body: dataRows,
+        styles: { font: 'helvetica', fontSize: 8, cellPadding: 4, lineColor: [235, 235, 235], textColor: [31, 41, 55] },
+        headStyles: { fillColor: [249, 250, 251], textColor: [55, 65, 81], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor:[252,252,253] },
+        theme: 'grid',
+        margin: { left: marginX, right: marginX }
+      });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(90);
+      doc.text('Source: World Bank Open Data API \u00B7 Provider: Axel Dev Lab', marginX, h-54);
+
+      drawWatermark(doc, w, h);
+      drawFooter(doc, 2, 2, w, h);
+
+      // Save
+      const safeIndicator = (els.indicatorDisplay?.textContent?.trim() || state.indicator)
+        .replace(/[^\w\- ]+/g,'_')
+        .replace(/\s+/g, '_');
+      doc.save(`AxelDevLab_Report_${safeIndicator}.pdf`);
+
+    } catch (e) {
+      console.error("PDF export failed:", e);
+      showToast("PDF export failed: " + e.message, "error");
+    }
+  }
+
+  // ---------------------- Theme Toggle ----------------------
+  function initThemeToggle() {
+    // Check for saved theme preference or respect OS preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      document.documentElement.classList.add('dark');
+      els.themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />';
+    } else {
+      document.documentElement.classList.remove('dark');
+      els.themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />';
+    }
+
+    // Toggle theme on button click
+    els.themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      
+      if (isDark) {
+        els.themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />';
+      } else {
+        els.themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />';
+      }
+    });
+  }
+
+  // ---------------------- Dropdown toggle ----------------------
+  document.addEventListener('click', e => {
+    document.querySelectorAll('.dropdown').forEach(drop => {
+      if (drop.contains(e.target)) {
+        if (e.target.closest('button')) drop.classList.toggle('open');
+      } else {
+        drop.classList.remove('open');
+      }
+    });
+  });
+
+  // ---------------------- Quick Actions ----------------------
+  function setupQuickActions() {
+    els.quickGDP.addEventListener('click', () => {
+      state.category = 'Economic';
+      state.indicator = 'NY.GDP.MKTP.CD';
+      updateIndicatorOptions();
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    els.quickPopulation.addEventListener('click', () => {
+      state.category = 'Demographic';
+      state.indicator = 'SP.POP.TOTL';
+      updateIndicatorOptions();
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    els.quickEducation.addEventListener('click', () => {
+      state.category = 'Education';
+      state.indicator = 'SE.XPD.TOTL.GD.ZS';
+      updateIndicatorOptions();
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    els.quickHealth.addEventListener('click', () => {
+      state.category = 'Health';
+      state.indicator = 'SH.XPD.CHEX.GD.ZS';
+      updateIndicatorOptions();
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+  }
+
+  // ---------------------- Init ----------------------
+  // --- Register zoom plugin (UMD safe) ---
+  (function registerZoom() {
+    const zp =
+      (window['chartjs-plugin-zoom'] && window['chartjs-plugin-zoom'].default) ||
+      window['chartjs-plugin-zoom'];
+    if (zp && Chart && Chart.register) {
+      Chart.register(zp);
+    }
+  })();
+
+  // Add a visually-hidden class for accessibility
+  const style = document.createElement('style');
+  style.innerHTML = `.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}`;
+  document.head.appendChild(style);
+
+  window.addEventListener("DOMContentLoaded", () => {
+    // Footer year
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+    
+    // Set data update date
+    els.dataUpdateDate.textContent = new Date().toLocaleDateString();
+
+    // Defaults
+    els.categoryDisplay.textContent = state.category;
+    els.indicatorDisplay.textContent = CATALOG[state.category][state.indicator];
+    els.startYear.value = state.start;
+    els.endYear.value   = state.end;
+
+    if (els.smoothLabel && els.smoothWindow) {
+      els.smoothLabel.textContent = String(els.smoothWindow.value || 1);
+    }
+
+    // Initialize theme toggle
+    initThemeToggle();
+
+    // Build selectors first
+    renderCountryChips();
+    populateSelectors();
+    setupQuickActions();
+
+    // ✅ Attach PDF export listener
+    els.exportPdfBtn?.addEventListener('click', exportPdfPro);
+    
+    // Add event listener for smooth window changes
+    els.smoothWindow.addEventListener('input', () => {
+      els.smoothLabel.textContent = els.smoothWindow.value;
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    // Add event listeners for log scale and normalize toggles
+    els.logScale.addEventListener('change', () => {
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    els.normalize.addEventListener('change', () => {
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    // Add event listeners for year inputs
+    els.startYear.addEventListener('change', () => {
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    els.endYear.addEventListener('change', () => {
+      if (state.countries.length > 0) fetchAndProcessData();
+    });
+    
+    // Add event listener for fetch button
+    els.fetchBtn.addEventListener('click', fetchAndProcessData);
+
+    // Initialize with empty chart instead of auto-fetching
+    initializeEmptyChart();
+  });
+
+  // Add this function to initialize an empty chart
+  function initializeEmptyChart(title = 'World Bank Data Dashboard', meta = 'Select indicators and countries to begin') {
+    if (state.chart) state.chart.destroy();
+    
+    state.chart = new Chart(els.chart, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: []
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        scales: {
+          y: { 
+            type: 'linear',
+            grid: { color: 'rgba(0,0,0,0.05)' },
+            title: { display: true, text: meta }
+          },
+          x: { grid: { color: 'rgba(0,0,0,0.05)' } }
+        }
+      }
+    });
+
+    els.chartTitle.textContent = title;
+    els.chartMeta.textContent = meta;
+    els.tbody.innerHTML = '';
+    els.kpiSection.hidden = true;
+  }
+
+</script>
+</body>
+</html>

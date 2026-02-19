@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Partner Portal | Axel Dev Lab</title>
+  <meta name="description" content="Portal for contractors, partners, and contributors with client-role based access." />
+  <link rel="icon" type="image/png" href="../assets/images/exports/lg_axeldevlab_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .bg-partner { background: radial-gradient(circle at 20% 0%, rgba(217,70,239,.15), transparent 45%), radial-gradient(circle at 80% 100%, rgba(14,165,233,.12), transparent 50%), #0b1020; }
+  </style>
+  </head>
+<body class="bg-partner text-slate-50 min-h-screen">
+  <div id="partnerLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0b1020]">
+    <div class="space-y-3 text-center">
+      <div class="h-12 w-12 mx-auto border-2 border-fuchsia-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-slate-400 text-sm">Authorizing with Keycloak (partner-portal)...</p>
+    </div>
+  </div>
+
+  <div id="partnerShell" class="max-w-7xl mx-auto px-6 py-10 space-y-8" hidden>
+    <header class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.35em] text-fuchsia-300">Partner Portal</p>
+          <h1 class="text-3xl font-semibold text-white">Welcome, <span id="partnerName">Partner</span></h1>
+          <p class="text-slate-300 text-sm">Access for contractors, partners, and contributors.</p>
+        </div>
+        <div class="text-right space-y-1">
+          <p class="text-sm text-slate-300">Roles: <span id="partnerRoles">—</span></p>
+          <button id="partnerLogout" class="rounded-2xl bg-slate-900/80 border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-8">
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Overview</p>
+        <h2 class="text-2xl font-semibold text-white">Resources</h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <h3 class="font-semibold">Statements of Work</h3>
+            <p class="text-sm text-slate-300">SOW templates and active agreements.</p>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <h3 class="font-semibold">Brand & Docs</h3>
+            <p class="text-sm text-slate-300">Guidelines and collateral for external delivery.</p>
+          </article>
+          <article class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <h3 class="font-semibold">Submission Desk</h3>
+            <p class="text-sm text-slate-300">Secure upload area for deliverables.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Your access</p>
+        <div class="mt-4 grid gap-4 md:grid-cols-2 text-sm">
+          <div class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <p class="text-slate-400">Client roles (partner-portal)</p>
+            <p class="text-white font-semibold" id="clientRoleList">—</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <p class="text-slate-400">Session</p>
+            <p class="text-white font-semibold" id="sessionInfo">Active</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="partnerUnauthorized" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-black/90 px-6">
+    <div class="max-w-lg text-center space-y-4 border border-rose-500/50 rounded-3xl bg-black/70 p-8">
+      <p class="text-xs uppercase tracking-[0.35em] text-rose-300">Restricted</p>
+      <h2 class="text-3xl font-semibold text-white">Partner role required</h2>
+      <p class="text-slate-300 text-sm">You are authenticated but missing the required partner client role (contractor, partner, or contributor).</p>
+      <button id="partnerReturn" class="rounded-2xl bg-rose-500/80 hover:bg-rose-400 px-4 py-2 font-semibold">Return to Unified Login</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@23.0.7/dist/keycloak.min.js"></script>
+  <script src="keycloak-settings.js"></script>
+  <script src="portal-auth.js"></script>
+  <script>
+    (function () {
+      var kc = null;
+      var loading = document.getElementById('partnerLoading');
+      var shell = document.getElementById('partnerShell');
+      var unauthorized = document.getElementById('partnerUnauthorized');
+      var logoutBtn = document.getElementById('partnerLogout');
+      var returnBtn = document.getElementById('partnerReturn');
+
+      logoutBtn.addEventListener('click', function () {
+        PortalAuth.logout(kc || 'partner');
+      });
+      returnBtn.addEventListener('click', function () {
+        window.location.href = '/logins/index.html';
+      });
+
+      PortalAuth.initPortal('partner', ['contractor','partner','contributor'], {
+        onReady: function (client) {
+          kc = client;
+          hydrate(client);
+          loading.classList.add('hidden');
+          shell.hidden = false;
+        },
+        onUnauthorized: function (client) {
+          kc = client;
+          loading.classList.add('hidden');
+          unauthorized.classList.remove('hidden');
+        },
+        onError: function () {
+          loading.querySelector('p').textContent = 'Failed to connect to Keycloak. Please retry.';
+        }
+      });
+
+      function hydrate(client) {
+        var token = client.tokenParsed || {};
+        var ra = token.resource_access || {};
+        var pr = (ra['partner-portal'] && ra['partner-portal'].roles) || [];
+        document.getElementById('partnerName').textContent = token.preferred_username || token.name || 'Partner';
+        document.getElementById('partnerRoles').textContent = (token.realm_access && token.realm_access.roles || []).join(', ') || '—';
+        document.getElementById('clientRoleList').textContent = pr.join(', ') || '—';
+        document.getElementById('sessionInfo').textContent = 'Active; auto-refresh enabled';
+      }
+    })();
+  </script>
+</body>
+</html>
+

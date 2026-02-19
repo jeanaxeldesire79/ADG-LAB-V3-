@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-adl-version="media-press-1.0">
+<head>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Press Room | Axel Dev Lab Media</title>
+  <meta name="description" content="Press features, interviews, and commentary covering Axel Dev Lab’s work in policy, climate, and data innovation." />
+  <link rel="icon" href="../assets/images/exports/lg_axeldevlab_icon.png" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            },
+            slateglass: {
+              900: '#04070c',
+              800: '#0b1220'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'serif']
+          },
+          boxShadow: {
+            glow: '0 26px 70px rgba(15, 23, 42, 0.32)',
+            inner: 'inset 0 1px 0 rgba(255,255,255,0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+  <script>
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+  </script>
+
+  <style>
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease;
+      will-change: transform;
+    }
+    .tilt-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 15%, rgba(245,158,11,0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+      transform: translateZ(-1px);
+    }
+    .tilt-card:hover { box-shadow: 0 28px 60px rgba(15, 23, 42, 0.4); }
+    .tilt-card:hover::after { opacity: 1; }
+    .glass {
+      background: rgba(255,255,255,.68);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(15,23,42,.08);
+    }
+    .dark .glass {
+      background: rgba(15,23,42,.68);
+      border-color: rgba(255,255,255,.08);
+    }
+    .press-timeline:before {
+      content: '';
+      position: absolute;
+      left: 1.1rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(245,158,11,0.4), rgba(99,102,241,0.16));
+    }
+    dialog::backdrop {
+      background: rgba(3, 7, 18, 0.7);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slateglass-900 text-gray-900 dark:text-gray-100 font-sans">
+
+
+  <div class="bg-black text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <img src="../assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-10 w-auto" loading="eager" />
+        <div class="flex flex-col">
+          <span class="font-semibold tracking-wide text-base sm:text-lg">Axel Dev Lab</span>
+          <span class="text-[10px] uppercase tracking-[0.5em] text-brand-300">Axel Dev Group LLC</span>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-100 text-center sm:text-right">
+        <span>Mapping Ideas, Powering Progress.</span>
+        <span class="hidden sm:inline text-brand-400">|</span>
+        <span>Axel Dev Consulting — <em>Strategic Solutions, Grounded in Data.</em></span>
+        <span class="hidden sm:inline text-brand-400">|</span>
+        <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors">info@axeldevlab.com</a>
+      </div>
+    </div>
+  </div>
+
+  <header id="siteHeader" class="sticky top-0 z-50 border-b border-gray-200/70 bg-white/90 backdrop-blur dark:border-gray-800 dark:bg-slateglass-800/85 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3 group" aria-label="Axel Dev Lab Home">
+        <img src="../assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab icon" class="h-10 sm:h-12 transition-transform group-hover:scale-[1.04]" />
+        <div class="leading-tight">
+          <span class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">Axel Dev Lab</span>
+          <span class="text-[10px] uppercase tracking-[0.45em] text-gray-500 dark:text-gray-400">Press Room</span>
+        </div>
+      </a>
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium" aria-label="Main navigation">
+        <a href="../index.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Home</a>
+        <a href="../projects.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Projects</a>
+        <a href="../data.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Data</a>
+        <a href="../publications.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Publications</a>
+        <a href="../collaborate.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Collaborate</a>
+        <a href="../media.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Media</a>
+        <a href="./videos.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Videos</a>
+        <a href="./podcasts.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Podcasts</a>
+        <a href="./photos.html" class="text-gray-600 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-300 transition">Photos</a>
+        <a href="./press.html" aria-current="page" class="text-brand-600 dark:text-brand-300 font-semibold transition">Press</a>
+        <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+      <div class="lg:hidden flex items-center gap-2">
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition" aria-label="Open navigation">
+          <svg id="menu-open-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="lg:hidden hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-slateglass-800/95 backdrop-blur">
+      <div class="px-4 py-4 space-y-2 text-sm">
+        <a href="../media.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Back to Media Overview</a>
+        <a href="./press.html" class="block rounded-lg px-3 py-2 bg-brand-500 text-white hover:bg-brand-600 transition">Press</a>
+        <a href="./videos.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Videos</a>
+        <a href="./podcasts.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Podcasts</a>
+        <a href="./photos.html" class="block rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Photos</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden bg-gradient-to-b from-slateglass-800 via-black to-slateglass-900 text-white py-20 sm:py-24 reveal">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute -left-24 top-12 h-60 w-60 rounded-full bg-brand-500/30 blur-3xl"></div>
+        <div class="absolute right-10 bottom-0 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl"></div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 relative z-10 space-y-12">
+        <div class="max-w-3xl space-y-6">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs tracking-[0.35em] uppercase">Media / Press</span>
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight">Where the world meets Axel Dev Lab.</h1>
+          <p class="text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed">Explore interviews, op-eds, and analysis featuring our team across climate resilience, civic tech, and sovereign data systems.</p>
+        </div>
+        <div id="pressHero" class="tilt-card relative overflow-hidden rounded-[32px] border border-white/15 bg-white/5 shadow-glow">
+          <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80"></div>
+          <div class="absolute inset-0">
+            <div class="h-full w-full opacity-60 mix-blend-luminosity" id="heroVisual"></div>
+          </div>
+          <div class="relative p-8 space-y-4">
+            <div class="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/70">
+              <span id="heroSource">Press</span>
+              <span class="h-px w-8 bg-white/40"></span>
+              <span id="heroMeta">—</span>
+            </div>
+            <div class="space-y-3">
+              <h2 id="heroTitle" class="text-2xl font-semibold leading-snug">Loading headline…</h2>
+              <p id="heroDesc" class="text-sm text-white/80 leading-relaxed">Hold tight while we surface the latest feature.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+              <a id="heroLink" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2 text-white hover:bg-brand-600 transition pointer-events-none opacity-60">
+                Read article
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+              <button id="heroPreview" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-white hover:bg-white/10 transition" disabled>Press notes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white/85 dark:bg-slateglass-900/80 reveal">
+      <div class="max-w-6xl mx-auto px-6 space-y-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div class="space-y-2">
+            <p class="uppercase tracking-[0.35em] text-xs text-brand-500">Headlines</p>
+            <h2 class="text-2xl sm:text-3xl font-display text-gray-900 dark:text-white">Recent coverage & interviews.</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <label for="sortSelect" class="text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">Sort</label>
+            <select id="sortSelect" class="rounded-full border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/70 px-4 py-2 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-400/60">
+              <option value="recent">Most recent</option>
+              <option value="title">Alphabetical</option>
+              <option value="source">Source</option>
+            </select>
+          </div>
+        </div>
+        <div id="pressList" class="grid gap-6 md:grid-cols-2"></div>
+        <div id="pressEmpty" class="hidden rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 py-16 text-center text-sm text-gray-600 dark:text-gray-300">
+          No press coverage is available yet. Reach out to press@axeldevlab.com for media inquiries.
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gradient-to-b from-slateglass-900 via-black to-slateglass-900 text-gray-100 reveal">
+      <div class="max-w-6xl mx-auto px-6 space-y-12">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p class="uppercase tracking-[0.35em] text-xs text-brand-300">Timeline</p>
+            <h2 class="text-2xl sm:text-3xl font-display">Highlights in sequence.</h2>
+          </div>
+          <a href="../media.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-xs uppercase tracking-[0.35em] hover:bg-white/10 transition">Back to overview</a>
+        </div>
+        <div id="timeline" class="relative press-timeline space-y-8 pl-10"></div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white/90 dark:bg-slateglass-900/80 reveal">
+      <div class="max-w-6xl mx-auto px-6 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start">
+        <div class="space-y-5">
+          <h2 class="text-2xl font-display text-gray-900 dark:text-white">Explore other media centers.</h2>
+          <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Watch full briefings, listen to podcasts, or walk through our field photography—each adds context to the story.</p>
+          <div class="grid gap-4 sm:grid-cols-3">
+            <a href="./videos.html" class="tilt-card relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 p-5 shadow-glow">
+              <div class="space-y-3">
+                <span class="inline-flex rounded-full bg-rose-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-rose-600 dark:text-rose-300">Videos</span>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Keynotes, explainers, and demos.</p>
+              </div>
+            </a>
+            <a href="./podcasts.html" class="tilt-card relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 p-5 shadow-glow">
+              <div class="space-y-3">
+                <span class="inline-flex rounded-full bg-sky-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-sky-600 dark:text-sky-300">Podcasts</span>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Deep dives with change-makers.</p>
+              </div>
+            </a>
+            <a href="./photos.html" class="tilt-card relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 p-5 shadow-glow">
+              <div class="space-y-3">
+                <span class="inline-flex rounded-full bg-emerald-500/15 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-emerald-600 dark:text-emerald-300">Photo Essays</span>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Visual stories from the field.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="glass rounded-3xl p-6 shadow-glow space-y-4">
+          <p class="uppercase tracking-[0.3em] text-xs text-brand-500">Media Signals</p>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Get briefings & embargo updates.</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Reporters receive quarterly intelligence, embargo lifts, and invitations to Axel Dev Lab briefings.</p>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <input type="email" placeholder="you@example.com" class="w-full rounded-full px-4 py-3 text-sm border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+            <button class="rounded-full bg-brand-500 text-white uppercase tracking-[0.35em] px-5 py-3 text-xs hover:bg-brand-600 transition">Join</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#0b1f3a] text-gray-200 py-14 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="../assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 transition-all" />
+            <div class="leading-tight">
+              <div class="text-lg sm:text-xl font-bold tracking-tight text-white">Axel Dev Lab</div>
+              <div class="text-[10px] sm:text-xs uppercase tracking-widest text-brand-200">Axel Dev Group LLC</div>
+            </div>
+          </div>
+          <p class="opacity-80 text-sm">Transforming global development through data intelligence and strategic policy insights.</p>
+          <p class="text-sm opacity-80">502 W 7th St, Ste 100</p>
+          <p class="text-sm opacity-80">Erie, PA 16502</p>
+          <p class="text-sm opacity-80">United States</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-white">Navigate</h4>
+          <ul class="space-y-2 text-sm opacity-90">
+            <li><a href="../index.html" class="hover:text-brand-200 transition-colors">Home</a></li>
+            <li><a href="../projects.html" class="hover:text-brand-200 transition-colors">Projects</a></li>
+            <li><a href="../data.html" class="hover:text-brand-200 transition-colors">Data</a></li>
+            <li><a href="../publications.html" class="hover:text-brand-200 transition-colors">Publications</a></li>
+            <li><a href="../collaborate.html" class="hover:text-brand-200 transition-colors">Collaborate</a></li>
+            <li><a href="../media.html" class="hover:text-brand-200 transition-colors">Media</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-white">Contact</h4>
+          <p class="text-sm opacity-90">Reach the media desk</p>
+          <a href="mailto:press@axeldevlab.com" class="inline-flex items-center gap-2 text-brand-200 hover:text-brand-100 transition-colors text-sm">press@axeldevlab.com</a>
+          <div class="mt-4 space-y-2">
+            <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+            <div class="flex flex-wrap items-center gap-3">
+              <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                  <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+                </svg>
+              </a>
+              <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                  <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+                </svg>
+              </a>
+              <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                  <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-white/10 text-center text-sm opacity-70">
+        <p>© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    const MEDIA_TYPE = 'press';
+    const heroSource = document.getElementById('heroSource');
+    const heroMeta = document.getElementById('heroMeta');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroDesc = document.getElementById('heroDesc');
+    const heroLink = document.getElementById('heroLink');
+    const heroPreview = document.getElementById('heroPreview');
+    const heroVisual = document.getElementById('heroVisual');
+    const pressList = document.getElementById('pressList');
+    const timeline = document.getElementById('timeline');
+    const emptyState = document.getElementById('pressEmpty');
+    const sortSelect = document.getElementById('sortSelect');
+    let pressItems = [];
+    const resolveMediaPath = (path) => {
+      if (!path) return '';
+      if (/^(?:https?:|data:|\/)/.test(path) || path.startsWith('../')) return path;
+      return `../${path.replace(/^\.?\//, '')}`;
+    };
+
+    function applyReveal() {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -12%' });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    function applyTilt() {
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        if (card.dataset.tiltBound === 'true') return;
+        card.dataset.tiltBound = 'true';
+        const bounds = card.getBoundingClientRect();
+        const halfW = bounds.width / 2;
+        const halfH = bounds.height / 2;
+        let rafId;
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left - halfW;
+          const y = e.clientY - rect.top - halfH;
+          const rotateX = (y / halfH) * -5;
+          const rotateY = (x / halfW) * 6;
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(rafId);
+          card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+        });
+      });
+    }
+
+    function renderHero(item) {
+      if (!item) return;
+      heroSource.textContent = (item.platform || 'Press').toUpperCase();
+      heroMeta.textContent = [item.series, dayjs(item.date).fromNow()].filter(Boolean).join(' • ') || dayjs(item.date).format('MMM D, YYYY');
+      heroTitle.textContent = item.title;
+      heroDesc.textContent = item.desc || 'Read the feature article.';
+      heroLink.href = item.url || '#';
+      heroLink.classList.toggle('pointer-events-none', !item.url);
+      heroLink.classList.toggle('opacity-60', !item.url);
+      heroPreview.disabled = false;
+      heroPreview.onclick = () => openModal(item);
+      heroVisual.innerHTML = item.thumb
+        ? `<div class="h-full w-full bg-black/40" style="background:url('${resolveMediaPath(item.thumb)}') center/cover"></div>`
+        : '<div class="h-full w-full bg-gradient-to-br from-brand-500/40 via-transparent to-black/40"></div>';
+    }
+
+    function renderPress(list) {
+      if (!list.length) {
+        pressList.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+      pressList.innerHTML = list.map(item => `
+        <article class="tilt-card relative overflow-hidden rounded-[28px] border border-gray-200/70 dark:border-gray-800 bg-white/85 dark:bg-gray-900/75 backdrop-blur p-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-gray-400 dark:text-gray-500">
+              <span>${(item.platform || 'Press').toUpperCase()}</span>
+              <span class="h-px w-8 bg-gray-200 dark:bg-gray-700"></span>
+              <span>${dayjs(item.date).fromNow()}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white leading-snug">${item.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-4">${item.desc || ''}</p>
+            <div class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.35em] text-gray-400 dark:text-gray-500">
+              ${(item.topics || []).map(topic => `<span>${topic}</span>`).join('')}
+            </div>
+          </div>
+          <div class="mt-5 flex flex-wrap items-center gap-3 text-sm">
+            <a href="${item.url || '#'}" ${item.url ? 'target="_blank" rel="noopener"' : 'aria-disabled="true"'} class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-white hover:bg-brand-600 transition ${item.url ? '' : 'pointer-events-none opacity-60'}">
+              Read
+              <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </a>
+            <button class="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" data-preview="${item.id}">
+              Notes
+            </button>
+          </div>
+        </article>
+      `).join('');
+      pressList.querySelectorAll('[data-preview]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-preview');
+          const item = pressItems.find(entry => entry.id === id);
+          if (item) openModal(item);
+        });
+      });
+      applyTilt();
+    }
+
+    function renderTimeline(items) {
+      const timelineItems = [...items].sort((a, b) => new Date(b.date) - new Date(a.date));
+      timeline.innerHTML = timelineItems.map(item => `
+        <div class="relative pl-6">
+          <span class="absolute left-0 top-1.5 h-3 w-3 rounded-full bg-brand-500 shadow-inner"></span>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.35em] text-gray-200/80">
+              <span>${dayjs(item.date).format('MMM D, YYYY')}</span>
+              <span>${(item.platform || 'Press').toUpperCase()}</span>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold text-white leading-snug">${item.title}</h3>
+            <p class="mt-2 text-sm text-gray-200 leading-relaxed">${item.desc || ''}</p>
+            ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.35em] text-white hover:bg-white/20 transition">Open</a>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openModal(item) {
+      const modal = document.createElement('dialog');
+      modal.className = 'w-[min(880px,94vw)] rounded-3xl border border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-slateglass-900/95 p-0 overflow-hidden';
+      modal.innerHTML = `
+        <div class="flex items-start justify-between border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+          <div class="pr-6">
+            <p class="text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400">${(item.platform || 'Press').toUpperCase()}</p>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-1">${item.title}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${[item.series, dayjs(item.date).fromNow()].filter(Boolean).join(' • ')}</p>
+          </div>
+          <button class="rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Close">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] items-start">
+          <div class="space-y-4 text-sm">
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${item.desc || ''}</p>
+            <div class="space-y-2 text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400">
+              ${(item.topics || []).length ? `<div>Topics · ${(item.topics || []).join(', ')}</div>` : ''}
+              ${(item.region || []).length ? `<div>Regions · ${(item.region || []).join(', ')}</div>` : ''}
+            </div>
+          </div>
+          <div class="space-y-4 text-sm">
+            <div class="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/70 p-4">
+              <p class="text-xs uppercase tracking-[0.35em] text-gray-500 dark:text-gray-400">Press Contact</p>
+              <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">press@axeldevlab.com</p>
+            </div>
+            ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-white hover:bg-brand-600 transition">Open article</a>` : ''}
+          </div>
+        </div>
+      `;
+      const close = modal.querySelector('button');
+      close.addEventListener('click', () => modal.close());
+      modal.addEventListener('click', event => {
+        const rect = modal.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) modal.close();
+      });
+      document.body.appendChild(modal);
+      modal.showModal();
+      modal.addEventListener('close', () => modal.remove(), { once: true });
+    }
+
+    function init() {
+      fetch('/data/media.json', { cache: 'no-store' })
+        .then(res => {
+          if (!res.ok) throw new Error('Missing media.json');
+          return res.json();
+        })
+        .catch(() => [])
+        .then(data => {
+          pressItems = (Array.isArray(data) ? data : []).filter(item => (item.type || '').toLowerCase() === MEDIA_TYPE);
+          if (!pressItems.length) {
+            emptyState.classList.remove('hidden');
+            return;
+          }
+          pressItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+          const heroItem = pressItems.find(item => item.featured) || pressItems[0];
+          renderHero(heroItem);
+          renderPress(pressItems);
+          renderTimeline(pressItems);
+        });
+      sortSelect.addEventListener('change', () => {
+        const value = sortSelect.value;
+        const list = [...pressItems];
+        if (value === 'title') list.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+        if (value === 'source') list.sort((a, b) => (a.platform || '').localeCompare(b.platform || ''));
+        if (value === 'recent') list.sort((a, b) => new Date(b.date) - new Date(a.date));
+        renderPress(list);
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const mobileBtn = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const openIcon = document.getElementById('menu-open-icon');
+      const closeIcon = document.getElementById('menu-close-icon');
+      mobileBtn.addEventListener('click', () => {
+        const hidden = mobileMenu.classList.toggle('hidden');
+        openIcon.classList.toggle('hidden', !hidden);
+        closeIcon.classList.toggle('hidden', hidden);
+      });
+      applyReveal();
+      applyTilt();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

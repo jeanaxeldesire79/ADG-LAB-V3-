@@ -1,0 +1,44 @@
+[
+  {
+    "category": "Digital Campaign",
+    "items": [
+      {"name": "Instagram Story", "size": "1080x1920", "type": "Image", "description": "Vertical story format for campaigns", "presetCopy": {"headline": "Launch Day", "tagline": "Swipe for details", "body": "New release across every platform.", "cta": "See More"}},
+      {"name": "LinkedIn Carousel", "size": "1080x1080", "type": "Carousel", "description": "Slide set for LinkedIn posts", "presetCopy": {"headline": "Case Study", "tagline": "3-step growth path", "body": "Problem → Method → Outcome", "cta": "Read Thread"}},
+      {"name": "Twitter Thread Card", "size": "1600x900", "type": "Digital", "description": "Hero visual for tweet storms", "presetCopy": {"headline": "Insight Drop", "tagline": "Data-first strategy", "body": "Top metrics and learnings", "cta": "Open"}},
+      {"name": "YouTube Thumbnail", "size": "1280x720", "type": "Video", "description": "Cover art for video drops", "presetCopy": {"headline": "Behind the Build", "tagline": "Axel Dev Lab", "body": "See how we scale solutions", "cta": "Watch"}},
+      {"name": "Facebook Event Cover", "size": "1200x628", "type": "Event", "description": "Event header for Meta and Meetup", "presetCopy": {"headline": "Community Jam", "tagline": "Live in Cotonou", "body": "Join product teams IRL", "cta": "Attend"}},
+      {"name": "Email Header", "size": "700x300", "type": "Email", "description": "Lightweight header for newsletters", "presetCopy": {"headline": "Monthly Pulse", "tagline": "What’s new", "body": "Stories, wins, and upcoming labs", "cta": "Read"}}
+    ]
+  },
+  {
+    "category": "Print & Merchandise",
+    "items": [
+      {"name": "Flyer A5", "size": "148x210", "type": "Print", "description": "Half sheet flyer"},
+      {"name": "Poster A3", "size": "297x420", "type": "Print", "description": "Indoor awareness poster"},
+      {"name": "Roll-up Banner", "size": "850x2000", "type": "Print", "description": "Pop-up stand for booths", "presetCopy": {"headline": "Impact Studio", "tagline": "Policy • Product • People", "body": "Helping teams deliver smarter services.", "cta": "Meet Us"}},
+      {"name": "T-Shirt", "size": "3000x3000", "type": "Apparel", "description": "Front/back cotton tee mockup", "presetCopy": {"headline": "Build. Deploy. Grow.", "tagline": "Axel Dev Lab", "body": "Empower every team.", "cta": "Limited Drop"}},
+      {"name": "Mug Design", "size": "2100x900", "type": "Merch", "description": "Wrap template for mugs"},
+      {"name": "Sticker Pack", "size": "1000x1000", "type": "Promo", "description": "Circle sticker set"},
+      {"name": "Notebook Cover", "size": "1400x2000", "type": "Print", "description": "A5 notebook wrap", "presetCopy": {"headline": "Ideas Fieldbook", "tagline": "Axel Dev Lab", "body": "Future-proof missions", "cta": "Open"}}
+    ]
+  },
+  {
+    "category": "Institutional",
+    "items": [
+      {"name": "Policy Brief Cover", "size": "210x297", "type": "Document", "description": "Front page for policy briefs"},
+      {"name": "Presentation Slide 16:9", "size": "1920x1080", "type": "Slide", "description": "Title slide for decks"},
+      {"name": "Event Backdrop", "size": "2500x1000", "type": "Banner", "description": "Stage background"},
+      {"name": "Letterhead", "size": "210x297", "type": "Document", "description": "Formal letter layout"},
+      {"name": "Report Data Page", "size": "210x297", "type": "Document", "description": "Infographic heavy page", "presetCopy": {"headline": "KPI Grid", "tagline": "FY 2024", "body": "Metrics and achievements", "cta": "Download"}}
+    ]
+  },
+  {
+    "category": "Experiential & Campaign Kits",
+    "items": [
+      {"name": "Booth Backdrop", "size": "3000x2300", "type": "Banner", "description": "Expo booth rear wall"},
+      {"name": "Workshop Agenda", "size": "1080x1920", "type": "Digital", "description": "Agenda board for screens", "presetCopy": {"headline": "Workshop Agenda", "tagline": "Today’s Sprints", "body": "Session outline", "cta": "Start"}},
+      {"name": "Campaign Kit", "size": "Multi", "type": "Bundle", "description": "Square + Vertical + Wide exports", "presetCopy": {"headline": "Campaign Kit", "tagline": "Auto-generated", "body": "Exports for every channel", "cta": "Deploy"}},
+      {"name": "QR Table Display", "size": "148x210", "type": "Print", "description": "Table tent with QR"}
+    ]
+  }
+]

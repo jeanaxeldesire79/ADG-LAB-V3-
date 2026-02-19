@@ -1,0 +1,10 @@
+/* Axel Dev Lab InvenioRDM customizations */
+:root{
+  --adl-gold:#FFD700; --adl-black:#111111; --adl-white:#FFFFFF; --adl-slate:#2B2B2B;
+}
+header.navbar, .navbar { background: var(--adl-black)!important; }
+.navbar-brand img { height: 34px; }
+.btn-primary { background: var(--adl-gold); border-color: var(--adl-gold); color: #000; }
+.btn-primary:hover { background: #FFB400; border-color: #FFB400; }
+footer { background:#0f0f0f; color:#ddd; }
+a { color: var(--adl-gold); }

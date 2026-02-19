@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unified Login | Axel Dev Lab</title>
+  <meta name="description" content="Unified login to the Axel Dev Lab virtual office with secure user and admin Keycloak access." />
+  <link rel="icon" type="image/png" href="../assets/images/exports/lg_axeldevlab_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .glass { backdrop-filter: blur(12px); background: rgba(15, 23, 42, 0.7); }
+  </style>
+</head>
+<body class="bg-black text-slate-100 min-h-screen flex flex-col relative overflow-hidden">
+  <div class="fixed inset-0 z-0">
+    <video id="bgVideo" class="w-full h-full object-cover" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="../assets/images/exports/lg_axeldevlab.png">
+      <source src="backgroundlog.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="pointer-events-none fixed inset-0 z-10 bg-gradient-to-br from-black/60 via-black/40 to-slate-900/60"></div>
+  <header class="relative z-20 border-b border-slate-800/60 bg-slate-900/70">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="../assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab" class="h-10 w-10 rounded"/>
+        <div>
+          <h1 class="text-xl md:text-2xl font-semibold text-white">Axel Dev Lab</h1>
+          <p class="text-xs md:text-sm text-slate-300">Secure Access Portal</p>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center gap-4 text-xs text-slate-400">
+        <span>Users: self‑register on sign‑in</span>
+        <span class="text-slate-600">|</span>
+        <span>Admins: invitation‑only</span>
+        <button id="switchAccountButton" class="ml-4 inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/90 hover:bg-white/10">Switch account</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-20 flex-1">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-10 lg:grid-cols-2 items-start">
+      <section class="text-left">
+        <p class="text-sm uppercase tracking-[0.35em] text-emerald-300">Welcome Back</p>
+        <h2 class="text-5xl md:text-6xl font-extrabold leading-tight text-white">Secure Access</h2>
+        <p class="text-slate-200 mt-4 max-w-xl">Sign in to your workspace to continue collaborating and managing your projects.</p>
+      </section>
+
+      <section class="rounded-3xl border border-white/10 bg-black/40 backdrop-blur p-8 shadow-2xl max-w-lg w-full ml-auto">
+        <h3 class="text-2xl font-semibold text-white">Sign in</h3>
+        <p class="text-slate-300 text-sm mt-1">Choose a workspace</p>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <article class="rounded-2xl border border-slate-800/80 bg-slate-900/60 p-6 space-y-4">
+            <div>
+              <p class="text-xs uppercase tracking-[0.35em] text-emerald-400">User Workspace</p>
+              <h3 class="text-2xl font-semibold">Log in as User</h3>
+              <p class="text-sm text-slate-300">Access your dashboard, services and profile.</p>
+            </div>
+            <button id="userLoginButton" class="w-full rounded-2xl bg-emerald-500/90 hover:bg-emerald-400 text-slate-950 font-semibold py-3 transition">Log in as User</button>
+            <p class="text-xs text-emerald-200">New here? Create your account on sign‑in.</p>
+          </article>
+
+          <article class="rounded-2xl border border-amber-500/40 bg-slate-900/60 p-6 space-y-4 md:col-span-1">
+            <div>
+              <p class="text-xs uppercase tracking-[0.35em] text-amber-300">Admin Virtual Office</p>
+              <h3 class="text-2xl font-semibold">Log in as Admin</h3>
+              <p class="text-sm text-slate-300">For approved administrators and staff.</p>
+            </div>
+            <button id="adminLoginButton" class="w-full rounded-2xl bg-amber-400/90 hover:bg-amber-300 text-slate-950 font-semibold py-3 transition">Log in as Admin</button>
+            <p class="text-xs text-amber-200">Access is invitation‑only.</p>
+          </article>
+
+          <article class="rounded-2xl border border-fuchsia-500/40 bg-slate-900/60 p-6 space-y-4 md:col-span-2">
+            <div>
+              <p class="text-xs uppercase tracking-[0.35em] text-fuchsia-300">Partner Access</p>
+              <h3 class="text-2xl font-semibold">Log in as Partner</h3>
+              <p class="text-sm text-slate-300">For contractors, partners, and contributors.</p>
+            </div>
+            <button id="partnerLoginButton" class="w-full rounded-2xl bg-fuchsia-400/90 hover:bg-fuchsia-300 text-slate-950 font-semibold py-3 transition">Log in as Partner</button>
+            <p class="text-xs text-fuchsia-200">Requires assigned partner role.</p>
+          </article>
+        </div>
+        <div class="mt-6 text-xs text-slate-300/90">
+          By continuing you agree to our Terms and Privacy Policy.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="relative z-20 border-t border-slate-900/60 bg-black/40 backdrop-blur text-slate-300 text-xs py-6 text-center">
+    &copy; <span id="year"></span> Axel Dev Lab. All rights reserved.
+  </footer>
+
+  <noscript>
+    <div style="background:#fee2e2;color:#991b1b;padding:12px 16px;text-align:center;">
+      JavaScript is required for secure sign-in. Please enable JavaScript and reload this page.
+    </div>
+  </noscript>
+
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@23.0.7/dist/keycloak.min.js"></script>
+  <script src="keycloak-settings.js"></script>
+  <script src="portal-auth.js"></script>
+  <script>
+    // Ensure background video keeps playing across browsers
+    (function(){
+      var v = document.getElementById('bgVideo');
+      if (!v) return;
+      var tryPlay = function(){
+        var p = v.play();
+        if (p && typeof p.then === 'function') {
+          p.catch(function(){
+            // Some browsers require a user gesture; keep muted and try again on visibility
+          });
+        }
+      };
+      document.addEventListener('visibilitychange', function(){ if (!document.hidden) tryPlay(); });
+      v.addEventListener('loadeddata', tryPlay, { once: true });
+      tryPlay();
+    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
+    var yb = document.getElementById('yearBrand'); if (yb) yb.textContent = new Date().getFullYear();
+    function goto(target) {
+      try {
+        if (window.PortalAuth && typeof PortalAuth.login === 'function') {
+          PortalAuth.login(target);
+          return;
+        }
+      } catch (e) {}
+      // As a last resort, go directly to portal; it will force login
+      var fallback = target==='admin'? '/logins/admin-portal.html' : target==='partner'? '/logins/partner-portal.html' : '/logins/user-portal.html';
+      window.location.href = fallback;
+    }
+    document.getElementById('userLoginButton').addEventListener('click', function () {
+      goto('user');
+    });
+    document.getElementById('adminLoginButton').addEventListener('click', function () {
+      goto('admin');
+    });
+    document.getElementById('partnerLoginButton').addEventListener('click', function () {
+      goto('partner');
+    });
+
+    // Allow users to sign out of SSO and pick another account
+    (function(){
+      var btn = document.getElementById('switchAccountButton');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        try {
+          if (window.PortalAuth && typeof PortalAuth.logout === 'function') {
+            // Try logging out from all known clients; whichever is active will clear SSO
+            PortalAuth.logout('user');
+            // Fallback: also attempt admin/partner shortly after
+            setTimeout(function(){ PortalAuth.logout('admin'); }, 250);
+            setTimeout(function(){ PortalAuth.logout('partner'); }, 500);
+            return;
+          }
+        } catch (e) {}
+        // If adapter failed to load, bounce to a portal which will handle logout
+        window.location.href = '/logins/user-portal.html';
+      });
+    })();
+  </script>
+</body>
+</html>

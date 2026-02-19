@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+      (function(){
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxelDev Employee & Contributor Lifecycle Management</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            /* AxelDev Brand Colors - Light Mode */
+            --bg-primary-light: #FFFFFF;
+            --bg-secondary-light: #f8fafc; /* cool-gray-50 */
+            --text-primary-light: #1f2937; /* cool-gray-800 */
+            --text-secondary-light: #6b7280; /* cool-gray-500 */
+            --border-light: #e5e7eb; /* cool-gray-200 */
+            --accent-primary: #F59E0B; /* amber-500 */
+            --accent-primary-hover: #d97706; /* amber-600 */
+            --brand-dark-blue: #003366;
+            --brand-light-blue: #2E6FB5;
+        }
+
+        .dark:root {
+            /* AxelDev Brand Colors - Dark Mode */
+            --bg-primary-light: #111827; /* gray-900 */
+            --bg-secondary-light: #1f2937; /* gray-800 */
+            --text-primary-light: #f9fafb; /* gray-50 */
+            --text-secondary-light: #9ca3af; /* gray-400 */
+            --border-light: #374151; /* gray-700 */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-secondary-light);
+            color: var(--text-primary-light);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* For Firefox */
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: #888 var(--bg-secondary-light);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+        }
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+        .modal-backdrop.active .modal-content {
+            transform: scale(1);
+        }
+        
+        /* Custom Tooltip */
+        [data-tooltip] {
+          position: relative;
+          cursor: pointer;
+        }
+        [data-tooltip]::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          bottom: 125%;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #333;
+          color: #fff;
+          padding: 6px 10px;
+          border-radius: 4px;
+          font-size: 12px;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.2s, visibility 0.2s;
+          z-index: 100;
+        }
+        [data-tooltip]:hover::after {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .password-strength.weak {
+            background-color: #ef4444;
+            width: 25%;
+        }
+        .password-strength.medium {
+            background-color: #f59e0b;
+            width: 50%;
+        }
+        .password-strength.strong {
+            background-color: #10b981;
+            width: 75%;
+        }
+        .password-strength.very-strong {
+            background-color: #059669;
+            width: 100%;
+        }
+
+        /* Admin panel animation */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .admin-panel {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Login screen styling */
+        .login-screen {
+            background: linear-gradient(135deg, #003366 0%, #2E6FB5 100%);
+        }
+        
+        /* ID Card Styling */
+        .id-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .dark .id-card {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border: 1px solid #374151;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen fixed inset-0 z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center mb-4">
+                    <svg class="h-12 w-auto text-amber-500" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5zM2 12l10 5 10-5-10-5-10 5z"></path></svg>
+                    <h1 class="text-3xl font-bold ml-2 text-gray-800 dark:text-white">AxelDev</h1>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300">Employee Management System</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">Secure access required</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label for="admin-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Admin Password</label>
+                    <input type="password" id="admin-password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700" placeholder="Enter admin password">
+                </div>
+                
+                <div>
+                    <label for="passcode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Passcode</label>
+                    <input type="text" id="passcode" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700" placeholder="Enter 6-digit passcode">
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-amber-500 hover:text-amber-600">Forgot password?</a>
+                </div>
+                
+                <button id="login-button" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Access Dashboard
+                </button>
+                
+                <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    <p>Default credentials: admin / 123456</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" class="flex h-screen overflow-hidden hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 flex flex-col transition-colors duration-300">
+            <div class="h-16 flex items-center justify-center px-4 border-b border-gray-200 dark:border-gray-700">
+                <svg class="h-8 w-auto text-amber-500" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5zM2 12l10 5 10-5-10-5-10 5z"></path></svg>
+                <h1 class="text-xl font-bold ml-2 text-gray-800 dark:text-white">AxelDev</h1>
+            </div>
+            <nav class="flex-grow p-4 space-y-2">
+                <a href="#" id="nav-dashboard" class="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-lg font-semibold">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Dashboard
+                </a>
+                <a href="#" id="nav-add-employee" class="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Add Employee
+                </a>
+                <a href="#" id="nav-admin-panel" class="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Admin Panel
+                </a>
+              <a href="/logins/index.html" class="inline-flex items-center rounded-full bg-primary text-white px-3 py-1 text-sm font-semibold hover:opacity-90">Login</a>
+</nav>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <span id="theme-toggle-icon-light" class="text-gray-500">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        </span>
+                        <span id="theme-toggle-icon-dark" class="hidden text-gray-400">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        </span>
+                        <button id="theme-toggle" class="ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 bg-gray-200 dark:bg-gray-700">
+                            <span class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white dark:bg-gray-400 shadow transform ring-0 transition ease-in-out duration-200 translate-x-0 dark:translate-x-5"></span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <select id="language-switcher" class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-1 pl-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option value="en">EN</option>
+                            <option value="fr">FR</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="logout-button" class="w-full mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
+                    <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-auto scrollbar-thin">
+            <!-- Header -->
+            <header class="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex-shrink-0 flex items-center justify-between px-6">
+                 <div class="relative w-full max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                       <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <input id="search-input" type="text" placeholder="Search employees by name, ID, role..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 sm:text-sm">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Admin User</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Last login: <span id="last-login-time">Just now</span></p>
+                    </div>
+                    <div class="h-10 w-10 rounded-full bg-amber-100 dark:bg-amber-900 flex items-center justify-center">
+                        <span class="text-amber-800 dark:text-amber-200 font-semibold">A</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="p-6 space-y-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang="total_employees">Total Employees</p>
+                                <p id="stat-total" class="text-3xl font-bold text-gray-800 dark:text-gray-100">0</p>
+                            </div>
+                            <div class="p-3 bg-blue-100 dark:bg-blue-500/20 rounded-full text-blue-600 dark:text-blue-400">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Other stats cards -->
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang="active">Active</p>
+                                <p id="stat-active" class="text-3xl font-bold text-gray-800 dark:text-gray-100">0</p>
+                            </div>
+                            <div class="p-3 bg-green-100 dark:bg-green-500/20 rounded-full text-green-600 dark:text-green-400">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang="on_probation">On Probation</p>
+                                <p id="stat-probation" class="text-3xl font-bold text-gray-800 dark:text-gray-100">0</p>
+                            </div>
+                            <div class="p-3 bg-yellow-100 dark:bg-yellow-500/20 rounded-full text-yellow-600 dark:text-yellow-400">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400" data-lang="archived">Archived</p>
+                                <p id="stat-archived" class="text-3xl font-bold text-gray-800 dark:text-gray-100">0</p>
+                            </div>
+                            <div class="p-3 bg-red-100 dark:bg-red-500/20 rounded-full text-red-600 dark:text-red-400">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Employees</p>
+                        <p id="stat-type-employee" class="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-1">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Interns</p>
+                        <p id="stat-type-intern" class="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-1">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Contributors</p>
+                        <p id="stat-type-contributor" class="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-1">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fellows</p>
+                        <p id="stat-type-fellow" class="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-1">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Points of Contact</p>
+                        <p id="stat-type-poc" class="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-1">0</p>
+                    </div>
+                </div>
+
+                <!-- Employee Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div class="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-4">
+                        <h2 class="text-xl font-semibold" data-lang="employee_database">Employee Database</h2>
+                        <div class="flex items-center space-x-2">
+                             <div class="flex items-center space-x-2">
+                                <select id="filter-department" class="text-sm rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="all" data-lang="all_departments">All Departments</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Product">Product</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="HR">HR</option>
+                                </select>
+                                <select id="filter-status" class="text-sm rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="all" data-lang="all_statuses">All Statuses</option>
+                                    <option value="active">Active</option>
+                                    <option value="probation">Probation</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                                <select id="filter-type" class="text-sm rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="all">All Types</option>
+                                    <option value="Employee">Employees</option>
+                                    <option value="Intern">Interns</option>
+                                    <option value="Contributor">Contributors</option>
+                                    <option value="Fellow">Fellows</option>
+                                    <option value="Point of Contact">Points of Contact</option>
+                                </select>
+                            </div>
+                            <button id="export-csv" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600" data-lang="export_csv" data-tooltip="Export to CSV">CSV</button>
+                            <button id="export-excel" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600" data-lang="export_excel" data-tooltip="Export to Excel">XLSX</button>
+                            <button id="export-pdf" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600" data-lang="export_pdf" data-tooltip="Export to PDF">PDF</button>
+                            <button id="add-employee-button" class="px-4 py-2 text-sm font-medium text-white bg-amber-500 rounded-md hover:bg-amber-600 flex items-center">
+                               <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                                <span data-lang="add_employee">Add Employee</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700/50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider" data-lang="name">Name</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider" data-lang="employee_id">Employee ID</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider" data-lang="role">Role</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Type</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider" data-lang="department">Department</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider" data-lang="status">Status</th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        <span class="sr-only" data-lang="actions">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="employee-table-body" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                <!-- Employee rows will be injected here by JavaScript -->
+                                <tr id="loading-spinner">
+                                    <td colspan="6" class="text-center p-8">
+                                        <div class="flex justify-center items-center space-x-2">
+                                            <svg class="animate-spin h-6 w-6 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            <span class="text-gray-500 dark:text-gray-400" data-lang="loading_employees">Loading employees...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr id="no-employees-row" class="hidden">
+                                    <td colspan="6" class="text-center p-8 text-gray-500 dark:text-gray-400" data-lang="no_employees_found">No employees found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Panel View -->
+            <div id="admin-panel-view" class="p-6 space-y-6 hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Admin Panel</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2">Manage system settings, security, and database operations</p>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Security Settings -->
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Security Settings</h3>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Change Admin Password</label>
+                                    <div class="space-y-4">
+                                        <input type="password" id="new-admin-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700" placeholder="New password">
+                                        <input type="password" id="confirm-admin-password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700" placeholder="Confirm new password">
+                                        <div class="password-strength-container">
+                                            <div class="password-strength mb-1"></div>
+                                            <p class="text-xs text-gray-500" id="password-strength-text">Password strength</p>
+                                        </div>
+                                        <button id="update-password-button" class="px-4 py-2 text-sm font-medium text-white bg-amber-500 rounded-md hover:bg-amber-600">Update Password</button>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Change Passcode</label>
+                                    <div class="flex space-x-2">
+                                        <input type="text" id="new-passcode" maxlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700 text-center font-mono text-lg" placeholder="000000">
+                                        <button id="update-passcode-button" class="px-4 py-2 text-sm font-medium text-white bg-amber-500 rounded-md hover:bg-amber-600">Update</button>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Session Settings</label>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Auto-logout after inactivity</span>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="auto-logout-toggle" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-amber-500"></div>
+                                        </label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <select id="logout-timeout" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-700">
+                                            <option value="15">15 minutes</option>
+                                            <option value="30" selected>30 minutes</option>
+                                            <option value="60">1 hour</option>
+                                            <option value="120">2 hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Database Operations -->
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Database Operations</h3>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Backup & Restore</label>
+                                    <div class="space-y-3">
+                                        <button id="backup-database-button" class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                                            </svg>
+                                            Backup Database
+                                        </button>
+                                        <button id="restore-database-button" class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                            </svg>
+                                            Restore Database
+                                        </button>
+                                        <input type="file" id="restore-file" class="hidden" accept=".json,.csv">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Database Information</label>
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                                        <div class="grid grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-500 dark:text-gray-400">Total Records</p>
+                                                <p id="db-total-records" class="font-semibold">0</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500 dark:text-gray-400">Database Size</p>
+                                                <p id="db-size" class="font-semibold">0 KB</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500 dark:text-gray-400">Last Backup</p>
+                                                <p id="db-last-backup" class="font-semibold">Never</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500 dark:text-gray-400">Version</p>
+                                                <p id="db-version" class="font-semibold">1.0.0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">System Logs</label>
+                                    <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm max-h-40 overflow-y-auto">
+                                        <div class="log-entry">[INFO] System initialized at <span id="system-init-time"></span></div>
+                                        <div class="log-entry">[INFO] Admin login successful</div>
+                                        <div class="log-entry">[INFO] Database connection established</div>
+                                        <!-- More log entries would appear here -->
+                                    </div>
+                                    <button id="clear-logs-button" class="mt-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">Clear Logs</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="employee-modal" class="modal-backdrop">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-semibold">Add New Employee</h3>
+                <button id="close-modal-button" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div class="flex-grow overflow-y-auto p-6">
+                <!-- Employee Form / Details View -->
+                <div id="modal-form-view">
+                    <form id="employee-form" class="space-y-6">
+                        <input type="hidden" id="recordId" name="id">
+                        <!-- Personal Information -->
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 border-b pb-2 mb-4">Personal Information</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+                                    <input type="text" name="fullName" id="fullName" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
+                                    <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                </div>
+                                <div class="col-span-1 md:col-span-2">
+                                    <label for="profilePicture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Picture</label>
+                                    <div class="mt-1 flex items-center space-x-4">
+                                        <img id="image-preview" src="https://placehold.co/128x128/e2e8f0/64748b?text=Upload" alt="Profile preview" class="h-16 w-16 rounded-full object-cover">
+                                        <input type="file" name="profilePicture" id="profilePicture" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Employment Details -->
+                         <div>
+                            <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 border-b pb-2 mb-4">Employment Details</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role / Title</label>
+                                    <input type="text" name="role" id="role" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="department" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Department</label>
+                                     <select id="department" name="department" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                        <option>Engineering</option>
+                                        <option>Design</option>
+                                        <option>Product</option>
+                                        <option>Marketing</option>
+                                        <option>HR</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Type</label>
+                                    <select id="type" name="type" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                        <option value="Employee">Employee</option>
+                                        <option value="Intern">Intern</option>
+                                        <option value="Contributor">Contributor</option>
+                                        <option value="Fellow">Fellow</option>
+                                        <option value="Point of Contact">Point of Contact</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="startDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+                                    <input type="date" name="startDate" id="startDate" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="probationEndDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Probation End Date</label>
+                                    <input type="date" name="probationEndDate" id="probationEndDate" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                </div>
+                                <div class="col-span-1 md:col-span-2">
+                                    <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                                    <select id="status" name="status" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                        <option value="probation">On Probation</option>
+                                        <option value="active">Active</option>
+                                        <option value="archived">Archived</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Employee Detail View -->
+                <div id="modal-detail-view" class="hidden space-y-8">
+                     <!-- Detail Header -->
+                    <div class="flex items-start space-x-6">
+                        <img id="detail-img" src="https://placehold.co/128x128/e2e8f0/64748b?text=..." alt="Profile Picture" class="h-32 w-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg">
+                        <div class="flex-1 pt-2">
+                            <h3 id="detail-fullName" class="text-3xl font-bold text-gray-900 dark:text-white"></h3>
+                            <p id="detail-role" class="text-lg text-amber-600 dark:text-amber-400"></p>
+                            <p id="detail-type" class="text-sm uppercase tracking-wide text-gray-400 dark:text-gray-500"></p>
+                            <p id="detail-department" class="text-md text-gray-500 dark:text-gray-400"></p>
+                            <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                                <div><span class="font-semibold">ID:</span> <span id="detail-employeeId" class="font-mono"></span></div>
+                                <div><span class="font-semibold">Status:</span> <span id="detail-status" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Security Details -->
+                    <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                         <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">Security & Credentials</h4>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Secret Key (24-char)</label>
+                                <div class="mt-1 flex items-center space-x-2">
+                                    <input id="detail-secretKey" type="password" readonly class="font-mono w-full bg-gray-200 dark:bg-gray-700 border-none rounded-md text-sm p-2">
+                                    <button id="toggle-secret-visibility" class="p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" data-tooltip="Show/Hide Key">
+                                        <svg id="eye-icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                        <svg id="eye-off-icon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Secret Key QR Code</label>
+                                <div id="detail-qrcode" class="mx-auto bg-white p-2 rounded-md inline-block"></div>
+                            </div>
+                         </div>
+                    </div>
+                    <!-- Onboarding Checklist -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">Onboarding Progress</h4>
+                        <div id="onboarding-checklist" class="space-y-3"></div>
+                    </div>
+                    <!-- ID Card Preview -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">ID Card Preview</h4>
+                        <div id="id-card-preview" class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex justify-center">
+                            <!-- SVG will be injected here -->
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <button id="download-id-png" type="button" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">Download ID (PNG)</button>
+                            <button id="download-id-pdf" type="button" class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700">Download ID (PDF)</button>
+                            <button id="download-business-png" type="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-md hover:bg-amber-700">Download Business (PNG)</button>
+                            <button id="download-business-pdf" type="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-700 rounded-md hover:bg-amber-800">Download Business (PDF)</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">Business Card Preview</h4>
+                        <div id="business-card-preview" class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex justify-center">
+                            <!-- Business card will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-footer" class="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
+                <button id="cancel-button" type="button" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">Cancel</button>
+                <button id="save-button" type="submit" form="employee-form" class="px-4 py-2 text-sm font-medium text-white bg-amber-500 rounded-md hover:bg-amber-600">Save Employee</button>
+                <button id="deactivate-button" type="button" class="hidden px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Deactivate Employee</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg opacity-0 translate-y-10 transition-all duration-300 z-50">
+        <p id="toast-message"></p>
+    </div>
+
+    <script>
+        // --- CONFIG & STATE ---
+        const DEFAULT_ADMIN_PASSWORD = "admin";
+        const DEFAULT_PASSCODE = "123456";
+        
+        let adminPassword = localStorage.getItem('adminPassword') || DEFAULT_ADMIN_PASSWORD;
+        let passcode = localStorage.getItem('passcode') || DEFAULT_PASSCODE;
+        let isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        let lastLoginTime = localStorage.getItem('lastLoginTime') || new Date().toISOString();
+        let inactivityTimer;
+        let autoLogoutEnabled = localStorage.getItem('autoLogoutEnabled') !== 'false';
+        let logoutTimeout = parseInt(localStorage.getItem('logoutTimeout')) || 30;
+        const EMPLOYEE_STORAGE_KEY = "ADG_EMPLOYEES";
+        const PLACEHOLDER_AVATAR = "https://placehold.co/128x128/e2e8f0/64748b?text=Upload";
+        
+        const i18n = {
+            en: {
+                total_employees: "Total Employees",
+                active: "Active",
+                on_probation: "On Probation",
+                archived: "Archived",
+                employee_database: "Employee Database",
+                all_departments: "All Departments",
+                all_statuses: "All Statuses",
+                export_csv: "Export CSV",
+                export_excel: "Export Excel",
+                export_pdf: "Export PDF",
+                add_employee: "Add Employee",
+                name: "Name",
+                employee_id: "Employee ID",
+                role: "Role",
+                department: "Department",
+                status: "Status",
+                actions: "Actions",
+                loading_employees: "Loading employees...",
+                no_employees_found: "No employees found.",
+            },
+            fr: {
+                total_employees: "Total des employés",
+                active: "Actif",
+                on_probation: "En probation",
+                archived: "Archivé",
+                employee_database: "Base de données des employés",
+                all_departments: "Tous les départements",
+                all_statuses: "Tous les statuts",
+                export_csv: "Exporter CSV",
+                export_excel: "Exporter Excel",
+                export_pdf: "Exporter PDF",
+                add_employee: "Ajouter un employé",
+                name: "Nom",
+                employee_id: "ID de l'employé",
+                role: "Rôle",
+                department: "Département",
+                status: "Statut",
+                actions: "Actions",
+                loading_employees: "Chargement des employés...",
+                no_employees_found: "Aucun employé trouvé.",
+            }
+        };
+
+        // Sample employee data for demo purposes
+        const defaultEmployees = [
+            {
+                id: "rec-axl-001",
+                type: "Employee",
+                fullName: "Alex Johnson",
+                email: "alex.johnson@axeldev.com",
+                role: "Senior Developer",
+                department: "Engineering",
+                startDate: "2023-01-15",
+                probationEndDate: "2023-04-15",
+                status: "active",
+                employeeId: "AXL-EMP-001",
+                secretKey: "fYE+y^KwAVYwmx$pFG7y-q^NgX13vTYKE8)FlS&^4zBWVSa+",
+                profilePictureUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+                onboardingTasks: getOnboardingTasks("Employee").map((task, index) => ({ ...task, completed: index < 6 })),
+                createdAt: "2023-01-15T08:00:00Z"
+            },
+            {
+                id: "rec-axl-002",
+                type: "Intern",
+                fullName: "Sarah Williams",
+                email: "sarah.williams@axeldev.com",
+                role: "Product Design Intern",
+                department: "Design",
+                startDate: "2023-03-10",
+                probationEndDate: "2023-06-10",
+                status: "probation",
+                employeeId: "AXL-INT-002",
+                secretKey: "J=Q6eyx9ixW7DH5Qrh4AG5n=BDSSa=za)BxQG$DWhNaB4F(E",
+                profilePictureUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+                onboardingTasks: getOnboardingTasks("Intern").map((task, index) => ({ ...task, completed: index < 2 })),
+                createdAt: "2023-03-10T08:00:00Z"
+            },
+            {
+                id: "rec-axl-003",
+                type: "Contributor",
+                fullName: "Michael Chen",
+                email: "michael.chen@axeldev.com",
+                role: "Marketing Strategist",
+                department: "Marketing",
+                startDate: "2022-11-05",
+                probationEndDate: "2023-02-05",
+                status: "active",
+                employeeId: "AXL-CON-003",
+                secretKey: "a@02miqLhTZos7dUtRy^mJ4Hn93Zhc-%e_(2Kex!anOp=4-5",
+                profilePictureUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+                onboardingTasks: getOnboardingTasks("Contributor").map((task, index) => ({ ...task, completed: index < 5 })),
+                createdAt: "2022-11-05T08:00:00Z"
+            },
+            {
+                id: "rec-axl-004",
+                type: "Fellow",
+                fullName: "Priya Patel",
+                email: "priya.patel@axeldev.com",
+                role: "Research Fellow",
+                department: "Product",
+                startDate: "2023-05-01",
+                probationEndDate: "2023-08-01",
+                status: "active",
+                employeeId: "AXL-FEL-004",
+                secretKey: "ZoXpADc4xd2SXz3+V9kYehZ3aR1*IXCKFvP0B=jAI$FPg&4J",
+                profilePictureUrl: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+                onboardingTasks: getOnboardingTasks("Fellow").map((task, index) => ({ ...task, completed: index < 3 })),
+                createdAt: "2023-05-01T08:00:00Z"
+            },
+            {
+                id: "rec-axl-005",
+                type: "Point of Contact",
+                fullName: "Lionel Garcia",
+                email: "lionel.garcia@axeldev.com",
+                role: "Partnerships Lead",
+                department: "Marketing",
+                startDate: "2022-03-12",
+                probationEndDate: "2022-06-12",
+                status: "archived",
+                employeeId: "AXL-POC-005",
+                secretKey: "+NhwOrqRxy-0$zyPX4-jhWTfFDPw4erV^lbWkRaAM*gLX+Q!",
+                profilePictureUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+                onboardingTasks: getOnboardingTasks("Point of Contact"),
+                createdAt: "2022-03-12T08:00:00Z"
+            }
+        ];
+
+        let employees = loadEmployees();
+        let selectedEmployee = null;
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is already authenticated
+            if (isAuthenticated) {
+                showApp();
+            } else {
+                showLogin();
+            }
+            
+            initUI();
+            setupEventListeners();
+            renderEmployees();
+            updateStats();
+            updateDatabaseInfo();
+        });
+
+        function initUI() {
+            // Set last login time
+            document.getElementById('last-login-time').textContent = formatRelativeTime(new Date(lastLoginTime));
+            document.getElementById('system-init-time').textContent = new Date().toLocaleString();
+            
+            // Set auto-logout toggle state
+            document.getElementById('auto-logout-toggle').checked = autoLogoutEnabled;
+            document.getElementById('logout-timeout').value = logoutTimeout;
+            
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                themeToggle.querySelector('span').classList.add('translate-x-5');
+                document.getElementById('theme-toggle-icon-light').classList.add('hidden');
+                document.getElementById('theme-toggle-icon-dark').classList.remove('hidden');
+            }
+            
+            // Language switcher
+            const langSwitcher = document.getElementById('language-switcher');
+            const savedLang = localStorage.getItem('language') || 'en';
+            langSwitcher.value = savedLang;
+            setLanguage(savedLang);
+        }
+
+        function setupEventListeners() {
+            // Login
+            document.getElementById('login-button').addEventListener('click', handleLogin);
+            document.getElementById('admin-password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+            document.getElementById('passcode').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+            
+            // Logout
+            document.getElementById('logout-button').addEventListener('click', handleLogout);
+            
+            // Theme toggle
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Language switcher
+            document.getElementById('language-switcher').addEventListener('change', (e) => setLanguage(e.target.value));
+
+            // Navigation
+            document.getElementById('nav-dashboard').addEventListener('click', () => showView('dashboard'));
+            document.getElementById('nav-add-employee').addEventListener('click', openAddModal);
+            document.getElementById('nav-admin-panel').addEventListener('click', () => showView('admin'));
+
+            // Modal controls
+            document.getElementById('add-employee-button').addEventListener('click', openAddModal);
+            document.getElementById('close-modal-button').addEventListener('click', closeModal);
+            document.getElementById('cancel-button').addEventListener('click', closeModal);
+            document.getElementById('employee-modal').addEventListener('click', (e) => {
+                if(e.target.id === 'employee-modal') closeModal();
+            });
+
+            // Form submission
+            document.getElementById('employee-form').addEventListener('submit', handleFormSubmit);
+
+            // Image preview
+            document.getElementById('profilePicture').addEventListener('change', handleImagePreview);
+            
+            // Search and filters
+            document.getElementById('search-input').addEventListener('input', () => renderEmployees());
+            document.getElementById('filter-department').addEventListener('change', () => renderEmployees());
+            document.getElementById('filter-status').addEventListener('change', () => renderEmployees());
+            document.getElementById('filter-type').addEventListener('change', () => renderEmployees());
+
+            // Export buttons
+            document.getElementById('export-csv').addEventListener('click', exportCSV);
+            document.getElementById('export-excel').addEventListener('click', exportXLSX);
+            document.getElementById('export-pdf').addEventListener('click', exportPDF);
+
+            // Detail view interactions
+            document.getElementById('toggle-secret-visibility').addEventListener('click', toggleSecretVisibility);
+            document.getElementById('download-id-png').addEventListener('click', () => {
+                const base = (selectedEmployee && selectedEmployee.employeeId) ? selectedEmployee.employeeId : 'axeldev-id-card';
+                downloadCardAsImage('id-card-preview', base);
+            });
+            document.getElementById('download-id-pdf').addEventListener('click', () => {
+                const base = (selectedEmployee && selectedEmployee.employeeId) ? `${selectedEmployee.employeeId}.pdf` : 'axeldev-id-card.pdf';
+                downloadCardAsPdf('id-card-preview', base);
+            });
+            document.getElementById('download-business-png').addEventListener('click', () => {
+                const base = (selectedEmployee && selectedEmployee.employeeId) ? `${selectedEmployee.employeeId}-business` : 'axeldev-business-card';
+                downloadCardAsImage('business-card-preview', base);
+            });
+            document.getElementById('download-business-pdf').addEventListener('click', () => {
+                const base = (selectedEmployee && selectedEmployee.employeeId) ? `${selectedEmployee.employeeId}-business.pdf` : 'axeldev-business-card.pdf';
+                downloadCardAsPdf('business-card-preview', base);
+            });
+            
+            // Admin panel interactions
+            document.getElementById('new-admin-password').addEventListener('input', checkPasswordStrength);
+            document.getElementById('update-password-button').addEventListener('click', updateAdminPassword);
+            document.getElementById('update-passcode-button').addEventListener('click', updatePasscode);
+            document.getElementById('auto-logout-toggle').addEventListener('change', toggleAutoLogout);
+            document.getElementById('logout-timeout').addEventListener('change', updateLogoutTimeout);
+            document.getElementById('backup-database-button').addEventListener('click', backupDatabase);
+            document.getElementById('restore-database-button').addEventListener('click', () => document.getElementById('restore-file').click());
+            document.getElementById('restore-file').addEventListener('change', restoreDatabase);
+            document.getElementById('clear-logs-button').addEventListener('click', clearLogs);
+            
+            // Inactivity detection
+            if (autoLogoutEnabled) {
+                setupInactivityTimer();
+            }
+        }
+
+        // --- AUTHENTICATION ---
+        function handleLogin() {
+            const passwordInput = document.getElementById('admin-password').value;
+            const passcodeInput = document.getElementById('passcode').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+            
+            if (passwordInput === adminPassword && passcodeInput === passcode) {
+                isAuthenticated = true;
+                lastLoginTime = new Date().toISOString();
+                
+                if (rememberMe) {
+                    localStorage.setItem('isAuthenticated', 'true');
+                    localStorage.setItem('lastLoginTime', lastLoginTime);
+                }
+                
+                showApp();
+                showToast("Login successful!", "success");
+            } else {
+                showToast("Invalid credentials. Please try again.", "error");
+                // Shake animation for wrong credentials
+                document.getElementById('login-screen').classList.add('animate-shake');
+                setTimeout(() => {
+                    document.getElementById('login-screen').classList.remove('animate-shake');
+                }, 500);
+            }
+        }
+
+        function handleLogout() {
+            isAuthenticated = false;
+            localStorage.removeItem('isAuthenticated');
+            showLogin();
+            showToast("You have been logged out.", "info");
+        }
+
+        function showLogin() {
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            // Clear password fields
+            document.getElementById('admin-password').value = '';
+            document.getElementById('passcode').value = '';
+        }
+
+        function showApp() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+            showView('dashboard');
+        }
+
+        function showView(view) {
+            // Hide all views
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('admin-panel-view').classList.add('hidden');
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('nav a').forEach(item => {
+                item.classList.remove('bg-amber-50', 'dark:bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400');
+                item.classList.add('text-gray-600', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            });
+            
+            // Show selected view and set active nav item
+            if (view === 'dashboard') {
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                document.getElementById('nav-dashboard').classList.add('bg-amber-50', 'dark:bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400');
+                document.getElementById('nav-dashboard').classList.remove('text-gray-600', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            } else if (view === 'admin') {
+                document.getElementById('admin-panel-view').classList.remove('hidden');
+                document.getElementById('nav-admin-panel').classList.add('bg-amber-50', 'dark:bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400');
+                document.getElementById('nav-admin-panel').classList.remove('text-gray-600', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            }
+        }
+
+        // --- THEME & LANGUAGE ---
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-toggle').querySelector('span').classList.toggle('translate-x-5');
+            document.getElementById('theme-toggle-icon-light').classList.toggle('hidden');
+            document.getElementById('theme-toggle-icon-dark').classList.toggle('hidden');
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.textContent = i18n[lang][key];
+                }
+            });
+        }
+
+        // --- EMPLOYEE MANAGEMENT ---
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const employeeData = {
+                id: formData.get('id') || '',
+                fullName: (formData.get('fullName') || '').trim(),
+                email: (formData.get('email') || '').trim(),
+                role: (formData.get('role') || '').trim(),
+                department: formData.get('department') || 'Engineering',
+                type: formData.get('type') || 'Employee',
+                startDate: formData.get('startDate') || '',
+                probationEndDate: formData.get('probationEndDate') || '',
+                status: formData.get('status') || 'probation',
+                profilePictureUrl: document.getElementById('image-preview').src || PLACEHOLDER_AVATAR,
+            };
+            employeeData.profilePictureUrl = employeeData.profilePictureUrl || PLACEHOLDER_AVATAR;
+
+            try {
+                if (employeeData.id) { // Update
+                    const index = employees.findIndex(e => e.id === employeeData.id);
+                    if (index !== -1) {
+                        const existing = employees[index];
+                        employees[index] = {
+                            ...existing,
+                            ...employeeData,
+                            employeeId: existing.employeeId || generateEmployeeId(),
+                            secretKey: existing.secretKey || generateSecretKey(),
+                            onboardingTasks: (existing.onboardingTasks && existing.onboardingTasks.length ? existing.onboardingTasks : getOnboardingTasks(employeeData.type)),
+                        };
+                    }
+                    showToast("Employee updated successfully!");
+                } else { // Create
+                    const newEmployee = {
+                        ...employeeData,
+                        id: generateRecordId(),
+                        employeeId: generateEmployeeId(),
+                        secretKey: generateSecretKey(),
+                        onboardingTasks: getOnboardingTasks(employeeData.type),
+                        createdAt: new Date().toISOString(),
+                    };
+                    employees.push(newEmployee);
+                    showToast("Employee added successfully!");
+                }
+                saveEmployees();
+                closeModal();
+                renderEmployees();
+                updateStats();
+                updateDatabaseInfo();
+            } catch (error) {
+                console.error("Error saving employee: ", error);
+                showToast("Failed to save employee.", "error");
+            }
+        }
+        
+        // --- RENDERING ---
+        function renderEmployees() {
+            const tableBody = document.getElementById('employee-table-body');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const noEmployeesRow = document.getElementById('no-employees-row');
+            
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const departmentFilter = document.getElementById('filter-department').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            const typeFilter = document.getElementById('filter-type').value;
+
+            const filteredEmployees = employees.filter(emp => {
+                const typeValue = (emp.type || 'Employee').toLowerCase();
+                const matchesSearch = emp.fullName.toLowerCase().includes(searchTerm) ||
+                                      emp.employeeId.toLowerCase().includes(searchTerm) ||
+                                      emp.role.toLowerCase().includes(searchTerm) ||
+                                      typeValue.includes(searchTerm);
+                const matchesDept = departmentFilter === 'all' || emp.department === departmentFilter;
+                const matchesStatus = statusFilter === 'all' || emp.status === statusFilter;
+                const matchesType = typeFilter === 'all' || (emp.type || 'Employee') === typeFilter;
+                return matchesSearch && matchesDept && matchesStatus && matchesType;
+            });
+
+            loadingSpinner.classList.add('hidden');
+            tableBody.innerHTML = ''; // Clear previous entries
+
+            if (filteredEmployees.length === 0) {
+                noEmployeesRow.classList.remove('hidden');
+                tableBody.appendChild(noEmployeesRow);
+                return;
+            }
+            
+            noEmployeesRow.classList.add('hidden');
+
+            filteredEmployees.forEach(emp => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors";
+                
+                const statusClasses = {
+                    active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                    probation: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                    archived: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                };
+
+                const typeLabel = emp.type || 'Employee';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <img class="h-10 w-10 rounded-full object-cover" src="${emp.profilePictureUrl || 'https://placehold.co/40x40/e2e8f0/64748b?text=??'}" alt="${emp.fullName}">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">${emp.fullName}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${emp.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">${emp.employeeId}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${emp.role}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${typeLabel}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${emp.department}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClasses[emp.status] || ''}">${emp.status}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                        <button class="view-btn text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300" data-id="${emp.id}" data-tooltip="View Details">
+                           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        </button>
+                         <button class="edit-btn text-amber-600 hover:text-amber-900 dark:text-amber-400 dark:hover:text-amber-300" data-id="${emp.id}" data-tooltip="Edit Employee">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+            
+            // Add event listeners after rendering
+            tableBody.querySelectorAll('.view-btn').forEach(btn => btn.addEventListener('click', (e) => openDetailModal(e.currentTarget.dataset.id)));
+            tableBody.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', (e) => openEditModal(e.currentTarget.dataset.id)));
+        }
+        
+        function updateStats() {
+            document.getElementById('stat-total').textContent = employees.length;
+            document.getElementById('stat-active').textContent = employees.filter(e => e.status === 'active').length;
+            document.getElementById('stat-probation').textContent = employees.filter(e => e.status === 'probation').length;
+            document.getElementById('stat-archived').textContent = employees.filter(e => e.status === 'archived').length;
+            const typeCounts = employees.reduce((acc, emp) => {
+                const type = emp.type || 'Employee';
+                acc[type] = (acc[type] || 0) + 1;
+                return acc;
+            }, {});
+            const setStat = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            };
+            setStat('stat-type-employee', typeCounts['Employee'] || 0);
+            setStat('stat-type-intern', typeCounts['Intern'] || 0);
+            setStat('stat-type-contributor', typeCounts['Contributor'] || 0);
+            setStat('stat-type-fellow', typeCounts['Fellow'] || 0);
+            setStat('stat-type-poc', typeCounts['Point of Contact'] || 0);
+        }
+
+        // --- MODAL MANAGEMENT ---
+        function openModal() { 
+            document.getElementById('employee-modal').classList.add('active'); 
+        }
+        
+        function closeModal() { 
+            document.getElementById('employee-modal').classList.remove('active'); 
+            selectedEmployee = null;
+        }
+
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = "Add New Employee";
+            document.getElementById('modal-form-view').classList.remove('hidden');
+            document.getElementById('modal-detail-view').classList.add('hidden');
+            document.getElementById('save-button').textContent = "Save Employee";
+            document.getElementById('save-button').classList.remove('hidden');
+            document.getElementById('deactivate-button').classList.add('hidden');
+            document.getElementById('employee-form').reset();
+            document.getElementById('recordId').value = '';
+            document.getElementById('image-preview').src = PLACEHOLDER_AVATAR;
+            document.getElementById('type').value = 'Employee';
+            openModal();
+        }
+
+        function openEditModal(id) {
+            const employee = employees.find(e => e.id === id);
+            if (!employee) return;
+            
+            openAddModal(); // Resets and opens form view
+            document.getElementById('modal-title').textContent = "Edit Employee";
+
+            // Populate form
+            document.getElementById('recordId').value = employee.id;
+            document.getElementById('fullName').value = employee.fullName || '';
+            document.getElementById('email').value = employee.email || '';
+            document.getElementById('role').value = employee.role || '';
+            document.getElementById('department').value = employee.department || 'Engineering';
+            document.getElementById('type').value = employee.type || 'Employee';
+            document.getElementById('startDate').value = employee.startDate || '';
+            document.getElementById('probationEndDate').value = employee.probationEndDate || '';
+            document.getElementById('status').value = employee.status || 'probation';
+            document.getElementById('image-preview').src = employee.profilePictureUrl || PLACEHOLDER_AVATAR;
+        }
+
+        function openDetailModal(id) {
+            const employee = employees.find(e => e.id === id);
+            if (!employee) return;
+
+            document.getElementById('modal-title').textContent = "Employee Details";
+            document.getElementById('modal-form-view').classList.add('hidden');
+            document.getElementById('modal-detail-view').classList.remove('hidden');
+            document.getElementById('save-button').classList.add('hidden');
+            document.getElementById('deactivate-button').classList.remove('hidden');
+            selectedEmployee = employee;
+
+            // Populate detail view
+            document.getElementById('detail-img').src = employee.profilePictureUrl || PLACEHOLDER_AVATAR;
+            document.getElementById('detail-fullName').textContent = employee.fullName;
+            document.getElementById('detail-role').textContent = employee.role;
+            document.getElementById('detail-type').textContent = employee.type || 'Employee';
+            document.getElementById('detail-department').textContent = employee.department;
+            document.getElementById('detail-employeeId').textContent = employee.employeeId;
+            document.getElementById('detail-secretKey').value = employee.secretKey;
+            
+            const statusSpan = document.getElementById('detail-status');
+            statusSpan.textContent = employee.status;
+            statusSpan.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full'; // reset
+            const statusClasses = { active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300', probation: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300', archived: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'};
+            statusSpan.classList.add(statusClasses[employee.status]);
+
+            // QR Code
+            const qrContainer = document.getElementById('detail-qrcode');
+            renderQRCode(qrContainer, employee.secretKey, 96);
+            
+            // Onboarding Checklist
+            renderChecklist('onboarding-checklist', employee.onboardingTasks);
+
+            // ID Card
+            renderIdCard('id-card-preview', employee);
+            renderBusinessCard('business-card-preview', employee);
+
+            openModal();
+        }
+
+        // --- ADMIN PANEL FUNCTIONS ---
+        function checkPasswordStrength() {
+            const password = document.getElementById('new-admin-password').value;
+            const strengthBar = document.querySelector('.password-strength');
+            const strengthText = document.getElementById('password-strength-text');
+            
+            let strength = 0;
+            let feedback = '';
+            
+            // Check password length
+            if (password.length >= 8) strength += 1;
+            if (password.length >= 12) strength += 1;
+            
+            // Check for character variety
+            if (/[a-z]/.test(password)) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 1;
+            
+            // Update strength indicator
+            strengthBar.className = 'password-strength';
+            if (password.length === 0) {
+                strengthBar.classList.add('weak');
+                feedback = 'Password strength';
+            } else if (strength <= 2) {
+                strengthBar.classList.add('weak');
+                feedback = 'Weak password';
+            } else if (strength <= 4) {
+                strengthBar.classList.add('medium');
+                feedback = 'Medium password';
+            } else if (strength <= 6) {
+                strengthBar.classList.add('strong');
+                feedback = 'Strong password';
+            } else {
+                strengthBar.classList.add('very-strong');
+                feedback = 'Very strong password';
+            }
+            
+            strengthText.textContent = feedback;
+        }
+
+        function updateAdminPassword() {
+            const newPassword = document.getElementById('new-admin-password').value;
+            const confirmPassword = document.getElementById('confirm-admin-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                showToast("Passwords do not match.", "error");
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showToast("Password must be at least 8 characters long.", "error");
+                return;
+            }
+            
+            adminPassword = newPassword;
+            localStorage.setItem('adminPassword', adminPassword);
+            
+            document.getElementById('new-admin-password').value = '';
+            document.getElementById('confirm-admin-password').value = '';
+            
+            showToast("Admin password updated successfully!", "success");
+        }
+
+        function updatePasscode() {
+            const newPasscode = document.getElementById('new-passcode').value;
+            
+            if (newPasscode.length !== 6 || !/^\d+$/.test(newPasscode)) {
+                showToast("Passcode must be exactly 6 digits.", "error");
+                return;
+            }
+            
+            passcode = newPasscode;
+            localStorage.setItem('passcode', passcode);
+            
+            document.getElementById('new-passcode').value = '';
+            
+            showToast("Passcode updated successfully!", "success");
+        }
+
+        function toggleAutoLogout() {
+            autoLogoutEnabled = document.getElementById('auto-logout-toggle').checked;
+            localStorage.setItem('autoLogoutEnabled', autoLogoutEnabled);
+            
+            if (autoLogoutEnabled) {
+                setupInactivityTimer();
+                showToast("Auto-logout enabled", "success");
+            } else {
+                clearTimeout(inactivityTimer);
+                showToast("Auto-logout disabled", "info");
+            }
+        }
+
+        function updateLogoutTimeout() {
+            logoutTimeout = parseInt(document.getElementById('logout-timeout').value);
+            localStorage.setItem('logoutTimeout', logoutTimeout);
+            
+            if (autoLogoutEnabled) {
+                setupInactivityTimer();
+            }
+            
+            showToast(`Auto-logout timeout set to ${logoutTimeout} minutes`, "success");
+        }
+
+        function setupInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            
+            const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+            const resetTimer = () => {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    if (isAuthenticated) {
+                        handleLogout();
+                        showToast("You have been logged out due to inactivity.", "info");
+                    }
+                }, logoutTimeout * 60 * 1000);
+            };
+            
+            events.forEach(event => {
+                document.addEventListener(event, resetTimer, false);
+            });
+            
+            resetTimer();
+        }
+
+        function backupDatabase() {
+            const dataStr = JSON.stringify(employees, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `axeldev-employees-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            // Update last backup time
+            const now = new Date();
+            document.getElementById('db-last-backup').textContent = now.toLocaleString();
+            localStorage.setItem('lastBackup', now.toISOString());
+            
+            showToast("Database backup created successfully!", "success");
+        }
+
+        function restoreDatabase(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // Validate backup data structure
+                    if (Array.isArray(backupData) && backupData.every(item => 
+                        item.hasOwnProperty('id') && 
+                        item.hasOwnProperty('fullName') && 
+                        item.hasOwnProperty('employeeId')
+                    )) {
+                        employees = backupData.map(normalizeEmployeeRecord);
+                        saveEmployees();
+                        renderEmployees();
+                        updateStats();
+                        updateDatabaseInfo();
+                        showToast("Database restored successfully!", "success");
+                    } else {
+                        showToast("Invalid backup file format.", "error");
+                    }
+                } catch (error) {
+                    showToast("Error reading backup file.", "error");
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        function updateDatabaseInfo() {
+            document.getElementById('db-total-records').textContent = employees.length;
+            
+            // Calculate approximate database size
+            const dataStr = JSON.stringify(employees);
+            const sizeInKB = (new Blob([dataStr]).size / 1024).toFixed(2);
+            document.getElementById('db-size').textContent = `${sizeInKB} KB`;
+            
+            // Get last backup time
+            const lastBackup = localStorage.getItem('lastBackup');
+            if (lastBackup) {
+                document.getElementById('db-last-backup').textContent = new Date(lastBackup).toLocaleString();
+            }
+        }
+
+        function clearLogs() {
+            const logContainer = document.querySelector('.bg-gray-900');
+            logContainer.innerHTML = '<div class="log-entry">[INFO] Logs cleared</div>';
+            showToast("Logs cleared", "info");
+        }
+
+        // --- UTILITIES ---
+        function generateEmployeeId(prefix = "AXL") {
+            const timestamp = Date.now().toString(36).toUpperCase();
+            const random = Math.floor(Math.random() * 999).toString().padStart(3, "0");
+            return `${prefix}-${timestamp}-${random}`;
+        }
+
+        function generateRecordId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+            return `rec-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        }
+
+        function generateSecretKey(length = 48) {
+            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=";
+            let key = "";
+            if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+                const values = new Uint32Array(length);
+                window.crypto.getRandomValues(values);
+                for (let i = 0; i < length; i++) {
+                    key += charset[values[i] % charset.length];
+                }
+            } else {
+                for (let i = 0; i < length; i++) {
+                    key += charset.charAt(Math.floor(Math.random() * charset.length));
+                }
+            }
+            return key;
+        }
+
+        function loadEmployees() {
+            try {
+                const saved = localStorage.getItem(EMPLOYEE_STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed)) {
+                        return parsed.map(normalizeEmployeeRecord);
+                    }
+                }
+            } catch (error) {
+                console.warn("Unable to parse employee records from storage", error);
+            }
+            const seeded = defaultEmployees.map(normalizeEmployeeRecord);
+            localStorage.setItem(EMPLOYEE_STORAGE_KEY, JSON.stringify(seeded));
+            return seeded;
+        }
+
+        function saveEmployees() {
+            try {
+                localStorage.setItem(EMPLOYEE_STORAGE_KEY, JSON.stringify(employees));
+            } catch (error) {
+                console.warn("Unable to persist employee records", error);
+            }
+        }
+
+        function normalizeEmployeeRecord(record = {}) {
+            const normalized = { ...record };
+            normalized.id = record.id || generateRecordId();
+            normalized.type = record.type || 'Employee';
+            normalized.status = record.status || 'probation';
+            normalized.department = record.department || 'Engineering';
+            normalized.role = record.role || 'Contributor';
+            normalized.profilePictureUrl = record.profilePictureUrl || PLACEHOLDER_AVATAR;
+            normalized.employeeId = record.employeeId || generateEmployeeId();
+            normalized.secretKey = record.secretKey || generateSecretKey();
+            normalized.onboardingTasks = Array.isArray(record.onboardingTasks) && record.onboardingTasks.length
+                ? record.onboardingTasks
+                : getOnboardingTasks(normalized.type);
+            normalized.createdAt = record.createdAt || new Date().toISOString();
+            normalized.startDate = record.startDate || new Date().toISOString().split('T')[0];
+            return normalized;
+        }
+
+        function getOnboardingTasks(type = "Employee") {
+            const base = [
+                { text: "Generate employee ID card & badge", completed: false },
+                { text: "Create company email & directory entry", completed: false },
+                { text: "Assign business card template", completed: false },
+                { text: "Provide company handbook & documents", completed: false },
+                { text: "Grant access to required software/tools", completed: false },
+                { text: "Add to onboarding session & channels", completed: false },
+            ];
+            const extra = {
+                Intern: [{ text: "Assign mentor", completed: false }],
+                Fellow: [{ text: "Assign research project", completed: false }],
+                Contributor: [{ text: "Grant repository access", completed: false }],
+                "Point of Contact": [{ text: "Verify partnership documents", completed: false }],
+            };
+            return [...base, ...(extra[type] || [])].map(task => ({ ...task }));
+        }
+
+        function renderChecklist(containerId, tasks) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if (!tasks || tasks.length === 0) {
+                container.innerHTML = `<p class="text-sm text-gray-500">No tasks defined.</p>`;
+                return;
+            }
+            tasks.forEach(task => {
+                const checked = task.completed ? 'checked' : '';
+                const textClass = task.completed ? 'line-through text-gray-500' : '';
+                const item = document.createElement('div');
+                item.className = 'flex items-center';
+                item.innerHTML = `
+                    <input type="checkbox" ${checked} class="h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500" disabled>
+                    <label class="ml-3 block text-sm font-medium ${textClass}">${task.text}</label>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        function renderIdCard(containerId, employee) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (!employee) {
+                container.innerHTML = `<p class="text-sm text-gray-500">Select an employee to preview.</p>`;
+                return;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'id-card w-96 h-56 rounded-lg p-4 flex justify-between shadow-lg';
+
+            const left = document.createElement('div');
+            left.className = 'flex flex-col justify-between';
+            left.innerHTML = `
+                <div>
+                    <div class="flex items-center mb-3">
+                        <svg class="h-6 w-auto text-amber-500 mr-2" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5zM2 12l10 5 10-5-10-5-10 5z"></path></svg>
+                        <span class="font-bold text-gray-800 dark:text-white">AxelDev</span>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="${employee.profilePictureUrl || PLACEHOLDER_AVATAR}" alt="${employee.fullName}" class="h-16 w-16 rounded-full object-cover mr-3 border-2 border-amber-500">
+                        <div>
+                            <h3 class="font-bold text-gray-800 dark:text-white text-lg">${employee.fullName}</h3>
+                            <p class="text-amber-600 dark:text-amber-400 text-sm">${employee.role}</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-xs">${employee.department}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p class="text-gray-600 dark:text-gray-400 text-xs font-mono">ID: ${employee.employeeId}</p>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs">Type: ${employee.type || 'Employee'}</p>
+                </div>
+            `;
+
+            const right = document.createElement('div');
+            right.className = 'flex flex-col items-center justify-between';
+            const qrWrapper = document.createElement('div');
+            qrWrapper.className = 'bg-white p-1 rounded';
+            renderQRCode(qrWrapper, employee.secretKey, 90);
+
+            const barcodeCanvas = document.createElement('canvas');
+            barcodeCanvas.className = 'mt-3';
+            if (typeof JsBarcode !== 'undefined' && employee.employeeId) {
+                JsBarcode(barcodeCanvas, employee.employeeId, {
+                    format: 'CODE128',
+                    displayValue: false,
+                    width: 1.6,
+                    height: 40,
+                    margin: 0,
+                });
+            } else {
+                barcodeCanvas.title = "Barcode unavailable";
+            }
+
+            right.appendChild(qrWrapper);
+            right.appendChild(barcodeCanvas);
+            card.appendChild(left);
+            card.appendChild(right);
+            container.appendChild(card);
+        }
+
+        function renderBusinessCard(containerId, employee) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (!employee) {
+                container.innerHTML = `<p class="text-sm text-gray-500">Select an employee to preview.</p>`;
+                return;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'business-card w-96 h-56 bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-gray-900 p-4 rounded-xl shadow-lg flex flex-col justify-between';
+            card.innerHTML = `
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">${employee.fullName}</h3>
+                    <p class="text-amber-600 dark:text-amber-400">${employee.role}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-300">${employee.email}</p>
+                    <p class="text-xs text-gray-400 font-mono mt-2">${employee.employeeId}</p>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <img src="${employee.profilePictureUrl || PLACEHOLDER_AVATAR}" alt="${employee.fullName}" class="h-14 w-14 rounded-full border-2 border-amber-500 object-cover">
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 dark:text-gray-400">${employee.department}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">${employee.type || 'Employee'}</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function renderQRCode(container, value, size = 80) {
+            if (!container) return;
+            container.innerHTML = '';
+            if (typeof QRCode === 'undefined') {
+                container.textContent = 'QR unavailable';
+                return;
+            }
+            new QRCode(container, {
+                text: value || 'Unavailable',
+                width: size,
+                height: size,
+                colorDark: '#111827',
+                colorLight: '#ffffff',
+                correctLevel: (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : 2,
+            });
+        }
+
+        function downloadCardAsImage(containerId, filenameBase = 'axeldev-card') {
+            const target = getCardNode(containerId);
+            if (!target) {
+                showToast("Open an employee detail first.", "info");
+                return;
+            }
+            if (typeof html2canvas === 'undefined') {
+                showToast("Image export unavailable.", "error");
+                return;
+            }
+            html2canvas(target, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `${filenameBase}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(() => showToast("Failed to generate image.", "error"));
+        }
+
+        function downloadCardAsPdf(containerId, filename = 'axeldev-card.pdf') {
+            const target = getCardNode(containerId);
+            if (!target) {
+                showToast("Open an employee detail first.", "info");
+                return;
+            }
+            if (typeof html2canvas === 'undefined' || !window.jspdf) {
+                showToast("PDF export unavailable.", "error");
+                return;
+            }
+            html2canvas(target, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
+                doc.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                doc.save(filename);
+            }).catch(() => showToast("Failed to generate PDF.", "error"));
+        }
+
+        function getCardNode(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container || container.classList.contains('hidden')) {
+                return null;
+            }
+            return container.firstElementChild || null;
+        }
+
+        function handleImagePreview(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function toggleSecretVisibility() {
+            const input = document.getElementById('detail-secretKey');
+            const eyeIcon = document.getElementById('eye-icon');
+            const eyeOffIcon = document.getElementById('eye-off-icon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeIcon.classList.add('hidden');
+                eyeOffIcon.classList.remove('hidden');
+            } else {
+                input.type = 'password';
+                eyeIcon.classList.remove('hidden');
+                eyeOffIcon.classList.add('hidden');
+            }
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toast.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500', 'bg-amber-500');
+            
+            switch(type) {
+                case 'success':
+                    toast.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    toast.classList.add('bg-red-500');
+                    break;
+                case 'info':
+                    toast.classList.add('bg-blue-500');
+                    break;
+                case 'warning':
+                    toast.classList.add('bg-amber-500');
+                    break;
+            }
+            
+            toastMessage.textContent = message;
+
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 3000);
+        }
+
+        function formatRelativeTime(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minutes ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            if (diffDays < 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString();
+        }
+
+        // --- EXPORT FUNCTIONS ---
+        function exportCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            const headers = ["ID", "FullName", "Email", "Role", "Department", "Type", "Status", "StartDate"];
+            csvContent += headers.join(",") + "\r\n";
+            employees.forEach(emp => {
+                const row = [emp.employeeId, emp.fullName, emp.email, emp.role, emp.department, emp.type || 'Employee', emp.status, emp.startDate];
+                csvContent += row.join(",") + "\r\n";
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "axeldev_employees.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("Exported to CSV.");
+        }
+
+        function exportXLSX() {
+            const worksheet = XLSX.utils.json_to_sheet(employees.map(emp => ({
+                ID: emp.employeeId,
+                FullName: emp.fullName,
+                Email: emp.email,
+                Role: emp.role,
+                Department: emp.department,
+                Type: emp.type || 'Employee',
+                Status: emp.status,
+                StartDate: emp.startDate
+            })));
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
+            XLSX.writeFile(workbook, "axeldev_employees.xlsx");
+            showToast("Exported to XLSX.");
+        }
+
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.autoTable({
+                head: [['ID', 'Full Name', 'Email', 'Role', 'Department', 'Type', 'Status']],
+                body: employees.map(emp => [emp.employeeId, emp.fullName, emp.email, emp.role, emp.department, emp.type || 'Employee', emp.status]),
+            });
+            doc.save('axeldev_employees.pdf');
+            showToast("Exported to PDF.");
+        }
+
+        // Add CSS animation for login screen shake
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            .animate-shake {
+                animation: shake 0.5s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

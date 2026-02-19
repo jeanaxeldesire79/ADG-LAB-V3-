@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" data-site="axel-dev-lab">
+<head>
+  <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methodology & Evidence Hub | Axel Dev Lab</title>
+  <meta name="description" content="Detailed methodology briefs for Axel Dev Lab data products, projects, and quality governance." />
+
+  <link rel="icon" type="image/png" href="assets/images/exports/lg_axeldevlab_icon.png" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#fff7e6',100:'#ffedcc',200:'#ffd999',300:'#ffc266',
+              400:'#ffad33',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#7c2d12',900:'#431407'
+            },
+            diplomatic: {
+              blue: '#1e3a8a',
+              slate: '#0b1f3a'
+            },
+            success: {
+              green: '#0f9d58'
+            }
+          },
+          boxShadow: {
+            soft: '0 20px 45px rgba(15,31,58,0.1)'
+          },
+          fontFamily: {
+            display: ['Playfair Display','serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .fade-up { opacity:0; transform: translateY(24px); animation: fadeUp .7s ease-out forwards; }
+    .fade-up[data-delay="100"] { animation-delay: .1s; }
+    .fade-up[data-delay="200"] { animation-delay: .2s; }
+    @keyframes fadeUp { to { opacity:1; transform: none; } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+
+  <!-- Brand ribbon -->
+  <div class="bg-black text-white text-[11px] sm:text-xs">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/exports/lg_axeldevlab.png" alt="Axel Dev Lab logo" class="h-9 w-auto" loading="eager" />
+        <div class="leading-tight">
+          <span class="font-semibold tracking-wide text-sm">Axel Dev Lab</span>
+          <span class="block text-[10px] uppercase tracking-[0.35em] text-brand-300">Axel Dev Group LLC</span>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-200 text-center sm:text-right">
+        <span>Mapping Ideas, Powering Progress.</span>
+        <span class="hidden sm:inline text-gray-400">|</span>
+        <span>Strategic Solutions, Grounded in Data.</span>
+        <span class="hidden sm:inline text-gray-400">|</span>
+        <a href="mailto:info@axeldevlab.com" class="text-brand-200 hover:text-brand-100 transition-colors">info@axeldevlab.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur border-b border-gray-200 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3" aria-label="Axel Dev Lab home">
+        <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab" class="h-11 w-11" loading="lazy" />
+        <div class="leading-tight">
+          <span class="block text-lg font-semibold tracking-tight">Axel Dev Lab</span>
+          <span class="block text-[11px] uppercase tracking-[0.32em] text-gray-500">Methodology Hub</span>
+        </div>
+      </a>
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html" class="text-gray-600 hover:text-brand-600 transition">Home</a>
+        <a href="projects.html" class="text-gray-600 hover:text-brand-600 transition">Projects</a>
+        <a href="data.html" class="text-gray-600 hover:text-brand-600 transition">Data</a>
+        <a href="publications.html" class="text-gray-600 hover:text-brand-600 transition">Publications</a>
+        <a href="collaborate.html" class="text-gray-600 hover:text-brand-600 transition">Collaborate</a>
+        <a href="#quality-governance" class="text-gray-600 hover:text-brand-600 transition">Quality</a>
+        <a href="#resources" class="text-gray-600 hover:text-brand-600 transition">Resources</a>
+</nav>
+      <button id="mobileMenuBtn" class="lg:hidden inline-flex items-center justify-center rounded-md border border-gray-300 px-3 py-2 text-gray-600 hover:bg-gray-100" aria-label="Toggle menu">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-gray-200 bg-white">
+      <nav class="px-6 py-4 space-y-3 text-sm">
+        <a href="index.html" class="block text-gray-700 hover:text-brand-600 transition">Home</a>
+        <a href="projects.html" class="block text-gray-700 hover:text-brand-600 transition">Projects</a>
+        <a href="data.html" class="block text-gray-700 hover:text-brand-600 transition">Data</a>
+        <a href="publications.html" class="block text-gray-700 hover:text-brand-600 transition">Publications</a>
+        <a href="collaborate.html" class="block text-gray-700 hover:text-brand-600 transition">Collaborate</a>
+        <a href="#quality-governance" class="block text-gray-700 hover:text-brand-600 transition">Quality</a>
+        <a href="#resources" class="block text-gray-700 hover:text-brand-600 transition">Resources</a>
+      </nav>
+    </div>
+  </header>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+  <main id="main" role="main">
+    <div class="page-header">
+      <div class="max-w-7xl mx-auto px-6">
+        <nav aria-label="Breadcrumb" class="breadcrumb mb-2">
+          <a href="/index.html">Home</a> / <span>Methodology</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Methodology & Evidence Hub</h1>
+      </div>
+    </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-white via-brand-50 to-white border-b">
+      <div class="max-w-7xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-[1.15fr,0.85fr] gap-16 items-center">
+        <div class="space-y-6 fade-up">
+          <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-amber-700">
+            Methodology Library
+          </span>
+          <h1 class="text-4xl sm:text-5xl font-display font-bold leading-tight text-diplomatic-slate">
+            Evidence frameworks that power Axel Dev Lab's data and impact products.
+          </h1>
+          <p class="text-gray-600 text-lg max-w-2xl">
+            From raw data ingestion to policy delivery, every product follows a documented pathway. Explore reproducible pipelines, project playbooks, and the quality controls that protect our insights.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+            <a href="#data-methodologies" class="inline-flex items-center gap-2 rounded-lg bg-diplomatic-blue px-5 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18M3 12h18M3 20h18"/></svg>
+              Browse data pipelines
+            </a>
+            <a href="#project-methodologies" class="inline-flex items-center gap-2 rounded-lg border border-diplomatic-blue px-5 py-3 text-sm font-semibold text-diplomatic-blue hover:bg-diplomatic-blue/5 transition">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 12l4-4m-4 4l4 4"/></svg>
+              See project playbooks
+            </a>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-4 text-sm text-gray-600 pt-4">
+            <div class="rounded-xl border border-gray-200 bg-white p-4">
+              <div class="flex items-center gap-2 text-diplomatic-blue font-semibold">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-diplomatic-blue/10">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20l-7-6.5V5l7-3 7 3v8.5z"/><path d="M12 12l7-7"/></svg>
+                </span>
+                11 maintained briefs
+              </div>
+              <p class="mt-2 text-xs leading-relaxed">Comprehensive coverage for flagship datasets, forecasts, and evidence products.</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 bg-white p-4">
+              <div class="flex items-center gap-2 text-diplomatic-blue font-semibold">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-diplomatic-blue/10">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 019 9v7h-3v-7a6 6 0 10-12 0v7H3v-7a9 9 0 019-9z"/></svg>
+                </span>
+                Controlled releases
+              </div>
+              <p class="mt-2 text-xs leading-relaxed">Versioned updates with change logs, QA sign-off, and governance checkpoints.</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 bg-white p-4">
+              <div class="flex items-center gap-2 text-diplomatic-blue font-semibold">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-diplomatic-blue/10">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                </span>
+                Audit-ready checklists
+              </div>
+              <p class="mt-2 text-xs leading-relaxed">Evidence trails documenting inputs, assumptions, review notes, and approvals.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative hidden md:block">
+          <div class="absolute -top-10 -left-10 h-52 w-52 rounded-full bg-brand-500/10 blur-3xl"></div>
+          <div class="relative rounded-3xl border border-white/60 bg-white/80 backdrop-blur shadow-soft p-6 space-y-5">
+            <h2 class="text-lg font-semibold text-diplomatic-slate">Quick links</h2>
+            <div class="space-y-4 text-sm">
+              <a href="#data-methodologies" class="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3 hover:border-diplomatic-blue hover:text-diplomatic-blue transition">
+                <span class="flex items-center gap-3">
+                  <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/15 text-brand-600">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18"/><path d="M3 19h18"/><rect x="7" y="10" width="3" height="6" rx="1"/><rect x="12" y="7" width="3" height="9" rx="1"/><rect x="17" y="13" width="3" height="3" rx="1"/></svg>
+                  </span>
+                  Data methodologies
+                </span>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="#project-methodologies" class="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3 hover:border-diplomatic-blue hover:text-diplomatic-blue transition">
+                <span class="flex items-center gap-3">
+                  <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/15 text-brand-600">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7l-9-4-9 4 9 4 9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+                  </span>
+                  Project playbooks
+                </span>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <a href="#resources" class="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3 hover:border-diplomatic-blue hover:text-diplomatic-blue transition">
+                <span class="flex items-center gap-3">
+                  <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/15 text-brand-600">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M9 4v16"/><path d="M5 8h4"/></svg>
+                  </span>
+                  Download center
+                </span>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data methodologies -->
+    <section id="data-methodologies" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-[0.85fr,1.15fr] gap-12 items-start">
+        <div class="space-y-5 fade-up">
+          <span class="inline-flex items-center gap-2 rounded-full bg-brand-500/10 text-brand-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em]">Data Pipelines</span>
+          <h2 class="text-3xl font-display font-semibold text-diplomatic-slate">Transparent ingestion, harmonisation, and validation pipelines.</h2>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Each dataset is governed by a reproducible notebook and automated workflow. Playbooks describe the source endpoints, transformation logic, metadata enrichment, and release cadence.
+          </p>
+          <div class="space-y-3 text-sm text-gray-600">
+            <div class="flex gap-3">
+              <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8.25 8.25a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 111.414-1.414L8 12.086l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              </span>
+              Standardised schema registry and quality score for every release.
+            </div>
+            <div class="flex gap-3">
+              <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h3.5a1 1 0 01.894.553L9.618 5H16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V3z" clip-rule="evenodd"/></svg>
+              </span>
+              Automated summaries written to the catalog with provenance hashes.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 fade-up" data-delay="100">
+          <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+            <h3 class="font-semibold text-lg text-diplomatic-slate mb-3">Research Protocols</h3>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li>• Sourcing & Licensing: prioritize official/peer-reviewed sources; respect licenses.</li>
+              <li>• Ethics & Privacy: IRB where applicable, consent, de-identification, DUAs.</li>
+              <li>• Reproducible Pipelines: version control, notebooks, environment lockfiles.</li>
+              <li>• Validation & QA: automated checks, peer review, anomaly investigations.</li>
+            </ul>
+          </article>
+
+          <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+            <h3 class="font-semibold text-lg text-diplomatic-slate mb-3">Governance & Standards</h3>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li>• Documentation: method cards, data dictionaries, change logs.</li>
+              <li>• Versioning: semantic releases with provenance and rollback plans.</li>
+              <li>• Security: least-privilege access, encryption in transit/at rest.</li>
+              <li>• Transparency: public summaries; internal detailed annexes on request.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project methodologies (removed specific examples) -->
+    <!-- <section id="project-methodologies" class="py-16 bg-gray-50 border-t border-gray-200"> -->
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10">
+          <div class="space-y-4">
+            <span class="inline-flex items-center gap-2 rounded-full bg-diplomatic-blue/10 text-diplomatic-blue px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em]">Project Playbooks</span>
+            <h2 class="text-3xl font-display font-semibold text-diplomatic-slate">Field-tested approaches for core Axel Dev Lab engagements.</h2>
+            <p class="text-sm text-gray-600 leading-relaxed max-w-2xl">Playbooks link project outcomes to specific analytical steps, stakeholder engagement plans, and validation routines. They ensure new deployments can re-use proven building blocks.</p>
+          </div>
+          <a href="projects.html" class="inline-flex items-center gap-2 text-sm font-semibold text-diplomatic-blue hover:underline">
+            Browse project showcase
+            <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l-7-7 1.41-1.41L11 15.17l6.59-6.59L19 10l-7 9z"/></svg>
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg text-diplomatic-slate">Energy Access Mapping</h3>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Geospatial analytics</p>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Stakeholder discovery workshops with utilities and energy ministries.</li>
+              <li>Satellite feature engineering + household survey alignment.</li>
+              <li>Scenario modelling for SDG 7 financing pathways.</li>
+              <li>Story maps delivered with localised annotations.</li>
+            </ul>
+            <div class="mt-4 text-xs text-gray-500">Next update: May 2025 · Owner: Geospatial Lab</div>
+          </article>
+
+          <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6H4z"/><path d="M4 10l8 10 8-10"/></svg>
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg text-diplomatic-slate">Policy Impact Dashboard</h3>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Performance monitoring</p>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Co-designed KPIs with Côte d'Ivoire Ministry of Economy and IMF advisors.</li>
+              <li>ETL from government data warehouse + mobile survey feed.</li>
+              <li>Data stories and policy briefs distributed via Superset email digests.</li>
+              <li>Quarterly executive scorecard with variance explanations.</li>
+            </ul>
+            <div class="mt-4 text-xs text-gray-500">Next update: July 2025 · Owner: Insights Studio</div>
+          </article>
+
+          <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M8 7v14"/><path d="M16 7v14"/></svg>
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg text-diplomatic-slate">Urban Growth Forecast</h3>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Predictive modelling</p>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Night-light trajectories fused with Sentinel-2 imagery for feature extraction.</li>
+              <li>Gradient boosting + LSTM ensemble benchmarked against census projections.</li>
+              <li>Cross-validation with urban planning datasets and field verifications.</li>
+              <li>Policy memos highlight zoning, housing, and transport implications.</li>
+            </ul>
+            <div class="mt-4 text-xs text-gray-500">Next update: September 2025 · Owner: Futures Lab</div>
+          </article>
+
+          <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.3L18 21l-6-4-6 4 1.5-7.7L2 9h7z"/></svg>
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg text-diplomatic-slate">Youth Employment Brief</h3>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Evidence synthesis</p>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Meta-analysis of labour surveys, firm censuses, and apprenticeship registries.</li>
+              <li>Design thinking workshops with youth organisations and ministries.</li>
+              <li>Scenario modelling for policy levers such as wage subsidies and credit lines.</li>
+              <li>Intervention matrix with risk analysis and monitoring indicators.</li>
+            </ul>
+            <div class="mt-4 text-xs text-gray-500">Next update: June 2025 · Owner: Policy Studio</div>
+          </article>
+
+          <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-diplomatic-blue/10 text-diplomatic-blue">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20l-7-7 7-7"/><path d="M19 20l-7-7 7-7"/></svg>
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg text-diplomatic-slate">Climate & Resilience Scan</h3>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Rapid diagnostic</p>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Combines Copernicus rainfall, FAO crop stats, and humanitarian datasets.</li>
+              <li>Hotspot detection using vulnerability indices and exposure scores.</li>
+              <li>Workshops to prioritise adaptation investments with donor partners.</li>
+              <li>Outputs feed into finance proposals and monitoring scorecards.</li>
+            </ul>
+            <div class="mt-4 text-xs text-gray-500">Next update: November 2025 · Owner: Climate Desk</div>
+          </article>
+        </div>
+      </div>
+    <!-- </section> -->
+
+    <!-- Quality & governance -->
+    <section id="quality-governance" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-6 space-y-10">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-3">
+            <span class="inline-flex items-center gap-2 rounded-full bg-success-green/10 text-success-green px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em]">Quality & Governance</span>
+            <h2 class="text-3xl font-display font-semibold text-diplomatic-slate">Accountable evidence, governed end-to-end.</h2>
+            <p class="text-sm text-gray-600 leading-relaxed max-w-3xl">Our governance framework ensures every deliverable is reviewable, reproducible, and traceable. Responsibilities sit with Data Stewardship, Methodology Council, and Client Delivery teams.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm text-gray-600">
+            <h3 class="text-sm font-semibold text-diplomatic-slate mb-2">Release Cadence</h3>
+            <ul class="space-y-1 text-xs">
+              <li>• Quarterly: energy maps, macro dashboards, governance reports</li>
+              <li>• Bi-annual: demographic datasets, youth employment brief</li>
+              <li>• Rolling: humanitarian scans, client-specific scorecards</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+            <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-success-green/15 text-success-green mb-3">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a5 5 0 100-10 5 5 0 000 10z"/><path d="M3 21a9 9 0 0118 0"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg text-diplomatic-slate">Roles & accountability</h3>
+            <p class="mt-2 text-sm text-gray-600">Every pipeline has a data steward, methodology lead, and reviewer. Approvals recorded in Notion control room and synced to Git history.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+            <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-success-green/15 text-success-green mb-3">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg text-diplomatic-slate">Documentation standards</h3>
+            <p class="mt-2 text-sm text-gray-600">Method cards stored as Markdown with version numbers, change log, and risk notes. Rendered to HTML/PDF for client delivery.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+            <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-success-green/15 text-success-green mb-3">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6"/><path d="M8 20v-4"/><path d="M16 20v-8"/><path d="M4 4h16"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg text-diplomatic-slate">Quality scorecard</h3>
+            <p class="mt-2 text-sm text-gray-600">Each release graded across freshness, completeness, accuracy, bias checks, and documentation depth. Scores shared with clients.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="py-16 bg-gray-50 border-t border-gray-200">
+      <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr,1fr] gap-12">
+        <div class="space-y-4">
+          <span class="inline-flex items-center gap-2 rounded-full bg-brand-500/10 text-brand-600 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em]">Resource center</span>
+          <h2 class="text-3xl font-display font-semibold text-diplomatic-slate">Download briefs, data dictionaries, and QA checklists.</h2>
+          <p class="text-sm text-gray-600 leading-relaxed">PDF summaries are kept in sync with the internal Notion space. Request access for restricted or client-specific documentation.</p>
+
+          <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-sm font-semibold text-diplomatic-slate">Need authenticated access?</h3>
+            <p class="mt-2 text-sm text-gray-600">Some briefs are restricted to project partners. Contact <a href="mailto:methodology@axeldevlab.com" class="text-diplomatic-blue hover:underline">methodology@axeldevlab.com</a> to request credentials.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <p class="text-sm font-semibold text-diplomatic-slate">Method Cards</p>
+            <p class="text-xs text-gray-500">Standard protocols and procedures. Available on request.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <p class="text-sm font-semibold text-diplomatic-slate">Data Dictionaries</p>
+            <p class="text-xs text-gray-500">Field definitions, schemas, and validation rules.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <p class="text-sm font-semibold text-diplomatic-slate">Quality Checklists</p>
+            <p class="text-xs text-gray-500">Release criteria and QA scorecards.</p>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <p class="text-sm font-semibold text-diplomatic-slate">Governance Notes</p>
+            <p class="text-xs text-gray-500">Roles, approvals, and change management.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support CTA -->
+    <section class="py-16 bg-diplomatic-slate text-gray-100">
+      <div class="max-w-5xl mx-auto px-6 text-center space-y-4">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-100">Need guidance?</span>
+        <h2 class="text-3xl font-display font-semibold">Partner with our methodology council</h2>
+        <p class="text-sm text-gray-200 leading-relaxed max-w-3xl mx-auto">We host onboarding sessions, tailored QA reviews, and co-design workshops for client teams. Share your request and we will connect you with the right technical lead.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="mailto:methodology@axeldevlab.com" class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-5 py-3 text-sm font-semibold text-diplomatic-slate hover:bg-brand-400 transition">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M22 5l-10 7L2 5"/></svg>
+            Email the council
+          </a>
+          <a href="collaborate.html" class="inline-flex items-center gap-2 rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4z"/><path d="M3 21a9 9 0 0118 0"/></svg>
+            Book a working session
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+      <!-- Subscription Card -->
+  <section class="py-16 px-6 bg-white dark:bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <div class="adl-subscribe">
+        <div class="adl-left">
+          <img class="adl-logo" src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab Logo">
+          <h2 class="adl-title">Stay Informed</h2>
+          <p class="adl-desc">Receive research insights, data releases, and policy analysis from the <strong>Axel Dev Lab</strong>.</p>
+          <a href="https://mail.axeldevlab.com/archive/adi-january-insights" class="adl-archive-link" target="_blank">View latest issue →</a>
+        </div>
+        <div class="adl-right">
+          <form method="POST" action="https://mail.axeldevlab.com/subscription/form" target="_blank">
+            <input type="hidden" name="l" value="a93e5e96-1cf7-4bff-b7b9-a38768823332">
+            <div class="adl-field">
+              <input type="email" name="email" class="adl-input" placeholder=" " required aria-label="Email address">
+              <label class="adl-label">Email address</label>
+            </div>
+            <label class="adl-checkbox">
+              <input type="checkbox" name="privacy" required>
+              <span>I agree to receive curated emails from Axel Dev Lab. You can unsubscribe at any time.</span>
+            </label>
+            <button type="submit" class="adl-btn">Subscribe now</button>
+          </form>
+        </div>
+      </div>
+      <div class="mt-10">
+        <iframe src="https://help.axeldevlab.com/open.php" style="width: 100%; min-height: 900px; border: none;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+<!-- Call to Action -->
+  <section class="py-20 px-6 bg-brand-50 dark:bg-gray-900 transition-colors">
+    <div class="max-w-5xl mx-auto">
+      <div class="cta-panel text-center">
+        <p class="eyebrow text-white/70 mb-3" data-i18n="cta_label">Axel Dev Lab 2.0</p>
+        <h2 data-i18n="cta_heading">Ready to Transform Data Into Impact?</h2>
+        <p class="text-base sm:text-lg mb-8" data-i18n="cta_intro">
+          Partner with us to develop evidence-based solutions for your most complex development challenges.
+        </p>
+        <div class="cta-panel__actions">
+          <a href="collaborate.html" class="modern-btn modern-btn--primary">
+            <span data-i18n="cta_primary">Start a Collaboration</span>
+          </a>
+          <a href="publications.html" class="modern-btn modern-btn--outline">
+            <span data-i18n="cta_secondary">Explore Our Research</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contacts -->
+  <section class="py-16 bg-gray-900 text-gray-100 transition-colors">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-4" data-i18n="direct_contacts_title">Direct Contacts</h2>
+        <p class="text-gray-300 max-w-3xl mx-auto" data-i18n="direct_contacts_intro">Connect with the appropriate team at Axel Dev Group LLC, home of Axel Dev Lab &amp; Axel Dev Consulting.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6 text-sm">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_general_heading">General &amp; Partnerships</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_general_info">General info:</span> <a href="mailto:info@axeldevlab.com" class="underline hover:text-brand-300">info@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_partnerships">Partnerships:</span> <a href="mailto:contact@axeldevlab.com" class="underline hover:text-brand-300">contact@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_executive">Executive office:</span> <a href="mailto:jeanaxelt@axeldevlab.com" class="underline hover:text-brand-300">jeanaxelt@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_client_heading">Client &amp; Operations</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_support">Client support:</span> <a href="mailto:support@axeldevlab.com" class="underline hover:text-brand-300">support@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_data">Data services:</span> <a href="mailto:it@axeldevlab.com" class="underline hover:text-brand-300">it@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_billing">Billing:</span> <a href="mailto:finance@axeldevlab.com" class="underline hover:text-brand-300">finance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_research_heading">Research &amp; Media</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_media">Press &amp; media:</span> <a href="mailto:studio@axeldevlab.com" class="underline hover:text-brand-300">studio@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_research">Research sparks:</span> <a href="mailto:research@axeldevlab.com" class="underline hover:text-brand-300">research@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_briefings">Briefings:</span> <a href="mailto:briefings@axeldevlab.com" class="underline hover:text-brand-300">briefings@axeldevlab.com</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
+          <h3 class="text-lg font-semibold mb-3 text-white" data-i18n="direct_contacts_people_heading">People &amp; Governance</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li><span class="text-gray-400" data-i18n="direct_contacts_people_team">People team:</span> <a href="mailto:people@axeldevlab.com" class="underline hover:text-brand-300">people@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_board">Board liaison:</span> <a href="mailto:board@axeldevlab.com" class="underline hover:text-brand-300">board@axeldevlab.com</a></li>
+            <li><span class="text-gray-400" data-i18n="direct_contacts_governance">Governance:</span> <a href="mailto:governance@axeldevlab.com" class="underline hover:text-brand-300">governance@axeldevlab.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-v2" role="contentinfo">
+    <div class="footer-v2__grid">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="assets/images/exports/lg_axeldevlab_icon.png" alt="Axel Dev Lab logo" class="h-12 w-auto" loading="lazy" />
+          <div>
+            <p class="text-lg font-semibold" data-i18n="brand_lab_name">Axel Dev Lab</p>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/60" data-i18n="brand_group">Axel Dev Group LLC</p>
+          </div>
+        </div>
+        <p class="text-sm opacity-80 mb-4" data-i18n="footer_tagline">Transforming global development through data intelligence and strategic policy insights.</p>
+        <div class="space-y-1 text-sm opacity-80">
+          <p data-i18n="footer_address_line1">502 W 7th St, Ste 100</p>
+          <p data-i18n="footer_address_line2">Erie, PA 16502</p>
+          <p data-i18n="footer_address_line3">United States</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_nav_heading">Navigate</h4>
+        <nav class="grid gap-2 text-sm opacity-90">
+          <a href="index.html" data-i18n="nav_home" class="hover:text-primary-light transition">Home</a>
+          <a href="projects.html" data-i18n="nav_projects" class="hover:text-primary-light transition">Projects</a>
+          <a href="data.html" data-i18n="nav_data" class="hover:text-primary-light transition">Data</a>
+          <a href="methodology.html" data-i18n="nav_methodology" class="hover:text-primary-light transition">Methodology</a>
+          <a href="publications.html" data-i18n="nav_publications" class="hover:text-primary-light transition">Publications</a>
+          <a href="collaborate.html" data-i18n="nav_collaborate" class="hover:text-primary-light transition">Collaborate</a>
+          <a href="media.html" data-i18n="nav_media" class="hover:text-primary-light transition">Media</a>
+          <a href="about.html" data-i18n="nav_about" class="hover:text-primary-light transition">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-white" data-i18n="footer_contact_heading">Contact</h4>
+        <p class="text-sm opacity-90" data-i18n="footer_contact_text">Reach the team at</p>
+        <a href="mailto:info@axeldevlab.com" class="inline-flex items-center gap-2 text-primary-light/90 hover:text-primary-light transition-colors text-sm" data-i18n="footer_contact_email">info@axeldevlab.com</a>
+        <a href="https://help.axeldevlab.com/open.php" class="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-white/90 hover:text-white" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-80"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01"/><path d="M12 12a3 3 0 1 0-3-3"/></svg>
+          <span>Need help? Report an issue</span>
+        </a>
+        <div class="mt-4 space-y-2">
+          <p class="text-sm opacity-80">Follow Axel Dev Lab</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://www.youtube.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M21.8 8c-.2-.78-.82-1.39-1.6-1.59C18.2 6 12 6 12 6s-6.2 0-8.2.41c-.78.2-1.4.81-1.6 1.59C2 10 2 12 2 12s0 2 .2 3.99c.2.78.82 1.39 1.6 1.59C5.8 18 12 18 12 18s6.2 0 8.2-.41c.78-.2 1.4-.81 1.6-1.59C22 14 22 12 22 12s0-2-.2-4zM10 14.65V9.35L14.5 12 10 14.65z" />
+              </svg>
+            </a>
+            <a href="https://x.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 4l7.53 8.08L4 20h2.73l6.13-6.73L19.27 20H22l-7.6-8.13L22 4h-2.73l-6.06 6.68L8.73 4H4z" />
+              </svg>
+            </a>
+            <a href="https://github.com/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.68.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.39 9.39 0 015 0c1.9-1.32 2.74-1.05 2.74-1.05.56 1.4.21 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.68.49A10.02 10.02 0 0022 12.26C22 6.58 17.52 2 12 2z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="Substack" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M4 6h16v2H4V6zm0 4h16v2H4v-2zm0 4l8 4 8-4v4H4v-4z" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/19aJ97hwBF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.89h-2.3V22C18.34 21.12 22 16.99 22 12z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/axeldevlab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zM7 19H4v-9h3v9zM5.5 8.732c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.784 1.764-1.75 1.764zM20 19h-3v-4.5c0-1.074-.021-2.455-1.496-2.455-1.496 0-1.724 1.168-1.724 2.378V19h-3v-9h2.881v1.229h.041c.401-.76 1.381-1.557 2.842-1.557 3.041 0 3.6 2.003 3.6 4.605V19z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/axeldevlab?igsh=bmt2ZGx0enN2a2Vu" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 3a1 1 0 110 2 1 1 0 010-2zM12 7.5c2.485 0 4.5 2.015 4.5 4.5S14.485 16.5 12 16.5 7.5 14.485 7.5 12 9.515 7.5 12 7.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/70">
+      <p data-i18n="footer_rights" data-i18n-attr="html">© <span id="year"></span> Axel Dev Group LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+    });
+
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    document.querySelectorAll('.fade-up').forEach((el) => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            entry.target.style.animation = `fadeUp .7s ease-out forwards`;
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      observer.observe(el);
+    });
+  </script>
+</main>
+</body>
+</html>
